@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración GitHub</title>
+				 <link rel="icon" type="image/svg" href="favicon.svg">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f3f3f3 0%, #f3f3f3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .config-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #1d1d1f;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #86868b;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            background: #f5f7fa;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #000;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            color: #86868b;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .input-group {
+            margin-top: 16px;
+        }
+
+        .input-label {
+            display: block;
+            color: #1d1d1f;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', monospace;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .input-field.token {
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+        }
+
+        .btn-primary {
+            background: #000;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0051d5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f7fa;
+            color: #1d1d1f;
+        }
+
+        .btn-secondary:hover {
+            background: #e8ecf1;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            color: #34c759;
+        }
+
+        .alert-error {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            color: #ff3b30;
+        }
+
+        .current-config {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .config-label {
+            color: #86868b;
+            font-size: 0.9rem;
+        }
+
+        .config-value {
+            color: #1d1d1f;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .link {
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: #f5f7fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+		 @media (max-width: 768px) {
+			 body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: none;
+     padding: 20px;
+}
+			 .step {
+				  background: #fff;
+			 }
+			 
+			 .config-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 0px;
+    padding: 0px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow:none;
+}
+			 
+		}
+    </style>
+</head>
+<body>
+    <div class="config-container">
+        <h1>Configuración GitHub</h1>
+        <p class="subtitle">Sincroniza tus datos automáticamente en la nube</p>
+
+        <div class="alert alert-success" id="alertSuccess"></div>
+        <div class="alert alert-error" id="alertError"></div>
+
+        <div id="currentConfig" style="display: none;" class="current-config">
+            <h3 style="margin-bottom: 12px; color: #000;">✅ Configuración actual</h3>
+            <div class="config-item">
+                <span class="config-label">Usuario:</span>
+                <span class="config-value" id="currentUsername"></span>
+            </div>
+            <div class="config-item">
+                <span class="config-label">Repositorio:</span>
+                <span class="config-value" id="currentRepo"></span>
+            </div>
+            <div class="config-item">
+                <span class="config-label">Token:</span>
+                <span class="config-value">ghp_••••••••••••</span>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-title">Crear Token de GitHub</div>
+            <div class="step-description">
+                Ve a <a href="https://github.com/settings/tokens" target="_blank" class="link">GitHub Settings > Tokens</a><br>
+                → Click "Generate new token (classic)"<br>
+                → Note: <code>Xisco Stats</code><br>
+                → Expiration: <code>No expiration</code><br>
+                → Scope: ✅ <code>repo</code> (marca solo esta)<br>
+                → Click "Generate token"<br>
+                → <strong>Copia el token</strong> (empieza con ghp_)
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-title">Introduce tus datos</div>
+            
+            <div class="input-group">
+                <label class="input-label">Usuario de GitHub</label>
+                <input type="text" id="username" class="input-field" placeholder="tu-usuario">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Nombre del repositorio</label>
+                <input type="text" id="repo" class="input-field" placeholder="xisco-stats">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Token de acceso personal</label>
+                <input type="password" id="token" class="input-field token" placeholder="ghp_...">
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="saveConfig()">Guardar Configuración</button>
+        <button class="btn btn-secondary" onclick="testConnection()">🔍 Probar Conexión</button>
+        <button class="btn btn-secondary" onclick="clearConfig()">Borrar Configuración</button>
+        <button class="btn btn-secondary" onclick="goBack()">← Volver</button>
+    </div>
+
+    <script>
+        const GITHUB_CONFIG_KEY = 'xisco_github_config';
+
+        // Cargar configuración existente
+        document.addEventListener('DOMContentLoaded', loadCurrentConfig);
+
+        function loadCurrentConfig() {
+            const config = localStorage.getItem(GITHUB_CONFIG_KEY);
+            if (config) {
+                const data = JSON.parse(config);
+                document.getElementById('currentConfig').style.display = 'block';
+                document.getElementById('currentUsername').textContent = data.username;
+                document.getElementById('currentRepo').textContent = data.repo;
+                document.getElementById('username').value = data.username;
+                document.getElementById('repo').value = data.repo;
+            }
+        }
+
+        function saveConfig() {
+            const username = document.getElementById('username').value.trim();
+            const repo = document.getElementById('repo').value.trim();
+            const token = document.getElementById('token').value.trim();
+
+            if (!username || !repo || !token) {
+                showAlert('error', '⚠️ Por favor, rellena todos los campos');
+                return;
+            }
+
+            if (!token.startsWith('ghp_')) {
+                showAlert('error', '⚠️ El token debe empezar con "ghp_"');
+                return;
+            }
+
+            const config = { username, repo, token };
+            localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify(config));
+
+            showAlert('success', '✅ Configuración guardada correctamente!');
+            loadCurrentConfig();
+
+            // Limpiar campo de token por seguridad
+            document.getElementById('token').value = '';
+        }
+
+        async function testConnection() {
+            const config = localStorage.getItem(GITHUB_CONFIG_KEY);
+            if (!config) {
+                showAlert('error', '⚠️ Primero guarda la configuración');
+                return;
+            }
+
+            const data = JSON.parse(config);
+            const btn = event.target;
+            btn.textContent = '🔄 Probando...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${data.username}/${data.repo}`, {
+                    headers: {
+                        'Authorization': `token ${data.token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    showAlert('success', '✅ Conexión exitosa! El repositorio existe y el token funciona.');
+                } else if (response.status === 404) {
+                    showAlert('error', '❌ Repositorio no encontrado. Verifica el nombre de usuario y repositorio.');
+                } else if (response.status === 401) {
+                    showAlert('error', '❌ Token inválido o sin permisos. Verifica que tenga scope "repo".');
+                } else {
+                    showAlert('error', `❌ Error ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                showAlert('error', '❌ Error de conexión: ' + error.message);
+            } finally {
+                btn.textContent = '🔍 Probar Conexión';
+                btn.disabled = false;
+            }
+        }
+
+        function clearConfig() {
+            if (confirm('¿Eliminar la configuración de GitHub?')) {
+                localStorage.removeItem(GITHUB_CONFIG_KEY);
+                document.getElementById('currentConfig').style.display = 'none';
+                document.getElementById('username').value = '';
+                document.getElementById('repo').value = '';
+                document.getElementById('token').value = '';
+                showAlert('success', '🗑️ Configuración eliminada');
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'registro-partidos.html';
+        }
+
+        function showAlert(type, message) {
+            const alertSuccess = document.getElementById('alertSuccess');
+            const alertError = document.getElementById('alertError');
+            
+            alertSuccess.style.display = 'none';
+            alertError.style.display = 'none';
+
+            if (type === 'success') {
+                alertSuccess.textContent = message;
+                alertSuccess.style.display = 'block';
+            } else {
+                alertError.textContent = message;
+                alertError.style.display = 'block';
+            }
+
+            setTimeout(() => {
+                alertSuccess.style.display = 'none';
+                alertError.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
