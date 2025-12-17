@@ -10,11 +10,15 @@
     <link rel="alternate icon" href="favicon.ico">
 
     <!-- Reemplaza todo el <style>...</style> con: -->
-    <link rel="stylesheet" href="css/styles-common.css">
-    <link rel="stylesheet" href="css/styles-estadisticas.css">
+    <link rel="stylesheet" href="../css/styles-common.css">
+    <link rel="stylesheet" href="../css/styles-estadisticas.css">
      <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     
+    <!-- Librerías externas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
      <script>
         // Verificar sesión activa
         if (!sessionStorage.getItem('xisco_session_active')) {
@@ -23,8 +27,7 @@
     </script>
 </head>
 <body>
-    <script src="js/common.js"></script>
-<script src="js/estadisticas.js"></script>
+
     <!-- Header con Logo y Menú -->
     <div class="top-header">
         <div class="header-content">
@@ -248,6 +251,7 @@
             </div>
         </div>
     </div>
-
+    <script src="../js/common.js"></script>
+<script src="../js/estadisticas.js"></script>
 </body>
 </html>
