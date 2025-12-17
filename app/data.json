@@ -1704,6 +1704,17 @@
       "modality": "Bola 9",
       "date": "2025-12-17",
       "id": 1766015155873
+    },
+    {
+      "player1": "Xisco",
+      "player2": "TESTTEST",
+      "score1": "2",
+      "score2": "1",
+      "material1": "Velasco+Revo12.9",
+      "material2": "-",
+      "modality": "Bola 8",
+      "date": "2025-12-17",
+      "id": 1766015966805
     }
   ],
   "players": [
@@ -1720,7 +1731,8 @@
     "Teiieie",
     "Test1",
     "test4",
-    "testear"
+    "testear",
+    "TESTTEST"
   ],
   "materials": [
     "Velasco+Revo12.9",
@@ -1729,10 +1741,10 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
+      "matchesPlayed": 1,
+      "matchesWon": 1,
+      "gamesPlayed": 3,
+      "gamesWon": 2
     },
     "bola9": {
       "matchesPlayed": 32,
