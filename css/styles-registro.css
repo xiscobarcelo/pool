@@ -103,6 +103,62 @@ select:disabled {
     flex-wrap: wrap;
 }
 
+        .material-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .material-chip {
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.01);
+            border: 2px solid rgba(0, 0, 0, 0.118);
+            border-radius: 24px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .material-chip:hover {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .material-chip.selected {
+            background: #000000;
+            border-color: #000000;
+            color: white;
+        }
+
+        .add-material-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .add-material-input input {
+            flex: 1;
+        }
+
+        .btn-add-material {
+            padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.01);
+            border: 1px solid rgba(0, 0, 0, 0.18);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-add-material:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
 .btn {
     padding: 14px 32px;
     border: none;
