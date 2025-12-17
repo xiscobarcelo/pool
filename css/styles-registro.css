@@ -20,6 +20,14 @@
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
+.actions {
+    display: flex;
+     gap: 12px;
+     margin-top: 32px;
+        }
+        
+        
+
   .main-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px) saturate(180%);
@@ -296,7 +304,9 @@ select:disabled {
             margin: 0;
         }
 
-
+.form-section {
+            margin-bottom: 32px;
+        }
  .success-message {
             background: rgba(52, 199, 89, 0.1);
             border: 1px solid rgba(52, 199, 89, 0.3);
