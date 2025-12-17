@@ -26,7 +26,7 @@
             }
             
             // Fallback a la URL por defecto si no hay configuración
-            return 'https://www.xiscobarcelo.com/app/data.json';
+            return 'https://www.xiscobarcelo.com/pool/data.json';
         }
 
         const API_URL = getDataURL();
