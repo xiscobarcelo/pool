@@ -105,6 +105,157 @@
     font-weight: 600;
 }
 
+
+
+        /* Sección de cómputo por modalidad */
+        .modality-inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .modality-input-group {
+            background: rgba(0, 0, 0, 0.01);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .modality-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #86868b;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-field input {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            transition: all 0.2s;
+            font-family: inherit;
+			width:100%;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-field input::-webkit-inner-spin-button,
+        .input-field input::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+
+        .modality-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        .action-btn.primary {
+            background: #000000;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-btn.primary:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            color: #000000;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #000000;
+            transform: translateY(-2px);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        .modality-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+			margin-bottom: 80px;
+        }
+
+        .modality-stat-card {
+            background: rgba(0, 0, 0, 0.01);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .modality-stat-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #86868b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modality-stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #000000;
+        }
+
+
+
 /* Section titles */
 .section {
     margin-bottom: 48px;
