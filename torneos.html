@@ -165,8 +165,8 @@
                 <button class="btn btn-primary" onclick="showSection('tournaments')">
                     🏆 Mis Torneos
                 </button>
-                <button class="btn btn-secondary" onclick="showSection('circuits')">
-                    🔄 Circuitos
+                <button class=" btn-secondary" onclick="showSection('circuits')">
+                    Circuitos
                 </button>
                 <button class="btn btn-secondary" onclick="showSection('add')">
                     ➕ Nuevo Torneo
@@ -190,10 +190,10 @@
                 <p class="empty-state-description">
                     Comienza a registrar tus competiciones para llevar un seguimiento completo
                 </p>
-                <button class="btn btn-primary" onclick="showSection('add')">
+                <button class="btn-primary" onclick="showSection('add')">
                     ➕ Añadir Primer Torneo
                 </button>
-            </div>
+            </div
         </div>
 
         <!-- Sección: Circuitos -->
@@ -205,7 +205,7 @@
 
             <div style="margin-bottom: 24px;">
                 <button class="btn btn-secondary" onclick="showAddCircuitModal()">
-                    ➕ Nuevo Circuito
+                    + Nuevo Circuito
                 </button>
             </div>
 
@@ -219,7 +219,7 @@
                     Crea circuitos para agrupar torneos y calcular rankings
                 </p>
                 <button class="btn btn-primary" onclick="showAddCircuitModal()">
-                    ➕ Crear Primer Circuito
+                     + Crear Primer Circuito
                 </button>
             </div>
         </div>
@@ -353,7 +353,7 @@
                         <button type="submit" class="btn btn-primary">
                             Guardar Torneo
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelEditTournament()">
+                        <button type="button" class="btn-secondary" onclick="cancelEditTournament()">
                          Cancelar
                         </button>
                     </div>
@@ -361,23 +361,6 @@
             </div>
         </div>
 
-        <!-- Sección de Exportación y Sincronización -->
-        <div class="export-section">
-            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
-                ☁️ Sincronización con GitHub
-            </h3>
-            <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
-                Guarda tus datos en la nube para acceder desde cualquier dispositivo
-            </p>
-            <div class="export-buttons">
-                <button class="export-btn" onclick="syncToGitHub()" title="Subir a GitHub">
-                    ↑ Subir a Cloud
-                </button>
-                <button class="export-btn" onclick="loadFromGitHub()" title="Descargar de GitHub">
-                    ↓ Descargar de Cloud
-                </button>
-            </div>
-        </div>
 
         <!-- Sección de Exportación y Sincronización -->
         <div class="export-section">
