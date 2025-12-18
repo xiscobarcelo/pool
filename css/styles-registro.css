@@ -930,27 +930,34 @@ input[type="file"] {
 			background: #fafafa;
 			border-radius: 8px;
 			font-size: 14px;
+			margin-bottom:20px
         
         }
 
         .match-players {
            text-align: center;
 			 flex: 1;
+			    font-size: 23px;
         }
 
         .match-score {
             display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 20px;
-			padding: 20px;
+			margin-bottom: 0px;
+			padding: 10px;
 			background: #fafafa;
 			border-radius: 12px;
+			font-size: 41px;
+   			font-weight: 700;
+			text-align:center;
+
         }
 
         .match-details {
             font-size: 0.875rem;
             color: #86868b;
+			text-align:center;
         }
 
         .btn-delete {
@@ -963,6 +970,7 @@ input[type="file"] {
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+			flex:auto;
         }
 
         .btn-delete:hover {
@@ -979,6 +987,8 @@ input[type="file"] {
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+			flex:auto;
+
         }
 
         .btn-edit:hover {
