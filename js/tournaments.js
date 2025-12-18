@@ -493,7 +493,7 @@ function renderTournaments() {
                     <button class="tournament-actibtn" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
                         ✏️ Editar
                     </button>
-                    <button class="btn-edit delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
+                    <button class="btn-edit" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
                         🗑️ Eliminar
                     </button>
                 </div>
@@ -559,7 +559,7 @@ function renderCircuits() {
                     <button class="btn-edit" onclick="editCircuit('${circuit.id}')">
                         ✏️ Editar
                     </button>
-                    <button class="btn-edit delete" onclick="deleteCircuit('${circuit.id}')">
+                    <button class="btn-edit " onclick="deleteCircuit('${circuit.id}')">
                         🗑️ Eliminar
                     </button>
                 </div>
