@@ -15,6 +15,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles-common.css">
     <link rel="stylesheet" href="css/styles-tournaments.css">
+    <link rel="stylesheet" href="css/styles-registro.css">
     
     <!-- Chart.js para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -350,10 +351,10 @@
                     <!-- Botones -->
                     <div class="button-group">
                         <button type="submit" class="btn btn-primary">
-                            💾 Guardar Torneo
+                            Guardar Torneo
                         </button>
                         <button type="button" class="btn btn-secondary" onclick="cancelEditTournament()">
-                            ❌ Cancelar
+                         Cancelar
                         </button>
                     </div>
                 </form>
@@ -378,22 +379,31 @@
             </div>
         </div>
 
-        <!-- Sección de Exportación Local -->
-        <div class="export-section" style="margin-top: 24px;">
+        <!-- Sección de Exportación y Sincronización -->
+        <div class="export-section">
             <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
-                📤 Exportar Datos
+                ☁️ Sincronización con GitHub
             </h3>
             <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
-                Descarga tus torneos en diferentes formatos
+                Guarda tus datos en la nube para acceder desde cualquier dispositivo
             </p>
             <div class="export-buttons">
-                <button class="export-btn" onclick="exportToJSON()">
-                    📄 Exportar JSON
+                <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub">
+                    ↑ Guardar
                 </button>
-                <button class="export-btn" onclick="exportToCSV()">
-                    📊 Exportar CSV
+                <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub">
+                    ↓ Cargar
+                     </button>
+              <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> 
+						⟳ Refrescar
+					</button>
+                <button class="btn-secondary" onclick="exportToJSON()">
+                    ↓ Exportar JSON
                 </button>
-            </div>
+                <button class="btn-secondary" onclick="exportToCSV()">
+                   ↓Exportar CSV
+                </button>
+            
         </div>
     </div>
 
