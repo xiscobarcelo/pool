@@ -467,8 +467,7 @@ function calculateCircuitPoints(circuit) {
 function saveTournament(event) {
     event.preventDefault();
     
-    const tournament = {
-        id: `tournament_${Date.now()}`,
+    const tournamentData = {
         name: document.getElementById('tournamentName').value,
         date: document.getElementById('tournamentDate').value,
         modality: document.getElementById('tournamentModality').value,
@@ -478,7 +477,6 @@ function saveTournament(event) {
         cue: document.getElementById('tournamentCue').value,
         finalRival: document.getElementById('tournamentRival').value,
         notes: document.getElementById('tournamentNotes').value,
-        createdAt: new Date().toISOString(),
         stats: {
             matchesPlayed: parseInt(document.getElementById('tournamentMatchesPlayed').value) || 0,
             matchesWon: parseInt(document.getElementById('tournamentMatchesWon').value) || 0,
@@ -491,23 +489,46 @@ function saveTournament(event) {
     };
     
     // Calcular stats derivadas
-    tournament.stats.matchesLost = tournament.stats.matchesPlayed - tournament.stats.matchesWon;
-    if (tournament.stats.matchesPlayed > 0) {
-        tournament.stats.winRate = ((tournament.stats.matchesWon / tournament.stats.matchesPlayed) * 100).toFixed(1);
-        tournament.stats.averageGamesPerMatch = 
-            ((tournament.stats.gamesWon + tournament.stats.gamesLost) / tournament.stats.matchesPlayed).toFixed(1);
+    tournamentData.stats.matchesLost = tournamentData.stats.matchesPlayed - tournamentData.stats.matchesWon;
+    if (tournamentData.stats.matchesPlayed > 0) {
+        tournamentData.stats.winRate = ((tournamentData.stats.matchesWon / tournamentData.stats.matchesPlayed) * 100).toFixed(1);
+        tournamentData.stats.averageGamesPerMatch = 
+            ((tournamentData.stats.gamesWon + tournamentData.stats.gamesLost) / tournamentData.stats.matchesPlayed).toFixed(1);
     }
     
-    matchesData.tournaments.push(tournament);
+    if (editingTournamentId) {
+        // MODO EDICIÓN - Actualizar torneo existente
+        const index = matchesData.tournaments.findIndex(t => t.id === editingTournamentId);
+        if (index !== -1) {
+            // Mantener el ID y fecha de creación originales
+            matchesData.tournaments[index] = {
+                ...tournamentData,
+                id: editingTournamentId,
+                createdAt: matchesData.tournaments[index].createdAt,
+                updatedAt: new Date().toISOString()
+            };
+            showMessage('✅ Torneo actualizado correctamente', 'success');
+        }
+        editingTournamentId = null;
+    } else {
+        // MODO CREACIÓN - Nuevo torneo
+        const tournament = {
+            ...tournamentData,
+            id: `tournament_${Date.now()}`,
+            createdAt: new Date().toISOString()
+        };
+        matchesData.tournaments.push(tournament);
+        showMessage('✅ Torneo guardado correctamente', 'success');
+    }
+    
     saveData();
     
     // Resetear formulario
     document.getElementById('tournamentForm').reset();
+    resetFormToCreateMode();
     
     // Volver a la lista
     showSection('tournaments');
-    
-    showMessage('✅ Torneo guardado correctamente', 'success');
 }
 
 function deleteTournament(id) {
@@ -520,9 +541,60 @@ function deleteTournament(id) {
     showMessage('🗑️ Torneo eliminado', 'success');
 }
 
+// Variable global para saber si estamos editando
+let editingTournamentId = null;
+
 function editTournament(id) {
-    // Por implementar
-    showMessage('⚠️ Función de edición en desarrollo', 'info');
+    const tournament = matchesData.tournaments.find(t => t.id === id);
+    if (!tournament) {
+        showMessage('❌ Torneo no encontrado', 'error');
+        return;
+    }
+    
+    // Guardar ID del torneo que estamos editando
+    editingTournamentId = id;
+    
+    // Cambiar a la sección de añadir
+    showSection('add');
+    
+    // Cambiar el título
+    const titleElement = document.querySelector('#addTournamentSection .section-title');
+    if (titleElement) {
+        titleElement.textContent = '✏️ Editar Torneo';
+    }
+    
+    const descElement = document.querySelector('#addTournamentSection .section-description');
+    if (descElement) {
+        descElement.textContent = 'Actualiza los detalles de tu competición';
+    }
+    
+    // Rellenar el formulario con los datos existentes
+    document.getElementById('tournamentName').value = tournament.name;
+    document.getElementById('tournamentDate').value = tournament.date;
+    document.getElementById('tournamentModality').value = tournament.modality;
+    document.getElementById('tournamentPlayers').value = tournament.totalPlayers || '';
+    document.getElementById('tournamentResult').value = tournament.result;
+    document.getElementById('tournamentCircuit').value = tournament.circuit || '';
+    document.getElementById('tournamentCue').value = tournament.cue || '';
+    document.getElementById('tournamentRival').value = tournament.finalRival || '';
+    document.getElementById('tournamentNotes').value = tournament.notes || '';
+    
+    // Stats
+    if (tournament.stats) {
+        document.getElementById('tournamentMatchesPlayed').value = tournament.stats.matchesPlayed || '';
+        document.getElementById('tournamentMatchesWon').value = tournament.stats.matchesWon || '';
+        document.getElementById('tournamentGamesWon').value = tournament.stats.gamesWon || '';
+        document.getElementById('tournamentGamesLost').value = tournament.stats.gamesLost || '';
+    }
+    
+    // Cambiar el texto del botón de guardar
+    const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.innerHTML = '💾 Actualizar Torneo';
+    }
+    
+    // Scroll hacia arriba
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showTournamentDetails(id) {
@@ -631,8 +703,47 @@ function resetFilters() {
 // NAVEGACIÓN
 // ============================================================
 
+function resetFormToCreateMode() {
+    editingTournamentId = null;
+    
+    // Restaurar títulos originales
+    const titleElement = document.querySelector('#addTournamentSection .section-title');
+    if (titleElement) {
+        titleElement.textContent = 'Nuevo Torneo';
+    }
+    
+    const descElement = document.querySelector('#addTournamentSection .section-description');
+    if (descElement) {
+        descElement.textContent = 'Registra los detalles de tu competición';
+    }
+    
+    // Restaurar texto del botón
+    const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.innerHTML = '💾 Guardar Torneo';
+    }
+}
+
+function cancelEditTournament() {
+    // Resetear formulario
+    document.getElementById('tournamentForm').reset();
+    resetFormToCreateMode();
+    
+    // Volver a la lista
+    showSection('tournaments');
+}
+
+// ============================================================
+// NAVEGACIÓN
+// ============================================================
+
 function showSection(section) {
     currentSection = section;
+    
+    // Si vamos a añadir y NO estamos editando, resetear el formulario
+    if (section === 'add' && editingTournamentId === null) {
+        resetFormToCreateMode();
+    }
     
     // Ocultar todas las secciones
     document.getElementById('tournamentsSection').style.display = 'none';
@@ -648,8 +759,10 @@ function showSection(section) {
         renderCircuits();
     } else if (section === 'add') {
         document.getElementById('addTournamentSection').style.display = 'block';
-        // Establecer fecha de hoy por defecto
-        document.getElementById('tournamentDate').value = new Date().toISOString().split('T')[0];
+        // Establecer fecha de hoy por defecto solo si no estamos editando
+        if (editingTournamentId === null) {
+            document.getElementById('tournamentDate').value = new Date().toISOString().split('T')[0];
+        }
     }
     
     // Actualizar botones activos
