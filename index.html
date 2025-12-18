@@ -31,8 +31,9 @@
             padding: 20px;
         }
 .logo{
-    width:250px;
     margin-top:20px;
+        align-content: flex-start;
+    align-items: center;
 }
         .lock-icon {
             font-size: 2rem;
@@ -216,7 +217,7 @@
     <script>
         const PIN_KEY = 'xisco_system_pin';
         const SESSION_KEY = 'xisco_session_active';
-        let currentPin = '0000';
+        let currentPin = '';
         let attempts = 0;
         const maxAttempts = 5;
 
