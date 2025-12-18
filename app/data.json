@@ -1738,12 +1738,12 @@
   },
   "tournaments": [
     {
-      "name": "Campeonato de Mallorca",
+      "name": "Cto de Baleares",
       "date": "2025-12-18",
-      "modality": "Bola 8",
+      "modality": "Bola 10",
       "totalPlayers": 17,
       "result": "Campeón",
-      "circuit": null,
+      "circuit": "circuit_1766082739933",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
       "notes": "",
@@ -1757,7 +1757,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766082704084",
-      "createdAt": "2025-12-18T18:31:44.084Z"
+      "createdAt": "2025-12-18T18:31:44.084Z",
+      "updatedAt": "2025-12-18T18:33:05.129Z"
     }
   ],
   "circuits": [
