@@ -95,7 +95,7 @@
       "name": "Campeonato de Mallorca",
       "date": "2025-02-07",
       "modality": "Bola 8",
-      "totalPlayers": 0,
+      "totalPlayers": 22,
       "result": "Semifinales",
       "circuit": "circuit_1766096795049",
       "cue": "Bear+Centro",
@@ -112,7 +112,7 @@
       },
       "id": "tournament_1766096768118",
       "createdAt": "2025-12-18T22:26:08.118Z",
-      "updatedAt": "2025-12-18T22:28:44.798Z"
+      "updatedAt": "2025-12-18T22:35:20.152Z"
     },
     {
       "name": "Cto de Baleares",
@@ -219,5 +219,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T22:35:04.076Z"
+  "lastUpdated": "2025-12-18T22:35:23.379Z"
 }
