@@ -899,21 +899,17 @@ input[type="file"] {
         }
 
         .match-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+     display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 20px;
         }
 
         .match-item {
-            background: #ffffff;
-            border: 1px solid #e8e8e8;
-            border-radius: 12px;
-            padding: 16px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 36px;
-            align-items: center;
-            transition: all 0.2s;
+ 	    background: #ffffff;
+		border-radius: 16px;
+		padding: 24px;
+		border: 1px solid #f0f0f0;
+		transition: all 0.3s ease;
         }
 
         .match-item:hover {
@@ -928,19 +924,28 @@ input[type="file"] {
         }
 
         .match-info {
-            flex: 1;
+			display: flex;
+			justify-content: space-between;
+			padding: 10px 14px;
+			background: #fafafa;
+			border-radius: 8px;
+			font-size: 14px;
+        
         }
 
         .match-players {
-            font-weight: 600;
-            margin-bottom: 4px;
-			font-size:20px;
+           text-align: center;
+			 flex: 1;
         }
 
         .match-score {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #000000;
+            display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 20px;
+			padding: 20px;
+			background: #fafafa;
+			border-radius: 12px;
         }
 
         .match-details {
