@@ -1,9 +1,9 @@
-# 📁 Proyecto Separado - Pool Tracker
+# 📁 Pool Tracker
 
 ## 📋 Estructura del Proyecto
 
 ```
-proyecto-separado/
+/
 ├── css/
 │   ├── styles-common.css          # Estilos compartidos (header, nav, layout)
 │   ├── styles-estadisticas.css    # Estilos específicos de estadísticas
@@ -16,20 +16,6 @@ proyecto-separado/
     ├── estadisticas.html          # HTML limpio de estadísticas (a crear)
     └── registro-partidos.html     # HTML limpio de registro (a crear)
 ```
-
-## 🎯 Ventajas de esta Estructura
-
-### ✅ Antes (Archivos Monolíticos)
-- **estadisticas.html**: 3,125 líneas (todo mezclado)
-- **registro-partidos.html**: 2,409 líneas (todo mezclado)
-- **Total**: 5,534 líneas difíciles de mantener
-
-### ✨ Después (Archivos Separados)
-- **CSS común**: ~200 líneas (reutilizable)
-- **CSS específico estadísticas**: ~450 líneas
-- **CSS específico registro**: ~650 líneas
-- **JavaScript común**: ~50 líneas (reutilizable)
-- **HTML limpio**: ~150 líneas cada uno (solo estructura)
 
 ## 📝 Descripción de los Archivos
 
@@ -77,45 +63,6 @@ Funciones compartidas entre páginas:
 - `logout()` - Cerrar sesión
 - Event listeners comunes
 
-## 🔧 Cómo Implementar
-
-### Paso 1: Crear los HTML limpios
-
-En cada archivo HTML, reemplazar la sección `<style>` y `<script>` con:
-
-**Para estadisticas.html:**
-```html
-<head>
-    <!-- ... otros meta tags ... -->
-    <link rel="stylesheet" href="../css/styles-common.css">
-    <link rel="stylesheet" href="../css/styles-estadisticas.css">
-</head>
-<body>
-    <!-- ... contenido HTML ... -->
-    
-    <script src="../js/common.js"></script>
-    <script src="../js/estadisticas.js"></script>
-</body>
-```
-
-**Para registro-partidos.html:**
-```html
-<head>
-    <!-- ... otros meta tags ... -->
-    <link rel="stylesheet" href="../css/styles-common.css">
-    <link rel="stylesheet" href="../css/styles-registro.css">
-</head>
-<body>
-    <!-- ... contenido HTML ... -->
-    
-    <script src="../js/common.js"></script>
-    <script src="../js/registro.js"></script>
-</body>
-```
-
-### Paso 2: Extraer el JavaScript
-
-Los archivos `estadisticas.js` y `registro.js` deben contener todo el código JavaScript que estaba dentro de las etiquetas `<script>` en los HTML originales, **excepto** las funciones que ya están en `common.js`.
 
 ## 🚀 Beneficios
 
@@ -127,24 +74,7 @@ Los archivos `estadisticas.js` y `registro.js` deben contener todo el código Ja
 6. **Performance**: Los navegadores pueden cachear archivos CSS/JS separados
 7. **Escalabilidad**: Fácil añadir nuevas páginas usando los mismos estilos
 
-## 📦 Próximos Pasos
 
-1. Crear `estadisticas.js` con el código JavaScript de estadísticas
-2. Crear `registro.js` con el código JavaScript de registro
-3. Crear los HTML limpios sin CSS ni JS inline
-4. Probar que todo funcione correctamente
-5. (Opcional) Minificar CSS y JS para producción
-
-## 🔗 Orden de Carga Recomendado
-
-```html
-<!-- CSS: Primero común, luego específico -->
-<link rel="stylesheet" href="css/styles-common.css">
-<link rel="stylesheet" href="css/styles-[pagina].css">
-
-<!-- JS: Primero común, luego específico -->
-<script src="js/common.js"></script>
-<script src="js/[pagina].js"></script>
 ```
 
 ## ⚠️ Notas Importantes
