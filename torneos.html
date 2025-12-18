@@ -41,6 +41,7 @@
             <nav class="desktop-nav">
                 <a href="registro-partidos.html" class="nav-link">Registro</a>
                 <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+				<a href="estadisticas.html#historial" class="nav-link">Historial</a>
                 <a href="torneos.html" class="nav-link active">Torneos</a>
                 <a href="config-github.html" class="nav-link">Sincronización</a>
                 <a href="#" class="nav-link danger" onclick="resetAllData(); return false;">Reiniciar</a>
@@ -168,9 +169,7 @@
                 <button class="btn-secondary" onclick="showSection('circuits')">
                     Circuitos
                 </button>
-                <button class="btn-secondary" onclick="showSection('add')">
-                    + Nuevo Torneo
-                </button>
+               
             </div>
         </div>
 
@@ -180,7 +179,9 @@
                 <h2 class="section-title">Mis Torneos</h2>
                 <p class="section-description">Historial completo de competiciones</p>
             </div>
-
+ 			<button class="btn btn-secondary" onclick="showSection('add')">
+                    + Nuevo Torneo
+                </button>
             <div id="tournamentsGrid" class="tournaments-grid"></div>
 
             <!-- Estado vacío -->
