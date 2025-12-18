@@ -350,10 +350,10 @@
 
                     <!-- Botones -->
                     <div class="button-group">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn-secondary">
                             Guardar Torneo
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelEditTournament()">
+                        <button type="button" class="btn-secondary" onclick="cancelEditTournament()">
                             Cancelar
                         </button>
                     </div>
@@ -389,25 +389,6 @@
         </div>
     </div>
 
-        
-        <!-- Sección de Exportación Local -->
-        <div class="export-section" style="margin-top: 24px;">
-            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
-                📤 Exportar Datos
-            </h3>
-            <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
-                Descarga tus torneos en diferentes formatos
-            </p>
-            <div class="export-buttons">
-                <button class="export-btn" onclick="exportToJSON()">
-                    📄 Exportar JSON
-                </button>
-                <button class="export-btn" onclick="exportToCSV()">
-                    📊 Exportar CSV
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Indicador de sincronización -->
     <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
