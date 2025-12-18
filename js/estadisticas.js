@@ -1632,7 +1632,7 @@ Escribe "BORRAR" para confirmar:`;
                         <th>Jugador 2</th>
                         <th>Modalidad</th>
                         <th>Material 1</th>
-                        <th>Material 2</th>
+                    
                     </tr>
                 </thead>
                 <tbody>
@@ -1650,7 +1650,7 @@ Escribe "BORRAR" para confirmar:`;
                         <td class="${winner2 ? 'winner' : ''}">${m.player2}</td>
                         <td>${m.modality}</td>
                         <td>${m.material1}</td>
-                        <td>${m.material2}</td>
+               
                     </tr>
                 `;
             });
@@ -1760,3 +1760,4 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
