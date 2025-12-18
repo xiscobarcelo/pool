@@ -154,7 +154,7 @@ async function syncToGitHub() {
                 const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
 
                 // Obtener SHA del archivo actual (necesario para actualizar)
-                const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/data.json`;
+                const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/matches.json`;
                 let sha = null;
 
                 try {
@@ -174,7 +174,7 @@ async function syncToGitHub() {
                 }
 
                 // Subir archivo
-                const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/data.json`;
+                const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/matches.json`;
                 const response = await fetch(putUrl, {
                     method: 'PUT',
                     headers: {
@@ -183,7 +183,7 @@ async function syncToGitHub() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: `Update data.json - ${new Date().toLocaleString('es-ES')}`,
+                        message: `Update matches.json - ${new Date().toLocaleString('es-ES')}`,
                         content: encodedContent,
                         sha: sha,
                         branch: 'main'
@@ -898,14 +898,14 @@ async function loadFromGitHub() {
             }
         }
 
-        // Descargar data.json
+        // Descargar matches.json
         function downloadData() {
             const dataStr = JSON.stringify(matchesData, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'data.json';
+            link.download = 'matches.json';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1268,5 +1268,6 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
 
