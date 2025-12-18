@@ -1,5 +1,50 @@
 {
-  "tournaments": [],
+  "tournaments": [
+    {
+      "name": "Campeonato de Mallorca",
+      "date": "2025-12-18",
+      "modality": "Bola 10",
+      "totalPlayers": 17,
+      "result": "Campeón",
+      "circuit": "circuit_1766084297849",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766084868030",
+      "createdAt": "2025-12-18T19:07:48.030Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2025-12-18",
+      "modality": "Bola 8",
+      "totalPlayers": 0,
+      "result": "Subcampeón",
+      "circuit": null,
+      "cue": "",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766084895634",
+      "createdAt": "2025-12-18T19:08:15.634Z"
+    }
+  ],
   "circuits": [
     {
       "id": "circuit_1766084297849",
@@ -22,5 +67,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T19:05:28.826Z"
+  "lastUpdated": "2025-12-18T19:08:45.596Z"
 }
