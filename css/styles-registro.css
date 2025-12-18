@@ -917,12 +917,7 @@ input[type="file"] {
 		transition: all 0.3s ease;
         }
 
-        .match-item:hover {
 
-			  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            transform: translateY(-4px);
-         
-        }
 
         .match-date {
             font-size: 0.875rem;
