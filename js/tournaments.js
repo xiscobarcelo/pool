@@ -46,13 +46,20 @@ function loadData() {
                 tournaments: data.tournaments || [],
                 circuits: data.circuits || []
             };
+            console.log('✅ Datos cargados:', {
+                tournaments: matchesData.tournaments.length,
+                circuits: matchesData.circuits.length
+            });
         } catch (e) {
             console.error('Error cargando datos:', e);
         }
+    } else {
+        console.log('⚠️ No hay datos en localStorage');
     }
     
     // Inicializar filtros
     filteredTournaments = matchesData.tournaments;
+    console.log('🔍 Torneos filtrados:', filteredTournaments.length);
 }
 
 // Guardar datos
@@ -258,7 +265,7 @@ async function loadFromGitHub() {
             btn.disabled = false;
         }
         
-        alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Repositorio existe\n• Archivo tournaments.json existe en /appx/\n• Configuración correcta\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
+        alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Repositorio existe\n• Archivo tournaments.json existe en /app/\n• Configuración correcta\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
     }
 }
 
@@ -336,7 +343,12 @@ function renderStats() {
     const stats = calculateGlobalStats();
     const container = document.getElementById('statsOverview');
     
-    if (!container) return;
+    if (!container) {
+        console.error('❌ Elemento statsOverview no encontrado');
+        return;
+    }
+    
+    console.log('📊 Renderizando stats:', stats);
     
     container.innerHTML = `
         <div class="stat-card-tournament">
@@ -369,6 +381,10 @@ function renderStats() {
             <div class="stat-label">Circuitos</div>
         </div>
     `;
+    
+    // Añadir clase para animación
+    container.classList.add('fade-in');
+}
 }
 
 // Calcular estadísticas globales
@@ -490,11 +506,11 @@ function renderTournaments() {
                 ` : ''}
                 
                 <div class="tournament-actions">
-                    <button class="btn-edit" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
-                        Editar
+                    <button class="tournament-action-btn" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
+                        ✏️ Editar
                     </button>
-                    <button class="btn-delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
-                        Eliminar
+                    <button class="tournament-action-btn delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
+                        🗑️ Eliminar
                     </button>
                 </div>
             </div>
@@ -556,11 +572,11 @@ function renderCircuits() {
                 ` : ''}
                 
                 <div class="tournament-actions" style="margin-top: 20px;">
-                    <button class="btn-edit" onclick="editCircuit('${circuit.id}')">
-                        Editar
+                    <button class="tournament-action-btn" onclick="editCircuit('${circuit.id}')">
+                        ✏️ Editar
                     </button>
-                    <button class="btn-delete " onclick="deleteCircuit('${circuit.id}')">
-                        Eliminar
+                    <button class="tournament-action-btn delete" onclick="deleteCircuit('${circuit.id}')">
+                        🗑️ Eliminar
                     </button>
                 </div>
             </div>
@@ -709,7 +725,7 @@ function editTournament(id) {
     // Cambiar el título
     const titleElement = document.querySelector('#addTournamentSection .section-title');
     if (titleElement) {
-        titleElement.textContent = 'Editar Torneo';
+        titleElement.textContent = '✏️ Editar Torneo';
     }
     
     const descElement = document.querySelector('#addTournamentSection .section-description');
@@ -739,7 +755,7 @@ function editTournament(id) {
     // Cambiar el texto del botón de guardar
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = 'Actualizar Torneo';
+        submitBtn.innerHTML = '💾 Actualizar Torneo';
     }
     
     // Scroll hacia arriba
@@ -869,7 +885,7 @@ function resetFormToCreateMode() {
     // Restaurar texto del botón
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = 'Guardar Torneo';
+        submitBtn.innerHTML = '💾 Guardar Torneo';
     }
 }
 
@@ -1047,3 +1063,535 @@ function logout() {
         window.location.href = 'index.html';
     }
 }
+
+// ============================================================
+// GRÁFICOS ANALÍTICOS
+// ============================================================
+
+let charts = {
+    yearResults: null,
+    materialPerformance: null,
+    timeline: null,
+    modalityWinRate: null
+};
+
+// Renderizar todos los gráficos
+function renderCharts() {
+    if (matchesData.tournaments.length === 0) {
+        // Ocultar sección de gráficos si no hay datos
+        const analyticsSection = document.querySelector('.analytics-section');
+        if (analyticsSection) {
+            analyticsSection.style.display = 'none';
+        }
+        return;
+    }
+    
+    const analyticsSection = document.querySelector('.analytics-section');
+    if (analyticsSection) {
+        analyticsSection.style.display = 'block';
+    }
+    
+    renderYearResultsChart();
+    renderMaterialPerformanceChart();
+    renderTimelineChart();
+    renderModalityWinRateChart();
+}
+
+// Gráfico 1: Resultados por Año
+function renderYearResultsChart() {
+    const ctx = document.getElementById('yearResultsChart');
+    if (!ctx) return;
+    
+    // Destruir gráfico anterior si existe
+    if (charts.yearResults) {
+        charts.yearResults.destroy();
+    }
+    
+    // Agrupar por año y resultado
+    const yearData = {};
+    
+    matchesData.tournaments.forEach(t => {
+        const year = new Date(t.date).getFullYear();
+        if (!yearData[year]) {
+            yearData[year] = {
+                'Campeón': 0,
+                'Subcampeón': 0,
+                'Semifinales': 0,
+                'Otros': 0
+            };
+        }
+        
+        if (t.result === 'Campeón') {
+            yearData[year]['Campeón']++;
+        } else if (t.result === 'Subcampeón') {
+            yearData[year]['Subcampeón']++;
+        } else if (t.result === 'Semifinales') {
+            yearData[year]['Semifinales']++;
+        } else {
+            yearData[year]['Otros']++;
+        }
+    });
+    
+    const years = Object.keys(yearData).sort();
+    
+    const datasets = [
+        {
+            label: '🥇 Campeón',
+            data: years.map(y => yearData[y]['Campeón']),
+            backgroundColor: 'rgba(255, 215, 0, 0.8)',
+            borderColor: 'rgba(255, 215, 0, 1)',
+            borderWidth: 2
+        },
+        {
+            label: '🥈 Subcampeón',
+            data: years.map(y => yearData[y]['Subcampeón']),
+            backgroundColor: 'rgba(192, 192, 192, 0.8)',
+            borderColor: 'rgba(192, 192, 192, 1)',
+            borderWidth: 2
+        },
+        {
+            label: '🥉 Semifinales',
+            data: years.map(y => yearData[y]['Semifinales']),
+            backgroundColor: 'rgba(205, 127, 50, 0.8)',
+            borderColor: 'rgba(205, 127, 50, 1)',
+            borderWidth: 2
+        },
+        {
+            label: 'Otros',
+            data: years.map(y => yearData[y]['Otros']),
+            backgroundColor: 'rgba(102, 126, 234, 0.6)',
+            borderColor: 'rgba(102, 126, 234, 1)',
+            borderWidth: 2
+        }
+    ];
+    
+    charts.yearResults = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: years,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: '-apple-system, BlinkMacSystemFont, Inter, sans-serif',
+                            size: 12
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 12
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Gráfico 2: Rendimiento por Material (Taco)
+function renderMaterialPerformanceChart() {
+    const ctx = document.getElementById('materialPerformanceChart');
+    if (!ctx) return;
+    
+    if (charts.materialPerformance) {
+        charts.materialPerformance.destroy();
+    }
+    
+    // Agrupar por material
+    const materialData = {};
+    
+    matchesData.tournaments.forEach(t => {
+        if (!t.cue || t.cue === '') return;
+        
+        if (!materialData[t.cue]) {
+            materialData[t.cue] = {
+                total: 0,
+                championships: 0,
+                podium: 0 // Top 3
+            };
+        }
+        
+        materialData[t.cue].total++;
+        
+        if (t.result === 'Campeón') {
+            materialData[t.cue].championships++;
+            materialData[t.cue].podium++;
+        } else if (t.result === 'Subcampeón' || t.result === 'Semifinales') {
+            materialData[t.cue].podium++;
+        }
+    });
+    
+    // Calcular porcentaje de éxito (podium / total)
+    const materials = Object.keys(materialData);
+    const successRates = materials.map(m => {
+        return (materialData[m].podium / materialData[m].total * 100).toFixed(1);
+    });
+    
+    // Ordenar por tasa de éxito
+    const sortedData = materials
+        .map((m, i) => ({ material: m, rate: parseFloat(successRates[i]), total: materialData[m].total }))
+        .sort((a, b) => b.rate - a.rate)
+        .slice(0, 5); // Top 5
+    
+    if (sortedData.length === 0) {
+        // No hay datos de materiales
+        ctx.getContext('2d').font = '14px Inter';
+        ctx.getContext('2d').fillStyle = '#86868b';
+        ctx.getContext('2d').textAlign = 'center';
+        ctx.getContext('2d').fillText('No hay datos de tacos registrados', ctx.width / 2, ctx.height / 2);
+        return;
+    }
+    
+    charts.materialPerformance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: sortedData.map(d => `${d.material} (${d.total})`),
+            datasets: [{
+                data: sortedData.map(d => d.rate),
+                backgroundColor: [
+                    'rgba(255, 215, 0, 0.8)',
+                    'rgba(102, 126, 234, 0.8)',
+                    'rgba(52, 199, 89, 0.8)',
+                    'rgba(255, 149, 0, 0.8)',
+                    'rgba(88, 86, 214, 0.8)'
+                ],
+                borderColor: '#fff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        font: {
+                            family: '-apple-system, BlinkMacSystemFont, Inter, sans-serif',
+                            size: 11
+                        },
+                        padding: 12,
+                        usePointStyle: true,
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            return data.labels.map((label, i) => ({
+                                text: `${label}: ${data.datasets[0].data[i]}%`,
+                                fillStyle: data.datasets[0].backgroundColor[i],
+                                hidden: false,
+                                index: i
+                            }));
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    titleFont: {
+                        size: 13,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 12
+                    },
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return `Éxito: ${context.parsed}% (Top 3)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Gráfico 3: Evolución Temporal
+function renderTimelineChart() {
+    const ctx = document.getElementById('timelineChart');
+    if (!ctx) return;
+    
+    if (charts.timeline) {
+        charts.timeline.destroy();
+    }
+    
+    // Ordenar torneos por fecha
+    const sorted = [...matchesData.tournaments].sort((a, b) => 
+        new Date(a.date) - new Date(b.date)
+    );
+    
+    // Asignar valor numérico a resultados
+    const resultValues = {
+        'Campeón': 5,
+        'Subcampeón': 4,
+        'Semifinales': 3,
+        'Cuartos de Final': 2,
+        'Octavos de Final': 1,
+        'Dieciseisavos': 1,
+        'Fase de Grupos': 1,
+        'Eliminado en Ronda 1': 0,
+        'Participación': 0
+    };
+    
+    const dates = sorted.map(t => {
+        const date = new Date(t.date);
+        return date.toLocaleDateString('es-ES', { month: 'short', year: '2-digit' });
+    });
+    
+    const values = sorted.map(t => resultValues[t.result] || 0);
+    
+    charts.timeline = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Rendimiento',
+                data: values,
+                borderColor: 'rgba(102, 126, 234, 1)',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        title: function(context) {
+                            const index = context[0].dataIndex;
+                            return sorted[index].name;
+                        },
+                        label: function(context) {
+                            const index = context.dataIndex;
+                            return sorted[index].result;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45,
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 5,
+                    ticks: {
+                        stepSize: 1,
+                        callback: function(value) {
+                            const labels = ['', 'Octavos', 'Cuartos', 'Semi', 'Sub', 'Campeón'];
+                            return labels[value] || '';
+                        },
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Gráfico 4: Win Rate por Modalidad
+function renderModalityWinRateChart() {
+    const ctx = document.getElementById('modalityWinRateChart');
+    if (!ctx) return;
+    
+    if (charts.modalityWinRate) {
+        charts.modalityWinRate.destroy();
+    }
+    
+    // Agrupar por modalidad
+    const modalityData = {};
+    
+    matchesData.tournaments.forEach(t => {
+        if (!modalityData[t.modality]) {
+            modalityData[t.modality] = {
+                total: 0,
+                wins: 0,
+                matchesPlayed: 0,
+                matchesWon: 0
+            };
+        }
+        
+        modalityData[t.modality].total++;
+        
+        // Contar victorias (Top 3)
+        if (t.result === 'Campeón' || t.result === 'Subcampeón' || t.result === 'Semifinales') {
+            modalityData[t.modality].wins++;
+        }
+        
+        // Sumar estadísticas de partidos
+        if (t.stats) {
+            modalityData[t.modality].matchesPlayed += t.stats.matchesPlayed || 0;
+            modalityData[t.modality].matchesWon += t.stats.matchesWon || 0;
+        }
+    });
+    
+    const modalities = Object.keys(modalityData);
+    const winRates = modalities.map(m => {
+        const data = modalityData[m];
+        if (data.matchesPlayed > 0) {
+            return (data.matchesWon / data.matchesPlayed * 100).toFixed(1);
+        } else {
+            // Si no hay stats de partidos, usar rate de podium
+            return (data.wins / data.total * 100).toFixed(1);
+        }
+    });
+    
+    if (modalities.length === 0) {
+        return;
+    }
+    
+    charts.modalityWinRate = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: modalities,
+            datasets: [{
+                label: 'Win Rate %',
+                data: winRates,
+                backgroundColor: [
+                    'rgba(102, 126, 234, 0.8)',
+                    'rgba(52, 199, 89, 0.8)',
+                    'rgba(255, 149, 0, 0.8)',
+                    'rgba(88, 86, 214, 0.8)',
+                    'rgba(255, 59, 48, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(102, 126, 234, 1)',
+                    'rgba(52, 199, 89, 1)',
+                    'rgba(255, 149, 0, 1)',
+                    'rgba(88, 86, 214, 1)',
+                    'rgba(255, 59, 48, 1)'
+                ],
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            const modality = context.label;
+                            const data = modalityData[modality];
+                            return [
+                                `Win Rate: ${context.parsed.y}%`,
+                                `Torneos: ${data.total}`,
+                                `Partidos: ${data.matchesWon}/${data.matchesPlayed}`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        },
+                        font: {
+                            size: 12
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Actualizar la función renderAll para incluir gráficos
+const originalRenderAll = renderAll;
+renderAll = function() {
+    originalRenderAll();
+    renderCharts();
+};
+
