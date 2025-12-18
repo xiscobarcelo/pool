@@ -30,7 +30,10 @@
             max-width: 400px;
             padding: 20px;
         }
-
+.logo{
+    width:250px;
+    margin-top:20px;
+}
         .lock-icon {
             font-size: 2rem;
             margin-bottom: 20px;
@@ -207,14 +210,13 @@
         </div>
 <div class=logo><img src="/pool/images/logobarcelo.svg"></div>
         <div class="error-message" id="errorMessage"></div>
-
         <a href="#" class="config-link" onclick="showConfigPrompt(); return false;">⚙️ Cambiar PIN</a>
     </div>
 
     <script>
         const PIN_KEY = 'xisco_system_pin';
         const SESSION_KEY = 'xisco_session_active';
-        let currentPin = '';
+        let currentPin = '0000';
         let attempts = 0;
         const maxAttempts = 5;
 
