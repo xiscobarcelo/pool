@@ -223,6 +223,109 @@ h1 {
     font-weight: 400;
 }
 
+.btn-primary {
+    background: #000000;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            flex:revert;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #000000;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
+
+.btn-danger {
+    background: rgba(255, 59, 48, 0.1);
+    border: 1px solid rgba(255, 59, 48, 0.3);
+    color: #ff3b30;
+}
+
+.btn-danger:hover {
+    background: #ff3b30;
+    color: white;
+    border-color: #ff3b30;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 59, 48, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+        .btn {
+            flex: 1;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #000;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #000000;
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+
 /* ===================================
    RESPONSIVE
    =================================== */
