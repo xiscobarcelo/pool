@@ -1674,25 +1674,25 @@
     },
     {
       "player1": "Xisco",
-      "player2": "Willy",
-      "score1": "7",
-      "score2": "4",
-      "material1": "Lucasi+Revo12.9",
-      "material2": "-",
-      "modality": "Bola 9",
-      "date": "2025-12-17",
-      "id": 1765965235592
-    },
-    {
-      "player1": "Xisco",
       "player2": "Adrian",
-      "score1": "7",
+      "score1": "5",
       "score2": "6",
       "material1": "Bear+Centro",
       "material2": "-",
       "modality": "Bola 9",
-      "date": "2025-12-17",
+      "date": "2025-12-06",
       "id": 1765966023323
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jesus Muñoz",
+      "score1": "4",
+      "score2": "6",
+      "material1": "Bear+Centro",
+      "material2": "-",
+      "modality": "Bola 9",
+      "date": "2025-12-06",
+      "id": 1766018096357
     }
   ],
   "players": [
@@ -1708,7 +1708,8 @@
     "Hyhtjyytytyyyuu",
     "Teiieie",
     "Test1",
-    "test4"
+    "test4",
+    "Jesus Muñoz"
   ],
   "materials": [
     "Velasco+Revo12.9",
@@ -1724,9 +1725,9 @@
     },
     "bola9": {
       "matchesPlayed": 31,
-      "matchesWon": 22,
-      "gamesPlayed": 394,
-      "gamesWon": 216
+      "matchesWon": 20,
+      "gamesPlayed": 391,
+      "gamesWon": 211
     },
     "bola10": {
       "matchesPlayed": 123,
