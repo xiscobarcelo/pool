@@ -862,59 +862,6 @@ input[type="file"] {
 				margin-top:5px;
         }
 
-        .btn-delete {
-            padding: 8px 16px;
-            background: rgba(255, 59, 48, 0.1);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-            border-radius: 8px;
-            color: #ff3b30;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-			flex:auto;
-        }
-
-        .btn-delete:hover {
-            background: rgba(255, 59, 48, 0.2);
-        }
-
-        .btn-edit {
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, 0.01);
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            color: #000000;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-			flex:auto;
-
-        }
-
-        .btn-edit:hover {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-danger {
-            padding: 8px 16px;
-            background: rgba(255, 59, 48, 0.1);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-            border-radius: 8px;
-            color: #ff3b30;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-danger:hover {
-            background: #ff3b30;
-            color: white;
-            border-color: #ff3b30;
-        }
-
         .success-message {
             background: rgba(52, 199, 89, 0.1);
             border: 1px solid rgba(52, 199, 89, 0.3);
