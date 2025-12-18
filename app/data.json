@@ -1736,27 +1736,29 @@
       "gamesWon": 1147
     }
   },
-  "tournaments": [],
-  "circuits": [
+  "tournaments": [
     {
-      "id": "circuit_1766082667066",
-      "name": "Cto BALEARES 25/26",
-      "year": 2025,
-      "description": "",
-      "pointsSystem": {
-        "Campeón": 100,
-        "Subcampeón": 75,
-        "Semifinales": 50,
-        "Cuartos de Final": 25,
-        "Octavos de Final": 15,
-        "Dieciseisavos": 10,
-        "Fase de Grupos": 5,
-        "Eliminado en Ronda 1": 3,
-        "Participación": 1
+      "name": "Campeonato de Mallorca",
+      "date": "2025-12-18",
+      "modality": "Bola 8",
+      "totalPlayers": 17,
+      "result": "Campeón",
+      "circuit": null,
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
       },
-      "tournaments": [],
-      "totalPoints": 0,
-      "ranking": null
+      "id": "tournament_1766082704084",
+      "createdAt": "2025-12-18T18:31:44.084Z"
     }
-  ]
+  ],
+  "circuits": []
 }
