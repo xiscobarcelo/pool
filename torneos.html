@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneos - Pool Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles-common.css">
+    <link rel="stylesheet" href="css/styles-tournaments.css">
+    
+    <!-- Verificar sesión -->
+    <script>
+        if (!sessionStorage.getItem('xisco_session_active')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Header con Logo y Menú -->
+    <div class="top-header">
+        <div class="header-content">
+            <a href="registro-partidos.html" class="logo">
+                <div class="logo-icon">
+                    <img src="logo.svg" alt="Pool Tracker">
+                </div>
+                <span class="logo-text">Pool Tracker</span>
+            </a>
+            
+            <nav class="desktop-nav">
+                <a href="registro-partidos.html" class="nav-link">Registro</a>
+                <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+                <a href="torneos.html" class="nav-link active">Torneos</a>
+                <a href="config-github.html" class="nav-link">Sincronización</a>
+                <a href="#" class="nav-link danger" onclick="resetAllData(); return false;">Reiniciar</a>
+                <a href="#" class="nav-link" onclick="logout(); return false;">Salir</a>
+            </nav>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay del menú móvil -->
+    <div class="mobile-menu-overlay"></div>
+
+    <!-- Menú lateral móvil -->
+    <div class="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="registro-partidos.html" class="nav-link">Registro</a>
+            <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+            <a href="torneos.html" class="nav-link active">Torneos</a>
+            <a href="config-github.html" class="nav-link">Configuración</a>
+            <a href="#" class="nav-link danger" onclick="resetAllData(); return false;">Reiniciar Datos</a>
+            <a href="#" class="nav-link" onclick="logout(); return false;">Cerrar Sesión</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🏆 Torneos</h1>
+            <p class="subtitle">Gestiona tus competiciones y circuitos</p>
+        </header>
+
+        <!-- Estadísticas Globales -->
+        <div class="stats-overview" id="statsOverview"></div>
+
+        <!-- Filtros -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label class="filter-label">Año</label>
+                <select class="filter-select" id="filterYear" onchange="applyFilters()">
+                    <option value="">Todos los años</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Modalidad</label>
+                <select class="filter-select" id="filterModality" onchange="applyFilters()">
+                    <option value="">Todas las modalidades</option>
+                    <option value="Bola 8">Bola 8</option>
+                    <option value="Bola 9">Bola 9</option>
+                    <option value="Bola 10">Bola 10</option>
+                    <option value="14.1 Continuo">14.1 Continuo</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Circuito</label>
+                <select class="filter-select" id="filterCircuit" onchange="applyFilters()">
+                    <option value="">Todos los circuitos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Resultado</label>
+                <select class="filter-select" id="filterResult" onchange="applyFilters()">
+                    <option value="">Todos los resultados</option>
+                    <option value="Campeón">Campeón</option>
+                    <option value="Subcampeón">Subcampeón</option>
+                    <option value="Semifinales">Semifinales</option>
+                    <option value="Cuartos de Final">Cuartos de Final</option>
+                </select>
+            </div>
+            <button class="filter-reset" onclick="resetFilters()">Limpiar filtros</button>
+        </div>
+
+        <!-- Tabs de Navegación -->
+        <div class="section">
+            <div class="button-group" style="margin-bottom: 32px;">
+                <button class="btn btn-primary" onclick="showSection('tournaments')">
+                    🏆 Mis Torneos
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('circuits')">
+                    🔄 Circuitos
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('add')">
+                    ➕ Nuevo Torneo
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección: Lista de Torneos -->
+        <div id="tournamentsSection">
+            <div class="section-header">
+                <h2 class="section-title">Mis Torneos</h2>
+                <p class="section-description">Historial completo de competiciones</p>
+            </div>
+
+            <div id="tournamentsGrid" class="tournaments-grid"></div>
+
+            <!-- Estado vacío -->
+            <div id="emptyTournaments" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">🏆</div>
+                <h3 class="empty-state-title">No hay torneos registrados</h3>
+                <p class="empty-state-description">
+                    Comienza a registrar tus competiciones para llevar un seguimiento completo
+                </p>
+                <button class="btn btn-primary" onclick="showSection('add')">
+                    ➕ Añadir Primer Torneo
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección: Circuitos -->
+        <div id="circuitsSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Circuitos</h2>
+                <p class="section-description">Tus rankings en diferentes circuitos</p>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <button class="btn btn-secondary" onclick="showAddCircuitModal()">
+                    ➕ Nuevo Circuito
+                </button>
+            </div>
+
+            <div id="circuitsGrid" class="circuits-grid"></div>
+
+            <!-- Estado vacío -->
+            <div id="emptyCircuits" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">🔄</div>
+                <h3 class="empty-state-title">No hay circuitos configurados</h3>
+                <p class="empty-state-description">
+                    Crea circuitos para agrupar torneos y calcular rankings
+                </p>
+                <button class="btn btn-primary" onclick="showAddCircuitModal()">
+                    ➕ Crear Primer Circuito
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección: Añadir Torneo -->
+        <div id="addTournamentSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Nuevo Torneo</h2>
+                <p class="section-description">Registra los detalles de tu competición</p>
+            </div>
+
+            <div class="tournament-form-card">
+                <form id="tournamentForm" onsubmit="saveTournament(event)">
+                    <!-- Información Básica -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">📋 Información Básica</h3>
+                        <div class="form-grid">
+                            <div class="form-group form-group-full">
+                                <label>Nombre del Torneo <span class="required">*</span></label>
+                                <input type="text" id="tournamentName" required 
+                                       placeholder="Ej: Copa Ciudad 2024">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Fecha <span class="required">*</span></label>
+                                <input type="date" id="tournamentDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Modalidad <span class="required">*</span></label>
+                                <select id="tournamentModality" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Bola 8">Bola 8</option>
+                                    <option value="Bola 9">Bola 9</option>
+                                    <option value="Bola 10">Bola 10</option>
+                                    <option value="14.1 Continuo">14.1 Continuo</option>
+                                    <option value="Banco Pool">Banco Pool</option>
+                                    <option value="One Pocket">One Pocket</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Total de Jugadores</label>
+                                <input type="number" id="tournamentPlayers" min="2" 
+                                       placeholder="Ej: 32">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Resultado <span class="required">*</span></label>
+                                <select id="tournamentResult" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Campeón">🥇 Campeón</option>
+                                    <option value="Subcampeón">🥈 Subcampeón</option>
+                                    <option value="Semifinales">🥉 Semifinales</option>
+                                    <option value="Cuartos de Final">Cuartos de Final</option>
+                                    <option value="Octavos de Final">Octavos de Final</option>
+                                    <option value="Dieciseisavos">Dieciseisavos</option>
+                                    <option value="Fase de Grupos">Fase de Grupos</option>
+                                    <option value="Eliminado en Ronda 1">Eliminado en Ronda 1</option>
+                                    <option value="Participación">Participación</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalles Adicionales -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">📝 Detalles Adicionales</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Circuito</label>
+                                <select id="tournamentCircuit">
+                                    <option value="">Sin circuito</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Taco Usado</label>
+                                <select id="tournamentCue">
+                                    <option value="">Seleccionar...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group form-group-full">
+                                <label>Rival de la Última Ronda</label>
+                                <input type="text" id="tournamentRival" 
+                                       placeholder="Nombre del rival final">
+                            </div>
+                            
+                            <div class="form-group form-group-full">
+                                <label>Notas</label>
+                                <textarea id="tournamentNotes" rows="3" 
+                                          style="resize: vertical; font-family: inherit; padding: 14px 16px; border: 1.5px solid rgba(0, 0, 0, 0.15); border-radius: 12px; font-size: 1rem;"
+                                          placeholder="Notas adicionales sobre el torneo..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas del Torneo (Opcional) -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">📊 Estadísticas (Opcional)</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Partidos Jugados</label>
+                                <input type="number" id="tournamentMatchesPlayed" min="0" 
+                                       placeholder="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Partidos Ganados</label>
+                                <input type="number" id="tournamentMatchesWon" min="0" 
+                                       placeholder="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Partidas Ganadas</label>
+                                <input type="number" id="tournamentGamesWon" min="0" 
+                                       placeholder="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Partidas Perdidas</label>
+                                <input type="number" id="tournamentGamesLost" min="0" 
+                                       placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            💾 Guardar Torneo
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="showSection('tournaments')">
+                            ❌ Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección de Exportación -->
+        <div class="export-section">
+            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
+                📤 Exportar Datos
+            </h3>
+            <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
+                Descarga tus torneos en diferentes formatos
+            </p>
+            <div class="export-buttons">
+                <button class="export-btn" onclick="exportToJSON()">
+                    📄 Exportar JSON
+                </button>
+                <button class="export-btn" onclick="exportToCSV()">
+                    📊 Exportar CSV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicador de sincronización -->
+    <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
+        ☁️ Sincronizado
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/tournaments.js"></script>
+</body>
+</html>
