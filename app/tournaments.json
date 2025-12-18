@@ -118,7 +118,7 @@
       "modality": "Bola 8",
       "totalPlayers": 0,
       "result": "Semifinales",
-      "circuit": "circuit_1766095793473",
+      "circuit": "circuit_1766096795049",
       "cue": "Bear+Centro",
       "finalRival": "",
       "notes": "",
@@ -132,7 +132,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766096768118",
-      "createdAt": "2025-12-18T22:26:08.118Z"
+      "createdAt": "2025-12-18T22:26:08.118Z",
+      "updatedAt": "2025-12-18T22:28:44.798Z"
     }
   ],
   "circuits": [
@@ -197,5 +198,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T22:28:26.347Z"
+  "lastUpdated": "2025-12-18T22:28:46.919Z"
 }
