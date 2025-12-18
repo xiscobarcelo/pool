@@ -13,7 +13,9 @@
     gap: 24px;
     margin-bottom: 40px;
 }
-
+.section-header{
+   margin-bottom:20px;
+}
 .tournament-card {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px) saturate(180%);
