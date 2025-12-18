@@ -10,23 +10,23 @@
             token: ''
         };
         
-        // Función para obtener la URL del data.json
+        // Función para obtener la URL del matches.json
         function getDataURL() {
             // Primero intentar usar config hardcodeada
             if (HARDCODED_GITHUB_CONFIG.username && 
                 HARDCODED_GITHUB_CONFIG.repo) {
-                return `https://raw.githubusercontent.com/${HARDCODED_GITHUB_CONFIG.username}/${HARDCODED_GITHUB_CONFIG.repo}/main/appx/data.json`;
+                return `https://raw.githubusercontent.com/${HARDCODED_GITHUB_CONFIG.username}/${HARDCODED_GITHUB_CONFIG.repo}/main/app/matches.json`;
             }
             
             // Si no, intentar localStorage
             const config = localStorage.getItem(GITHUB_CONFIG_KEY);
             if (config) {
                 const data = JSON.parse(config);
-                return `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/appx/data.json`;
+                return `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/app/matches.json`;
             }
             
             // Fallback a la URL por defecto si no hay configuración
-            return 'https://www.xiscobarcelo.com/pool/data.json';
+            return 'https://www.xiscobarcelo.com/pool/matches.json';
         }
 
         const API_URL = getDataURL();
@@ -53,7 +53,7 @@
             if (config) {
                 try {
                     const data = JSON.parse(config);
-                    const githubUrl = `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/appx/data.json`;
+                    const githubUrl = `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/app/matches.json`;
                     
                     console.log('🔄 Cargando desde GitHub:', githubUrl);
                     
@@ -811,7 +811,7 @@ Escribe "BORRAR" para confirmar:`;
                 lastUpdated: new Date().toISOString()
             };
 
-            // Crear estructura completa para data.json usando los datos actuales
+            // Crear estructura completa para matches.json usando los datos actuales
             const fullData = {
                 matches: currentData?.matches || [],
                 players: currentData?.players || ["Xisco"],
@@ -825,14 +825,14 @@ Escribe "BORRAR" para confirmar:`;
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'data.json';
+            link.download = 'matches.json';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
 
             // Mostrar confirmación
-            alert('✅ Archivo data.json descargado correctamente. Súbelo a tu servidor para actualizar las estadísticas.');
+            alert('✅ Archivo matches.json descargado correctamente. Súbelo a tu servidor para actualizar las estadísticas.');
         }
 
         function generateHeroStats(matches, players, materials, combinedStats) {
@@ -1760,4 +1760,5 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
