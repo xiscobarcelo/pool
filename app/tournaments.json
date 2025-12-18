@@ -134,6 +134,28 @@
       "id": "tournament_1766096768118",
       "createdAt": "2025-12-18T22:26:08.118Z",
       "updatedAt": "2025-12-18T22:28:44.798Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2023-01-06",
+      "modality": "Bola 9",
+      "totalPlayers": 0,
+      "result": "Campeón",
+      "circuit": "circuit_1766096795049",
+      "cue": "",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766096991164",
+      "createdAt": "2025-12-18T22:29:51.164Z"
     }
   ],
   "circuits": [
@@ -198,5 +220,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T22:28:46.919Z"
+  "lastUpdated": "2025-12-18T22:29:53.741Z"
 }
