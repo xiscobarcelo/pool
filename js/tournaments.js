@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
     populateSelects();
     renderAll();
+    showSection('tournaments'); // Mostrar la sección de torneos por defecto
 });
 
 // Cargar datos
@@ -966,12 +967,12 @@ function showSection(section) {
     }
     
     // Actualizar botones activos
-    document.querySelectorAll('.button-group .btn').forEach(btn => {
+    document.querySelectorAll('.button-group .btn, .button-group .btn-secondary').forEach(btn => {
         btn.classList.remove('btn-primary');
         btn.classList.add('btn-secondary');
     });
     
-    const activeBtn = document.querySelector(`.button-group .btn[onclick="showSection('${section}')"]`);
+    const activeBtn = document.querySelector(`.button-group button[onclick*="showSection('${section}')"]`);
     if (activeBtn) {
         activeBtn.classList.remove('btn-secondary');
         activeBtn.classList.add('btn-primary');
