@@ -1718,22 +1718,22 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
+      "matchesPlayed": 29,
+      "matchesWon": 22,
+      "gamesPlayed": 280,
+      "gamesWon": 172
     },
     "bola9": {
-      "matchesPlayed": 31,
-      "matchesWon": 20,
-      "gamesPlayed": 391,
-      "gamesWon": 211
+      "matchesPlayed": 126,
+      "matchesWon": 88,
+      "gamesPlayed": 1403,
+      "gamesWon": 799
     },
     "bola10": {
-      "matchesPlayed": 123,
-      "matchesWon": 78,
-      "gamesPlayed": 1536,
-      "gamesWon": 843
+      "matchesPlayed": 157,
+      "matchesWon": 119,
+      "gamesPlayed": 2050,
+      "gamesWon": 1147
     }
   }
 }
