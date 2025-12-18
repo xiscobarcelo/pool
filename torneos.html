@@ -15,8 +15,9 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles-common.css">
     <link rel="stylesheet" href="css/styles-tournaments.css">
-    <link rel="stylesheet" href="css/styles-registro.css">    
-
+    
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <!-- Verificar sesión -->
     <script>
@@ -31,7 +32,7 @@
         <div class="header-content">
             <a href="registro-partidos.html" class="logo">
                 <div class="logo-icon">
-                    <img src="/pool/images/logo.svg" alt="Pool Tracker">
+                    <img src="logo.svg" alt="Pool Tracker">
                 </div>
                 <span class="logo-text">Pool Tracker</span>
             </a>
@@ -77,6 +78,60 @@
         <!-- Estadísticas Globales -->
         <div class="stats-overview" id="statsOverview"></div>
 
+        <!-- Gráficos Analíticos -->
+        <div class="analytics-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 Análisis Detallado</h2>
+                <p class="section-description">Visualiza tu rendimiento con gráficos interactivos</p>
+            </div>
+
+            <div class="charts-grid">
+                <!-- Gráfico: Resultados por Año -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">🏆 Resultados por Año</h3>
+                        <p class="chart-description">Evolución de tus logros en el tiempo</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="yearResultsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico: Rendimiento por Material -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">🎱 Rendimiento por Taco</h3>
+                        <p class="chart-description">¿Qué material te da mejores resultados?</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="materialPerformanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico: Evolución Temporal -->
+                <div class="chart-card chart-card-wide">
+                    <div class="chart-header">
+                        <h3 class="chart-title">📈 Evolución Temporal</h3>
+                        <p class="chart-description">Línea de tiempo de tus torneos</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico: Win Rate por Modalidad -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">🎯 Win Rate por Modalidad</h3>
+                        <p class="chart-description">Tu efectividad en cada juego</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="modalityWinRateChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Filtros -->
         <div class="filters-bar">
             <div class="filter-group">
@@ -117,14 +172,14 @@
         <!-- Tabs de Navegación -->
         <div class="section">
             <div class="button-group" style="margin-bottom: 32px;">
-                <button class="btn-secondary" onclick="showSection('tournaments')">
+                <button class="btn btn-primary" onclick="showSection('tournaments')">
                     🏆 Mis Torneos
                 </button>
-                <button class="btn-secondary" onclick="showSection('circuits')">
-                    Circuitos
+                <button class="btn btn-secondary" onclick="showSection('circuits')">
+                    🔄 Circuitos
                 </button>
-                <button class="btn-secondary" onclick="showSection('add')">
-                    Nuevo Torneo
+                <button class="btn btn-secondary" onclick="showSection('add')">
+                    ➕ Nuevo Torneo
                 </button>
             </div>
         </div>
@@ -146,7 +201,7 @@
                     Comienza a registrar tus competiciones para llevar un seguimiento completo
                 </p>
                 <button class="btn btn-primary" onclick="showSection('add')">
-                    Añadir Primer Torneo
+                    ➕ Añadir Primer Torneo
                 </button>
             </div>
         </div>
@@ -159,8 +214,8 @@
             </div>
 
             <div style="margin-bottom: 24px;">
-                <button class="btn-secondary" onclick="showAddCircuitModal()">
-                    Nuevo Circuito
+                <button class="btn btn-secondary" onclick="showAddCircuitModal()">
+                    ➕ Nuevo Circuito
                 </button>
             </div>
 
@@ -174,7 +229,7 @@
                     Crea circuitos para agrupar torneos y calcular rankings
                 </p>
                 <button class="btn btn-primary" onclick="showAddCircuitModal()">
-                    Crear Primer Circuito
+                    ➕ Crear Primer Circuito
                 </button>
             </div>
         </div>
@@ -306,10 +361,10 @@
                     <!-- Botones -->
                     <div class="button-group">
                         <button type="submit" class="btn btn-primary">
-                            Guardar Torneo
+                            💾 Guardar Torneo
                         </button>
-                        <button type="button" class="btn-secondary" onclick="cancelEditTournament()">
-                            Cancelar
+                        <button type="button" class="btn btn-secondary" onclick="cancelEditTournament()">
+                            ❌ Cancelar
                         </button>
                     </div>
                 </form>
@@ -325,22 +380,31 @@
                 Guarda tus datos en la nube para acceder desde cualquier dispositivo
             </p>
             <div class="export-buttons">
-                <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub">
-                    ↑ Guardar
+                <button class="export-btn" onclick="syncToGitHub()" title="Subir a GitHub">
+                    ↑ Subir a Cloud
                 </button>
-                <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub">
-                    ↓ Cargar
-                     </button>
-              <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> 
-						⟳ Refrescar
-					</button>
-                <button class="btn-secondary" onclick="exportToJSON()">
-                    ↓ Exportar JSON
+                <button class="export-btn" onclick="loadFromGitHub()" title="Descargar de GitHub">
+                    ↓ Descargar de Cloud
                 </button>
-                <button class="btn-secondary" onclick="exportToCSV()">
-                   ↓Exportar CSV
+            </div>
+        </div>
+
+        <!-- Sección de Exportación Local -->
+        <div class="export-section" style="margin-top: 24px;">
+            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
+                📤 Exportar Datos
+            </h3>
+            <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
+                Descarga tus torneos en diferentes formatos
+            </p>
+            <div class="export-buttons">
+                <button class="export-btn" onclick="exportToJSON()">
+                    📄 Exportar JSON
                 </button>
-            
+                <button class="export-btn" onclick="exportToCSV()">
+                    📊 Exportar CSV
+                </button>
+            </div>
         </div>
     </div>
 
