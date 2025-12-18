@@ -110,7 +110,27 @@
       "tournaments": [],
       "totalPoints": 0,
       "ranking": null
+    },
+    {
+      "id": "circuit_1766095793473",
+      "name": "Cto Mallorca25/26",
+      "year": 2025,
+      "description": "",
+      "pointsSystem": {
+        "Campeón": 100,
+        "Subcampeón": 75,
+        "Semifinales": 50,
+        "Cuartos de Final": 25,
+        "Octavos de Final": 15,
+        "Dieciseisavos": 10,
+        "Fase de Grupos": 5,
+        "Eliminado en Ronda 1": 3,
+        "Participación": 1
+      },
+      "tournaments": [],
+      "totalPoints": 0,
+      "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T20:55:08.759Z"
+  "lastUpdated": "2025-12-18T22:09:57.693Z"
 }
