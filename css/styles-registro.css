@@ -1298,6 +1298,12 @@ input[type="file"] {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
+	  .match-item:hover {
+
+			  box-shadow:none;
+            transform: none;
+         
+        }
     .form-card {
         padding: 24px;
     }
