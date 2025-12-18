@@ -24,33 +24,10 @@
       "updatedAt": "2025-12-18T19:11:54.992Z"
     },
     {
-      "name": "Cto de Baleares",
-      "date": "2023-12-18",
-      "modality": "Bola 8",
-      "totalPlayers": 0,
-      "result": "Subcampeón",
-      "circuit": "circuit_1766097095588",
-      "cue": "Velasco+Revo12.9",
-      "finalRival": "Jepy",
-      "notes": "",
-      "stats": {
-        "matchesPlayed": 3,
-        "matchesWon": 1,
-        "matchesLost": 2,
-        "gamesWon": 5,
-        "gamesLost": 6,
-        "winRate": "33.3",
-        "averageGamesPerMatch": "3.7"
-      },
-      "id": "tournament_1766084895634",
-      "createdAt": "2025-12-18T19:08:15.634Z",
-      "updatedAt": "2025-12-18T22:33:20.459Z"
-    },
-    {
       "name": "Campeonato de Mallorca",
       "date": "2025-12-18",
       "modality": "Bola 9",
-      "totalPlayers": 0,
+      "totalPlayers": 32,
       "result": "Campeón",
       "circuit": "circuit_1766084297849",
       "cue": "",
@@ -66,7 +43,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766085141872",
-      "createdAt": "2025-12-18T19:12:21.872Z"
+      "createdAt": "2025-12-18T19:12:21.872Z",
+      "updatedAt": "2025-12-18T22:35:02.961Z"
     },
     {
       "name": "Campeonato de Mallorca",
@@ -241,5 +219,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T22:33:36.848Z"
+  "lastUpdated": "2025-12-18T22:35:04.076Z"
 }
