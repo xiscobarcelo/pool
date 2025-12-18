@@ -119,7 +119,7 @@ async function syncToGitHub() {
         const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
 
         // Usar tournaments.json en lugar de data.json
-        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/tournaments.json`;
+        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
         let sha = null;
 
         try {
@@ -139,7 +139,7 @@ async function syncToGitHub() {
         }
 
         // Subir archivo
-        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/tournaments.json`;
+        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
         const response = await fetch(putUrl, {
             method: 'PUT',
             headers: {
@@ -204,7 +204,7 @@ async function loadFromGitHub() {
 
     try {
         // Descargar desde tournaments.json
-        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/appx/tournaments.json`;
+        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
         
         console.log('🔄 Cargando torneos desde GitHub:', githubUrl);
         
