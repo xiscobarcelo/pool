@@ -924,7 +924,7 @@ input[type="file"] {
         }
 
         .match-info {
-			display: flex;
+			
 			justify-content: space-between;
 			padding: 10px 14px;
 			background: #fafafa;
