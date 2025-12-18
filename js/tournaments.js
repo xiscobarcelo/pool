@@ -381,9 +381,9 @@ function renderStats() {
         </div>
         
         <div class="stat-card-tournament">
-            <div class="stat-icon">🔄</div>
-            <div class="stat-number">${matchesData.circuits.length}</div>
-            <div class="stat-label">Circuitos</div>
+            <div class="stat-icon">🥉</div>
+            <div class="stat-number">${stats.semifinals}</div>
+            <div class="stat-label">Semifinales</div>
         </div>
     `;
     
@@ -833,8 +833,39 @@ function deleteCircuit(id) {
 }
 
 function editCircuit(id) {
-    // Por implementar
-    showMessage('⚠️ Función de edición en desarrollo', 'info');
+    const circuit = matchesData.circuits.find(c => c.id === id);
+    if (!circuit) {
+        showMessage('❌ Circuito no encontrado', 'error');
+        return;
+    }
+    
+    const name = prompt('Nombre del circuito:', circuit.name);
+    if (name === null) return; // Usuario canceló
+    if (!name.trim()) {
+        showMessage('❌ El nombre no puede estar vacío', 'error');
+        return;
+    }
+    
+    const year = prompt('Año:', circuit.year);
+    if (year === null) return; // Usuario canceló
+    if (!year || isNaN(parseInt(year))) {
+        showMessage('❌ Año inválido', 'error');
+        return;
+    }
+    
+    const description = prompt('Descripción (opcional):', circuit.description || '');
+    if (description === null) return; // Usuario canceló
+    
+    // Actualizar circuito
+    circuit.name = name.trim();
+    circuit.year = parseInt(year);
+    circuit.description = description.trim();
+    
+    saveData();
+    populateSelects();
+    renderAll();
+    
+    showMessage('✅ Circuito actualizado correctamente', 'success');
 }
 
 // ============================================================
@@ -1075,8 +1106,7 @@ function logout() {
 let charts = {
     yearResults: null,
     materialPerformance: null,
-    timeline: null,
-    modalityWinRate: null
+    timeline: null
 };
 
 // Renderizar todos los gráficos
@@ -1098,7 +1128,6 @@ function renderCharts() {
     renderYearResultsChart();
     renderMaterialPerformanceChart();
     renderTimelineChart();
-    renderModalityWinRateChart();
 }
 
 // Gráfico 1: Resultados por Año
@@ -1462,135 +1491,6 @@ function renderTimelineChart() {
 }
 
 // Gráfico 4: Win Rate por Modalidad
-function renderModalityWinRateChart() {
-    const ctx = document.getElementById('modalityWinRateChart');
-    if (!ctx) return;
-    
-    if (charts.modalityWinRate) {
-        charts.modalityWinRate.destroy();
-    }
-    
-    // Agrupar por modalidad
-    const modalityData = {};
-    
-    matchesData.tournaments.forEach(t => {
-        if (!modalityData[t.modality]) {
-            modalityData[t.modality] = {
-                total: 0,
-                wins: 0,
-                matchesPlayed: 0,
-                matchesWon: 0
-            };
-        }
-        
-        modalityData[t.modality].total++;
-        
-        // Contar victorias (Top 3)
-        if (t.result === 'Campeón' || t.result === 'Subcampeón' || t.result === 'Semifinales') {
-            modalityData[t.modality].wins++;
-        }
-        
-        // Sumar estadísticas de partidos
-        if (t.stats) {
-            modalityData[t.modality].matchesPlayed += t.stats.matchesPlayed || 0;
-            modalityData[t.modality].matchesWon += t.stats.matchesWon || 0;
-        }
-    });
-    
-    const modalities = Object.keys(modalityData);
-    const winRates = modalities.map(m => {
-        const data = modalityData[m];
-        if (data.matchesPlayed > 0) {
-            return (data.matchesWon / data.matchesPlayed * 100).toFixed(1);
-        } else {
-            // Si no hay stats de partidos, usar rate de podium
-            return (data.wins / data.total * 100).toFixed(1);
-        }
-    });
-    
-    if (modalities.length === 0) {
-        return;
-    }
-    
-    charts.modalityWinRate = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: modalities,
-            datasets: [{
-                label: 'Win Rate %',
-                data: winRates,
-                backgroundColor: [
-                    'rgba(102, 126, 234, 0.8)',
-                    'rgba(52, 199, 89, 0.8)',
-                    'rgba(255, 149, 0, 0.8)',
-                    'rgba(88, 86, 214, 0.8)',
-                    'rgba(255, 59, 48, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(102, 126, 234, 1)',
-                    'rgba(52, 199, 89, 1)',
-                    'rgba(255, 149, 0, 1)',
-                    'rgba(88, 86, 214, 1)',
-                    'rgba(255, 59, 48, 1)'
-                ],
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
-                    cornerRadius: 8,
-                    callbacks: {
-                        label: function(context) {
-                            const modality = context.label;
-                            const data = modalityData[modality];
-                            return [
-                                `Win Rate: ${context.parsed.y}%`,
-                                `Torneos: ${data.total}`,
-                                `Partidos: ${data.matchesWon}/${data.matchesPlayed}`
-                            ];
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 12
-                        }
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        callback: function(value) {
-                            return value + '%';
-                        },
-                        font: {
-                            size: 12
-                        }
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                }
-            }
-        }
-    });
-}
 
 // Integrar gráficos en la función renderAll existente
 // (Los gráficos se renderizarán automáticamente cuando se llame a renderAll)
