@@ -95,7 +95,7 @@
       "modality": "Bola 10",
       "totalPlayers": 0,
       "result": "Campeón",
-      "circuit": "circuit_1766095793473",
+      "circuit": "circuit_1766096795049",
       "cue": "",
       "finalRival": "",
       "notes": "",
@@ -109,7 +109,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766096723263",
-      "createdAt": "2025-12-18T22:25:23.263Z"
+      "createdAt": "2025-12-18T22:25:23.263Z",
+      "updatedAt": "2025-12-18T22:28:19.806Z"
     },
     {
       "name": "Campeonato de Mallorca",
@@ -196,5 +197,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T22:26:39.882Z"
+  "lastUpdated": "2025-12-18T22:28:26.347Z"
 }
