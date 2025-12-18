@@ -463,6 +463,7 @@ select:disabled {
 /* History section */
 .history-section {
     margin-top: 60px;
+	display:grid;
 }
 
 .history-header {
