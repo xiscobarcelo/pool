@@ -15,14 +15,14 @@
             // Primero intentar usar config hardcodeada
             if (HARDCODED_GITHUB_CONFIG.username && 
                 HARDCODED_GITHUB_CONFIG.repo) {
-                return `https://raw.githubusercontent.com/${HARDCODED_GITHUB_CONFIG.username}/${HARDCODED_GITHUB_CONFIG.repo}/main/app/data.json`;
+                return `https://raw.githubusercontent.com/${HARDCODED_GITHUB_CONFIG.username}/${HARDCODED_GITHUB_CONFIG.repo}/main/appx/data.json`;
             }
             
             // Si no, intentar localStorage
             const config = localStorage.getItem(GITHUB_CONFIG_KEY);
             if (config) {
                 const data = JSON.parse(config);
-                return `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/app/data.json`;
+                return `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/appx/data.json`;
             }
             
             // Fallback a la URL por defecto si no hay configuración
@@ -53,7 +53,7 @@
             if (config) {
                 try {
                     const data = JSON.parse(config);
-                    const githubUrl = `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/app/data.json`;
+                    const githubUrl = `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/appx/data.json`;
                     
                     console.log('🔄 Cargando desde GitHub:', githubUrl);
                     
