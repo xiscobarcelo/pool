@@ -1738,25 +1738,25 @@
   },
   "tournaments": [
     {
-      "id": "tournament_1766081463504",
+      "id": "tournament_1766081714239",
       "name": "Campeonato de Mallorca",
       "date": "2025-12-13",
       "modality": "Bola 10",
       "totalPlayers": 17,
       "result": "Campeón",
       "circuit": null,
-      "cue": "",
-      "finalRival": "",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
       "notes": "",
-      "createdAt": "2025-12-18T18:11:03.504Z",
+      "createdAt": "2025-12-18T18:15:14.239Z",
       "stats": {
-        "matchesPlayed": 5,
-        "matchesWon": 5,
+        "matchesPlayed": 0,
+        "matchesWon": 0,
         "matchesLost": 0,
-        "gamesWon": 33,
-        "gamesLost": 13,
-        "winRate": "100.0",
-        "averageGamesPerMatch": "9.2"
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
       }
     }
   ],
