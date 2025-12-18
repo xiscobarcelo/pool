@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Partidos</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="css/styles-common.css">
+    <link rel="stylesheet" href="css/styles-registro.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+   <script>
+        // Verificar sesión activa
+        if (!sessionStorage.getItem('xisco_session_active')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Header con Logo y Menú -->
+    <div class="top-header">
+        <div class="header-content">
+            <a href="registro-partidos.html" class="logo">
+                <div class="logo-icon">
+                    <img src="/pool/images/logo.svg" alt="Stats">
+                </div>
+                <span class="logo-text">Pool Tracker</span>
+            </a>
+            
+            <nav class="desktop-nav">
+                <a href="registro-partidos.html" class="nav-link active">Registro</a>
+                <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+				<a href="estadisticas.html#historial" class="nav-link">Historial</a>
+                <a href="config-github.html" class="nav-link">Configuración</a>
+                <a href="#" class="nav-link danger" onclick="resetAllDataFromStats(); return false;">Reiniciar</a>
+                <a href="#" class="nav-link" onclick="logout(); return false;">Salir</a>
+            </nav>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay del menú móvil -->
+    <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- Menú lateral móvil -->
+    <div class="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="registro-partidos.html" class="nav-link active">Registro</a>
+            <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+			<a href="estadisticas.html#historial" class="nav-link">Historial</a>
+            <a href="config-github.html" class="nav-link">Configuración</a>
+            <a href="#" class="nav-link danger" onclick="resetAllDataFromStats(); return false;">Reiniciar Datos</a>
+            <a href="#" class="nav-link" onclick="logout(); return false;">Cerrar Sesión</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Registro de Partidos</h1>
+            <p class="subtitle">Sistema de seguimiento de partidos de billar</p>
+        </header>
+
+        <div id="successMessage" style="display: none;"></div>
+
+        <div class="main-card">
+            <div style="text-align: center; margin-bottom: 20px; padding: 0 16px;">
+                <h2 class="section-title" style="margin-bottom: 16px;">Importar desde Excel</h2>
+                <p style="color: #86868b; margin-bottom: 20px; font-size: 0.95rem;">
+                    Importa múltiples partidos desde un archivo Excel (.xlsx, .xls, .csv)
+                </p>
+                
+                <!-- Info desplegable -->
+                <div class="info-collapsible">
+                    <button class="info-toggle" onclick="toggleInfo('excelInfo')">
+                        <span class="info-icon">?</span>
+                        <span>Formato del archivo</span>
+                        <span class="chevron" id="excelInfoChevron">▼</span>
+                    </button>
+                    <div class="info-content" id="excelInfo">
+                        <div class="info-content-inner">
+                            <p style="color: #86868b; font-size: 0.9rem; margin-bottom: 12px;">El archivo debe tener las siguientes columnas (en cualquier orden):</p>
+                            <ul>
+                                <li><strong>Rival</strong> o <strong>Jugador 2</strong> - Nombre del oponente</li>
+                                <li><strong>Partidas Xisco</strong> o <strong>Score1</strong> - Partidas ganadas por Xisco</li>
+                                <li><strong>Partidas Rival</strong> o <strong>Score2</strong> - Partidas ganadas por el rival</li>
+                                <li><strong>Material</strong> - Material usado por Xisco</li>
+                                <li><strong>Modalidad</strong> - Bola 8, Bola 9 o Bola 10</li>
+                                <li><strong>Fecha</strong> - Fecha del partido (formato: DD/MM/YYYY o YYYY-MM-DD)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="excelFileInput" class="btn btn-primary" style="cursor: pointer; display: inline-block; margin-top: 20px;">
+                    Seleccionar archivo Excel
+                </label>
+                <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                
+                <div id="importPreview" style="display: none; margin-top: 20px;"></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <form id="matchForm">
+                <h2 class="section-title" id="formTitle" style="text-align: center; margin-bottom: 32px;">Registrar Nuevo Partido</h2>
+                
+                <div class="form-section">
+                    <h2 class="section-title">Jugadores</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Jugador 1 (Xisco)</label>
+                            <input type="text" value="Xisco" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Jugador 2 (Rival)</label>
+                            <input type="text" id="player2" placeholder="Nombre del rival" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Resultado</h2>
+                    <div class="score-inputs">
+                        <div class="form-group">
+                            <label>Partidas Xisco</label>
+                            <input type="number" id="score1" min="0" placeholder="0" required>
+                        </div>
+                        <div class="score-label">-</div>
+                        <div class="form-group">
+                            <label>Partidas Rival</label>
+                            <input type="number" id="score2" min="0" placeholder="0" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Material de Xisco</h2>
+                    <div class="material-chips" id="materialChips"></div>
+                    <div class="add-material-input">
+                        <input type="text" id="newMaterial" placeholder="Añadir nuevo material">
+                        <button type="button" class="btn-add-material" onclick="addMaterial()">+</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Modalidad</label>
+                            <select id="modality" required>
+                                <option value="">Seleccionar modalidad</option>
+                                <option value="Bola 8">Bola 8</option>
+                                <option value="Bola 9">Bola 9</option>
+                                <option value="Bola 10">Bola 10</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" id="matchDate" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">Guardar Partido</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">⟳ Limpiar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="main-card history-card">
+            <div class="history-header">
+                <h2 class="section-title" style="margin: 0;">Estadísticas por Modalidad</h2>
+                <button class="btn-secondary" style="padding: 10px 20px; border-radius: 8px;" onclick="toggleModalityEdit()">
+                    ✏️ <span id="editBtnText">Editar</span>
+                </button>
+            </div>
+            
+            <div style="background: rgba(0, 0, 0, 0.01); border: 1px solid rgba(0, 0, 0, 0.011); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <p style="color: #86868b; font-size: 0.9rem; margin-bottom: 12px;">
+                    <strong style="color: #000000;">📊 Sincronización automática:</strong> Estos valores se calculan automáticamente desde los partidos registrados. Puedes editarlos manualmente para añadir partidos adicionales no registrados en el sistema.
+                </p>
+            </div>
+
+            <div class="modality-stats-grid" id="modalityStatsSection"></div>
+        </div>
+
+        <div class="main-card history-card">
+            <div class="history-header">
+                <h2 class="section-title">Historial de Partidos</h2>
+                <div class="history-actions">
+                    <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a Cloud">
+                        ↑ Cloud
+                    </button>
+                    <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de Cloud">
+                        ↓ Cloud
+                    </button>
+                    <button class="btn-secondary" onclick="syncWithDashboard()" title="Sincronizar Local">
+                        ⟳ Sync
+                    </button>
+					<button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> 
+						⟳ F5
+					</button>
+                    <button class="btn-secondary" onclick="downloadData()" title="Descargar JSON">
+                        ⤓ JSON
+                    </button>
+                    <button class="btn-danger" onclick="resetAllData()" title="Reiniciar">
+                        ✕ Reset
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Controles de paginación superior -->
+            <div id="paginationTop" class="pagination-container" style="display: none;"></div>
+            
+            <div id="matchHistory" class="match-list"></div>
+            
+            <!-- Controles de paginación inferior -->
+            <div id="paginationBottom" class="pagination-container" style="display: none;"></div>
+        </div>
+    </div>
+
+ <script src="js/common.js"></script>
+    <script src="js/registro.js"></script>
+</body>
+</html>
