@@ -61,57 +61,204 @@ function saveData() {
     localStorage.setItem('shared_matches_data', JSON.stringify(matchesData));
     showSyncIndicator();
     
-    // Sincronizar con GitHub
-    syncToGitHub();
+    // NO sincronizar automáticamente - el usuario lo hace manualmente
+    // syncToGitHub();
 }
 
 // ============================================================
 // SINCRONIZACIÓN CON GITHUB
 // ============================================================
 
-async function syncToGitHub() {
+function getGitHubConfig() {
     const config = localStorage.getItem(GITHUB_CONFIG_KEY);
-    if (!config) return;
-    
-    try {
-        const { username, repo, token } = JSON.parse(config);
+    return config ? JSON.parse(config) : null;
+}
+
+function setGitHubConfig(username, repo, token) {
+    localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify({ username, repo, token }));
+}
+
+async function syncToGitHub() {
+    let config = getGitHubConfig();
+
+    // Si no hay configuración, pedirla
+    if (!config) {
+        const username = prompt('🔧 Configuración de GitHub\n\n1️⃣ Introduce tu USUARIO de GitHub:');
+        if (!username) return;
+
+        const repo = prompt('2️⃣ Introduce el NOMBRE del repositorio:\n(ejemplo: pool-tracker-data)');
+        if (!repo) return;
+
+        const token = prompt('3️⃣ Pega tu TOKEN de acceso personal:\n(empieza con ghp_...)');
+        if (!token) return;
+
+        setGitHubConfig(username, repo, token);
+        config = { username, repo, token };
         
-        // Obtener SHA del archivo actual
-        const getResponse = await fetch(
-            `https://api.github.com/repos/${username}/${repo}/contents/app/data.json`,
-            {
+        alert('✅ Configuración guardada!\nAhora se subirán los datos...');
+    }
+
+    // Mostrar loading
+    const btn = event ? event.target : null;
+    let originalText = '';
+    if (btn) {
+        originalText = btn.innerHTML;
+        btn.innerHTML = '⏳ Subiendo...';
+        btn.disabled = true;
+    }
+
+    try {
+        // Preparar SOLO datos de torneos
+        const tournamentsData = {
+            tournaments: matchesData.tournaments || [],
+            circuits: matchesData.circuits || [],
+            lastUpdated: new Date().toISOString()
+        };
+        
+        const dataToUpload = JSON.stringify(tournamentsData, null, 2);
+        const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
+
+        // Usar tournaments.json en lugar de data.json
+        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
+        let sha = null;
+
+        try {
+            const getResponse = await fetch(getUrl, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `token ${config.token}`,
                     'Accept': 'application/vnd.github.v3+json'
                 }
+            });
+
+            if (getResponse.ok) {
+                const fileData = await getResponse.json();
+                sha = fileData.sha;
             }
-        );
-        
-        const getData = await getResponse.json();
-        
-        // Actualizar archivo
-        const content = btoa(JSON.stringify(matchesData, null, 2));
-        
-        await fetch(
-            `https://api.github.com/repos/${username}/${repo}/contents/app/data.json`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `Update tournaments data - ${new Date().toLocaleString()}`,
-                    content: content,
-                    sha: getData.sha
-                })
+        } catch (e) {
+            console.log('Archivo tournaments.json no existe, se creará uno nuevo');
+        }
+
+        // Subir archivo
+        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
+        const response = await fetch(putUrl, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${config.token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `Update tournaments - ${new Date().toLocaleString('es-ES')}`,
+                content: encodedContent,
+                sha: sha,
+                branch: 'main'
+            })
+        });
+
+        if (response.ok) {
+            if (btn) {
+                btn.innerHTML = '✅ ¡Subido!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
             }
-        );
-        
-        console.log('✅ Sincronizado con GitHub');
+            showMessage('☁️ Torneos sincronizados con GitHub!', 'success');
+        } else {
+            const error = await response.json();
+            throw new Error(error.message || 'Error al subir');
+        }
+
     } catch (error) {
-        console.error('Error sincronizando con GitHub:', error);
+        console.error('Error:', error);
+        if (btn) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+        
+        alert(`❌ Error al subir a GitHub:\n\n${error.message}\n\nVerifica:\n• Token correcto\n• Permisos del token (scope: repo)\n• Nombre de repositorio correcto`);
+        
+        // Opción de reconfigurar
+        if (confirm('¿Quieres reconfigurar GitHub?')) {
+            localStorage.removeItem(GITHUB_CONFIG_KEY);
+            syncToGitHub();
+        }
+    }
+}
+
+async function loadFromGitHub() {
+    const config = getGitHubConfig();
+    if (!config) {
+        alert('⚠️ Primero configura GitHub haciendo click en "↑ Subir a Cloud"');
+        return;
+    }
+
+    // Mostrar loading
+    const btn = event ? event.target : null;
+    let originalText = '';
+    if (btn) {
+        originalText = btn.innerHTML;
+        btn.innerHTML = '⏳ Descargando...';
+        btn.disabled = true;
+    }
+
+    try {
+        // Descargar desde tournaments.json
+        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
+        
+        console.log('🔄 Cargando torneos desde GitHub:', githubUrl);
+        
+        const response = await fetch(githubUrl, {
+            cache: 'no-cache',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const githubData = await response.json();
+            
+            // Validar estructura
+            if (!githubData.tournaments || !Array.isArray(githubData.tournaments)) {
+                throw new Error('Datos inválidos en GitHub');
+            }
+            
+            // Mantener partidos locales y actualizar solo torneos
+            matchesData.tournaments = githubData.tournaments || [];
+            matchesData.circuits = githubData.circuits || [];
+            
+            // Guardar localmente
+            saveData();
+            
+            // Re-poblar selectores y renderizar
+            populateSelects();
+            renderAll();
+            
+            const tournamentsCount = githubData.tournaments ? githubData.tournaments.length : 0;
+            const circuitsCount = githubData.circuits ? githubData.circuits.length : 0;
+            const message = `☁️ Torneos actualizados desde GitHub\n${tournamentsCount} torneos y ${circuitsCount} circuitos sincronizados`;
+            showMessage(message, 'success');
+            console.log('✅ Torneos cargados desde GitHub:', tournamentsCount, 'torneos');
+            
+            if (btn) {
+                btn.innerHTML = '✅ ¡Descargado!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }
+        } else {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+    } catch (error) {
+        console.error('Error cargando desde GitHub:', error);
+        if (btn) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+        
+        alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Repositorio existe\n• Archivo tournaments.json existe en /app/\n• Configuración correcta\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
     }
 }
 
@@ -119,6 +266,8 @@ async function syncToGitHub() {
 function showSyncIndicator() {
     const indicator = document.getElementById('syncIndicator');
     if (indicator) {
+        indicator.innerHTML = '💾 Guardado localmente';
+        indicator.style.background = '#34c759';
         indicator.style.opacity = '1';
         setTimeout(() => {
             indicator.style.opacity = '0';
