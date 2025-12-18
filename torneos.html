@@ -15,7 +15,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles-common.css">
     <link rel="stylesheet" href="css/styles-tournaments.css">
-    <link rel="stylesheet" href="css/styles-registro.css">
     
     <!-- Chart.js para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -33,7 +32,7 @@
         <div class="header-content">
             <a href="registro-partidos.html" class="logo">
                 <div class="logo-icon">
-                    <img src="/pool/images/logo.svg" alt="Pool Tracker">
+                    <img src="logo.svg" alt="Pool Tracker">
                 </div>
                 <span class="logo-text">Pool Tracker</span>
             </a>
@@ -162,14 +161,14 @@
         <!-- Tabs de Navegación -->
         <div class="section">
             <div class="button-group" style="margin-bottom: 32px;">
-                <button class=" btn-secondary" onclick="showSection('tournaments')">
-                    Mis Torneos
+                <button class="btn-secondary" onclick="showSection('tournaments')">
+                    🏆 Mis Torneos
                 </button>
-                <button class=" btn-secondary" onclick="showSection('circuits')">
-                    Circuitos
+                <button class="btn-secondary" onclick="showSection('circuits')">
+                    🔄 Circuitos
                 </button>
-                <button class=" btn-secondary" onclick="showSection('add')">
-                    Nuevo Torneo
+                <button class="btn-secondary" onclick="showSection('add')">
+                    ➕ Nuevo Torneo
                 </button>
             </div>
         </div>
@@ -190,10 +189,10 @@
                 <p class="empty-state-description">
                     Comienza a registrar tus competiciones para llevar un seguimiento completo
                 </p>
-                <button class="btn-primary" onclick="showSection('add')">
-                    + Añadir Primer Torneo
+                <button class="btn btn-primary" onclick="showSection('add')">
+                    ➕ Añadir Primer Torneo
                 </button>
-            </div
+            </div>
         </div>
 
         <!-- Sección: Circuitos -->
@@ -205,7 +204,7 @@
 
             <div style="margin-bottom: 24px;">
                 <button class="btn btn-secondary" onclick="showAddCircuitModal()">
-                    + Nuevo Circuito
+                    ➕ Nuevo Circuito
                 </button>
             </div>
 
@@ -219,7 +218,7 @@
                     Crea circuitos para agrupar torneos y calcular rankings
                 </p>
                 <button class="btn btn-primary" onclick="showAddCircuitModal()">
-                     + Crear Primer Circuito
+                    ➕ Crear Primer Circuito
                 </button>
             </div>
         </div>
@@ -351,16 +350,15 @@
                     <!-- Botones -->
                     <div class="button-group">
                         <button type="submit" class="btn btn-primary">
-                            Guardar Torneo
+                            💾 Guardar Torneo
                         </button>
-                        <button type="button" class="btn-secondary" onclick="cancelEditTournament()">
-                         Cancelar
+                        <button type="button" class="btn btn-secondary" onclick="cancelEditTournament()">
+                            ❌ Cancelar
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-
 
         <!-- Sección de Exportación y Sincronización -->
         <div class="export-section">
@@ -371,22 +369,31 @@
                 Guarda tus datos en la nube para acceder desde cualquier dispositivo
             </p>
             <div class="export-buttons">
-                <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub">
-                    ↑ Guardar
+                <button class="export-btn" onclick="syncToGitHub()" title="Subir a GitHub">
+                    ↑ Subir a Cloud
                 </button>
-                <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub">
-                    ↓ Cargar
-                     </button>
-              <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> 
-						⟳ Refrescar
-					</button>
-                <button class="btn-secondary" onclick="exportToJSON()">
-                    ↓ Exportar JSON
+                <button class="export-btn" onclick="loadFromGitHub()" title="Descargar de GitHub">
+                    ↓ Descargar de Cloud
                 </button>
-                <button class="btn-secondary" onclick="exportToCSV()">
-                   ↓Exportar CSV
+            </div>
+        </div>
+
+        <!-- Sección de Exportación Local -->
+        <div class="export-section" style="margin-top: 24px;">
+            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
+                📤 Exportar Datos
+            </h3>
+            <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
+                Descarga tus torneos en diferentes formatos
+            </p>
+            <div class="export-buttons">
+                <button class="export-btn" onclick="exportToJSON()">
+                    📄 Exportar JSON
                 </button>
-            
+                <button class="export-btn" onclick="exportToCSV()">
+                    📊 Exportar CSV
+                </button>
+            </div>
         </div>
     </div>
 
