@@ -66,6 +66,28 @@
       },
       "id": "tournament_1766085141872",
       "createdAt": "2025-12-18T19:12:21.872Z"
+    },
+    {
+      "name": "Campeonato de Mallorca",
+      "date": "2025-12-18",
+      "modality": "Banco Pool",
+      "totalPlayers": 0,
+      "result": "Campeón",
+      "circuit": "circuit_1766084297849",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 3,
+        "matchesWon": 3,
+        "matchesLost": 0,
+        "gamesWon": 15,
+        "gamesLost": 10,
+        "winRate": "100.0",
+        "averageGamesPerMatch": "8.3"
+      },
+      "id": "tournament_1766091304178",
+      "createdAt": "2025-12-18T20:55:04.178Z"
     }
   ],
   "circuits": [
@@ -90,5 +112,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T20:27:43.081Z"
+  "lastUpdated": "2025-12-18T20:55:08.759Z"
 }
