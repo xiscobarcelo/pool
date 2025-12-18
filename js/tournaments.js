@@ -336,6 +336,11 @@ function renderAll() {
     renderStats();
     renderTournaments();
     renderCircuits();
+    
+    // Renderizar gráficos analíticos
+    if (typeof renderCharts === 'function') {
+        renderCharts();
+    }
 }
 
 // Renderizar estadísticas globales
@@ -384,7 +389,6 @@ function renderStats() {
     
     // Añadir clase para animación
     container.classList.add('fade-in');
-}
 }
 
 // Calcular estadísticas globales
@@ -1588,10 +1592,5 @@ function renderModalityWinRateChart() {
     });
 }
 
-// Actualizar la función renderAll para incluir gráficos
-const originalRenderAll = renderAll;
-renderAll = function() {
-    originalRenderAll();
-    renderCharts();
-};
-
+// Integrar gráficos en la función renderAll existente
+// (Los gráficos se renderizarán automáticamente cuando se llame a renderAll)
