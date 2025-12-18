@@ -45,25 +45,102 @@
             localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify(config));
         }
 
-        async function syncToGitHub() {
-            let config = getGitHubConfig();
+async function syncToGitHub() {
+    let config = getGitHubConfig();
 
-            // Si no hay configuración, pedirla
-            if (!config) {
-                const username = prompt('🔧 Configuración de GitHub\n\n1️⃣ Introduce tu USUARIO de GitHub:');
-                if (!username) return;
+    // Si no hay configuraciÃ³n, pedirla
+    if (!config) {
+        const username = prompt('ðŸ”§ ConfiguraciÃ³n de GitHub\n\n1ï¸âƒ£ Introduce tu USUARIO de GitHub:');
+        if (!username) return;
 
-                const repo = prompt('2️⃣ Introduce el NOMBRE del repositorio:\n(ejemplo: xisco-stats)');
-                if (!repo) return;
+        const repo = prompt('2ï¸âƒ£ Introduce el NOMBRE del repositorio:\n(ejemplo: xisco-stats)');
+        if (!repo) return;
 
-                const token = prompt('3️⃣ Pega tu TOKEN de acceso personal:\n(empieza con ghp_...)');
-                if (!token) return;
+        const token = prompt('3ï¸âƒ£ Pega tu TOKEN de acceso personal:\n(empieza con ghp_...)');
+        if (!token) return;
 
-                setGitHubConfig(username, repo, token);
-                config = { username, repo, token };
-                
-                alert('✅ Configuración guardada!\nAhora se subirán los datos...');
+        setGitHubConfig(username, repo, token);
+        config = { username, repo, token };
+        
+        alert('âœ… ConfiguraciÃ³n guardada!\nAhora se subirÃ¡n los datos...');
+    }
+
+    // Mostrar loading
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'â³ Subiendo...';
+    btn.disabled = true;
+
+    try {
+        // Preparar datos
+        const dataToUpload = JSON.stringify(matchesData, null, 2);
+        const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
+
+        // Obtener SHA del archivo actual (necesario para actualizar)
+        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/matches.json`;
+        let sha = null;
+
+        try {
+            const getResponse = await fetch(getUrl, {
+                headers: {
+                    'Authorization': `token ${config.token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (getResponse.ok) {
+                const fileData = await getResponse.json();
+                sha = fileData.sha;
             }
+        } catch (e) {
+            console.log('Archivo matches.json no existe, se crearÃ¡ uno nuevo');
+        }
+
+        // Subir archivo
+        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/matches.json`;
+        const response = await fetch(putUrl, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${config.token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `Update matches - ${new Date().toLocaleString('es-ES')}`,
+                content: encodedContent,
+                sha: sha,
+                branch: 'main'
+            })
+        });
+
+        if (response.ok) {
+            btn.innerHTML = 'âœ… Â¡Subido!';
+            showSuccess('â˜ï¸ Partidos sincronizados con GitHub!');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        } else {
+            const error = await response.json();
+            throw new Error(error.message || 'Error al subir');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        
+        alert(`âŒ Error al subir a GitHub:\n\n${error.message}\n\nVerifica:\nâ€¢ Token correcto\nâ€¢ Permisos del token (scope: repo)\nâ€¢ Nombre de repositorio correcto`);
+        
+        // OpciÃ³n de reconfigurar
+        if (confirm('Â¿Quieres reconfigurar GitHub?')) {
+            localStorage.removeItem(GITHUB_CONFIG_KEY);
+            syncToGitHub();
+        }
+    }
+}
+
 
             // Mostrar loading
             const btn = event.target;
@@ -188,80 +265,86 @@
         }
 
         // Cargar datos desde GitHub automáticamente
-        async function loadFromGitHub() {
-            const config = getGitHubConfig();
-            if (!config) {
-                alert('⚠️ Primero configura GitHub en:\n🔧 Config GitHub');
-                return;
+
+
+
+
+
+async function loadFromGitHub() {
+    const config = getGitHubConfig();
+    if (!config) {
+        alert('âš ï¸ Primero configura GitHub en:\nðŸ”§ Config GitHub');
+        return;
+    }
+
+    // Mostrar loading si es llamada manual
+    let isManualCall = false;
+    let btn = null;
+    if (event && event.target) {
+        isManualCall = true;
+        btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = 'â³ Descargando...';
+        btn.disabled = true;
+    }
+
+    try {
+        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/matches.json`;
+        
+        console.log('ðŸ”„ Cargando partidos desde GitHub:', githubUrl);
+        
+        const response = await fetch(githubUrl, {
+            cache: 'no-cache',
+            headers: {
+                'Accept': 'application/json'
             }
+        });
 
-            // Mostrar loading si es llamada manual
-            let isManualCall = false;
-            let btn = null;
-            if (event && event.target) {
-                isManualCall = true;
-                btn = event.target;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '⏳ Descargando...';
-                btn.disabled = true;
+        if (response.ok) {
+            const githubData = await response.json();
+            
+            // Validar que tiene la estructura correcta
+            if (!githubData.matches || !Array.isArray(githubData.matches)) {
+                throw new Error('Datos invÃ¡lidos en GitHub');
             }
-
-            try {
-                const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/appx/data.json`;
-                
-                console.log('🔄 Cargando desde GitHub:', githubUrl);
-                
-                const response = await fetch(githubUrl, {
-                    cache: 'no-cache',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    const githubData = await response.json();
-                    
-                    // Validar que tiene la estructura correcta
-                    if (!githubData.matches || !Array.isArray(githubData.matches)) {
-                        throw new Error('Datos inválidos en GitHub');
-                    }
-                    
-                    // Actualizar datos
-                    matchesData = githubData;
-                    if (githubData.materials) materials = githubData.materials;
-                    
-                    saveData();
-                    renderMaterialChips();
-                    renderHistory();
-                    updateModalityStats();
-                    
-                    const message = `☁️ Datos actualizados desde GitHub\n${githubData.matches.length} partidos sincronizados`;
-                    showSuccess(message);
-                    console.log('✅ Datos cargados desde GitHub:', githubData.matches.length, 'partidos');
-                    
-                    if (isManualCall && btn) {
-                        btn.innerHTML = '✅ ¡Descargado!';
-                        setTimeout(() => {
-                            btn.innerHTML = '🔽 Descargar de Cloud';
-                            btn.disabled = false;
-                        }, 2000);
-                    }
-                } else {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-            } catch (error) {
-                console.error('Error cargando desde GitHub:', error);
-                
-                if (isManualCall) {
-                    alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Configuración de GitHub\n• El archivo appx/data.json existe\n• Conexión a internet`);
-                    
-                    if (btn) {
-                        btn.innerHTML = '🔽 Descargar de Cloud';
-                        btn.disabled = false;
-                    }
-                }
+            
+            // Actualizar datos
+            matchesData = githubData;
+            if (githubData.materials) materials = githubData.materials;
+            
+            saveData();
+            renderMaterialChips();
+            renderHistory();
+            updateModalityStats();
+            
+            const message = `â˜ï¸ Partidos actualizados desde GitHub\n${githubData.matches.length} partidos sincronizados`;
+            showSuccess(message);
+            console.log('âœ… Partidos cargados desde GitHub:', githubData.matches.length, 'partidos');
+            
+            if (isManualCall && btn) {
+                btn.innerHTML = 'âœ… Â¡Descargado!';
+                setTimeout(() => {
+                    btn.innerHTML = 'â†“ Descargar de Cloud';
+                    btn.disabled = false;
+                }, 2000);
+            }
+        } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error cargando desde GitHub:', error);
+        
+        if (isManualCall) {
+            alert(`âŒ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\nâ€¢ ConfiguraciÃ³n de GitHub\nâ€¢ El archivo app/matches.json existe\nâ€¢ ConexiÃ³n a internet\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
+            
+            if (btn) {
+                btn.innerHTML = 'â†“ Descargar de Cloud';
+                btn.disabled = false;
             }
         }
+    }
+}
+
 
         // Guardar datos en localStorage
         function saveData() {
@@ -1185,4 +1268,5 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
