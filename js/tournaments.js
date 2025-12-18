@@ -119,7 +119,7 @@ async function syncToGitHub() {
         const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
 
         // Usar tournaments.json en lugar de data.json
-        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
+        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/tournaments.json`;
         let sha = null;
 
         try {
@@ -139,7 +139,7 @@ async function syncToGitHub() {
         }
 
         // Subir archivo
-        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
+        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/tournaments.json`;
         const response = await fetch(putUrl, {
             method: 'PUT',
             headers: {
@@ -204,7 +204,7 @@ async function loadFromGitHub() {
 
     try {
         // Descargar desde tournaments.json
-        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
+        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/appx/tournaments.json`;
         
         console.log('🔄 Cargando torneos desde GitHub:', githubUrl);
         
@@ -258,7 +258,7 @@ async function loadFromGitHub() {
             btn.disabled = false;
         }
         
-        alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Repositorio existe\n• Archivo tournaments.json existe en /app/\n• Configuración correcta\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
+        alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Repositorio existe\n• Archivo tournaments.json existe en /appx/\n• Configuración correcta\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
     }
 }
 
