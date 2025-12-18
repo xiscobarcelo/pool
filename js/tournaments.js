@@ -490,10 +490,10 @@ function renderTournaments() {
                 ` : ''}
                 
                 <div class="tournament-actions">
-                    <button class="tournament-action-btn" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
+                    <button class="tournament-actibtn" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
                         ✏️ Editar
                     </button>
-                    <button class="tournament-action-btn delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
+                    <button class="btn-edit delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
                         🗑️ Eliminar
                     </button>
                 </div>
@@ -556,10 +556,10 @@ function renderCircuits() {
                 ` : ''}
                 
                 <div class="tournament-actions" style="margin-top: 20px;">
-                    <button class="tournament-action-btn" onclick="editCircuit('${circuit.id}')">
+                    <button class="btn-edit" onclick="editCircuit('${circuit.id}')">
                         ✏️ Editar
                     </button>
-                    <button class="tournament-action-btn delete" onclick="deleteCircuit('${circuit.id}')">
+                    <button class="btn-edit delete" onclick="deleteCircuit('${circuit.id}')">
                         🗑️ Eliminar
                     </button>
                 </div>
