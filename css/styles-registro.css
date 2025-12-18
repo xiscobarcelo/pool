@@ -926,11 +926,12 @@ input[type="file"] {
         .match-info {
 			
 			justify-content: space-between;
-			padding: 10px 14px;
+			padding: 10px 17px!important
 			background: #fafafa;
 			border-radius: 8px;
 			font-size: 14px;
-			margin-bottom:20px
+			margin-bottom:20px;
+			margin-top:20px;
         
         }
 
@@ -941,7 +942,6 @@ input[type="file"] {
         }
 
         .match-score {
-            display: flex;
 			align-items: center;
 			justify-content: space-between;
 			margin-bottom: 0px;
