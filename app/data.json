@@ -1760,5 +1760,26 @@
       "createdAt": "2025-12-18T18:31:44.084Z"
     }
   ],
-  "circuits": []
+  "circuits": [
+    {
+      "id": "circuit_1766082739933",
+      "name": "Cto. Baleares 25/26",
+      "year": 2025,
+      "description": "",
+      "pointsSystem": {
+        "Campeón": 100,
+        "Subcampeón": 75,
+        "Semifinales": 50,
+        "Cuartos de Final": 25,
+        "Octavos de Final": 15,
+        "Dieciseisavos": 10,
+        "Fase de Grupos": 5,
+        "Eliminado en Ronda 1": 3,
+        "Participación": 1
+      },
+      "tournaments": [],
+      "totalPoints": 0,
+      "ranking": null
+    }
+  ]
 }
