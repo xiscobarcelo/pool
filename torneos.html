@@ -145,8 +145,8 @@
                 <p class="empty-state-description">
                     Comienza a registrar tus competiciones para llevar un seguimiento completo
                 </p>
-                <button class="btn btn-primary" onclick="showSection('add')">
-                    ➕ Añadir Primer Torneo
+                <button class="btn-primary" onclick="showSection('add')">
+                    Añadir Primer Torneo
                 </button>
             </div>
         </div>
@@ -159,8 +159,8 @@
             </div>
 
             <div style="margin-bottom: 24px;">
-                <button class="btn btn-secondary" onclick="showAddCircuitModal()">
-                    ➕ Nuevo Circuito
+                <button class="btn-secondary" onclick="showAddCircuitModal()">
+                    Nuevo Circuito
                 </button>
             </div>
 
@@ -174,7 +174,7 @@
                     Crea circuitos para agrupar torneos y calcular rankings
                 </p>
                 <button class="btn btn-primary" onclick="showAddCircuitModal()">
-                    ➕ Crear Primer Circuito
+                    Crear Primer Circuito
                 </button>
             </div>
         </div>
@@ -306,9 +306,9 @@
                     <!-- Botones -->
                     <div class="button-group">
                         <button type="submit" class="btn-primary">
-                            💾 Guardar Torneo
+                            Guardar Torneo
                         </button>
-                        <button type="button" class="btn-secondary" onclick="cancelEditTournament()">
+                        <button type="button" class="btn-" onclick="cancelEditTournament()">
                             ❌ Cancelar
                         </button>
                     </div>
@@ -332,14 +332,16 @@
                     ↓ Descargar de Cloud
                 </button>
             </div>
-        
+            </div>
+            
+         <div class="export-section">
             <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
                 Exportar Datos
             </h3>
             <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
                 Descarga tus torneos en diferentes formatos
             </p>
-           
+              <div class="export-buttons">
                 <button class="btn-secondary" onclick="exportToJSON()">
                     Exportar JSON
                 </button>
