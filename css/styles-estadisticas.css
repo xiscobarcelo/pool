@@ -370,7 +370,7 @@
 
 .winner {
     font-weight: 700;
-	    background-color:#1ABC87;
+	    background-color:#1ABC87!important;
 	    color: #000 !important;
 	
 
