@@ -77,7 +77,7 @@
                 const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
 
                 // Obtener SHA del archivo actual (necesario para actualizar)
-                const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/data.json`;
+                const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/data.json`;
                 let sha = null;
 
                 try {
@@ -97,7 +97,7 @@
                 }
 
                 // Subir archivo
-                const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/data.json`;
+                const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/appx/data.json`;
                 const response = await fetch(putUrl, {
                     method: 'PUT',
                     headers: {
@@ -207,7 +207,7 @@
             }
 
             try {
-                const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/data.json`;
+                const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/appx/data.json`;
                 
                 console.log('🔄 Cargando desde GitHub:', githubUrl);
                 
@@ -253,7 +253,7 @@
                 console.error('Error cargando desde GitHub:', error);
                 
                 if (isManualCall) {
-                    alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Configuración de GitHub\n• El archivo app/data.json existe\n• Conexión a internet`);
+                    alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Configuración de GitHub\n• El archivo appx/data.json existe\n• Conexión a internet`);
                     
                     if (btn) {
                         btn.innerHTML = '🔽 Descargar de Cloud';
