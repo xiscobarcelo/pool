@@ -68,6 +68,28 @@
       "id": "tournament_1766138500728",
       "createdAt": "2025-12-19T10:01:40.728Z",
       "updatedAt": "2025-12-19T10:09:54.870Z"
+    },
+    {
+      "name": "Copa Sénior I",
+      "date": "2025-09-20",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766139032239",
+      "cue": "Bear+Centro",
+      "finalRival": "David Márquez",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766139133027",
+      "createdAt": "2025-12-19T10:12:13.027Z"
     }
   ],
   "circuits": [
@@ -412,5 +434,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:10:51.191Z"
+  "lastUpdated": "2025-12-19T10:12:16.264Z"
 }
