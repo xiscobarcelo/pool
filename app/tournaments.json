@@ -1,74 +1,6 @@
 {
   "tournaments": [
     {
-      "name": "Campeonato de Mallorca",
-      "date": "2025-12-18",
-      "modality": "Banco Pool",
-      "totalPlayers": 0,
-      "result": "Campeón",
-      "circuit": null,
-      "cue": "Lucasi+Revo12.9",
-      "finalRival": "Jepy",
-      "notes": "",
-      "stats": {
-        "matchesPlayed": 3,
-        "matchesWon": 3,
-        "matchesLost": 0,
-        "gamesWon": 15,
-        "gamesLost": 10,
-        "winRate": "100.0",
-        "averageGamesPerMatch": "8.3"
-      },
-      "id": "tournament_1766091304178",
-      "createdAt": "2025-12-18T20:55:04.178Z"
-    },
-    {
-      "name": "Campeonato de Mallorca",
-      "date": "2025-12-18",
-      "modality": "Bola 10",
-      "totalPlayers": 0,
-      "result": "Campeón",
-      "circuit": null,
-      "cue": "",
-      "finalRival": "",
-      "notes": "",
-      "stats": {
-        "matchesPlayed": 0,
-        "matchesWon": 0,
-        "matchesLost": 0,
-        "gamesWon": 0,
-        "gamesLost": 0,
-        "winRate": 0,
-        "averageGamesPerMatch": 0
-      },
-      "id": "tournament_1766096723263",
-      "createdAt": "2025-12-18T22:25:23.263Z",
-      "updatedAt": "2025-12-18T22:28:19.806Z"
-    },
-    {
-      "name": "Campeonato de Mallorca",
-      "date": "2025-02-07",
-      "modality": "Bola 8",
-      "totalPlayers": 22,
-      "result": "Semifinales",
-      "circuit": null,
-      "cue": "Bear+Centro",
-      "finalRival": "",
-      "notes": "",
-      "stats": {
-        "matchesPlayed": 0,
-        "matchesWon": 0,
-        "matchesLost": 0,
-        "gamesWon": 0,
-        "gamesLost": 0,
-        "winRate": 0,
-        "averageGamesPerMatch": 0
-      },
-      "id": "tournament_1766096768118",
-      "createdAt": "2025-12-18T22:26:08.118Z",
-      "updatedAt": "2025-12-18T22:35:20.152Z"
-    },
-    {
       "name": "Cto de Baleares",
       "date": "2023-01-06",
       "modality": "Bola 9",
@@ -92,5 +24,5 @@
     }
   ],
   "circuits": [],
-  "lastUpdated": "2025-12-19T09:28:20.504Z"
+  "lastUpdated": "2025-12-19T09:28:37.706Z"
 }
