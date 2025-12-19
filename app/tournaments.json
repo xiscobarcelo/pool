@@ -135,6 +135,28 @@
       },
       "id": "tournament_1766096991164",
       "createdAt": "2025-12-18T22:29:51.164Z"
+    },
+    {
+      "name": "Copa",
+      "date": "2025-12-19",
+      "modality": "Bola 8",
+      "totalPlayers": 222,
+      "result": "Campeón",
+      "circuit": "circuit_1766084297849",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766103784354",
+      "createdAt": "2025-12-19T00:23:04.354Z"
     }
   ],
   "circuits": [
@@ -199,5 +221,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-18T23:07:25.860Z"
+  "lastUpdated": "2025-12-19T00:40:06.106Z"
 }
