@@ -78,18 +78,19 @@
       "circuit": "circuit_1766139032239",
       "cue": "Bear+Centro",
       "finalRival": "David Márquez",
-      "notes": "",
+      "notes": "Club Sierra Billiard's Valencia Pool",
       "stats": {
-        "matchesPlayed": 0,
-        "matchesWon": 0,
-        "matchesLost": 0,
-        "gamesWon": 0,
-        "gamesLost": 0,
-        "winRate": 0,
-        "averageGamesPerMatch": 0
+        "matchesPlayed": 4,
+        "matchesWon": 3,
+        "matchesLost": 1,
+        "gamesWon": 28,
+        "gamesLost": 18,
+        "winRate": "75.0",
+        "averageGamesPerMatch": "11.5"
       },
       "id": "tournament_1766139133027",
-      "createdAt": "2025-12-19T10:12:13.027Z"
+      "createdAt": "2025-12-19T10:12:13.027Z",
+      "updatedAt": "2025-12-19T10:22:28.059Z"
     },
     {
       "name": "Copa Sénior II",
@@ -516,5 +517,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:21:16.660Z"
+  "lastUpdated": "2025-12-19T10:22:33.686Z"
 }
