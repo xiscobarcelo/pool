@@ -226,9 +226,6 @@ async function syncToGitHub() {
         }
     }
 }
-        }
-    }
-}
 
 async function loadFromGitHub() {
     const config = getGitHubConfig();
