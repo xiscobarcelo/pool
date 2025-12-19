@@ -294,6 +294,50 @@
       },
       "id": "tournament_1766153550134",
       "createdAt": "2025-12-19T14:12:30.134Z"
+    },
+    {
+      "name": "Cto Mallorca",
+      "date": "2024-11-03",
+      "modality": "Bola 9",
+      "totalPlayers": 24,
+      "result": "Campeón",
+      "circuit": "circuit_1766137853380",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Christian Vargas",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 6,
+        "matchesWon": 6,
+        "matchesLost": 0,
+        "gamesWon": 42,
+        "gamesLost": 8,
+        "winRate": "100.0",
+        "averageGamesPerMatch": "8.3"
+      },
+      "id": "tournament_1766153671844",
+      "createdAt": "2025-12-19T14:14:31.844Z"
+    },
+    {
+      "name": "Cto Mallorca",
+      "date": "2024-10-12",
+      "modality": "Bola 10",
+      "totalPlayers": 16,
+      "result": "Semifinales",
+      "circuit": "circuit_1766137853380",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Borja Gutierrez",
+      "notes": "Palma Palace",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 4,
+        "matchesLost": 1,
+        "gamesWon": 42,
+        "gamesLost": 18,
+        "winRate": "80.0",
+        "averageGamesPerMatch": "12.0"
+      },
+      "id": "tournament_1766153790703",
+      "createdAt": "2025-12-19T14:16:30.703Z"
     }
   ],
   "circuits": [
@@ -698,5 +742,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:12:36.217Z"
+  "lastUpdated": "2025-12-19T14:16:35.368Z"
 }
