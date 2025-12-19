@@ -543,7 +543,7 @@
     },
     {
       "name": "Copa Baleares",
-      "date": "2025-12-19",
+      "date": "2024-01-13",
       "modality": "Bola 10",
       "totalPlayers": 32,
       "result": "Campeón",
@@ -561,7 +561,8 @@
         "averageGamesPerMatch": "8.5"
       },
       "id": "tournament_1766155715399",
-      "createdAt": "2025-12-19T14:48:35.399Z"
+      "createdAt": "2025-12-19T14:48:35.399Z",
+      "updatedAt": "2025-12-19T21:02:55.451Z"
     },
     {
       "name": "Copa Sénior II",
@@ -1033,5 +1034,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T15:26:34.298Z"
+  "lastUpdated": "2025-12-19T21:03:06.938Z"
 }
