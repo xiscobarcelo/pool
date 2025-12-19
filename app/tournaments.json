@@ -591,7 +591,7 @@
       "modality": "Bola 9",
       "totalPlayers": 17,
       "result": "Semifinales",
-      "circuit": "circuit_1766137868935",
+      "circuit": "circuit_1766139186569",
       "cue": "Velasco+Revo12.9",
       "finalRival": "Pablo Lagar",
       "notes": "",
@@ -605,7 +605,8 @@
         "averageGamesPerMatch": "9.8"
       },
       "id": "tournament_1766155901975",
-      "createdAt": "2025-12-19T14:51:41.975Z"
+      "createdAt": "2025-12-19T14:51:41.975Z",
+      "updatedAt": "2025-12-19T14:52:28.743Z"
     }
   ],
   "circuits": [
@@ -1010,5 +1011,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:51:56.294Z"
+  "lastUpdated": "2025-12-19T14:52:31.916Z"
 }
