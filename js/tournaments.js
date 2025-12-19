@@ -610,7 +610,7 @@ function renderTournaments() {
                 ${circuit ? `
                     <div style="margin-top: 16px;">
                         <div class="tournament-circuit-tag">
-                            🔄 ${circuit.name}
+                            ● ${circuit.name}
                         </div>
                     </div>
                 ` : ''}
