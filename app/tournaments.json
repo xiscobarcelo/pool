@@ -141,7 +141,7 @@
       "name": "Cto España",
       "date": "2025-06-29",
       "modality": "Bola 10",
-      "totalPlayers": 0,
+      "totalPlayers": 23,
       "result": "Cuartos de Final",
       "circuit": "circuit_1766139032239",
       "cue": "Cuetec+cinergy12.5",
@@ -157,7 +157,30 @@
         "averageGamesPerMatch": "8.4"
       },
       "id": "tournament_1766152308879",
-      "createdAt": "2025-12-19T13:51:48.879Z"
+      "createdAt": "2025-12-19T13:51:48.879Z",
+      "updatedAt": "2025-12-19T13:54:16.879Z"
+    },
+    {
+      "name": "Cto España",
+      "date": "2025-12-19",
+      "modality": "Bola 8",
+      "totalPlayers": 19,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766139032239",
+      "cue": "Cuetec+cinergy12.5",
+      "finalRival": "Sergio Lagunas",
+      "notes": "Club Sierra Billiard's Valencia Pool",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 4,
+        "matchesLost": 1,
+        "gamesWon": 28,
+        "gamesLost": 20,
+        "winRate": "80.0",
+        "averageGamesPerMatch": "9.6"
+      },
+      "id": "tournament_1766152424030",
+      "createdAt": "2025-12-19T13:53:44.030Z"
     }
   ],
   "circuits": [
@@ -562,5 +585,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T13:51:54.095Z"
+  "lastUpdated": "2025-12-19T13:54:23.743Z"
 }
