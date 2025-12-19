@@ -229,7 +229,7 @@
     },
     {
       "name": "Cto de Baleares",
-      "date": "2024-03-08",
+      "date": "2025-03-08",
       "modality": "Bola 8",
       "totalPlayers": 32,
       "result": "Subcampeón",
@@ -247,7 +247,30 @@
         "averageGamesPerMatch": "8.3"
       },
       "id": "tournament_1766153146118",
-      "createdAt": "2025-12-19T14:05:46.118Z"
+      "createdAt": "2025-12-19T14:05:46.118Z",
+      "updatedAt": "2025-12-19T14:07:25.780Z"
+    },
+    {
+      "name": "Copa Sénior III",
+      "date": "2025-03-01",
+      "modality": "Bola 9",
+      "totalPlayers": 0,
+      "result": "Cuartos de Final",
+      "circuit": "circuit_1766139174903",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Diego Pedro Simón",
+      "notes": "Lo de Eva (Pool & Food)",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 3,
+        "matchesLost": 2,
+        "gamesWon": 29,
+        "gamesLost": 21,
+        "winRate": "60.0",
+        "averageGamesPerMatch": "10.0"
+      },
+      "id": "tournament_1766153363536",
+      "createdAt": "2025-12-19T14:09:23.536Z"
     }
   ],
   "circuits": [
@@ -652,5 +675,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:05:52.925Z"
+  "lastUpdated": "2025-12-19T14:09:30.144Z"
 }
