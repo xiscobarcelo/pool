@@ -11,7 +11,7 @@ const GITHUB_CONFIG_KEY = 'xisco_github_config';
 let matchesData = {
     matches: [],
     players: ['Xisco'],
-    materials: ['Velasco+Revo12.9', 'Lucasi+Revo12.9', 'Bear+Centro'],
+    materials: ['Velasco+Revo12.9', 'Lucasi+Revo12.9', 'Bear+Centro', 'Cuetec+Cinergy12.5'],
     modalityStats: {
         bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
         bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
@@ -24,7 +24,7 @@ let matchesData = {
 let currentSection = 'tournaments';
 let filteredTournaments = [];
 let currentPage = 1;
-let itemsPerPage = 3;
+let itemsPerPage = 50;
 
 // ============================================================
 // INICIALIZACIÓN
