@@ -406,6 +406,28 @@
       },
       "id": "tournament_1766154579837",
       "createdAt": "2025-12-19T14:29:39.837Z"
+    },
+    {
+      "name": "Cto España Sénior",
+      "date": "2024-05-17",
+      "modality": "Bola 10",
+      "totalPlayers": 27,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "David Márquez",
+      "notes": "Club Billar Teo",
+      "stats": {
+        "matchesPlayed": 6,
+        "matchesWon": 4,
+        "matchesLost": 2,
+        "gamesWon": 36,
+        "gamesLost": 23,
+        "winRate": "66.7",
+        "averageGamesPerMatch": "9.8"
+      },
+      "id": "tournament_1766154764615",
+      "createdAt": "2025-12-19T14:32:44.615Z"
     }
   ],
   "circuits": [
@@ -810,5 +832,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:30:39.089Z"
+  "lastUpdated": "2025-12-19T14:32:53.851Z"
 }
