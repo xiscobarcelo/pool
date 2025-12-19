@@ -226,6 +226,28 @@
       },
       "id": "tournament_1766153022519",
       "createdAt": "2025-12-19T14:03:42.519Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2024-03-08",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766137853380",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "David Muñoz",
+      "notes": "Palma Palace",
+      "stats": {
+        "matchesPlayed": 6,
+        "matchesWon": 5,
+        "matchesLost": 1,
+        "gamesWon": 34,
+        "gamesLost": 16,
+        "winRate": "83.3",
+        "averageGamesPerMatch": "8.3"
+      },
+      "id": "tournament_1766153146118",
+      "createdAt": "2025-12-19T14:05:46.118Z"
     }
   ],
   "circuits": [
@@ -630,5 +652,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:03:50.268Z"
+  "lastUpdated": "2025-12-19T14:05:52.925Z"
 }
