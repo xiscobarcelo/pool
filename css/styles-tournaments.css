@@ -6,7 +6,40 @@
 /* ===================================
    CARDS DE TORNEOS
    =================================== */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+}
 
+.pagination-info {
+    font-size: 0.95rem;
+    color: #86868b;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 16px;
+}
+
+.pagination-btn {
+    padding: 10px 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1.5px solid rgba(102, 126, 234, 0.3);
+    border-radius: 10px;
+    color: #667eea;
+    cursor: pointer;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 .tournaments-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
