@@ -71,8 +71,11 @@ const UserManager = {
         const titleElements = document.querySelectorAll('[data-user-name]');
         
         titleElements.forEach(el => {
+            if (!el) return; // Skip if null
             const template = el.getAttribute('data-user-name');
-            el.textContent = template.replace('{name}', userName);
+            if (template) {
+                el.textContent = template.replace('{name}', userName);
+            }
         });
         
         // También actualizar el título de la página si contiene "Xisco"
@@ -88,9 +91,13 @@ const UserManager = {
         // Actualizar nombre en el header
         const userNameElements = document.querySelectorAll('.user-name, [data-user-name]');
         userNameElements.forEach(el => {
+            if (!el) return; // Skip if null
+            
             if (el.hasAttribute('data-user-name')) {
                 const template = el.getAttribute('data-user-name');
-                el.textContent = template.replace('{name}', userName);
+                if (template) {
+                    el.textContent = template.replace('{name}', userName);
+                }
             } else {
                 el.textContent = userName;
             }
@@ -99,6 +106,8 @@ const UserManager = {
         // Actualizar foto de perfil
         const userPictureElements = document.querySelectorAll('.user-picture, [data-user-picture]');
         userPictureElements.forEach(el => {
+            if (!el) return; // Skip if null
+            
             if (userPicture) {
                 el.src = userPicture;
                 el.style.display = 'block';
@@ -131,6 +140,8 @@ const UserManager = {
         // Actualizar saludos personalizados
         const greetings = document.querySelectorAll('[data-greeting]');
         greetings.forEach(el => {
+            if (!el) return; // Skip if null
+            
             const hour = new Date().getHours();
             let greeting = 'Hola';
             
@@ -161,7 +172,8 @@ const UserManager = {
     },
     
     requireAuth: function() {
-        if (!this.isLoggedIn() || !sessionStorage.getItem('xisco_session_active')) {
+        // Solo verificar sesión, NO user-manager
+        if (!sessionStorage.getItem('xisco_session_active')) {
             window.location.href = 'index.html';
         }
     },
@@ -187,21 +199,42 @@ const UserManager = {
     // ============================================================
     
     init: function() {
-        // Verificar autenticación
-        this.requireAuth();
-        
-        // Actualizar UI
-        this.updatePageTitle();
-        this.updateUserProfile();
-        
-        // Log de usuario
-        const user = this.getUser();
-        console.log('👤 Usuario activo:', this.getUserName());
-        console.log('📧 Email:', this.getUserEmail() || 'N/A');
-        console.log('🔐 Método:', user?.loginMethod || 'desconocido');
-        console.log('☁️ Sincronización:', this.canSync() ? 'Disponible' : 'No disponible (invitado)');
-        
-        return user;
+        try {
+            // Verificar autenticación (solo sesión, no requiere user)
+            this.requireAuth();
+            
+            // Si no hay usuario en pool_tracker_user, crear uno por defecto
+            if (!this.getUser()) {
+                console.log('⚠️ No hay usuario de Google, usando sesión legacy');
+                // Crear usuario legacy basado en sesión actual
+                const legacyUser = {
+                    id: 'xisco_legacy',
+                    email: null,
+                    name: 'Xisco',
+                    picture: null,
+                    loginMethod: 'legacy',
+                    loginDate: new Date().toISOString()
+                };
+                localStorage.setItem('pool_tracker_user', JSON.stringify(legacyUser));
+            }
+            
+            // Actualizar UI (con verificaciones de null)
+            this.updatePageTitle();
+            this.updateUserProfile();
+            
+            // Log de usuario
+            const user = this.getUser();
+            console.log('👤 Usuario activo:', this.getUserName());
+            console.log('📧 Email:', this.getUserEmail() || 'N/A');
+            console.log('🔐 Método:', user?.loginMethod || 'legacy');
+            console.log('☁️ Sincronización:', this.canSync() ? 'Disponible' : 'No disponible');
+            
+            return user;
+        } catch (error) {
+            console.error('Error en UserManager.init():', error);
+            // No bloquear la app si hay un error
+            return null;
+        }
     }
 };
 
@@ -210,33 +243,38 @@ const UserManager = {
 // ============================================================
 
 function createUserHeader() {
-    const user = UserManager.getUser();
-    if (!user) return '';
-    
-    const userName = UserManager.getUserName();
-    const userPicture = UserManager.getUserPicture();
-    const isGuest = UserManager.isGuest();
-    
-    return `
-        <div class="user-header">
-            <div class="user-info">
-                ${userPicture ? 
-                    `<img src="${userPicture}" class="user-avatar" alt="${userName}">` :
-                    `<div class="user-avatar-initial">${userName.charAt(0).toUpperCase()}</div>`
-                }
-                <div class="user-details">
-                    <div class="user-name">${userName}</div>
-                    ${isGuest ? 
-                        '<div class="user-status">Modo invitado</div>' :
-                        `<div class="user-status">${user.email}</div>`
+    try {
+        const user = UserManager.getUser();
+        if (!user) return '';
+        
+        const userName = UserManager.getUserName();
+        const userPicture = UserManager.getUserPicture();
+        const isGuest = UserManager.isGuest();
+        
+        return `
+            <div class="user-header">
+                <div class="user-info">
+                    ${userPicture ? 
+                        `<img src="${userPicture}" class="user-avatar" alt="${userName}">` :
+                        `<div class="user-avatar-initial">${userName.charAt(0).toUpperCase()}</div>`
                     }
+                    <div class="user-details">
+                        <div class="user-name">${userName}</div>
+                        ${isGuest ? 
+                            '<div class="user-status">Modo invitado</div>' :
+                            `<div class="user-status">${user.email || 'Sin email'}</div>`
+                        }
+                    </div>
                 </div>
+                <button class="logout-btn" onclick="UserManager.logout()">
+                    Cerrar sesión
+                </button>
             </div>
-            <button class="logout-btn" onclick="UserManager.logout()">
-                Cerrar sesión
-            </button>
-        </div>
-    `;
+        `;
+    } catch (error) {
+        console.error('Error en createUserHeader():', error);
+        return '';
+    }
 }
 
 // ============================================================
@@ -244,108 +282,120 @@ function createUserHeader() {
 // ============================================================
 
 function injectUserStyles() {
-    if (document.getElementById('user-manager-styles')) return;
-    
-    const style = document.createElement('style');
-    style.id = 'user-manager-styles';
-    style.textContent = `
-        .user-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
+    try {
+        if (document.getElementById('user-manager-styles')) return;
         
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .user-avatar-initial {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 16px;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-        }
-        
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            font-size: 15px;
-            color: #1d1d1f;
-        }
-        
-        .user-status {
-            font-size: 13px;
-            color: #86868b;
-        }
-        
-        .logout-btn {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            color: #1d1d1f;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .logout-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.25);
-        }
-        
-        @media (max-width: 768px) {
+        const style = document.createElement('style');
+        style.id = 'user-manager-styles';
+        style.textContent = `
             .user-header {
-                flex-direction: column;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 16px 20px;
+                background: rgba(255, 255, 255, 0.95);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .user-info {
+                display: flex;
+                align-items: center;
                 gap: 12px;
             }
             
-            .logout-btn {
-                width: 100%;
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #fff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             }
-        }
-    `;
-    
-    document.head.appendChild(style);
+            
+            .user-avatar-initial {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 16px;
+                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            }
+            
+            .user-details {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .user-name {
+                font-weight: 600;
+                font-size: 15px;
+                color: #1d1d1f;
+            }
+            
+            .user-status {
+                font-size: 13px;
+                color: #86868b;
+            }
+            
+            .logout-btn {
+                padding: 8px 16px;
+                background: transparent;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                border-radius: 8px;
+                color: #1d1d1f;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            
+            .logout-btn:hover {
+                background: rgba(0, 0, 0, 0.05);
+                border-color: rgba(0, 0, 0, 0.25);
+            }
+            
+            @media (max-width: 768px) {
+                .user-header {
+                    flex-direction: column;
+                    gap: 12px;
+                }
+                
+                .logout-btn {
+                    width: 100%;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
+    } catch (error) {
+        console.error('Error en injectUserStyles():', error);
+    }
 }
 
 // ============================================================
-// AUTO-INICIALIZACIÓN
+// AUTO-INICIALIZACIÓN (SEGURA)
 // ============================================================
 
 // Si esta página requiere autenticación, inicializar automáticamente
 if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
-        // Solo inicializar si no estamos en la página de login
-        if (!window.location.pathname.includes('index.html')) {
-            injectUserStyles();
-            UserManager.init();
+        try {
+            // Solo inicializar si no estamos en la página de login
+            if (!window.location.pathname.includes('index.html') && 
+                window.location.pathname !== '/' && 
+                window.location.pathname !== '') {
+                injectUserStyles();
+                // NO llamar init() automáticamente para evitar errores
+                // Cada página debe llamar UserManager.init() cuando esté lista
+                console.log('✅ UserManager cargado y listo');
+            }
+        } catch (error) {
+            console.error('Error en auto-inicialización de UserManager:', error);
         }
     });
 }
@@ -355,3 +405,5 @@ if (typeof window !== 'undefined') {
     window.UserManager = UserManager;
     window.createUserHeader = createUserHeader;
 }
+
+console.log('🎱 UserManager v2.0 cargado');
