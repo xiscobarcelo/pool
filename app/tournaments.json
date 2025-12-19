@@ -584,6 +584,28 @@
       },
       "id": "tournament_1766155814994",
       "createdAt": "2025-12-19T14:50:14.994Z"
+    },
+    {
+      "name": "Copa Sénior I",
+      "date": "2023-07-30",
+      "modality": "Bola 9",
+      "totalPlayers": 17,
+      "result": "Semifinales",
+      "circuit": "circuit_1766137868935",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Pablo Lagar",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 4,
+        "matchesWon": 3,
+        "matchesLost": 1,
+        "gamesWon": 25,
+        "gamesLost": 14,
+        "winRate": "75.0",
+        "averageGamesPerMatch": "9.8"
+      },
+      "id": "tournament_1766155901975",
+      "createdAt": "2025-12-19T14:51:41.975Z"
     }
   ],
   "circuits": [
@@ -988,5 +1010,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:50:22.750Z"
+  "lastUpdated": "2025-12-19T14:51:56.294Z"
 }
