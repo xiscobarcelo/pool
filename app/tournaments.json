@@ -213,7 +213,7 @@
       "modality": "Bola 9",
       "totalPlayers": 94,
       "result": "Dieciseisavos",
-      "circuit": "circuit_1766139174903",
+      "circuit": "circuit_1766139186569",
       "cue": "Lucasi+Revo12.9",
       "finalRival": "",
       "notes": "Lo de Eva (Pool & Food)",
@@ -227,7 +227,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766153022519",
-      "createdAt": "2025-12-19T14:03:42.519Z"
+      "createdAt": "2025-12-19T14:03:42.519Z",
+      "updatedAt": "2025-12-19T14:40:43.163Z"
     },
     {
       "name": "Cto de Baleares",
@@ -484,16 +485,61 @@
       "finalRival": "Vicente Torres",
       "notes": "",
       "stats": {
-        "matchesPlayed": 4,
-        "matchesWon": 4,
+        "matchesPlayed": 6,
+        "matchesWon": 6,
         "matchesLost": 0,
-        "gamesWon": 28,
-        "gamesLost": 11,
+        "gamesWon": 42,
+        "gamesLost": 15,
         "winRate": "100.0",
-        "averageGamesPerMatch": "9.8"
+        "averageGamesPerMatch": "9.5"
       },
       "id": "tournament_1766155166890",
-      "createdAt": "2025-12-19T14:39:26.890Z"
+      "createdAt": "2025-12-19T14:39:26.890Z",
+      "updatedAt": "2025-12-19T14:41:57.369Z"
+    },
+    {
+      "name": "Copa Sénior III",
+      "date": "2024-02-24",
+      "modality": "Bola 9",
+      "totalPlayers": 14,
+      "result": "Semifinales",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 3,
+        "matchesLost": 2,
+        "gamesWon": 26,
+        "gamesLost": 24,
+        "winRate": "60.0",
+        "averageGamesPerMatch": "10.0"
+      },
+      "id": "tournament_1766155414080",
+      "createdAt": "2025-12-19T14:43:34.080Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2024-02-18",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766137868935",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Manuel Montejo",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 7,
+        "matchesWon": 6,
+        "matchesLost": 1,
+        "gamesWon": 45,
+        "gamesLost": 24,
+        "winRate": "85.7",
+        "averageGamesPerMatch": "9.9"
+      },
+      "id": "tournament_1766155556890",
+      "createdAt": "2025-12-19T14:45:56.890Z"
     }
   ],
   "circuits": [
@@ -898,5 +944,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:39:41.561Z"
+  "lastUpdated": "2025-12-19T14:46:02.447Z"
 }
