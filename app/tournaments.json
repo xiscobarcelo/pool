@@ -100,7 +100,7 @@
       "result": "Subcampeón",
       "circuit": "circuit_1766139032239",
       "cue": "Bear+Centro",
-      "finalRival": "",
+      "finalRival": "David Márquez",
       "notes": "Oviedo",
       "stats": {
         "matchesPlayed": 6,
@@ -112,7 +112,8 @@
         "averageGamesPerMatch": "9.3"
       },
       "id": "tournament_1766139601380",
-      "createdAt": "2025-12-19T10:20:01.380Z"
+      "createdAt": "2025-12-19T10:20:01.380Z",
+      "updatedAt": "2025-12-19T10:22:52.268Z"
     }
   ],
   "circuits": [
@@ -517,5 +518,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:22:33.686Z"
+  "lastUpdated": "2025-12-19T10:22:54.431Z"
 }
