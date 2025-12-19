@@ -30,8 +30,16 @@ let itemsPerPage = 50;
 // INICIALIZACIÓN
 // ============================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Cargar datos locales primero
     loadData();
+    populateSelects();
+    renderAll();
+    
+    // Intentar sincronizar automáticamente desde GitHub
+    await autoSyncFromGitHub();
+    
+    // Después de sincronizar, recargar todo
     populateSelects();
     renderAll();
     
@@ -41,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ Sistema de carga automática activado');
     console.log('   - Los torneos se cargan al abrir la pestaña');
     console.log('   - Los circuitos se cargan al abrir su pestaña');
+    console.log('   - Sincronización automática desde GitHub completada');
 });
 
 // Cargar datos
@@ -318,6 +327,58 @@ async function loadFromGitHub() {
     }
 }
 
+// Sincronización automática silenciosa al cargar
+async function autoSyncFromGitHub() {
+    const config = getGitHubConfig();
+    
+    // Si no hay configuración, no hacer nada (silencioso)
+    if (!config) {
+        console.log('ℹ️ GitHub no configurado - usando datos locales');
+        return;
+    }
+
+    try {
+        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
+        
+        console.log('🔄 Sincronización automática desde GitHub...');
+        
+        const response = await fetch(githubUrl, {
+            cache: 'no-cache',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const githubData = await response.json();
+            
+            // Validar estructura
+            if (githubData.tournaments && Array.isArray(githubData.tournaments)) {
+                // Actualizar datos
+                matchesData.tournaments = githubData.tournaments || [];
+                matchesData.circuits = githubData.circuits || [];
+                
+                // Guardar localmente
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(matchesData));
+                localStorage.setItem('shared_matches_data', JSON.stringify(matchesData));
+                
+                const tournamentsCount = githubData.tournaments.length;
+                const circuitsCount = githubData.circuits ? githubData.circuits.length : 0;
+                
+                console.log(`✅ Sincronización automática completada: ${tournamentsCount} torneos, ${circuitsCount} circuitos`);
+                
+                // Mostrar indicador discreto
+                showMessage(`☁️ ${tournamentsCount} torneos sincronizados desde la nube`, 'success');
+            }
+        } else {
+            console.log('ℹ️ No se encontraron datos en GitHub - usando datos locales');
+        }
+    } catch (error) {
+        // Error silencioso - solo log en consola
+        console.log('ℹ️ No se pudo sincronizar desde GitHub - usando datos locales:', error.message);
+    }
+}
+
 // Mostrar indicador de sincronización
 function showSyncIndicator() {
     const indicator = document.getElementById('syncIndicator');
@@ -405,7 +466,11 @@ function renderStats() {
     console.log('📊 Renderizando stats:', stats);
     
     container.innerHTML = `
-       
+        <div class="stat-card-tournament">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-number">${stats.totalTournaments}</div>
+            <div class="stat-label">Torneos</div>
+        </div>
         
         <div class="stat-card-tournament">
             <div class="stat-icon">🥇</div>
@@ -419,24 +484,16 @@ function renderStats() {
             <div class="stat-label">Subcampeón</div>
         </div>
         
-       
-        
         <div class="stat-card-tournament">
-            <div class="stat-icon">🥉</div>
-            <div class="stat-number">${stats.semifinals}</div>
-            <div class="stat-label">Semifinales</div>
-        </div>
-
- <div class="stat-card-tournament">
             <div class="stat-icon">📊</div>
             <div class="stat-number">${stats.winRate}%</div>
             <div class="stat-label">Win Rate</div>
         </div>
         
-         <div class="stat-card-tournament">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-number">${stats.totalTournaments}</div>
-            <div class="stat-label">Torneos</div>
+        <div class="stat-card-tournament">
+            <div class="stat-icon">🥉</div>
+            <div class="stat-number">${stats.semifinals}</div>
+            <div class="stat-label">Semifinales</div>
         </div>
     `;
     
@@ -547,7 +604,7 @@ function renderTournaments() {
                 ${circuit ? `
                     <div style="margin-top: 16px;">
                         <div class="tournament-circuit-tag">
-                            ${circuit.name}
+                            🔄 ${circuit.name}
                         </div>
                     </div>
                 ` : ''}
