@@ -2,7 +2,7 @@
   "tournaments": [
     {
       "name": "Cto Mallorca",
-      "date": "2025-12-19",
+      "date": "2025-12-13",
       "modality": "Bola 10",
       "totalPlayers": 17,
       "result": "Campeón",
@@ -21,11 +21,11 @@
       },
       "id": "tournament_1766138399272",
       "createdAt": "2025-12-19T09:59:59.272Z",
-      "updatedAt": "2025-12-19T10:01:53.833Z"
+      "updatedAt": "2025-12-19T10:07:12.613Z"
     },
     {
       "name": "Cto Mallorca",
-      "date": "2025-12-19",
+      "date": "2025-11-15",
       "modality": "Bola 9",
       "totalPlayers": 24,
       "result": "Campeón",
@@ -44,11 +44,11 @@
       },
       "id": "tournament_1766138446752",
       "createdAt": "2025-12-19T10:00:46.752Z",
-      "updatedAt": "2025-12-19T10:02:06.386Z"
+      "updatedAt": "2025-12-19T10:09:24.597Z"
     },
     {
       "name": "Cto de Baleares",
-      "date": "2025-12-19",
+      "date": "2025-11-29",
       "modality": "Bola 9",
       "totalPlayers": 32,
       "result": "Dieciseisavos",
@@ -66,7 +66,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766138500728",
-      "createdAt": "2025-12-19T10:01:40.728Z"
+      "createdAt": "2025-12-19T10:01:40.728Z",
+      "updatedAt": "2025-12-19T10:09:54.870Z"
     }
   ],
   "circuits": [
@@ -391,5 +392,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:02:08.612Z"
+  "lastUpdated": "2025-12-19T10:10:03.490Z"
 }
