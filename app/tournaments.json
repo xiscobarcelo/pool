@@ -428,6 +428,72 @@
       },
       "id": "tournament_1766154764615",
       "createdAt": "2025-12-19T14:32:44.615Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2024-05-12",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Octavos de Final",
+      "circuit": "circuit_1766137868935",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
+      "notes": "Palma Palace",
+      "stats": {
+        "matchesPlayed": 1,
+        "matchesWon": 0,
+        "matchesLost": 1,
+        "gamesWon": 5,
+        "gamesLost": 7,
+        "winRate": "0.0",
+        "averageGamesPerMatch": "12.0"
+      },
+      "id": "tournament_1766154862011",
+      "createdAt": "2025-12-19T14:34:22.011Z"
+    },
+    {
+      "name": "Copa Sénior IV",
+      "date": "2024-04-06",
+      "modality": "Bola 9",
+      "totalPlayers": 16,
+      "result": "Semifinales",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Agustín Torga",
+      "notes": "Billiard School Club 2021",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 4,
+        "matchesLost": 1,
+        "gamesWon": 31,
+        "gamesLost": 19,
+        "winRate": "80.0",
+        "averageGamesPerMatch": "10.0"
+      },
+      "id": "tournament_1766155075308",
+      "createdAt": "2025-12-19T14:37:55.308Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2024-03-24",
+      "modality": "Bola 10",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766137868935",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Vicente Torres",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 4,
+        "matchesWon": 4,
+        "matchesLost": 0,
+        "gamesWon": 28,
+        "gamesLost": 11,
+        "winRate": "100.0",
+        "averageGamesPerMatch": "9.8"
+      },
+      "id": "tournament_1766155166890",
+      "createdAt": "2025-12-19T14:39:26.890Z"
     }
   ],
   "circuits": [
@@ -832,5 +898,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:32:53.851Z"
+  "lastUpdated": "2025-12-19T14:39:41.561Z"
 }
