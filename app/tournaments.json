@@ -562,6 +562,28 @@
       },
       "id": "tournament_1766155715399",
       "createdAt": "2025-12-19T14:48:35.399Z"
+    },
+    {
+      "name": "Copa Sénior II",
+      "date": "2023-11-18",
+      "modality": "Bola 9",
+      "totalPlayers": 23,
+      "result": "Campeón",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Agustín Torga",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 5,
+        "matchesLost": 0,
+        "gamesWon": 37,
+        "gamesLost": 20,
+        "winRate": "100.0",
+        "averageGamesPerMatch": "11.4"
+      },
+      "id": "tournament_1766155814994",
+      "createdAt": "2025-12-19T14:50:14.994Z"
     }
   ],
   "circuits": [
@@ -966,5 +988,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:48:41.343Z"
+  "lastUpdated": "2025-12-19T14:50:22.750Z"
 }
