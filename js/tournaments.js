@@ -11,7 +11,7 @@ const GITHUB_CONFIG_KEY = 'xisco_github_config';
 let matchesData = {
     matches: [],
     players: ['Xisco'],
-    materials: ['Velasco+Revo12.9', 'Lucasi+Revo12.9', 'Bear+Centro', 'Cuetec+Cinergy12.5'],
+    materials: ['Velasco+Revo12.9', 'Lucasi+Revo12.9', 'Bear+Centro'],
     modalityStats: {
         bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
         bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
@@ -34,7 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
     populateSelects();
     renderAll();
-    showSection('tournaments'); // Mostrar la sección de torneos por defecto
+    
+    // Mostrar la sección de torneos por defecto con carga automática
+    showSection('tournaments');
+    
+    console.log('✅ Sistema de carga automática activado');
+    console.log('   - Los torneos se cargan al abrir la pestaña');
+    console.log('   - Los circuitos se cargan al abrir su pestaña');
+});
 });
 
 // Cargar datos
@@ -70,6 +77,15 @@ function saveData() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(matchesData));
     localStorage.setItem('shared_matches_data', JSON.stringify(matchesData));
     showSyncIndicator();
+    
+    // Recargar automáticamente la sección actual
+    if (currentSection === 'tournaments') {
+        renderTournaments();
+        console.log('🔄 Torneos recargados automáticamente');
+    } else if (currentSection === 'circuits') {
+        renderCircuits();
+        console.log('🔄 Circuitos recargados automáticamente');
+    }
     
     // NO sincronizar automáticamente - el usuario lo hace manualmente
     // syncToGitHub();
@@ -390,7 +406,11 @@ function renderStats() {
     console.log('📊 Renderizando stats:', stats);
     
     container.innerHTML = `
-      
+        <div class="stat-card-tournament">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-number">${stats.totalTournaments}</div>
+            <div class="stat-label">Torneos</div>
+        </div>
         
         <div class="stat-card-tournament">
             <div class="stat-icon">🥇</div>
@@ -403,22 +423,18 @@ function renderStats() {
             <div class="stat-number">${stats.runnerUps}</div>
             <div class="stat-label">Subcampeón</div>
         </div>
-           <div class="stat-card-tournament">
-            <div class="stat-icon">🥉</div>
-            <div class="stat-number">${stats.semifinals}</div>
-            <div class="stat-label">Semifinales</div>
-        </div>
+        
         <div class="stat-card-tournament">
             <div class="stat-icon">📊</div>
             <div class="stat-number">${stats.winRate}%</div>
             <div class="stat-label">Win Rate</div>
         </div>
-          <div class="stat-card-tournament">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-number">${stats.totalTournaments}</div>
-            <div class="stat-label">Torneos</div>
+        
+        <div class="stat-card-tournament">
+            <div class="stat-icon">🥉</div>
+            <div class="stat-number">${stats.semifinals}</div>
+            <div class="stat-label">Semifinales</div>
         </div>
-     
     `;
     
     // Añadir clase para animación
@@ -1034,13 +1050,17 @@ function showSection(section) {
     document.getElementById('circuitsSection').style.display = 'none';
     document.getElementById('addTournamentSection').style.display = 'none';
     
-    // Mostrar sección actual
+    // Mostrar sección actual y cargar datos automáticamente
     if (section === 'tournaments') {
         document.getElementById('tournamentsSection').style.display = 'block';
+        // Cargar torneos automáticamente
         renderTournaments();
+        console.log('📊 Torneos cargados automáticamente');
     } else if (section === 'circuits') {
         document.getElementById('circuitsSection').style.display = 'block';
+        // Cargar circuitos automáticamente
         renderCircuits();
+        console.log('🔄 Circuitos cargados automáticamente');
     } else if (section === 'add') {
         document.getElementById('addTournamentSection').style.display = 'block';
         // Establecer fecha de hoy por defecto solo si no estamos editando
