@@ -726,10 +726,10 @@ function renderCircuits() {
                 
                 <div class="tournament-actions" style="margin-top: 20px;">
                     <button class="tournament-action-btn" onclick="editCircuit('${circuit.id}')">
-                        ✏️ Editar
+                        Editar
                     </button>
                     <button class="tournament-action-btn delete" onclick="deleteCircuit('${circuit.id}')">
-                        🗑️ Eliminar
+                        Eliminar
                     </button>
                 </div>
             </div>
@@ -878,7 +878,7 @@ function editTournament(id) {
     // Cambiar el título
     const titleElement = document.querySelector('#addTournamentSection .section-title');
     if (titleElement) {
-        titleElement.textContent = '✏️ Editar Torneo';
+        titleElement.textContent = 'Editar Torneo';
     }
     
     const descElement = document.querySelector('#addTournamentSection .section-description');
