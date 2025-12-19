@@ -114,6 +114,28 @@
       "id": "tournament_1766139601380",
       "createdAt": "2025-12-19T10:20:01.380Z",
       "updatedAt": "2025-12-19T10:22:52.268Z"
+    },
+    {
+      "name": "Cto España",
+      "date": "2025-06-29",
+      "modality": "Bola 9",
+      "totalPlayers": 24,
+      "result": "Cuartos de Final",
+      "circuit": "circuit_1766139032239",
+      "cue": "",
+      "finalRival": "Javi del Santo",
+      "notes": "Club Sierra Billiard's Valencia Pool",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 3,
+        "matchesLost": 2,
+        "gamesWon": 26,
+        "gamesLost": 19,
+        "winRate": "60.0",
+        "averageGamesPerMatch": "9.0"
+      },
+      "id": "tournament_1766139994510",
+      "createdAt": "2025-12-19T10:26:34.510Z"
     }
   ],
   "circuits": [
@@ -518,5 +540,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:22:54.431Z"
+  "lastUpdated": "2025-12-19T10:26:36.834Z"
 }
