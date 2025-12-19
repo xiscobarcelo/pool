@@ -28,6 +28,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+   margin-top:20px;
 }
 
 .tournament-card::before {
@@ -201,8 +202,8 @@
 .tournament-action-btn {
     flex: 1;
     padding: 10px 16px;
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(0, 0, 0, 0.4);
     border-radius: 10px;
     font-size: 0.875rem;
     font-weight: 600;
