@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('   - Los torneos se cargan al abrir la pestaña');
     console.log('   - Los circuitos se cargan al abrir su pestaña');
 });
-});
+
 
 // Cargar datos
 function loadData() {
