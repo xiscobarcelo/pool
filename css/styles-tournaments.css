@@ -689,7 +689,7 @@
 
 .export-section {
     background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(0, 0, 0, 0.4);
+    border: none
     border-radius: 16px;
     padding: 24px;
     margin: 32px 0;
