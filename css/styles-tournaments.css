@@ -205,6 +205,7 @@
     gap: 16px;
     padding-top: 16px;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
+   margin-top:20px;
 }
 
 .tournament-stat {
