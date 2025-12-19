@@ -272,6 +272,28 @@
       },
       "id": "tournament_1766153363536",
       "createdAt": "2025-12-19T14:09:23.536Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2025-01-19",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766137853380",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Felipe González",
+      "notes": "Pool Garage Ciutadella",
+      "stats": {
+        "matchesPlayed": 6,
+        "matchesWon": 5,
+        "matchesLost": 1,
+        "gamesWon": 39,
+        "gamesLost": 24,
+        "winRate": "83.3",
+        "averageGamesPerMatch": "10.5"
+      },
+      "id": "tournament_1766153550134",
+      "createdAt": "2025-12-19T14:12:30.134Z"
     }
   ],
   "circuits": [
@@ -676,5 +698,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:10:48.068Z"
+  "lastUpdated": "2025-12-19T14:12:36.217Z"
 }
