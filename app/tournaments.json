@@ -390,7 +390,27 @@
       "tournaments": [],
       "totalPoints": 0,
       "ranking": null
+    },
+    {
+      "id": "circuit_1766139032239",
+      "name": "España",
+      "year": 2025,
+      "description": "",
+      "pointsSystem": {
+        "Campeón": 100,
+        "Subcampeón": 75,
+        "Semifinales": 50,
+        "Cuartos de Final": 25,
+        "Octavos de Final": 15,
+        "Dieciseisavos": 10,
+        "Fase de Grupos": 5,
+        "Eliminado en Ronda 1": 3,
+        "Participación": 1
+      },
+      "tournaments": [],
+      "totalPoints": 0,
+      "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:10:03.490Z"
+  "lastUpdated": "2025-12-19T10:10:51.191Z"
 }
