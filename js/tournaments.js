@@ -227,7 +227,7 @@ async function syncToGitHub() {
     }
 }
         }
-    }
+    
 }
 
 async function loadFromGitHub() {
