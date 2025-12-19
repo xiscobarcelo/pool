@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool Tracker - Iniciar Sesión</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 440px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .logo-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .logo-subtitle {
+            font-size: 16px;
+            color: #86868b;
+            font-weight: 500;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .welcome-text h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text p {
+            font-size: 15px;
+            color: #86868b;
+            line-height: 1.5;
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .google-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: #86868b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .divider span {
+            padding: 0 16px;
+        }
+
+        .guest-login {
+            background: transparent;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            width: 100%;
+        }
+
+        .guest-login:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+            font-size: 14px;
+        }
+
+        .feature:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #86868b;
+        }
+
+        /* Loading state */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid rgba(102, 126, 234, 0.2);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 32px 24px;
+            }
+
+            .logo-title {
+                font-size: 24px;
+            }
+
+            .welcome-text h2 {
+                font-size: 20px;
+            }
+        }
+
+        /* Custom Google Button Style */
+        #g_id_onload {
+            position: absolute;
+            top: -9999px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">🎱</div>
+            <div class="logo-title">Pool Tracker</div>
+            <div class="logo-subtitle">Tu asistente de billar</div>
+        </div>
+
+        <div class="welcome-text">
+            <h2>Bienvenido</h2>
+            <p>Inicia sesión para acceder a tus estadísticas y torneos</p>
+        </div>
+
+        <div class="login-options">
+            <!-- Google Sign-In Button -->
+            <div id="g_id_onload"
+                 data-client_id="176977647030-8shnobfabe3puf40gmtm1vahh2k4u8ia.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse"
+                 data-auto_prompt="false">
+            </div>
+            
+            <div class="google-btn-wrapper">
+                <div id="g_id_signin"
+                     data-type="standard"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-shape="rectangular"
+                     data-logo_alignment="left"
+                     data-width="360">
+                </div>
+            </div>
+        </div>
+
+        <div class="divider">
+            <span>o continuar como</span>
+        </div>
+
+        <button class="guest-login" onclick="guestLogin()">
+            👤 Invitado (sin sincronización)
+        </button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Iniciando sesión...</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">☁️</div>
+                <span>Sincroniza tus datos en la nube</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <span>Estadísticas personalizadas</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <span>Gestiona tus torneos</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <span>Accede desde cualquier dispositivo</span>
+            </div>
+        </div>
+
+        <div class="footer-text">
+            Al continuar, aceptas nuestros términos de servicio
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIGURACIÓN
+        // ============================================================
+        
+        // IMPORTANTE: Reemplaza con tu Google Client ID
+        // Obtenerlo en: https://console.cloud.google.com/
+        const GOOGLE_CLIENT_ID = '176977647030-8shnobfabe3puf40gmtm1vahh2k4u8ia.apps.googleusercontent.com';
+
+        // ============================================================
+        // GOOGLE SIGN-IN
+        // ============================================================
+
+        function handleCredentialResponse(response) {
+            console.log('🔐 Google Sign-In exitoso');
+            
+            // Decodificar el JWT token
+            const payload = parseJwt(response.credential);
+            console.log('👤 Usuario:', payload);
+            
+            // Guardar información del usuario
+            const userData = {
+                id: payload.sub,
+                email: payload.email,
+                name: payload.name,
+                picture: payload.picture,
+                loginMethod: 'google',
+                loginDate: new Date().toISOString()
+            };
+            
+            // Guardar en localStorage
+            localStorage.setItem('pool_tracker_user', JSON.stringify(userData));
+            sessionStorage.setItem('xisco_session_active', 'true');
+            
+            // Mostrar loading
+            showLoading();
+            
+            // Redirigir después de 1 segundo
+            setTimeout(() => {
+                window.location.href = 'registro-partidos.html';
+            }, 1000);
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        // ============================================================
+        // LOGIN COMO INVITADO
+        // ============================================================
+
+        function guestLogin() {
+            console.log('👤 Modo invitado');
+            
+            // Crear usuario invitado
+            const guestData = {
+                id: 'guest_' + Date.now(),
+                email: null,
+                name: 'Invitado',
+                picture: null,
+                loginMethod: 'guest',
+                loginDate: new Date().toISOString()
+            };
+            
+            // Guardar en localStorage
+            localStorage.setItem('pool_tracker_user', JSON.stringify(guestData));
+            sessionStorage.setItem('xisco_session_active', 'true');
+            
+            // Mostrar loading
+            showLoading();
+            
+            // Redirigir
+            setTimeout(() => {
+                window.location.href = 'registro-partidos.html';
+            }, 500);
+        }
+
+        // ============================================================
+        // UTILIDADES
+        // ============================================================
+
+        function showLoading() {
+            document.querySelector('.login-options').style.display = 'none';
+            document.querySelector('.divider').style.display = 'none';
+            document.querySelector('.guest-login').style.display = 'none';
+            document.getElementById('loading').classList.add('active');
+        }
+
+        // Verificar si ya hay sesión activa
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('xisco_session_active')) {
+                // Ya hay sesión, redirigir
+                window.location.href = 'registro-partidos.html';
+            }
+            
+            // Configurar el Client ID en el botón de Google
+            const gIdOnload = document.getElementById('g_id_onload');
+            if (gIdOnload && GOOGLE_CLIENT_ID !== '176977647030-8shnobfabe3puf40gmtm1vahh2k4u8ia.apps.googleusercontent.com') {
+                gIdOnload.setAttribute('data-client_id', GOOGLE_CLIENT_ID);
+            }
+        });
+
+        // Log para debugging
+        console.log('🎱 Pool Tracker - Login Page');
+        console.log('📝 Para configurar Google Sign-In:');
+        console.log('1. Ve a: https://console.cloud.google.com/');
+        console.log('2. Crea un proyecto');
+        console.log('3. Habilita Google Sign-In API');
+        console.log('4. Obtén el Client ID');
+        console.log('5. Reemplaza GOOGLE_CLIENT_ID en este archivo');
+    </script>
+</body>
+</html>
