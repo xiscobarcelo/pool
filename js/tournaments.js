@@ -23,6 +23,8 @@ let matchesData = {
 
 let currentSection = 'tournaments';
 let filteredTournaments = [];
+let currentPage = 1;
+let itemsPerPage = 50;
 
 // ============================================================
 // INICIALIZACIÓN
@@ -148,6 +150,19 @@ async function syncToGitHub() {
 
         // Subir archivo
         const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
+        
+        // Preparar el body del request
+        const requestBody = {
+            message: `Update tournaments - ${new Date().toLocaleString('es-ES')}`,
+            content: encodedContent,
+            branch: 'main'
+        };
+        
+        // Solo incluir SHA si existe (archivo ya existente)
+        if (sha) {
+            requestBody.sha = sha;
+        }
+        
         const response = await fetch(putUrl, {
             method: 'PUT',
             headers: {
@@ -155,12 +170,7 @@ async function syncToGitHub() {
                 'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                message: `Update tournaments - ${new Date().toLocaleString('es-ES')}`,
-                content: encodedContent,
-                sha: sha,
-                branch: 'main'
-            })
+            body: JSON.stringify(requestBody)
         });
 
         if (response.ok) {
@@ -172,24 +182,50 @@ async function syncToGitHub() {
                 }, 2000);
             }
             showMessage('☁️ Torneos sincronizados con GitHub!', 'success');
+            console.log('✅ Archivo subido correctamente a app/tournaments.json');
         } else {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al subir');
+            const errorData = await response.json();
+            console.error('❌ Error de GitHub:', errorData);
+            
+            let errorMessage = errorData.message || 'Error desconocido';
+            
+            // Mensajes específicos según el error
+            if (response.status === 404) {
+                errorMessage = 'Repositorio no encontrado. Verifica el nombre.';
+            } else if (response.status === 401) {
+                errorMessage = 'Token inválido o sin permisos.';
+            } else if (response.status === 422) {
+                errorMessage = 'Error en los datos enviados. Verifica que la carpeta "app" exista en tu repositorio.';
+            }
+            
+            throw new Error(errorMessage);
         }
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error completo:', error);
         if (btn) {
             btn.innerHTML = originalText;
             btn.disabled = false;
         }
         
-        alert(`❌ Error al subir a GitHub:\n\n${error.message}\n\nVerifica:\n• Token correcto\n• Permisos del token (scope: repo)\n• Nombre de repositorio correcto`);
+        let troubleshootMsg = '';
+        if (error.message.includes('Token')) {
+            troubleshootMsg = '\n\n📝 Cómo crear un token:\n1. GitHub → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Seleccionar scope: repo (todos los checks)\n5. Copiar el token';
+        } else if (error.message.includes('Repositorio')) {
+            troubleshootMsg = '\n\n📝 Formato del repositorio: usuario/nombre-repo\nEjemplo: juanperez/pool-tracker-data';
+        } else if (error.message.includes('carpeta')) {
+            troubleshootMsg = '\n\n📝 Crear carpeta "app":\n1. Ve a tu repositorio en GitHub\n2. Click "Add file" → "Create new file"\n3. Escribe: app/README.md\n4. Commit';
+        }
+        
+        alert(`❌ Error al subir a GitHub:\n\n${error.message}${troubleshootMsg}`);
         
         // Opción de reconfigurar
         if (confirm('¿Quieres reconfigurar GitHub?')) {
             localStorage.removeItem(GITHUB_CONFIG_KEY);
             syncToGitHub();
+        }
+    }
+}
         }
     }
 }
@@ -421,15 +457,18 @@ function calculateGlobalStats() {
 }
 
 // Renderizar torneos
+// Renderizar torneos
 function renderTournaments() {
     const container = document.getElementById('tournamentsGrid');
     const empty = document.getElementById('emptyTournaments');
+    const pagination = document.getElementById('tournamentsPagination');
     
     if (!container || !empty) return;
     
     if (filteredTournaments.length === 0) {
         container.style.display = 'none';
         empty.style.display = 'block';
+        if (pagination) pagination.style.display = 'none';
         return;
     }
     
@@ -441,7 +480,14 @@ function renderTournaments() {
         new Date(b.date) - new Date(a.date)
     );
     
-    container.innerHTML = sorted.map(tournament => {
+    // Calcular paginación
+    const totalPages = Math.ceil(sorted.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentTournaments = sorted.slice(startIndex, endIndex);
+    
+    // Renderizar torneos de la página actual
+    container.innerHTML = currentTournaments.map(tournament => {
         const resultClass = getResultClass(tournament.result);
         const trophy = getResultTrophy(tournament.result);
         const circuit = matchesData.circuits.find(c => c.id === tournament.circuit);
@@ -521,6 +567,27 @@ function renderTournaments() {
             </div>
         `;
     }).join('');
+    
+    // Renderizar controles de paginación
+    if (pagination && totalPages > 1) {
+        pagination.style.display = 'flex';
+        pagination.innerHTML = `
+            <div class="pagination-info">
+                Mostrando ${startIndex + 1}-${Math.min(endIndex, sorted.length)} de ${sorted.length} torneos
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    Anterior
+                </button>
+                <span class="pagination-current">Página ${currentPage} de ${totalPages}</span>
+                <button class="pagination-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    Siguiente
+                </button>
+            </div>
+        `;
+    } else if (pagination) {
+        pagination.style.display = 'none';
+    }
 }
 
 // Renderizar circuitos
@@ -578,10 +645,10 @@ function renderCircuits() {
                 
                 <div class="tournament-actions" style="margin-top: 20px;">
                     <button class="tournament-action-btn" onclick="editCircuit('${circuit.id}')">
-                         Editar
+                        ✏️ Editar
                     </button>
                     <button class="tournament-action-btn delete" onclick="deleteCircuit('${circuit.id}')">
-                        Eliminar
+                        🗑️ Eliminar
                     </button>
                 </div>
             </div>
@@ -870,6 +937,22 @@ function editCircuit(id) {
 }
 
 // ============================================================
+// PAGINACIÓN
+// ============================================================
+
+function changePage(page) {
+    const totalPages = Math.ceil(filteredTournaments.length / itemsPerPage);
+    
+    if (page < 1 || page > totalPages) return;
+    
+    currentPage = page;
+    renderTournaments();
+    
+    // Scroll suave hacia arriba
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
 // FILTROS
 // ============================================================
 
@@ -887,6 +970,8 @@ function applyFilters() {
         return true;
     });
     
+    // Reset a la primera página al filtrar
+    currentPage = 1;
     renderTournaments();
 }
 
@@ -897,6 +982,7 @@ function resetFilters() {
     document.getElementById('filterResult').value = '';
     
     filteredTournaments = matchesData.tournaments;
+    currentPage = 1; // Reset a primera página
     renderTournaments();
 }
 
