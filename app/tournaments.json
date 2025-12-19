@@ -1,5 +1,28 @@
 {
-  "tournaments": [],
+  "tournaments": [
+    {
+      "name": "Cto Mallorca",
+      "date": "2025-12-19",
+      "modality": "Bola 10",
+      "totalPlayers": 17,
+      "result": "Campeón",
+      "circuit": "circuit_1766137838490",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766138399272",
+      "createdAt": "2025-12-19T09:59:59.272Z"
+    }
+  ],
   "circuits": [
     {
       "id": "circuit_1766137838490",
@@ -322,5 +345,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T09:58:44.368Z"
+  "lastUpdated": "2025-12-19T10:00:09.978Z"
 }
