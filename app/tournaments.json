@@ -189,7 +189,7 @@
       "modality": "Bola 10",
       "totalPlayers": 27,
       "result": "Subcampeón",
-      "circuit": "circuit_1766139032239",
+      "circuit": "circuit_1766139174903",
       "cue": "Velasco+Revo12.9",
       "finalRival": "Hector Luna",
       "notes": "Club Rías Baixas",
@@ -203,7 +203,8 @@
         "averageGamesPerMatch": "10.6"
       },
       "id": "tournament_1766152618984",
-      "createdAt": "2025-12-19T13:56:58.984Z"
+      "createdAt": "2025-12-19T13:56:58.984Z",
+      "updatedAt": "2025-12-19T14:10:41.385Z"
     },
     {
       "name": "Cto España Absoluto",
@@ -675,5 +676,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:09:30.144Z"
+  "lastUpdated": "2025-12-19T14:10:48.068Z"
 }
