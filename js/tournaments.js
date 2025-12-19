@@ -485,7 +485,7 @@ function renderTournaments() {
                 ${circuit ? `
                     <div style="margin-top: 16px;">
                         <div class="tournament-circuit-tag">
-                            🔄 ${circuit.name}
+                             ${circuit.name}
                         </div>
                     </div>
                 ` : ''}
@@ -512,10 +512,10 @@ function renderTournaments() {
                 
                 <div class="tournament-actions">
                     <button class="tournament-action-btn" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
-                        ✏️ Editar
+                        Editar
                     </button>
-                    <button class="tournament-action-btn delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
-                        🗑️ Eliminar
+                    <button class="btn-delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
+                        Eliminar
                     </button>
                 </div>
             </div>
