@@ -25,7 +25,7 @@
     },
     {
       "name": "Cto Mallorca",
-      "date": "2025-11-15",
+      "date": "2025-10-25",
       "modality": "Bola 9",
       "totalPlayers": 24,
       "result": "Campeón",
@@ -34,17 +34,17 @@
       "finalRival": "Guillermo",
       "notes": "",
       "stats": {
-        "matchesPlayed": 0,
-        "matchesWon": 0,
-        "matchesLost": 0,
-        "gamesWon": 0,
-        "gamesLost": 0,
-        "winRate": 0,
-        "averageGamesPerMatch": 0
+        "matchesPlayed": 5,
+        "matchesWon": 4,
+        "matchesLost": 1,
+        "gamesWon": 32,
+        "gamesLost": 20,
+        "winRate": "80.0",
+        "averageGamesPerMatch": "10.4"
       },
       "id": "tournament_1766138446752",
       "createdAt": "2025-12-19T10:00:46.752Z",
-      "updatedAt": "2025-12-19T10:09:24.597Z"
+      "updatedAt": "2025-12-19T10:21:06.885Z"
     },
     {
       "name": "Cto de Baleares",
@@ -516,5 +516,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:20:04.273Z"
+  "lastUpdated": "2025-12-19T10:21:16.660Z"
 }
