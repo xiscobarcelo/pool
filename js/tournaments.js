@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     populateSelects();
     renderAll();
     
+    // ✅ Limpiar filtros al cargar (evita bug de filtros activados)
+    resetFiltersOnLoad();
+    
     // Intentar sincronizar automáticamente desde GitHub
     await autoSyncFromGitHub();
     
@@ -358,6 +361,9 @@ async function autoSyncFromGitHub() {
                 matchesData.tournaments = githubData.tournaments || [];
                 matchesData.circuits = githubData.circuits || [];
                 
+                // ✅ IMPORTANTE: Actualizar torneos filtrados
+                filteredTournaments = matchesData.tournaments;
+                
                 // Guardar localmente
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(matchesData));
                 localStorage.setItem('shared_matches_data', JSON.stringify(matchesData));
@@ -466,7 +472,11 @@ function renderStats() {
     console.log('📊 Renderizando stats:', stats);
     
     container.innerHTML = `
-      
+        <div class="stat-card-tournament">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-number">${stats.totalTournaments}</div>
+            <div class="stat-label">Torneos</div>
+        </div>
         
         <div class="stat-card-tournament">
             <div class="stat-icon">🥇</div>
@@ -480,22 +490,16 @@ function renderStats() {
             <div class="stat-label">Subcampeón</div>
         </div>
         
-       
+        <div class="stat-card-tournament">
+            <div class="stat-icon">📊</div>
+            <div class="stat-number">${stats.winRate}%</div>
+            <div class="stat-label">Win Rate</div>
+        </div>
         
         <div class="stat-card-tournament">
             <div class="stat-icon">🥉</div>
             <div class="stat-number">${stats.semifinals}</div>
             <div class="stat-label">Semifinales</div>
-        </div>
-         <div class="stat-card-tournament">
-            <div class="stat-icon">📊</div>
-            <div class="stat-number">${stats.winRate}%</div>
-            <div class="stat-label">Win Rate</div>
-        </div>
-          <div class="stat-card-tournament">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-number">${stats.totalTournaments}</div>
-            <div class="stat-label">Torneos</div>
         </div>
     `;
     
@@ -1030,6 +1034,25 @@ function changePage(page) {
 // ============================================================
 // FILTROS
 // ============================================================
+
+// Limpiar filtros al cargar (sin renderizar)
+function resetFiltersOnLoad() {
+    // Limpiar selectores sin disparar onChange
+    const filterYear = document.getElementById('filterYear');
+    const filterModality = document.getElementById('filterModality');
+    const filterCircuit = document.getElementById('filterCircuit');
+    const filterResult = document.getElementById('filterResult');
+    
+    if (filterYear) filterYear.value = '';
+    if (filterModality) filterModality.value = '';
+    if (filterCircuit) filterCircuit.value = '';
+    if (filterResult) filterResult.value = '';
+    
+    // Asegurar que filteredTournaments tiene todos los torneos
+    filteredTournaments = matchesData.tournaments;
+    
+    console.log('🔍 Filtros reseteados al cargar');
+}
 
 function applyFilters() {
     const year = document.getElementById('filterYear').value;
