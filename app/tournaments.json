@@ -607,6 +607,28 @@
       "id": "tournament_1766155901975",
       "createdAt": "2025-12-19T14:51:41.975Z",
       "updatedAt": "2025-12-19T14:52:28.743Z"
+    },
+    {
+      "name": "Cto España Selecciones",
+      "date": "2024-06-16",
+      "modality": "Bola 10",
+      "totalPlayers": 16,
+      "result": "Campeón",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Asturias. Pelayo Cueli",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766156349892",
+      "createdAt": "2025-12-19T14:59:09.892Z"
     }
   ],
   "circuits": [
@@ -1011,5 +1033,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:52:31.916Z"
+  "lastUpdated": "2025-12-19T14:59:13.436Z"
 }
