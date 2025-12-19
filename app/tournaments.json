@@ -21,6 +21,50 @@
       },
       "id": "tournament_1766138399272",
       "createdAt": "2025-12-19T09:59:59.272Z"
+    },
+    {
+      "name": "Cto Mallorca",
+      "date": "2025-12-19",
+      "modality": "Bola 9",
+      "totalPlayers": 24,
+      "result": "Campeón",
+      "circuit": "circuit_1766137838490",
+      "cue": "Bear+Centro",
+      "finalRival": "Guillermo",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766138446752",
+      "createdAt": "2025-12-19T10:00:46.752Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2025-12-19",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Dieciseisavos",
+      "circuit": "circuit_1766137838490",
+      "cue": "Bear+Centro",
+      "finalRival": "Adrian Wood",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766138500728",
+      "createdAt": "2025-12-19T10:01:40.728Z"
     }
   ],
   "circuits": [
@@ -345,5 +389,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:00:09.978Z"
+  "lastUpdated": "2025-12-19T10:01:43.999Z"
 }
