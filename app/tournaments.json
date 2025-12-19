@@ -6,7 +6,7 @@
       "modality": "Bola 10",
       "totalPlayers": 17,
       "result": "Campeón",
-      "circuit": "circuit_1766137838490",
+      "circuit": "circuit_1766138144155",
       "cue": "Lucasi+Revo12.9",
       "finalRival": "Jepy",
       "notes": "",
@@ -20,7 +20,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766138399272",
-      "createdAt": "2025-12-19T09:59:59.272Z"
+      "createdAt": "2025-12-19T09:59:59.272Z",
+      "updatedAt": "2025-12-19T10:01:53.833Z"
     },
     {
       "name": "Cto Mallorca",
@@ -28,7 +29,7 @@
       "modality": "Bola 9",
       "totalPlayers": 24,
       "result": "Campeón",
-      "circuit": "circuit_1766137838490",
+      "circuit": "circuit_1766138144155",
       "cue": "Bear+Centro",
       "finalRival": "Guillermo",
       "notes": "",
@@ -42,7 +43,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766138446752",
-      "createdAt": "2025-12-19T10:00:46.752Z"
+      "createdAt": "2025-12-19T10:00:46.752Z",
+      "updatedAt": "2025-12-19T10:02:06.386Z"
     },
     {
       "name": "Cto de Baleares",
@@ -389,5 +391,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:01:43.999Z"
+  "lastUpdated": "2025-12-19T10:02:08.612Z"
 }
