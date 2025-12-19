@@ -3,29 +3,6 @@
     {
       "name": "Campeonato de Mallorca",
       "date": "2025-12-18",
-      "modality": "Bola 9",
-      "totalPlayers": 32,
-      "result": "Campeón",
-      "circuit": null,
-      "cue": "",
-      "finalRival": "",
-      "notes": "",
-      "stats": {
-        "matchesPlayed": 0,
-        "matchesWon": 0,
-        "matchesLost": 0,
-        "gamesWon": 0,
-        "gamesLost": 0,
-        "winRate": 0,
-        "averageGamesPerMatch": 0
-      },
-      "id": "tournament_1766085141872",
-      "createdAt": "2025-12-18T19:12:21.872Z",
-      "updatedAt": "2025-12-18T22:35:02.961Z"
-    },
-    {
-      "name": "Campeonato de Mallorca",
-      "date": "2025-12-18",
       "modality": "Banco Pool",
       "totalPlayers": 0,
       "result": "Campeón",
@@ -115,5 +92,5 @@
     }
   ],
   "circuits": [],
-  "lastUpdated": "2025-12-19T09:28:07.588Z"
+  "lastUpdated": "2025-12-19T09:28:20.504Z"
 }
