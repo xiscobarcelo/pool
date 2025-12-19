@@ -82,49 +82,18 @@
         <div class="stats-overview" id="statsOverview"></div>
 
         <!-- Gráficos Analíticos -->
-        <div class="analytics-section">
-            <div class="section-header">
-                <h2 class="section-title">📊 Análisis Detallado</h2>
-                <p class="section-description">Visualiza tu rendimiento con gráficos interactivos</p>
-            </div>
-
-            <div class="charts-grid">
-                <!-- Gráfico: Resultados por Año -->
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">🏆 Resultados por Año</h3>
-                        <p class="chart-description">Evolución de tus logros en el tiempo</p>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="yearResultsChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Gráfico: Rendimiento por Material -->
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">🎱 Rendimiento por Taco</h3>
-                        <p class="chart-description">¿Qué material te da mejores resultados?</p>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="materialPerformanceChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Gráfico: Evolución Temporal -->
-                <div class="chart-card chart-card-wide">
-                    <div class="chart-header">
-                        <h3 class="chart-title">📈 Evolución Temporal</h3>
-                        <p class="chart-description">Línea de tiempo de tus torneos</p>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="timelineChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Filtros -->
+        <div class="export-section">
+          <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;"> ☁️ Sincronización con GitHub </h3>
+          <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;"> Guarda tus datos en la nube para acceder desde cualquier dispositivo </p>
+          <div class="export-buttons">
+            <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub"> ↑ Guardar </button>
+            <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub"> ↓ Cargar </button>
+            <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> ⟳ Refrescar </button>
+            <button class="btn-secondary" onclick="exportToJSON()"> ↓ Exportar JSON </button>
+            <button class="btn-secondary" onclick="exportToCSV()"> ↓Exportar CSV </button>
+          </div>
+        </div>
         <div class="filters-bar">
             <div class="filter-group">
                 <label class="filter-label">Año</label>
@@ -367,35 +336,45 @@
         </div>
 
         <!-- Sección de Exportación y Sincronización -->
-        <div class="export-section">
-            <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">
-                ☁️ Sincronización con GitHub
-            </h3>
-            <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;">
-                Guarda tus datos en la nube para acceder desde cualquier dispositivo
-            </p>
-            <div class="export-buttons">
-                <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub">
-                    ↑ Guardar
-                </button>
-                <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub">
-                    ↓ Cargar
-                     </button>
-              <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> 
-						⟳ Refrescar
-					</button>
-                <button class="btn-secondary" onclick="exportToJSON()">
-                    ↓ Exportar JSON
-                </button>
-                <button class="btn-secondary" onclick="exportToCSV()">
-                   ↓Exportar CSV
-                </button>
-            
+        <div class="analytics-section">
+          <div class="section-header">
+            <h2 class="section-title">📊 Análisis Detallado</h2>
+            <p class="section-description">Visualiza tu rendimiento con gráficos interactivos</p>
+          </div>
+          <div class="charts-grid">
+            <!-- Gráfico: Resultados por Año -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">🏆 Resultados por Año</h3>
+                <p class="chart-description">Evolución de tus logros en el tiempo</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="yearResultsChart"></canvas>
+              </div>
+            </div>
+            <!-- Gráfico: Rendimiento por Material -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">🎱 Rendimiento por Taco</h3>
+                <p class="chart-description">¿Qué material te da mejores resultados?</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="materialPerformanceChart"></canvas>
+              </div>
+            </div>
+            <!-- Gráfico: Evolución Temporal -->
+            <div class="chart-card chart-card-wide">
+              <div class="chart-header">
+                <h3 class="chart-title">📈 Evolución Temporal</h3>
+                <p class="chart-description">Línea de tiempo de tus torneos</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="timelineChart"></canvas>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-
-
-    <!-- Indicador de sincronización -->
+<!-- Indicador de sincronización -->
     <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
         ☁️ Sincronizado
     </div>
