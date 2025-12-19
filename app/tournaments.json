@@ -540,6 +540,28 @@
       },
       "id": "tournament_1766155556890",
       "createdAt": "2025-12-19T14:45:56.890Z"
+    },
+    {
+      "name": "Copa Baleares",
+      "date": "2025-12-19",
+      "modality": "Bola 10",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766137868935",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Ramón Guasch",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 6,
+        "matchesWon": 6,
+        "matchesLost": 0,
+        "gamesWon": 40,
+        "gamesLost": 11,
+        "winRate": "100.0",
+        "averageGamesPerMatch": "8.5"
+      },
+      "id": "tournament_1766155715399",
+      "createdAt": "2025-12-19T14:48:35.399Z"
     }
   ],
   "circuits": [
@@ -944,5 +966,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:46:02.447Z"
+  "lastUpdated": "2025-12-19T14:48:41.343Z"
 }
