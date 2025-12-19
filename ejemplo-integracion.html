@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>  <!-- Sin "- Xisco", se añade dinámicamente -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- User Manager ANTES de verificar sesión -->
+    <script src="js/user-manager.js"></script>
+    
+    <!-- Verificar sesión -->
+    <script>
+        if (!sessionStorage.getItem('xisco_session_active')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    
+    <style>
+        /* Tus estilos existentes aquí */
+        
+        /* Header de usuario mejorado */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-avatar-initial {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .welcome-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin: 0;
+        }
+        
+        .welcome-text p {
+            font-size: 14px;
+            color: #86868b;
+            margin: 4px 0 0 0;
+        }
+        
+        .logout-button {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            color: #1d1d1f;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .logout-button:hover {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Personalizado -->
+    <div class="page-header">
+        <div class="header-left">
+            <!-- Avatar (se llenará automáticamente) -->
+            <div id="userAvatarContainer"></div>
+            
+            <!-- Texto de bienvenida -->
+            <div class="welcome-text">
+                <h1 id="welcomeTitle">Hola, Usuario</h1>
+                <p id="welcomeSubtitle">Tus estadísticas</p>
+            </div>
+        </div>
+        
+        <!-- Botón de logout -->
+        <button class="logout-button" onclick="UserManager.logout()">
+            Cerrar sesión
+        </button>
+    </div>
+
+    <!-- Resto de tu página aquí -->
+    <div class="container">
+        <h2 data-user-name="Estadísticas de {name}">Estadísticas</h2>
+        
+        <!-- Tus estadísticas, gráficos, etc. -->
+    </div>
+
+    <script>
+        // ============================================================
+        // INICIALIZACIÓN CON PERSONALIZACIÓN
+        // ============================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar UserManager
+            const user = UserManager.init();
+            
+            // Personalizar título de página
+            const userName = UserManager.getUserName();
+            document.title = `Estadísticas - ${userName}`;
+            
+            // Personalizar avatar
+            const avatarContainer = document.getElementById('userAvatarContainer');
+            const userPicture = UserManager.getUserPicture();
+            
+            if (userPicture) {
+                avatarContainer.innerHTML = `<img src="${userPicture}" class="user-avatar" alt="${userName}">`;
+            } else {
+                const initial = userName.charAt(0).toUpperCase();
+                avatarContainer.innerHTML = `<div class="user-avatar-initial">${initial}</div>`;
+            }
+            
+            // Personalizar saludo con hora del día
+            const hour = new Date().getHours();
+            let greeting = 'Hola';
+            if (hour < 12) greeting = 'Buenos días';
+            else if (hour < 20) greeting = 'Buenas tardes';
+            else greeting = 'Buenas noches';
+            
+            document.getElementById('welcomeTitle').textContent = `${greeting}, ${userName}`;
+            
+            // Actualizar subtítulo si es invitado
+            if (UserManager.isGuest()) {
+                document.getElementById('welcomeSubtitle').textContent = 'Modo invitado - Datos locales';
+            } else {
+                document.getElementById('welcomeSubtitle').textContent = 'Sincronizado en la nube';
+            }
+            
+            // Resto de tu código de inicialización aquí
+            // loadData();
+            // renderStats();
+            // etc.
+        });
+    </script>
+</body>
+</html>
