@@ -148,6 +148,19 @@ async function syncToGitHub() {
 
         // Subir archivo
         const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
+        
+        // Preparar el body del request
+        const requestBody = {
+            message: `Update tournaments - ${new Date().toLocaleString('es-ES')}`,
+            content: encodedContent,
+            branch: 'main'
+        };
+        
+        // Solo incluir SHA si existe (archivo ya existente)
+        if (sha) {
+            requestBody.sha = sha;
+        }
+        
         const response = await fetch(putUrl, {
             method: 'PUT',
             headers: {
@@ -155,12 +168,7 @@ async function syncToGitHub() {
                 'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                message: `Update tournaments - ${new Date().toLocaleString('es-ES')}`,
-                content: encodedContent,
-                sha: sha,
-                branch: 'main'
-            })
+            body: JSON.stringify(requestBody)
         });
 
         if (response.ok) {
@@ -172,24 +180,50 @@ async function syncToGitHub() {
                 }, 2000);
             }
             showMessage('☁️ Torneos sincronizados con GitHub!', 'success');
+            console.log('✅ Archivo subido correctamente a app/tournaments.json');
         } else {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al subir');
+            const errorData = await response.json();
+            console.error('❌ Error de GitHub:', errorData);
+            
+            let errorMessage = errorData.message || 'Error desconocido';
+            
+            // Mensajes específicos según el error
+            if (response.status === 404) {
+                errorMessage = 'Repositorio no encontrado. Verifica el nombre.';
+            } else if (response.status === 401) {
+                errorMessage = 'Token inválido o sin permisos.';
+            } else if (response.status === 422) {
+                errorMessage = 'Error en los datos enviados. Verifica que la carpeta "app" exista en tu repositorio.';
+            }
+            
+            throw new Error(errorMessage);
         }
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error completo:', error);
         if (btn) {
             btn.innerHTML = originalText;
             btn.disabled = false;
         }
         
-        alert(`❌ Error al subir a GitHub:\n\n${error.message}\n\nVerifica:\n• Token correcto\n• Permisos del token (scope: repo)\n• Nombre de repositorio correcto`);
+        let troubleshootMsg = '';
+        if (error.message.includes('Token')) {
+            troubleshootMsg = '\n\n📝 Cómo crear un token:\n1. GitHub → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Seleccionar scope: repo (todos los checks)\n5. Copiar el token';
+        } else if (error.message.includes('Repositorio')) {
+            troubleshootMsg = '\n\n📝 Formato del repositorio: usuario/nombre-repo\nEjemplo: juanperez/pool-tracker-data';
+        } else if (error.message.includes('carpeta')) {
+            troubleshootMsg = '\n\n📝 Crear carpeta "app":\n1. Ve a tu repositorio en GitHub\n2. Click "Add file" → "Create new file"\n3. Escribe: app/README.md\n4. Commit';
+        }
+        
+        alert(`❌ Error al subir a GitHub:\n\n${error.message}${troubleshootMsg}`);
         
         // Opción de reconfigurar
         if (confirm('¿Quieres reconfigurar GitHub?')) {
             localStorage.removeItem(GITHUB_CONFIG_KEY);
             syncToGitHub();
+        }
+    }
+}
         }
     }
 }
@@ -485,7 +519,7 @@ function renderTournaments() {
                 ${circuit ? `
                     <div style="margin-top: 16px;">
                         <div class="tournament-circuit-tag">
-                             ${circuit.name}
+                            🔄 ${circuit.name}
                         </div>
                     </div>
                 ` : ''}
@@ -512,10 +546,10 @@ function renderTournaments() {
                 
                 <div class="tournament-actions">
                     <button class="tournament-action-btn" onclick="event.stopPropagation(); editTournament('${tournament.id}')">
-                        Editar
+                        ✏️ Editar
                     </button>
-                    <button class="btn-delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
-                        Eliminar
+                    <button class="tournament-action-btn delete" onclick="event.stopPropagation(); deleteTournament('${tournament.id}')">
+                        🗑️ Eliminar
                     </button>
                 </div>
             </div>
@@ -760,7 +794,7 @@ function editTournament(id) {
     // Cambiar el texto del botón de guardar
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = 'Actualizar Torneo';
+        submitBtn.innerHTML = '💾 Actualizar Torneo';
     }
     
     // Scroll hacia arriba
@@ -921,7 +955,7 @@ function resetFormToCreateMode() {
     // Restaurar texto del botón
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = 'Guardar Torneo';
+        submitBtn.innerHTML = '💾 Guardar Torneo';
     }
 }
 
