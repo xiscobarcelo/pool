@@ -90,6 +90,28 @@
       },
       "id": "tournament_1766139133027",
       "createdAt": "2025-12-19T10:12:13.027Z"
+    },
+    {
+      "name": "Copa Sénior II",
+      "date": "2025-11-01",
+      "modality": "Bola 10",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766139032239",
+      "cue": "Bear+Centro",
+      "finalRival": "",
+      "notes": "Oviedo",
+      "stats": {
+        "matchesPlayed": 6,
+        "matchesWon": 5,
+        "matchesLost": 1,
+        "gamesWon": 36,
+        "gamesLost": 20,
+        "winRate": "83.3",
+        "averageGamesPerMatch": "9.3"
+      },
+      "id": "tournament_1766139601380",
+      "createdAt": "2025-12-19T10:20:01.380Z"
     }
   ],
   "circuits": [
@@ -494,5 +516,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T10:18:19.203Z"
+  "lastUpdated": "2025-12-19T10:20:04.273Z"
 }
