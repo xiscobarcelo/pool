@@ -182,6 +182,28 @@
       "id": "tournament_1766152424030",
       "createdAt": "2025-12-19T13:53:44.030Z",
       "updatedAt": "2025-12-19T13:55:09.930Z"
+    },
+    {
+      "name": "Copa Sénior IV",
+      "date": "2025-04-26",
+      "modality": "Bola 10",
+      "totalPlayers": 27,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766139032239",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Hector Luna",
+      "notes": "Club Rías Baixas",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 4,
+        "matchesLost": 1,
+        "gamesWon": 32,
+        "gamesLost": 21,
+        "winRate": "80.0",
+        "averageGamesPerMatch": "10.6"
+      },
+      "id": "tournament_1766152618984",
+      "createdAt": "2025-12-19T13:56:58.984Z"
     }
   ],
   "circuits": [
@@ -586,5 +608,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T13:55:15.064Z"
+  "lastUpdated": "2025-12-19T13:57:02.495Z"
 }
