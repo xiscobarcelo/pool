@@ -390,11 +390,7 @@ function renderStats() {
     console.log('📊 Renderizando stats:', stats);
     
     container.innerHTML = `
-        <div class="stat-card-tournament">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-number">${stats.totalTournaments}</div>
-            <div class="stat-label">Torneos</div>
-        </div>
+      
         
         <div class="stat-card-tournament">
             <div class="stat-icon">🥇</div>
@@ -407,18 +403,22 @@ function renderStats() {
             <div class="stat-number">${stats.runnerUps}</div>
             <div class="stat-label">Subcampeón</div>
         </div>
-        
+           <div class="stat-card-tournament">
+            <div class="stat-icon">🥉</div>
+            <div class="stat-number">${stats.semifinals}</div>
+            <div class="stat-label">Semifinales</div>
+        </div>
         <div class="stat-card-tournament">
             <div class="stat-icon">📊</div>
             <div class="stat-number">${stats.winRate}%</div>
             <div class="stat-label">Win Rate</div>
         </div>
-        
-        <div class="stat-card-tournament">
-            <div class="stat-icon">🥉</div>
-            <div class="stat-number">${stats.semifinals}</div>
-            <div class="stat-label">Semifinales</div>
+          <div class="stat-card-tournament">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-number">${stats.totalTournaments}</div>
+            <div class="stat-label">Torneos</div>
         </div>
+     
     `;
     
     // Añadir clase para animación
