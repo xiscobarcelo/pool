@@ -760,7 +760,7 @@ function editTournament(id) {
     // Cambiar el texto del botón de guardar
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = '💾 Actualizar Torneo';
+        submitBtn.innerHTML = 'Actualizar Torneo';
     }
     
     // Scroll hacia arriba
@@ -921,7 +921,7 @@ function resetFormToCreateMode() {
     // Restaurar texto del botón
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = '💾 Guardar Torneo';
+        submitBtn.innerHTML = 'Guardar Torneo';
     }
 }
 
