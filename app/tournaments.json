@@ -361,6 +361,50 @@
       },
       "id": "tournament_1766153920805",
       "createdAt": "2025-12-19T14:18:40.805Z"
+    },
+    {
+      "name": "Cto España",
+      "date": "2024-05-19",
+      "modality": "Bola 9",
+      "totalPlayers": 27,
+      "result": "Semifinales",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jesús Vallejo",
+      "notes": "Club Billar Teo",
+      "stats": {
+        "matchesPlayed": 4,
+        "matchesWon": 3,
+        "matchesLost": 1,
+        "gamesWon": 25,
+        "gamesLost": 17,
+        "winRate": "75.0",
+        "averageGamesPerMatch": "10.5"
+      },
+      "id": "tournament_1766154430635",
+      "createdAt": "2025-12-19T14:27:10.635Z"
+    },
+    {
+      "name": "Cto España Sénior",
+      "date": "2024-05-18",
+      "modality": "Bola 8",
+      "totalPlayers": 27,
+      "result": "Cuartos de Final",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Oscar Arroyo",
+      "notes": "Club Billar Teo",
+      "stats": {
+        "matchesPlayed": 3,
+        "matchesWon": 2,
+        "matchesLost": 1,
+        "gamesWon": 17,
+        "gamesLost": 10,
+        "winRate": "66.7",
+        "averageGamesPerMatch": "9.0"
+      },
+      "id": "tournament_1766154579837",
+      "createdAt": "2025-12-19T14:29:39.837Z"
     }
   ],
   "circuits": [
@@ -765,5 +809,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-19T14:23:41.202Z"
+  "lastUpdated": "2025-12-19T14:29:42.735Z"
 }
