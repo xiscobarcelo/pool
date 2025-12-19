@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('   - Los circuitos se cargan al abrir su pestaña');
 });
 
-
 // Cargar datos
 function loadData() {
     const stored = localStorage.getItem(STORAGE_KEY);
