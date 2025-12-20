@@ -390,13 +390,13 @@
         </div>
 
 <!-- ============================================ -->
-<!-- NUEVA SECCIÃ“N: COMPARATIVA DE CIRCUITOS -->
-<!-- AÃ±adir esto en la secciÃ³n de estadÃ­sticas -->
+<!-- NUEVA SECCIÓN: COMPARATIVA DE CIRCUITOS -->
+<!-- Añadir esto en la sección de estadísticas -->
 <!-- ============================================ -->
 
 <div class="card">
     <div class="card-header">
-        <h2>ðŸ“Š Comparativa de Circuitos</h2>
+        <h2>📊 Comparativa de Circuitos</h2>
         <p class="card-subtitle">Compara el rendimiento entre diferentes circuitos</p>
     </div>
     
@@ -409,32 +409,32 @@
                     Seleccionar todos
                 </button>
                 <button class="btn-secondary btn-small" onclick="clearCircuitSelection()">
-                    Limpiar selecciÃ³n
+                    Limpiar selección
                 </button>
             </div>
             
             <div id="circuitCheckboxes" class="circuit-checkboxes">
-                <!-- Se llenarÃ¡ dinÃ¡micamente con JavaScript -->
+                <!-- Se llenará dinámicamente con JavaScript -->
             </div>
             
             <div class="no-circuits" id="noCircuitsMessage" style="display: none;">
-                <p>âš ï¸ No hay circuitos para comparar. AÃ±ade circuitos a tus torneos primero.</p>
+                <p>⚠️ No hay circuitos para comparar. Añade circuitos a tus torneos primero.</p>
             </div>
         </div>
         
-        <!-- Selector de mÃ©trica -->
+        <!-- Selector de métrica -->
         <div class="metric-selector">
             <label for="comparisonMetric">Comparar por:</label>
             <select id="comparisonMetric" onchange="updateCircuitComparison()">
-                <option value="tournaments">NÃºmero de torneos</option>
+                <option value="tournaments">Número de torneos</option>
                 <option value="winRate">Tasa de victoria (%)</option>
-                <option value="avgPosition">PosiciÃ³n promedio</option>
+                <option value="avgPosition">Posición promedio</option>
                 <option value="totalMatches">Total de partidas</option>
                 <option value="totalWins">Total de victorias</option>
             </select>
         </div>
         
-        <!-- GrÃ¡fica -->
+        <!-- Gráfica -->
         <div class="chart-container">
             <canvas id="circuitComparisonChart"></canvas>
         </div>
@@ -452,11 +452,11 @@
                             <th>% Victoria</th>
                             <th>Pos. Media</th>
                             <th>Mejor Pos.</th>
-                            <th>Ãšltima participaciÃ³n</th>
+                            <th>Última participación</th>
                         </tr>
                     </thead>
                     <tbody id="circuitComparisonTableBody">
-                        <!-- Se llenarÃ¡ dinÃ¡micamente -->
+                        <!-- Se llenará dinámicamente -->
                     </tbody>
                 </table>
             </div>
@@ -466,7 +466,7 @@
 
 <!-- ============================================ -->
 <!-- ESTILOS CSS -->
-<!-- AÃ±adir en la secciÃ³n <style> -->
+<!-- Añadir en la sección <style> -->
 <!-- ============================================ -->
 
 <style>
@@ -571,7 +571,7 @@
     margin: 0;
 }
 
-/* Selector de mÃ©trica */
+/* Selector de métrica */
 .metric-selector {
     margin-bottom: 24px;
     display: flex;
@@ -595,7 +595,7 @@
     min-width: 200px;
 }
 
-/* Contenedor de la grÃ¡fica */
+/* Contenedor de la gráfica */
 .chart-container {
     position: relative;
     height: 400px;
@@ -727,7 +727,7 @@
 
 <!-- ============================================ -->
 <!-- JAVASCRIPT -->
-<!-- AÃ±adir al final del archivo, antes de </body> -->
+<!-- Añadir al final del archivo, antes de </body> -->
 <!-- ============================================ -->
 
 <script>
@@ -742,11 +742,11 @@ const circuitColors = [
     '#ef4444', // Rojo
     '#10b981', // Verde
     '#f59e0b', // Amarillo
-    '#8b5cf6', // PÃºrpura
+    '#8b5cf6', // Púrpura
     '#ec4899', // Rosa
     '#14b8a6', // Turquesa
     '#f97316', // Naranja
-    '#6366f1', // Ãndigo
+    '#6366f1', // Índigo
     '#84cc16', // Lima
 ];
 
@@ -755,9 +755,9 @@ const circuitColors = [
 // ============================================
 
 function initCircuitComparison() {
-    console.log('ðŸ”„ Inicializando comparativa de circuitos...');
+    console.log('🔄 Inicializando comparativa de circuitos...');
     
-    // Obtener circuitos Ãºnicos de los torneos
+    // Obtener circuitos únicos de los torneos
     const circuits = getCircuitsFromTournaments();
     
     if (circuits.length === 0) {
@@ -772,14 +772,14 @@ function initCircuitComparison() {
     // Crear checkboxes
     renderCircuitCheckboxes(circuits);
     
-    // Seleccionar todos por defecto (mÃ¡ximo 5)
+    // Seleccionar todos por defecto (máximo 5)
     const circuitsToSelect = circuits.slice(0, 5);
     circuitsToSelect.forEach(circuit => selectedCircuits.add(circuit.name));
     
     // Actualizar UI
     updateCheckboxStates();
     
-    // Renderizar grÃ¡fica
+    // Renderizar gráfica
     updateCircuitComparison();
 }
 
@@ -836,7 +836,7 @@ function renderCircuitCheckboxes(circuits) {
 }
 
 // ============================================
-// TOGGLE SELECCIÃ“N DE CIRCUITO
+// TOGGLE SELECCIÓN DE CIRCUITO
 // ============================================
 
 function toggleCircuitSelection(circuitName) {
@@ -886,7 +886,7 @@ function selectAllCircuits() {
 }
 
 // ============================================
-// LIMPIAR SELECCIÃ“N
+// LIMPIAR SELECCIÓN
 // ============================================
 
 function clearCircuitSelection() {
@@ -920,7 +920,7 @@ function updateCircuitComparison() {
 }
 
 // ============================================
-// CALCULAR ESTADÃSTICAS DE CIRCUITOS
+// CALCULAR ESTADÍSTICAS DE CIRCUITOS
 // ============================================
 
 function calculateCircuitStats() {
@@ -931,9 +931,9 @@ function calculateCircuitStats() {
         
         if (tournaments.length === 0) return;
         
-        // Calcular estadÃ­sticas
+        // Calcular estadísticas
         const totalTournaments = tournaments.length;
-        const totalWins = tournaments.filter(t => t.result === '1Âº' || t.result === '1').length;
+        const totalWins = tournaments.filter(t => t.result === '1º' || t.result === '1').length;
         const winRate = totalTournaments > 0 ? (totalWins / totalTournaments * 100) : 0;
         
         // Calcular total de partidas
@@ -944,7 +944,7 @@ function calculateCircuitStats() {
             }
         });
         
-        // Calcular posiciÃ³n promedio (solo de torneos con posiciÃ³n numÃ©rica)
+        // Calcular posición promedio (solo de torneos con posición numérica)
         const positions = tournaments
             .map(t => {
                 const result = t.result;
@@ -960,7 +960,7 @@ function calculateCircuitStats() {
         
         const bestPosition = positions.length > 0 ? Math.min(...positions) : 0;
         
-        // Ãšltima participaciÃ³n
+        // Última participación
         const sortedTournaments = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
         const lastDate = sortedTournaments[0]?.date || '';
         
@@ -980,7 +980,7 @@ function calculateCircuitStats() {
 }
 
 // ============================================
-// RENDERIZAR GRÃFICA DE CIRCUITOS
+// RENDERIZAR GRÁFICA DE CIRCUITOS
 // ============================================
 
 function renderCircuitChart(circuitsData, metric) {
@@ -991,17 +991,17 @@ function renderCircuitChart(circuitsData, metric) {
         return;
     }
     
-    // Destruir grÃ¡fica anterior
+    // Destruir gráfica anterior
     destroyCircuitChart();
     
-    // Preparar datos segÃºn la mÃ©trica
+    // Preparar datos según la métrica
     let labels = circuitsData.map(c => c.name);
     let data, label, color;
     
     switch(metric) {
         case 'tournaments':
             data = circuitsData.map(c => c.tournaments);
-            label = 'NÃºmero de Torneos';
+            label = 'Número de Torneos';
             color = '#3b82f6';
             break;
         case 'winRate':
@@ -1011,7 +1011,7 @@ function renderCircuitChart(circuitsData, metric) {
             break;
         case 'avgPosition':
             data = circuitsData.map(c => c.avgPosition > 0 ? c.avgPosition.toFixed(1) : 0);
-            label = 'PosiciÃ³n Promedio';
+            label = 'Posición Promedio';
             color = '#f59e0b';
             break;
         case 'totalMatches':
@@ -1040,7 +1040,7 @@ function renderCircuitChart(circuitsData, metric) {
         barThickness: 40
     }];
     
-    // Crear grÃ¡fica
+    // Crear gráfica
     circuitComparisonChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1088,7 +1088,7 @@ function renderCircuitChart(circuitsData, metric) {
                             if (metric === 'winRate') {
                                 label += '%';
                             } else if (metric === 'avgPosition') {
-                                label += 'Âº';
+                                label += 'º';
                             }
                             return label;
                         }
@@ -1111,7 +1111,7 @@ function renderCircuitChart(circuitsData, metric) {
                             if (metric === 'winRate') {
                                 return value + '%';
                             } else if (metric === 'avgPosition') {
-                                return value + 'Âº';
+                                return value + 'º';
                             }
                             return value;
                         }
@@ -1135,7 +1135,7 @@ function renderCircuitChart(circuitsData, metric) {
 }
 
 // ============================================
-// DESTRUIR GRÃFICA
+// DESTRUIR GRÁFICA
 // ============================================
 
 function destroyCircuitChart() {
@@ -1180,10 +1180,10 @@ function renderCircuitTable(circuitsData) {
                 <td class="metric-value">${circuit.wins}</td>
                 <td class="metric-value ${winRateClass}">${circuit.winRate.toFixed(1)}%</td>
                 <td class="metric-value ${positionClass}">
-                    ${circuit.avgPosition > 0 ? circuit.avgPosition.toFixed(1) + 'Âº' : '-'}
+                    ${circuit.avgPosition > 0 ? circuit.avgPosition.toFixed(1) + 'º' : '-'}
                 </td>
                 <td class="metric-value positive">
-                    ${circuit.bestPosition > 0 ? circuit.bestPosition + 'Âº' : '-'}
+                    ${circuit.bestPosition > 0 ? circuit.bestPosition + 'º' : '-'}
                 </td>
                 <td>${circuit.lastDate ? new Date(circuit.lastDate).toLocaleDateString('es-ES') : '-'}</td>
             </tr>
@@ -1192,7 +1192,7 @@ function renderCircuitTable(circuitsData) {
 }
 
 // ============================================
-// FUNCIÃ“N AUXILIAR: ESCAPE HTML
+// FUNCIÓN AUXILIAR: ESCAPE HTML
 // ============================================
 
 function escapeHtml(text) {
@@ -1207,12 +1207,12 @@ function escapeHtml(text) {
 }
 
 // ============================================
-// INICIALIZAR AL CARGAR LA PÃGINA
+// INICIALIZAR AL CARGAR LA PÁGINA
 // ============================================
 
-// AÃ±adir esto a tu DOMContentLoaded existente o crear uno nuevo:
+// Añadir esto a tu DOMContentLoaded existente o crear uno nuevo:
 document.addEventListener('DOMContentLoaded', () => {
-    // ... tu cÃ³digo existente ...
+    // ... tu código existente ...
     
     // Inicializar comparativa de circuitos
     setTimeout(() => {
@@ -1220,8 +1220,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 });
 
-// TambiÃ©n actualizar cuando cambien los datos
-// AÃ±adir esto a tu funciÃ³n saveData() o renderAll():
+// También actualizar cuando cambien los datos
+// Añadir esto a tu función saveData() o renderAll():
 function updateCircuitComparisonIfVisible() {
     const comparisonCard = document.querySelector('#circuitComparisonChart');
     if (comparisonCard && comparisonCard.offsetParent !== null) {
@@ -1229,7 +1229,7 @@ function updateCircuitComparisonIfVisible() {
     }
 }
 
-console.log('âœ… Comparativa de circuitos cargada');
+console.log('✅ Comparativa de circuitos cargada');
 </script>
 
 
@@ -1245,6 +1245,7 @@ console.log('âœ… Comparativa de circuitos cargada');
     <script src="js/tournaments.js"></script>
 </body>
 </html>
+
 
 
 
