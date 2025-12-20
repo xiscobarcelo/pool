@@ -1693,17 +1693,6 @@
       "modality": "Bola 9",
       "date": "2025-12-06",
       "id": 1766018096357
-    },
-    {
-      "player1": "Xisco",
-      "player2": "PEPE",
-      "score1": "1",
-      "score2": "11",
-      "material1": "Velasco+Revo12.9",
-      "material2": "-",
-      "modality": "Bola 9",
-      "date": "2025-12-20",
-      "id": 1766263051402
     }
   ],
   "players": [
@@ -1736,10 +1725,10 @@
       "gamesWon": 172
     },
     "bola9": {
-      "matchesPlayed": 127,
+      "matchesPlayed": 126,
       "matchesWon": 88,
-      "gamesPlayed": 1415,
-      "gamesWon": 800
+      "gamesPlayed": 1403,
+      "gamesWon": 799
     },
     "bola10": {
       "matchesPlayed": 157,
