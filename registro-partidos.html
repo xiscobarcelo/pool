@@ -17,53 +17,7 @@
             window.location.href = 'index.html';
         }
     </script>
-	 <script src="js/user-manager.js"></script>
-    <script>
-        // ============================================================
-        // INICIALIZACIÓN CON PERSONALIZACIÓN
-        // ============================================================
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // Inicializar UserManager
-            const user = UserManager.init();
-            
-            // Personalizar título de página
-            const userName = UserManager.getUserName();
-            document.title = `Estadísticas - ${userName}`;
-            
-            // Personalizar avatar
-            const avatarContainer = document.getElementById('userAvatarContainer');
-            const userPicture = UserManager.getUserPicture();
-            
-            if (userPicture) {
-                avatarContainer.innerHTML = `<img src="${userPicture}" class="user-avatar" alt="${userName}">`;
-            } else {
-                const initial = userName.charAt(0).toUpperCase();
-                avatarContainer.innerHTML = `<div class="user-avatar-initial">${initial}</div>`;
-            }
-            
-            // Personalizar saludo con hora del día
-            const hour = new Date().getHours();
-            let greeting = 'Hola';
-            if (hour < 12) greeting = 'Buenos días';
-            else if (hour < 20) greeting = 'Buenas tardes';
-            else greeting = 'Buenas noches';
-            
-            document.getElementById('welcomeTitle').textContent = `${greeting}, ${userName}`;
-            
-            // Actualizar subtítulo si es invitado
-            if (UserManager.isGuest()) {
-                document.getElementById('welcomeSubtitle').textContent = 'Modo invitado - Datos locales';
-            } else {
-                document.getElementById('welcomeSubtitle').textContent = 'Sincronizado en la nube';
-            }
-            
-            // Resto de tu código de inicialización aquí
-            // loadData();
-            // renderStats();
-            // etc.
-        });
-    </script>
+	
 </head>
 <body>
     <!-- Header con Logo y Menú -->
