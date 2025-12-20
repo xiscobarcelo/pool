@@ -208,11 +208,11 @@ async function syncToGitHub() {
                     btn.disabled = false;
                 }, 2000);
             }
-            showMessage('☁️ Torneos sincronizados con GitHub!', 'success');
+            showMessage('☁️ Torneos sincronizados', 'success');
             console.log('✅ Archivo subido correctamente a app/tournaments.json');
         } else {
             const errorData = await response.json();
-            console.error('❌ Error de GitHub:', errorData);
+            console.error('❌ Error de Servidor:', errorData);
             
             let errorMessage = errorData.message || 'Error desconocido';
             
@@ -274,7 +274,7 @@ async function loadFromGitHub() {
         // Descargar desde tournaments.json
         const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
         
-        console.log('🔄 Cargando torneos desde GitHub:', githubUrl);
+        console.log('🔄 Cargando torneos desde el server:', githubUrl);
         
         const response = await fetch(githubUrl, {
             cache: 'no-cache',
@@ -306,7 +306,7 @@ async function loadFromGitHub() {
             const circuitsCount = githubData.circuits ? githubData.circuits.length : 0;
             const message = `☁️ Torneos actualizados desde GitHub\n${tournamentsCount} torneos y ${circuitsCount} circuitos sincronizados`;
             showMessage(message, 'success');
-            console.log('✅ Torneos cargados desde GitHub:', tournamentsCount, 'torneos');
+            console.log('✅ Torneos cargados desde el server:', tournamentsCount, 'torneos');
             
             if (btn) {
                 btn.innerHTML = '✅ ¡Descargado!';
