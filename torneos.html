@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Torneos - Pool Tracker</title>
+    <title>Torneos</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="alternate icon" href="favicon.ico">
     
@@ -388,6 +388,853 @@
             </div>
           </div>
         </div>
+
+<!-- ============================================ -->
+<!-- NUEVA SECCIÃ“N: COMPARATIVA DE CIRCUITOS -->
+<!-- AÃ±adir esto en la secciÃ³n de estadÃ­sticas -->
+<!-- ============================================ -->
+
+<div class="card">
+    <div class="card-header">
+        <h2>ðŸ“Š Comparativa de Circuitos</h2>
+        <p class="card-subtitle">Compara el rendimiento entre diferentes circuitos</p>
+    </div>
+    
+    <div class="card-body">
+        <!-- Selector de circuitos -->
+        <div class="circuit-selector-container">
+            <div class="selector-header">
+                <span class="selector-label">Selecciona circuitos para comparar:</span>
+                <button class="btn-secondary btn-small" onclick="selectAllCircuits()">
+                    Seleccionar todos
+                </button>
+                <button class="btn-secondary btn-small" onclick="clearCircuitSelection()">
+                    Limpiar selecciÃ³n
+                </button>
+            </div>
+            
+            <div id="circuitCheckboxes" class="circuit-checkboxes">
+                <!-- Se llenarÃ¡ dinÃ¡micamente con JavaScript -->
+            </div>
+            
+            <div class="no-circuits" id="noCircuitsMessage" style="display: none;">
+                <p>âš ï¸ No hay circuitos para comparar. AÃ±ade circuitos a tus torneos primero.</p>
+            </div>
+        </div>
+        
+        <!-- Selector de mÃ©trica -->
+        <div class="metric-selector">
+            <label for="comparisonMetric">Comparar por:</label>
+            <select id="comparisonMetric" onchange="updateCircuitComparison()">
+                <option value="tournaments">NÃºmero de torneos</option>
+                <option value="winRate">Tasa de victoria (%)</option>
+                <option value="avgPosition">PosiciÃ³n promedio</option>
+                <option value="totalMatches">Total de partidas</option>
+                <option value="totalWins">Total de victorias</option>
+            </select>
+        </div>
+        
+        <!-- GrÃ¡fica -->
+        <div class="chart-container">
+            <canvas id="circuitComparisonChart"></canvas>
+        </div>
+        
+        <!-- Tabla comparativa -->
+        <div class="comparison-table-container">
+            <h3>Detalles por circuito</h3>
+            <div class="table-responsive">
+                <table id="circuitComparisonTable" class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Circuito</th>
+                            <th>Torneos</th>
+                            <th>Victorias</th>
+                            <th>% Victoria</th>
+                            <th>Pos. Media</th>
+                            <th>Mejor Pos.</th>
+                            <th>Ãšltima participaciÃ³n</th>
+                        </tr>
+                    </thead>
+                    <tbody id="circuitComparisonTableBody">
+                        <!-- Se llenarÃ¡ dinÃ¡micamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- ESTILOS CSS -->
+<!-- AÃ±adir en la secciÃ³n <style> -->
+<!-- ============================================ -->
+
+<style>
+/* Contenedor del selector de circuitos */
+.circuit-selector-container {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.selector-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.selector-label {
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 15px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* Checkboxes de circuitos */
+.circuit-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.circuit-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.circuit-checkbox:hover {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.circuit-checkbox.selected {
+    border-color: #3b82f6;
+    background: #dbeafe;
+}
+
+.circuit-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+.circuit-checkbox label {
+    cursor: pointer;
+    font-size: 14px;
+    color: #1d1d1f;
+    font-weight: 500;
+    margin: 0;
+    flex: 1;
+}
+
+.circuit-checkbox .circuit-count {
+    font-size: 12px;
+    color: #86868b;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.circuit-checkbox.selected .circuit-count {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Mensaje sin circuitos */
+.no-circuits {
+    text-align: center;
+    padding: 40px 20px;
+    color: #86868b;
+}
+
+.no-circuits p {
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Selector de mÃ©trica */
+.metric-selector {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.metric-selector label {
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 14px;
+}
+
+.metric-selector select {
+    padding: 8px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+/* Contenedor de la grÃ¡fica */
+.chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 32px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+/* Tabla comparativa */
+.comparison-table-container {
+    margin-top: 24px;
+}
+
+.comparison-table-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 16px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table thead {
+    background: #f8f9fa;
+}
+
+.comparison-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.comparison-table tbody tr {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.2s;
+}
+
+.comparison-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.comparison-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.comparison-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #1d1d1f;
+}
+
+.comparison-table .circuit-name {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comparison-table .circuit-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.comparison-table .metric-value {
+    font-weight: 600;
+}
+
+.comparison-table .positive {
+    color: #10b981;
+}
+
+.comparison-table .negative {
+    color: #ef4444;
+}
+
+.comparison-table .neutral {
+    color: #86868b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .circuit-checkboxes {
+        grid-template-columns: 1fr;
+    }
+    
+    .selector-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn-small {
+        width: 100%;
+    }
+    
+    .metric-selector {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .metric-selector select {
+        width: 100%;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+}
+</style>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT -->
+<!-- AÃ±adir al final del archivo, antes de </body> -->
+<!-- ============================================ -->
+
+<script>
+// ============================================
+// VARIABLES GLOBALES PARA COMPARATIVA
+// ============================================
+
+let circuitComparisonChart = null;
+let selectedCircuits = new Set();
+const circuitColors = [
+    '#3b82f6', // Azul
+    '#ef4444', // Rojo
+    '#10b981', // Verde
+    '#f59e0b', // Amarillo
+    '#8b5cf6', // PÃºrpura
+    '#ec4899', // Rosa
+    '#14b8a6', // Turquesa
+    '#f97316', // Naranja
+    '#6366f1', // Ãndigo
+    '#84cc16', // Lima
+];
+
+// ============================================
+// INICIALIZAR COMPARATIVA DE CIRCUITOS
+// ============================================
+
+function initCircuitComparison() {
+    console.log('ðŸ”„ Inicializando comparativa de circuitos...');
+    
+    // Obtener circuitos Ãºnicos de los torneos
+    const circuits = getCircuitsFromTournaments();
+    
+    if (circuits.length === 0) {
+        document.getElementById('circuitCheckboxes').style.display = 'none';
+        document.getElementById('noCircuitsMessage').style.display = 'block';
+        return;
+    }
+    
+    document.getElementById('circuitCheckboxes').style.display = 'grid';
+    document.getElementById('noCircuitsMessage').style.display = 'none';
+    
+    // Crear checkboxes
+    renderCircuitCheckboxes(circuits);
+    
+    // Seleccionar todos por defecto (mÃ¡ximo 5)
+    const circuitsToSelect = circuits.slice(0, 5);
+    circuitsToSelect.forEach(circuit => selectedCircuits.add(circuit.name));
+    
+    // Actualizar UI
+    updateCheckboxStates();
+    
+    // Renderizar grÃ¡fica
+    updateCircuitComparison();
+}
+
+// ============================================
+// OBTENER CIRCUITOS DE TORNEOS
+// ============================================
+
+function getCircuitsFromTournaments() {
+    const circuitMap = new Map();
+    
+    matchesData.tournaments.forEach(tournament => {
+        if (tournament.circuit && tournament.circuit.trim() !== '') {
+            const circuitName = tournament.circuit.trim();
+            
+            if (!circuitMap.has(circuitName)) {
+                circuitMap.set(circuitName, {
+                    name: circuitName,
+                    count: 0,
+                    tournaments: []
+                });
+            }
+            
+            const circuit = circuitMap.get(circuitName);
+            circuit.count++;
+            circuit.tournaments.push(tournament);
+        }
+    });
+    
+    // Convertir a array y ordenar por cantidad de torneos
+    return Array.from(circuitMap.values())
+        .sort((a, b) => b.count - a.count);
+}
+
+// ============================================
+// RENDERIZAR CHECKBOXES
+// ============================================
+
+function renderCircuitCheckboxes(circuits) {
+    const container = document.getElementById('circuitCheckboxes');
+    
+    container.innerHTML = circuits.map((circuit, index) => `
+        <div class="circuit-checkbox ${selectedCircuits.has(circuit.name) ? 'selected' : ''}" 
+             onclick="toggleCircuitSelection('${escapeHtml(circuit.name)}')">
+            <input 
+                type="checkbox" 
+                id="circuit_${index}"
+                ${selectedCircuits.has(circuit.name) ? 'checked' : ''}
+                onchange="toggleCircuitSelection('${escapeHtml(circuit.name)}')"
+                onclick="event.stopPropagation()">
+            <label for="circuit_${index}">${escapeHtml(circuit.name)}</label>
+            <span class="circuit-count">${circuit.count}</span>
+        </div>
+    `).join('');
+}
+
+// ============================================
+// TOGGLE SELECCIÃ“N DE CIRCUITO
+// ============================================
+
+function toggleCircuitSelection(circuitName) {
+    if (selectedCircuits.has(circuitName)) {
+        selectedCircuits.delete(circuitName);
+    } else {
+        selectedCircuits.add(circuitName);
+    }
+    
+    updateCheckboxStates();
+    updateCircuitComparison();
+}
+
+// ============================================
+// ACTUALIZAR ESTADOS DE CHECKBOXES
+// ============================================
+
+function updateCheckboxStates() {
+    const checkboxes = document.querySelectorAll('.circuit-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        const input = checkbox.querySelector('input[type="checkbox"]');
+        const circuitName = input.id.replace('circuit_', '');
+        const label = checkbox.querySelector('label');
+        const actualName = label.textContent;
+        
+        if (selectedCircuits.has(actualName)) {
+            checkbox.classList.add('selected');
+            input.checked = true;
+        } else {
+            checkbox.classList.remove('selected');
+            input.checked = false;
+        }
+    });
+}
+
+// ============================================
+// SELECCIONAR TODOS LOS CIRCUITOS
+// ============================================
+
+function selectAllCircuits() {
+    const circuits = getCircuitsFromTournaments();
+    selectedCircuits.clear();
+    circuits.forEach(circuit => selectedCircuits.add(circuit.name));
+    updateCheckboxStates();
+    updateCircuitComparison();
+}
+
+// ============================================
+// LIMPIAR SELECCIÃ“N
+// ============================================
+
+function clearCircuitSelection() {
+    selectedCircuits.clear();
+    updateCheckboxStates();
+    updateCircuitComparison();
+}
+
+// ============================================
+// ACTUALIZAR COMPARATIVA
+// ============================================
+
+function updateCircuitComparison() {
+    if (selectedCircuits.size === 0) {
+        destroyCircuitChart();
+        document.getElementById('circuitComparisonTableBody').innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; color: #86868b; padding: 40px;">
+                    Selecciona al menos un circuito para ver la comparativa
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    const metric = document.getElementById('comparisonMetric').value;
+    const circuitsData = calculateCircuitStats();
+    
+    renderCircuitChart(circuitsData, metric);
+    renderCircuitTable(circuitsData);
+}
+
+// ============================================
+// CALCULAR ESTADÃSTICAS DE CIRCUITOS
+// ============================================
+
+function calculateCircuitStats() {
+    const stats = [];
+    
+    selectedCircuits.forEach(circuitName => {
+        const tournaments = matchesData.tournaments.filter(t => t.circuit === circuitName);
+        
+        if (tournaments.length === 0) return;
+        
+        // Calcular estadÃ­sticas
+        const totalTournaments = tournaments.length;
+        const totalWins = tournaments.filter(t => t.result === '1Âº' || t.result === '1').length;
+        const winRate = totalTournaments > 0 ? (totalWins / totalTournaments * 100) : 0;
+        
+        // Calcular total de partidas
+        let totalMatches = 0;
+        tournaments.forEach(t => {
+            if (t.stats && t.stats.victorias !== undefined && t.stats.derrotas !== undefined) {
+                totalMatches += t.stats.victorias + t.stats.derrotas;
+            }
+        });
+        
+        // Calcular posiciÃ³n promedio (solo de torneos con posiciÃ³n numÃ©rica)
+        const positions = tournaments
+            .map(t => {
+                const result = t.result;
+                if (!result) return null;
+                const match = result.match(/\d+/);
+                return match ? parseInt(match[0]) : null;
+            })
+            .filter(p => p !== null);
+        
+        const avgPosition = positions.length > 0 
+            ? positions.reduce((a, b) => a + b, 0) / positions.length 
+            : 0;
+        
+        const bestPosition = positions.length > 0 ? Math.min(...positions) : 0;
+        
+        // Ãšltima participaciÃ³n
+        const sortedTournaments = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const lastDate = sortedTournaments[0]?.date || '';
+        
+        stats.push({
+            name: circuitName,
+            tournaments: totalTournaments,
+            wins: totalWins,
+            winRate: winRate,
+            avgPosition: avgPosition,
+            bestPosition: bestPosition,
+            totalMatches: totalMatches,
+            lastDate: lastDate
+        });
+    });
+    
+    return stats;
+}
+
+// ============================================
+// RENDERIZAR GRÃFICA DE CIRCUITOS
+// ============================================
+
+function renderCircuitChart(circuitsData, metric) {
+    const ctx = document.getElementById('circuitComparisonChart');
+    
+    if (!ctx) {
+        console.error('Canvas no encontrado');
+        return;
+    }
+    
+    // Destruir grÃ¡fica anterior
+    destroyCircuitChart();
+    
+    // Preparar datos segÃºn la mÃ©trica
+    let labels = circuitsData.map(c => c.name);
+    let data, label, color;
+    
+    switch(metric) {
+        case 'tournaments':
+            data = circuitsData.map(c => c.tournaments);
+            label = 'NÃºmero de Torneos';
+            color = '#3b82f6';
+            break;
+        case 'winRate':
+            data = circuitsData.map(c => c.winRate.toFixed(1));
+            label = 'Tasa de Victoria (%)';
+            color = '#10b981';
+            break;
+        case 'avgPosition':
+            data = circuitsData.map(c => c.avgPosition > 0 ? c.avgPosition.toFixed(1) : 0);
+            label = 'PosiciÃ³n Promedio';
+            color = '#f59e0b';
+            break;
+        case 'totalMatches':
+            data = circuitsData.map(c => c.totalMatches);
+            label = 'Total de Partidas';
+            color = '#8b5cf6';
+            break;
+        case 'totalWins':
+            data = circuitsData.map(c => c.wins);
+            label = 'Total de Victorias';
+            color = '#ec4899';
+            break;
+    }
+    
+    // Crear datasets con colores diferentes por circuito
+    const datasets = [{
+        label: label,
+        data: data,
+        backgroundColor: circuitsData.map((_, index) => {
+            const baseColor = circuitColors[index % circuitColors.length];
+            return baseColor + '40'; // Transparencia
+        }),
+        borderColor: circuitsData.map((_, index) => circuitColors[index % circuitColors.length]),
+        borderWidth: 2,
+        borderRadius: 8,
+        barThickness: 40
+    }];
+    
+    // Crear grÃ¡fica
+    circuitComparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                            size: 12,
+                            weight: '500'
+                        },
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    titleFont: {
+                        size: 14,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 13
+                    },
+                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                    borderWidth: 1,
+                    displayColors: true,
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y;
+                            if (metric === 'winRate') {
+                                label += '%';
+                            } else if (metric === 'avgPosition') {
+                                label += 'Âº';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 12
+                        },
+                        padding: 8,
+                        callback: function(value) {
+                            if (metric === 'winRate') {
+                                return value + '%';
+                            } else if (metric === 'avgPosition') {
+                                return value + 'Âº';
+                            }
+                            return value;
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        },
+                        padding: 8
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ============================================
+// DESTRUIR GRÃFICA
+// ============================================
+
+function destroyCircuitChart() {
+    if (circuitComparisonChart) {
+        circuitComparisonChart.destroy();
+        circuitComparisonChart = null;
+    }
+}
+
+// ============================================
+// RENDERIZAR TABLA COMPARATIVA
+// ============================================
+
+function renderCircuitTable(circuitsData) {
+    const tbody = document.getElementById('circuitComparisonTableBody');
+    
+    if (circuitsData.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; color: #86868b; padding: 40px;">
+                    No hay datos para mostrar
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = circuitsData.map((circuit, index) => {
+        const color = circuitColors[index % circuitColors.length];
+        const winRateClass = circuit.winRate >= 50 ? 'positive' : circuit.winRate >= 30 ? 'neutral' : 'negative';
+        const positionClass = circuit.avgPosition <= 3 ? 'positive' : circuit.avgPosition <= 8 ? 'neutral' : 'negative';
+        
+        return `
+            <tr>
+                <td>
+                    <div class="circuit-name">
+                        <div class="circuit-color" style="background-color: ${color};"></div>
+                        ${escapeHtml(circuit.name)}
+                    </div>
+                </td>
+                <td class="metric-value">${circuit.tournaments}</td>
+                <td class="metric-value">${circuit.wins}</td>
+                <td class="metric-value ${winRateClass}">${circuit.winRate.toFixed(1)}%</td>
+                <td class="metric-value ${positionClass}">
+                    ${circuit.avgPosition > 0 ? circuit.avgPosition.toFixed(1) + 'Âº' : '-'}
+                </td>
+                <td class="metric-value positive">
+                    ${circuit.bestPosition > 0 ? circuit.bestPosition + 'Âº' : '-'}
+                </td>
+                <td>${circuit.lastDate ? new Date(circuit.lastDate).toLocaleDateString('es-ES') : '-'}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// ============================================
+// FUNCIÃ“N AUXILIAR: ESCAPE HTML
+// ============================================
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// ============================================
+// INICIALIZAR AL CARGAR LA PÃGINA
+// ============================================
+
+// AÃ±adir esto a tu DOMContentLoaded existente o crear uno nuevo:
+document.addEventListener('DOMContentLoaded', () => {
+    // ... tu cÃ³digo existente ...
+    
+    // Inicializar comparativa de circuitos
+    setTimeout(() => {
+        initCircuitComparison();
+    }, 500);
+});
+
+// TambiÃ©n actualizar cuando cambien los datos
+// AÃ±adir esto a tu funciÃ³n saveData() o renderAll():
+function updateCircuitComparisonIfVisible() {
+    const comparisonCard = document.querySelector('#circuitComparisonChart');
+    if (comparisonCard && comparisonCard.offsetParent !== null) {
+        initCircuitComparison();
+    }
+}
+
+console.log('âœ… Comparativa de circuitos cargada');
+</script>
+
+
+
+		
 <!-- Indicador de sincronización -->
     <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
         ☁️ Sincronizado
@@ -398,6 +1245,7 @@
     <script src="js/tournaments.js"></script>
 </body>
 </html>
+
 
 
 
