@@ -3,18 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pool Tracker - Iniciar Sesión</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="favicon.ico">
-    
-    <!-- Fuentes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
+     <link rel="icon" type="image/svg" href="favicon.svg">
+    <title>Acceso - Pool Tracker </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -23,415 +14,378 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-image:url("/pool/images/fondo.jpg");
+            background-color: #040045;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 48px 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 440px;
-            width: 100%;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo {
+        .lock-screen {
             text-align: center;
-            margin-bottom: 32px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+.logo{
+    margin-top:20px;
+        align-content: flex-start;
+    align-items: center;
+}
+        .lock-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
 
-        .logo-icon {
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .lock-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .lock-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+        }
+
+        .pin-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .pin-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .pin-dot.filled {
+            background: white;
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        .pin-dot.shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .key {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .logo-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1d1d1f;
-            margin-bottom: 8px;
-        }
-
-        .logo-subtitle {
-            font-size: 16px;
-            color: #86868b;
+            font-size: 1.8rem;
             font-weight: 500;
-        }
-
-        .welcome-text {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .welcome-text h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1d1d1f;
-            margin-bottom: 8px;
-        }
-
-        .welcome-text p {
-            font-size: 15px;
-            color: #86868b;
-            line-height: 1.5;
-        }
-
-        .login-options {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .google-btn-wrapper {
-            display: flex;
-            justify-content: center;
-            padding: 12px 0;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 24px 0;
-            color: #86868b;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .divider span {
-            padding: 0 16px;
-        }
-
-        .guest-login {
-            background: transparent;
-            border: 2px solid rgba(102, 126, 234, 0.3);
-            color: #667eea;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            width: 100%;
-        }
-
-        .guest-login:hover {
-            background: rgba(102, 126, 234, 0.1);
-            border-color: #667eea;
-            transform: translateY(-2px);
-        }
-
-        .features {
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .feature {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            color: #1d1d1f;
-            font-size: 14px;
-        }
-
-        .feature:last-child {
-            margin-bottom: 0;
-        }
-
-        .feature-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: white;
-            font-size: 14px;
-            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
         }
 
-        .footer-text {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 13px;
-            color: #86868b;
+        .key:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
-        /* Loading state */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
+        .key:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.4);
         }
 
-        .loading.active {
-            display: block;
+        .key.delete {
+            font-size: 1.5rem;
         }
 
-        .spinner {
-            border: 3px solid rgba(102, 126, 234, 0.2);
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+        .key.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .key.empty:hover {
+            transform: none;
         }
 
-        /* Responsive */
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.2);
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        .config-link {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-top: 30px;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        .config-link:hover {
+            color: white;
+        }
+
         @media (max-width: 480px) {
-            .login-container {
-                padding: 32px 24px;
+            .key {
+                width: 70px;
+                height: 70px;
+                font-size: 1.5rem;
             }
-
-            .logo-title {
-                font-size: 24px;
+            
+            .keypad {
+                gap: 15px;
             }
-
-            .welcome-text h2 {
-                font-size: 20px;
-            }
-        }
-
-        /* Custom Google Button Style */
-        #g_id_onload {
-            position: absolute;
-            top: -9999px;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">
-            <div class="logo-icon">🎱</div>
-            <div class="logo-title">Pool Tracker</div>
-            <div class="logo-subtitle">Tu asistente de billar</div>
+    <div class="lock-screen">
+        <div class="lock-icon">🔒</div>
+        <h1 class="lock-title">Pool Tracker</h1>
+        <p class="lock-subtitle">Introduce tu código PIN</p>
+
+        <div class="pin-display">
+            <div class="pin-dot" id="dot1"></div>
+            <div class="pin-dot" id="dot2"></div>
+            <div class="pin-dot" id="dot3"></div>
+            <div class="pin-dot" id="dot4"></div>
         </div>
 
-        <div class="welcome-text">
-            <h2>Bienvenido</h2>
-            <p>Inicia sesión para acceder a tus estadísticas y torneos</p>
+        <div class="keypad">
+            <div class="key" onclick="addDigit('1')">1</div>
+            <div class="key" onclick="addDigit('2')">2</div>
+            <div class="key" onclick="addDigit('3')">3</div>
+            <div class="key" onclick="addDigit('4')">4</div>
+            <div class="key" onclick="addDigit('5')">5</div>
+            <div class="key" onclick="addDigit('6')">6</div>
+            <div class="key" onclick="addDigit('7')">7</div>
+            <div class="key" onclick="addDigit('8')">8</div>
+            <div class="key" onclick="addDigit('9')">9</div>
+            <div class="key empty"></div>
+            <div class="key" onclick="addDigit('0')">0</div>
+            <div class="key delete" onclick="deleteDigit()">⌫</div>
         </div>
-
-        <div class="login-options">
-            <!-- Google Sign-In Button -->
-            <div id="g_id_onload"
-                 data-client_id="176977647030-8shnobfabe3puf40gmtm1vahh2k4u8ia.apps.googleusercontent.com"
-                 data-callback="handleCredentialResponse"
-                 data-auto_prompt="false">
-            </div>
-            
-            <div class="google-btn-wrapper">
-                <div id="g_id_signin"
-                     data-type="standard"
-                     data-size="large"
-                     data-theme="outline"
-                     data-text="signin_with"
-                     data-shape="rectangular"
-                     data-logo_alignment="left"
-                     data-width="360">
-                </div>
-            </div>
-        </div>
-
-        <div class="divider">
-            <span>o continuar como</span>
-        </div>
-
-        <button class="guest-login" onclick="guestLogin()">
-            👤 Invitado (sin sincronización)
-        </button>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Iniciando sesión...</p>
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">☁️</div>
-                <span>Sincroniza tus datos en la nube</span>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">📊</div>
-                <span>Estadísticas personalizadas</span>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🏆</div>
-                <span>Gestiona tus torneos</span>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">📱</div>
-                <span>Accede desde cualquier dispositivo</span>
-            </div>
-        </div>
-
-        <div class="footer-text">
-            Al continuar, aceptas nuestros términos de servicio
-        </div>
+<div class=logo><img src="/pool/images/logobarcelo.svg"></div>
+        <div class="error-message" id="errorMessage"></div>
+        <a href="#" class="config-link" onclick="showConfigPrompt(); return false;">⚙️ Cambiar PIN</a>
     </div>
 
     <script>
-        // ============================================================
-        // CONFIGURACIÓN
-        // ============================================================
-        
-        // IMPORTANTE: Reemplaza con tu Google Client ID
-        // Obtenerlo en: https://console.cloud.google.com/
-        const GOOGLE_CLIENT_ID = '176977647030-8shnobfabe3puf40gmtm1vahh2k4u8ia.apps.googleusercontent.com';
+        const PIN_KEY = 'xisco_system_pin';
+        const SESSION_KEY = 'xisco_session_active';
+        let currentPin = '';
+        let attempts = 0;
+        const maxAttempts = 5;
 
-        // ============================================================
-        // GOOGLE SIGN-IN
-        // ============================================================
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verificar si hay sesión activa
+            if (sessionStorage.getItem(SESSION_KEY)) {
+                goToSystem();
+                return;
+            }
 
-        function handleCredentialResponse(response) {
-            console.log('🔐 Google Sign-In exitoso');
+            // Verificar si existe un PIN guardado
+            if (!localStorage.getItem(PIN_KEY)) {
+                setupInitialPin();
+            }
+
+            // Soporte para teclado físico
+            document.addEventListener('keydown', (e) => {
+                if (e.key >= '0' && e.key <= '9') {
+                    addDigit(e.key);
+                } else if (e.key === 'Backspace' || e.key === 'Delete') {
+                    deleteDigit();
+                } else if (e.key === 'Enter') {
+                    if (currentPin.length === 4) {
+                        verifyPin();
+                    }
+                }
+            });
+        });
+
+        function setupInitialPin() {
+            const pin = prompt('👋 Bienvenido! Establece tu PIN de 4 dígitos para proteger el sistema:\n\n(Guárdalo en un lugar seguro)');
             
-            // Decodificar el JWT token
-            const payload = parseJwt(response.credential);
-            console.log('👤 Usuario:', payload);
-            
-            // Guardar información del usuario
-            const userData = {
-                id: payload.sub,
-                email: payload.email,
-                name: payload.name,
-                picture: payload.picture,
-                loginMethod: 'google',
-                loginDate: new Date().toISOString()
-            };
-            
-            // Guardar en localStorage
-            localStorage.setItem('pool_tracker_user', JSON.stringify(userData));
-            sessionStorage.setItem('xisco_session_active', 'true');
-            
-            // Mostrar loading
-            showLoading();
-            
-            // Redirigir después de 1 segundo
-            setTimeout(() => {
-                window.location.href = 'registro-partidos.html';
-            }, 1000);
+            if (pin && pin.length === 4 && /^\d{4}$/.test(pin)) {
+                localStorage.setItem(PIN_KEY, pin);
+                alert('✅ PIN configurado correctamente');
+            } else {
+                alert('⚠️ El PIN debe tener exactamente 4 dígitos');
+                setupInitialPin();
+            }
         }
 
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+        function addDigit(digit) {
+            if (currentPin.length < 4) {
+                currentPin += digit;
+                updateDisplay();
+                
+                if (currentPin.length === 4) {
+                    setTimeout(verifyPin, 300);
+                }
+            }
         }
 
-        // ============================================================
-        // LOGIN COMO INVITADO
-        // ============================================================
+        function deleteDigit() {
+            if (currentPin.length > 0) {
+                currentPin = currentPin.slice(0, -1);
+                updateDisplay();
+            }
+        }
 
-        function guestLogin() {
-            console.log('👤 Modo invitado');
+        function updateDisplay() {
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if (i <= currentPin.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            }
+        }
+
+        function verifyPin() {
+            const savedPin = localStorage.getItem(PIN_KEY);
             
-            // Crear usuario invitado
-            const guestData = {
-                id: 'guest_' + Date.now(),
-                email: null,
-                name: 'Invitado',
-                picture: null,
-                loginMethod: 'guest',
-                loginDate: new Date().toISOString()
-            };
+            if (currentPin === savedPin) {
+                // PIN correcto
+                attempts = 0;
+                sessionStorage.setItem(SESSION_KEY, 'true');
+                showSuccess();
+            } else {
+                // PIN incorrecto
+                attempts++;
+                showError();
+                
+                if (attempts >= maxAttempts) {
+                    showMaxAttemptsError();
+                }
+            }
+        }
+
+        function showSuccess() {
+            document.querySelector('.lock-icon').textContent = '✅';
+            document.querySelector('.lock-title').textContent = '¡Acceso concedido!';
             
-            // Guardar en localStorage
-            localStorage.setItem('pool_tracker_user', JSON.stringify(guestData));
-            sessionStorage.setItem('xisco_session_active', 'true');
-            
-            // Mostrar loading
-            showLoading();
-            
-            // Redirigir
             setTimeout(() => {
-                window.location.href = 'registro-partidos.html';
+                goToSystem();
             }, 500);
         }
 
-        // ============================================================
-        // UTILIDADES
-        // ============================================================
-
-        function showLoading() {
-            document.querySelector('.login-options').style.display = 'none';
-            document.querySelector('.divider').style.display = 'none';
-            document.querySelector('.guest-login').style.display = 'none';
-            document.getElementById('loading').classList.add('active');
-        }
-
-        // Verificar si ya hay sesión activa
-        window.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('xisco_session_active')) {
-                // Ya hay sesión, redirigir
-                window.location.href = 'registro-partidos.html';
+        function showError() {
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.textContent = `❌ PIN incorrecto (${attempts}/${maxAttempts})`;
+            errorMsg.classList.add('show');
+            
+            // Animación de shake
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`dot${i}`).classList.add('shake');
             }
             
-            // Configurar el Client ID en el botón de Google
-            const gIdOnload = document.getElementById('g_id_onload');
-            if (gIdOnload && GOOGLE_CLIENT_ID !== '176977647030-8shnobfabe3puf40gmtm1vahh2k4u8ia.apps.googleusercontent.com') {
-                gIdOnload.setAttribute('data-client_id', GOOGLE_CLIENT_ID);
-            }
-        });
+            setTimeout(() => {
+                currentPin = '';
+                updateDisplay();
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById(`dot${i}`).classList.remove('shake');
+                }
+                errorMsg.classList.remove('show');
+            }, 1500);
+        }
 
-        // Log para debugging
-        console.log('🎱 Pool Tracker - Login Page');
-        console.log('📝 Para configurar Google Sign-In:');
-        console.log('1. Ve a: https://console.cloud.google.com/');
-        console.log('2. Crea un proyecto');
-        console.log('3. Habilita Google Sign-In API');
-        console.log('4. Obtén el Client ID');
-        console.log('5. Reemplaza GOOGLE_CLIENT_ID en este archivo');
+        function showMaxAttemptsError() {
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.textContent = '🚫 Demasiados intentos. Espera 30 segundos.';
+            errorMsg.classList.add('show');
+            
+            // Deshabilitar teclado
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.style.pointerEvents = 'none';
+                key.style.opacity = '0.5';
+            });
+            
+            setTimeout(() => {
+                attempts = 0;
+                keys.forEach(key => {
+                    key.style.pointerEvents = '';
+                    key.style.opacity = '';
+                });
+                errorMsg.classList.remove('show');
+            }, 30000);
+        }
+
+        function goToSystem() {
+            // Redirigir a la página principal
+            window.location.href = 'registro-partidos.html';
+        }
+
+        function showConfigPrompt() {
+            const oldPin = prompt('Introduce tu PIN actual:');
+            
+            if (oldPin === localStorage.getItem(PIN_KEY)) {
+                const newPin = prompt('Introduce tu nuevo PIN de 4 dígitos:');
+                
+                if (newPin && newPin.length === 4 && /^\d{4}$/.test(newPin)) {
+                    const confirm = prompt('Confirma el nuevo PIN:');
+                    
+                    if (confirm === newPin) {
+                        localStorage.setItem(PIN_KEY, newPin);
+                        alert('✅ PIN actualizado correctamente');
+                    } else {
+                        alert('❌ Los PINs no coinciden');
+                    }
+                } else {
+                    alert('⚠️ El PIN debe tener exactamente 4 dígitos');
+                }
+            } else {
+                alert('❌ PIN incorrecto');
+            }
+        }
     </script>
 </body>
 </html>
