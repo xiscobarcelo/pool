@@ -162,19 +162,6 @@
             opacity: 1;
         }
 
-        .config-link {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.85rem;
-            text-decoration: none;
-            margin-top: 30px;
-            display: inline-block;
-            transition: color 0.2s;
-        }
-
-        .config-link:hover {
-            color: white;
-        }
-
         @media (max-width: 480px) {
             .key {
                 width: 70px;
@@ -217,11 +204,10 @@
         </div>
 <div class=logo><img src="/pool/images/logobarcelo.svg"></div>
         <div class="error-message" id="errorMessage"></div>
-        <a href="#" class="config-link" onclick="showConfigPrompt(); return false;">⚙️ Cambiar PIN</a>
     </div>
 
     <script>
-        const PIN_KEY = 'xisco_system_pin';
+        const FIXED_PIN = '6666'; // PIN fijo
         const SESSION_KEY = 'xisco_session_active';
         let currentPin = '';
         let attempts = 0;
@@ -233,11 +219,6 @@
             if (sessionStorage.getItem(SESSION_KEY)) {
                 goToSystem();
                 return;
-            }
-
-            // Verificar si existe un PIN guardado
-            if (!localStorage.getItem(PIN_KEY)) {
-                setupInitialPin();
             }
 
             // Soporte para teclado físico
@@ -253,18 +234,6 @@
                 }
             });
         });
-
-        function setupInitialPin() {
-            const pin = prompt('👋 Bienvenido! Establece tu PIN de 4 dígitos para proteger el sistema:\n\n(Guárdalo en un lugar seguro)');
-            
-            if (pin && pin.length === 4 && /^\d{4}$/.test(pin)) {
-                localStorage.setItem(PIN_KEY, pin);
-                alert('✅ PIN configurado correctamente');
-            } else {
-                alert('⚠️ El PIN debe tener exactamente 4 dígitos');
-                setupInitialPin();
-            }
-        }
 
         function addDigit(digit) {
             if (currentPin.length < 4) {
@@ -296,9 +265,7 @@
         }
 
         function verifyPin() {
-            const savedPin = localStorage.getItem(PIN_KEY);
-            
-            if (currentPin === savedPin) {
+            if (currentPin === FIXED_PIN) {
                 // PIN correcto
                 attempts = 0;
                 sessionStorage.setItem(SESSION_KEY, 'true');
@@ -369,35 +336,6 @@
             // Redirigir a la página principal
             window.location.href = 'registro-partidos.html';
         }
-
-        function showConfigPrompt() {
-            const oldPin = prompt('Introduce tu PIN actual:');
-            
-            if (oldPin === localStorage.getItem(PIN_KEY)) {
-                const newPin = prompt('Introduce tu nuevo PIN de 4 dígitos:');
-                
-                if (newPin && newPin.length === 4 && /^\d{4}$/.test(newPin)) {
-                    const confirm = prompt('Confirma el nuevo PIN:');
-                    
-                    if (confirm === newPin) {
-                        localStorage.setItem(PIN_KEY, newPin);
-                        alert('✅ PIN actualizado correctamente');
-                    } else {
-                        alert('❌ Los PINs no coinciden');
-                    }
-                } else {
-                    alert('⚠️ El PIN debe tener exactamente 4 dígitos');
-                }
-            } else {
-                alert('❌ PIN incorrecto');
-            }
-        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
