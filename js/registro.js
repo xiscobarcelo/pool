@@ -486,7 +486,7 @@
                     score1: score1,
                     score2: score2,
                     material1: selectedMaterial,
-                    material2: '-',
+                  
                     modality: modality,
                     date: matchDate,
                     id: Date.now()
@@ -1185,5 +1185,6 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
 
