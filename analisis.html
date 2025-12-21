@@ -78,8 +78,49 @@
  <div class="container">
         <header>
             <h1>Análisis</h1>
-            <p class="subtitle">Anális</p>
+            <p class="subtitle">Gráficas comparativas de rendiento en torneos</p>
         </header>
+
+
+        <!-- Sección de Exportación y Sincronización -->
+        <div class="analytics-section">
+          <div class="section-header" id="analisis">
+            <h2 class="section-title" >Análisis Detallado</h2>
+            <p class="section-description">Visualiza tu rendimiento con gráficos interactivos</p>
+          </div>
+          <div class="charts-grid">
+            <!-- Gráfico: Resultados por Año -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Resultados por Año</h3>
+                <p class="chart-description">Evolución de tus logros en el tiempo</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="yearResultsChart"></canvas>
+              </div>
+            </div>
+            <!-- Gráfico: Rendimiento por Material -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Rendimiento por Taco</h3>
+                <p class="chart-description">¿Qué material te da mejores resultados?</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="materialPerformanceChart"></canvas>
+              </div>
+            </div>
+            <!-- Gráfico: Evolución Temporal -->
+            <div class="chart-card chart-card-wide">
+              <div class="chart-header">
+                <h3 class="chart-title">Evolución Temporal</h3>
+                <p class="chart-description">Línea de tiempo de tus torneos</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="timelineChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
 	 
 <div class="card">
     <div class="card-header">
@@ -905,6 +946,7 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
     <script src="js/tournaments.js"></script>
 </body>
 </html>
+
 
 
 
