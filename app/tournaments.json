@@ -1032,7 +1032,47 @@
       "tournaments": [],
       "totalPoints": 0,
       "ranking": null
+    },
+    {
+      "id": "circuit_1766307061120",
+      "name": "Europa 25",
+      "year": 2025,
+      "description": "",
+      "pointsSystem": {
+        "Campeón": 100,
+        "Subcampeón": 75,
+        "Semifinales": 50,
+        "Cuartos de Final": 25,
+        "Octavos de Final": 15,
+        "Dieciseisavos": 10,
+        "Fase de Grupos": 5,
+        "Eliminado en Ronda 1": 3,
+        "Participación": 1
+      },
+      "tournaments": [],
+      "totalPoints": 0,
+      "ranking": null
+    },
+    {
+      "id": "circuit_1766307078500",
+      "name": "Europa 24",
+      "year": 2024,
+      "description": "",
+      "pointsSystem": {
+        "Campeón": 100,
+        "Subcampeón": 75,
+        "Semifinales": 50,
+        "Cuartos de Final": 25,
+        "Octavos de Final": 15,
+        "Dieciseisavos": 10,
+        "Fase de Grupos": 5,
+        "Eliminado en Ronda 1": 3,
+        "Participación": 1
+      },
+      "tournaments": [],
+      "totalPoints": 0,
+      "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-20T21:25:41.891Z"
+  "lastUpdated": "2025-12-21T08:51:23.262Z"
 }
