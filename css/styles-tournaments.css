@@ -866,7 +866,9 @@
     border-radius: 12px;
     border: 1px solid #e5e7eb;
 }
-
+.chart-container2{
+   height:350px;
+}
 /* Tabla comparativa */
 .comparison-table-container {
     margin-top: 24px;
