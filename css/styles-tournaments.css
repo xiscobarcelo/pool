@@ -1125,8 +1125,16 @@
     position: relative;
     height: 300px;
 }
+.chart-container {
+    position: relative;
+    height: 300px;
+}
 
 .chart-card-wide .chart-container {
+    height: 400px;
+}
+
+.chart-card-wide .chart-container1 {
     height: 400px;
 }
 
