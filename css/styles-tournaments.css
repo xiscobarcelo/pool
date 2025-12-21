@@ -724,11 +724,266 @@
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-/* ===================================
-   RESPONSIVE
-   =================================== */
 
+
+<!-- ============================================ -->
+<!-- ESTILOS CSS -->
+<!-- Añadir en la sección <style> -->
+<!-- ============================================ -->
+
+/* Contenedor del selector de circuitos */
+.circuit-selector-container {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.selector-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.selector-label {
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 15px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* Checkboxes de circuitos */
+.circuit-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.circuit-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.circuit-checkbox:hover {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.circuit-checkbox.selected {
+    border-color: #3b82f6;
+    background: #dbeafe;
+}
+
+.circuit-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+.circuit-checkbox label {
+    cursor: pointer;
+    font-size: 14px;
+    color: #1d1d1f;
+    font-weight: 500;
+    margin: 0;
+    flex: 1;
+}
+
+.circuit-checkbox .circuit-count {
+    font-size: 12px;
+    color: #86868b;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.circuit-checkbox.selected .circuit-count {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Mensaje sin circuitos */
+.no-circuits {
+    text-align: center;
+    padding: 40px 20px;
+    color: #86868b;
+}
+
+.no-circuits p {
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Selector de métrica */
+.metric-selector {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.metric-selector label {
+    font-weight: 600;
+    color: #1d1d1f;
+    font-size: 14px;
+}
+
+.metric-selector select {
+    padding: 8px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+/* Contenedor de la gráfica */
+.chart-container {
+    position: relative;
+    height: 400px;
+    margin-bottom: 32px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+/* Tabla comparativa */
+.comparison-table-container {
+    margin-top: 24px;
+}
+
+.comparison-table-container h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 16px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table thead {
+    background: #f8f9fa;
+}
+
+.comparison-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.comparison-table tbody tr {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.2s;
+}
+
+.comparison-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.comparison-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.comparison-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #1d1d1f;
+}
+
+.comparison-table .circuit-name {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comparison-table .circuit-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.comparison-table .metric-value {
+    font-weight: 600;
+}
+
+.comparison-table .positive {
+    color: #10b981;
+}
+
+.comparison-table .negative {
+    color: #ef4444;
+}
+
+.comparison-table .neutral {
+    color: #86868b;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
+    .circuit-checkboxes {
+        grid-template-columns: 1fr;
+    }
+    
+    .selector-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn-small {
+        width: 100%;
+    }
+    
+    .metric-selector {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .metric-selector select {
+        width: 100%;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+
     .tournaments-grid,
     .circuits-grid {
         grid-template-columns: 1fr;
