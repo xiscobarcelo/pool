@@ -1107,7 +1107,7 @@ function resetFormToCreateMode() {
     // Restaurar texto del botón
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
-        submitBtn.innerHTML = '💾 Guardar Torneo';
+        submitBtn.innerHTML = '💾 Crear Torneo';
     }
 }
 
