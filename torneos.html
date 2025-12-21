@@ -731,6 +731,12 @@
 <!-- ============================================ -->
 
 <script>
+<!-- ============================================ -->
+<!-- COMPARATIVA DE CIRCUITOS - VERSIÓN CORREGIDA -->
+<!-- Con nombres reales y gráfica de líneas -->
+<!-- ============================================ -->
+
+<script>
 // ============================================
 // VARIABLES GLOBALES PARA COMPARATIVA
 // ============================================
@@ -749,6 +755,37 @@ const circuitColors = [
     '#6366f1', // Índigo
     '#84cc16', // Lima
 ];
+
+// ============================================
+// FUNCIÓN PARA OBTENER NOMBRE REAL DEL CIRCUITO
+// ============================================
+
+function getCircuitName(circuitId) {
+    if (!circuitId) return 'Sin circuito';
+    
+    // Si es un ID (empieza con "circuit_"), buscar el nombre real
+    if (circuitId.startsWith('circuit_')) {
+        // Buscar en la lista de circuitos
+        if (matchesData.circuits && Array.isArray(matchesData.circuits)) {
+            const circuit = matchesData.circuits.find(c => c.id === circuitId);
+            if (circuit && circuit.name) {
+                return circuit.name;
+            }
+        }
+        
+        // Si no se encuentra, intentar obtener de los torneos
+        const tournament = matchesData.tournaments.find(t => t.circuit === circuitId);
+        if (tournament && tournament.circuitName) {
+            return tournament.circuitName;
+        }
+        
+        // Si aún no se encuentra, retornar un nombre más legible
+        return circuitId.replace('circuit_', 'Circuito #').substring(0, 20);
+    }
+    
+    // Si no es un ID, retornar tal cual (es el nombre)
+    return circuitId;
+}
 
 // ============================================
 // INICIALIZAR COMPARATIVA DE CIRCUITOS
@@ -774,7 +811,7 @@ function initCircuitComparison() {
     
     // Seleccionar todos por defecto (máximo 5)
     const circuitsToSelect = circuits.slice(0, 5);
-    circuitsToSelect.forEach(circuit => selectedCircuits.add(circuit.name));
+    circuitsToSelect.forEach(circuit => selectedCircuits.add(circuit.id));
     
     // Actualizar UI
     updateCheckboxStates();
@@ -792,17 +829,19 @@ function getCircuitsFromTournaments() {
     
     matchesData.tournaments.forEach(tournament => {
         if (tournament.circuit && tournament.circuit.trim() !== '') {
-            const circuitName = tournament.circuit.trim();
+            const circuitId = tournament.circuit.trim();
+            const circuitName = getCircuitName(circuitId);
             
-            if (!circuitMap.has(circuitName)) {
-                circuitMap.set(circuitName, {
-                    name: circuitName,
+            if (!circuitMap.has(circuitId)) {
+                circuitMap.set(circuitId, {
+                    id: circuitId,           // ID original (circuit_xxxxx)
+                    name: circuitName,       // Nombre legible
                     count: 0,
                     tournaments: []
                 });
             }
             
-            const circuit = circuitMap.get(circuitName);
+            const circuit = circuitMap.get(circuitId);
             circuit.count++;
             circuit.tournaments.push(tournament);
         }
@@ -821,13 +860,13 @@ function renderCircuitCheckboxes(circuits) {
     const container = document.getElementById('circuitCheckboxes');
     
     container.innerHTML = circuits.map((circuit, index) => `
-        <div class="circuit-checkbox ${selectedCircuits.has(circuit.name) ? 'selected' : ''}" 
-             onclick="toggleCircuitSelection('${escapeHtml(circuit.name)}')">
+        <div class="circuit-checkbox ${selectedCircuits.has(circuit.id) ? 'selected' : ''}" 
+             onclick="toggleCircuitSelection('${escapeHtml(circuit.id)}')">
             <input 
                 type="checkbox" 
                 id="circuit_${index}"
-                ${selectedCircuits.has(circuit.name) ? 'checked' : ''}
-                onchange="toggleCircuitSelection('${escapeHtml(circuit.name)}')"
+                ${selectedCircuits.has(circuit.id) ? 'checked' : ''}
+                onchange="toggleCircuitSelection('${escapeHtml(circuit.id)}')"
                 onclick="event.stopPropagation()">
             <label for="circuit_${index}">${escapeHtml(circuit.name)}</label>
             <span class="circuit-count">${circuit.count}</span>
@@ -839,11 +878,11 @@ function renderCircuitCheckboxes(circuits) {
 // TOGGLE SELECCIÓN DE CIRCUITO
 // ============================================
 
-function toggleCircuitSelection(circuitName) {
-    if (selectedCircuits.has(circuitName)) {
-        selectedCircuits.delete(circuitName);
+function toggleCircuitSelection(circuitId) {
+    if (selectedCircuits.has(circuitId)) {
+        selectedCircuits.delete(circuitId);
     } else {
-        selectedCircuits.add(circuitName);
+        selectedCircuits.add(circuitId);
     }
     
     updateCheckboxStates();
@@ -855,15 +894,16 @@ function toggleCircuitSelection(circuitName) {
 // ============================================
 
 function updateCheckboxStates() {
+    const circuits = getCircuitsFromTournaments();
     const checkboxes = document.querySelectorAll('.circuit-checkbox');
     
-    checkboxes.forEach(checkbox => {
-        const input = checkbox.querySelector('input[type="checkbox"]');
-        const circuitName = input.id.replace('circuit_', '');
-        const label = checkbox.querySelector('label');
-        const actualName = label.textContent;
+    checkboxes.forEach((checkbox, index) => {
+        const circuit = circuits[index];
+        if (!circuit) return;
         
-        if (selectedCircuits.has(actualName)) {
+        const input = checkbox.querySelector('input[type="checkbox"]');
+        
+        if (selectedCircuits.has(circuit.id)) {
             checkbox.classList.add('selected');
             input.checked = true;
         } else {
@@ -880,7 +920,7 @@ function updateCheckboxStates() {
 function selectAllCircuits() {
     const circuits = getCircuitsFromTournaments();
     selectedCircuits.clear();
-    circuits.forEach(circuit => selectedCircuits.add(circuit.name));
+    circuits.forEach(circuit => selectedCircuits.add(circuit.id));
     updateCheckboxStates();
     updateCircuitComparison();
 }
@@ -925,9 +965,13 @@ function updateCircuitComparison() {
 
 function calculateCircuitStats() {
     const stats = [];
+    const circuits = getCircuitsFromTournaments();
     
-    selectedCircuits.forEach(circuitName => {
-        const tournaments = matchesData.tournaments.filter(t => t.circuit === circuitName);
+    selectedCircuits.forEach(circuitId => {
+        const circuit = circuits.find(c => c.id === circuitId);
+        if (!circuit) return;
+        
+        const tournaments = matchesData.tournaments.filter(t => t.circuit === circuitId);
         
         if (tournaments.length === 0) return;
         
@@ -944,7 +988,7 @@ function calculateCircuitStats() {
             }
         });
         
-        // Calcular posición promedio (solo de torneos con posición numérica)
+        // Calcular posición promedio
         const positions = tournaments
             .map(t => {
                 const result = t.result;
@@ -965,7 +1009,8 @@ function calculateCircuitStats() {
         const lastDate = sortedTournaments[0]?.date || '';
         
         stats.push({
-            name: circuitName,
+            id: circuitId,
+            name: circuit.name,  // Nombre legible
             tournaments: totalTournaments,
             wins: totalWins,
             winRate: winRate,
@@ -980,7 +1025,7 @@ function calculateCircuitStats() {
 }
 
 // ============================================
-// RENDERIZAR GRÁFICA DE CIRCUITOS
+// RENDERIZAR GRÁFICA DE CIRCUITOS (LÍNEAS)
 // ============================================
 
 function renderCircuitChart(circuitsData, metric) {
@@ -996,142 +1041,255 @@ function renderCircuitChart(circuitsData, metric) {
     
     // Preparar datos según la métrica
     let labels = circuitsData.map(c => c.name);
-    let data, label, color;
+    let data, label, yAxisLabel;
     
     switch(metric) {
         case 'tournaments':
             data = circuitsData.map(c => c.tournaments);
             label = 'Número de Torneos';
-            color = '#3b82f6';
+            yAxisLabel = 'Torneos';
             break;
         case 'winRate':
             data = circuitsData.map(c => c.winRate.toFixed(1));
             label = 'Tasa de Victoria (%)';
-            color = '#10b981';
+            yAxisLabel = 'Porcentaje (%)';
             break;
         case 'avgPosition':
             data = circuitsData.map(c => c.avgPosition > 0 ? c.avgPosition.toFixed(1) : 0);
             label = 'Posición Promedio';
-            color = '#f59e0b';
+            yAxisLabel = 'Posición';
             break;
         case 'totalMatches':
             data = circuitsData.map(c => c.totalMatches);
             label = 'Total de Partidas';
-            color = '#8b5cf6';
+            yAxisLabel = 'Partidas';
             break;
         case 'totalWins':
             data = circuitsData.map(c => c.wins);
             label = 'Total de Victorias';
-            color = '#ec4899';
+            yAxisLabel = 'Victorias';
             break;
     }
     
-    // Crear datasets con colores diferentes por circuito
-    const datasets = [{
-        label: label,
-        data: data,
-        backgroundColor: circuitsData.map((_, index) => {
-            const baseColor = circuitColors[index % circuitColors.length];
-            return baseColor + '40'; // Transparencia
-        }),
-        borderColor: circuitsData.map((_, index) => circuitColors[index % circuitColors.length]),
-        borderWidth: 2,
-        borderRadius: 8,
-        barThickness: 40
-    }];
+    // Crear datasets con líneas separadas por circuito
+    const datasets = circuitsData.map((circuit, index) => {
+        const color = circuitColors[index % circuitColors.length];
+        
+        return {
+            label: circuit.name,
+            data: [data[index]], // Punto único
+            borderColor: color,
+            backgroundColor: color + '20',
+            borderWidth: 3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: color,
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            tension: 0.4, // Curvas suaves
+            fill: false
+        };
+    });
     
-    // Crear gráfica
-    circuitComparisonChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                        font: {
-                            family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-                            size: 12,
-                            weight: '500'
-                        },
-                        padding: 16,
-                        usePointStyle: true,
-                        pointStyle: 'circle'
-                    }
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    padding: 12,
-                    titleFont: {
-                        size: 14,
-                        weight: '600'
-                    },
-                    bodyFont: {
-                        size: 13
-                    },
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
-                    borderWidth: 1,
-                    displayColors: true,
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            label += context.parsed.y;
-                            if (metric === 'winRate') {
-                                label += '%';
-                            } else if (metric === 'avgPosition') {
-                                label += 'º';
-                            }
-                            return label;
-                        }
-                    }
-                }
+    // Si hay múltiples circuitos, crear línea conectada
+    if (circuitsData.length > 1) {
+        // Crear una sola línea que conecta todos los puntos
+        const mainDataset = {
+            label: label,
+            data: data,
+            borderColor: '#94a3b8',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            tension: 0.4,
+            fill: false
+        };
+        
+        // Crear puntos individuales de colores
+        const pointDatasets = circuitsData.map((circuit, index) => {
+            const color = circuitColors[index % circuitColors.length];
+            
+            return {
+                label: circuit.name,
+                data: data.map((_, i) => i === index ? data[i] : null),
+                borderColor: color,
+                backgroundColor: color,
+                borderWidth: 3,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointBackgroundColor: color,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 3,
+                tension: 0.4,
+                fill: false,
+                showLine: false // Solo puntos, sin línea
+            };
+        });
+        
+        // Crear gráfica con línea base y puntos de colores
+        circuitComparisonChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [mainDataset, ...pointDatasets]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)',
-                        drawBorder: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 12
-                        },
-                        padding: 8,
-                        callback: function(value) {
-                            if (metric === 'winRate') {
-                                return value + '%';
-                            } else if (metric === 'avgPosition') {
-                                return value + 'º';
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'point',
+                    intersect: true
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                                size: 12,
+                                weight: '500'
+                            },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            filter: function(item, chart) {
+                                // No mostrar la línea base en la leyenda
+                                return item.text !== label;
                             }
-                            return value;
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        bodyFont: {
+                            size: 13
+                        },
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1,
+                        displayColors: true,
+                        callbacks: {
+                            label: function(context) {
+                                if (context.dataset.label === label) return null;
+                                
+                                let labelText = context.dataset.label || '';
+                                if (labelText) {
+                                    labelText += ': ';
+                                }
+                                labelText += context.parsed.y;
+                                if (metric === 'winRate') {
+                                    labelText += '%';
+                                } else if (metric === 'avgPosition') {
+                                    labelText += 'º';
+                                }
+                                return labelText;
+                            }
                         }
                     }
                 },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: {
-                            size: 12,
-                            weight: '500'
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
                         },
-                        padding: 8
+                        title: {
+                            display: true,
+                            text: yAxisLabel,
+                            font: {
+                                size: 13,
+                                weight: '600'
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            },
+                            padding: 8,
+                            callback: function(value) {
+                                if (metric === 'winRate') {
+                                    return value + '%';
+                                } else if (metric === 'avgPosition') {
+                                    return value + 'º';
+                                }
+                                return value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: '500'
+                            },
+                            padding: 8
+                        }
                     }
                 }
             }
-        }
-    });
+        });
+    } else {
+        // Para un solo circuito, usar gráfica de barras simple
+        circuitComparisonChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: circuitColors[0] + '40',
+                    borderColor: circuitColors[0],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                let labelText = label + ': ' + context.parsed.y;
+                                if (metric === 'winRate') {
+                                    labelText += '%';
+                                } else if (metric === 'avgPosition') {
+                                    labelText += 'º';
+                                }
+                                return labelText;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        title: {
+                            display: true,
+                            text: yAxisLabel
+                        }
+                    }
+                }
+            }
+        });
+    }
 }
 
 // ============================================
@@ -1196,6 +1354,7 @@ function renderCircuitTable(circuitsData) {
 // ============================================
 
 function escapeHtml(text) {
+    if (!text) return '';
     const map = {
         '&': '&amp;',
         '<': '&lt;',
@@ -1203,36 +1362,37 @@ function escapeHtml(text) {
         '"': '&quot;',
         "'": '&#039;'
     };
-    return text.replace(/[&<>"']/g, m => map[m]);
+    return String(text).replace(/[&<>"']/g, m => map[m]);
 }
 
 // ============================================
 // INICIALIZAR AL CARGAR LA PÁGINA
 // ============================================
 
-// Añadir esto a tu DOMContentLoaded existente o crear uno nuevo:
+// Añadir a tu DOMContentLoaded existente:
 document.addEventListener('DOMContentLoaded', () => {
     // ... tu código existente ...
     
     // Inicializar comparativa de circuitos
     setTimeout(() => {
-        initCircuitComparison();
+        if (typeof initCircuitComparison === 'function') {
+            initCircuitComparison();
+        }
     }, 500);
 });
 
 // También actualizar cuando cambien los datos
-// Añadir esto a tu función saveData() o renderAll():
 function updateCircuitComparisonIfVisible() {
-    const comparisonCard = document.querySelector('#circuitComparisonChart');
-    if (comparisonCard && comparisonCard.offsetParent !== null) {
+    const comparisonChart = document.getElementById('circuitComparisonChart');
+    if (comparisonChart && comparisonChart.offsetParent !== null) {
         initCircuitComparison();
     }
 }
 
-console.log('✅ Comparativa de circuitos cargada');
+console.log('✅ Comparativa de circuitos con líneas cargada');
 </script>
 
-
+		
 
 		
 <!-- Indicador de sincronización -->
@@ -1245,6 +1405,7 @@ console.log('✅ Comparativa de circuitos cargada');
     <script src="js/tournaments.js"></script>
 </body>
 </html>
+
 
 
 
