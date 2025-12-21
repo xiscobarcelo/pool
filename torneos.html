@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="bottom-nav.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles-common.css">
@@ -357,70 +356,7 @@
     <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
         ☁️ Sincronizado
     </div>
- <div class="lock-screen">
-        <div class="lock-icon">🔒</div>
-        <h1 class="lock-title">PoolFlow</h1>
-        <p class="lock-subtitle">Introduce tu código PIN</p>
 
-        <div class="pin-display">
-            <div class="pin-dot" id="dot1"></div>
-            <div class="pin-dot" id="dot2"></div>
-            <div class="pin-dot" id="dot3"></div>
-            <div class="pin-dot" id="dot4"></div>
-        </div>
-
-        <div class="keypad">
-            <div class="key" onclick="addDigit('1')">1</div>
-            <div class="key" onclick="addDigit('2')">2</div>
-            <div class="key" onclick="addDigit('3')">3</div>
-            <div class="key" onclick="addDigit('4')">4</div>
-            <div class="key" onclick="addDigit('5')">5</div>
-            <div class="key" onclick="addDigit('6')">6</div>
-            <div class="key" onclick="addDigit('7')">7</div>
-            <div class="key" onclick="addDigit('8')">8</div>
-            <div class="key" onclick="addDigit('9')">9</div>
-            <div class="key empty"></div>
-            <div class="key" onclick="addDigit('0')">0</div>
-            <div class="key delete" onclick="deleteDigit()">⌫</div>
-        </div>
-<div class=logo><img src="/pool/images/logobarcelo.svg"></div>
-        <div class="error-message" id="errorMessage"></div>
-    </div>
-
-    <!-- Bottom Navigation (Mobile) -->
-    <nav class="bottom-nav">
-        <div class="nav-container">
-            <a href="registro-partidos.html" class="nav-item active">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"></circle>
-                </svg>
-                <span class="nav-label">Partidos</span>
-            </a>
-            
-            <a href="estadisticas.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                </svg>
-                <span class="nav-label">Estadísticas</span>
-            </a>
-            
-            <a href="torneos.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                </svg>
-                <span class="nav-label">Torneos</span>
-            </a>
-            
-            <a href="analisis.html" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                </svg>
-                <span class="nav-label">Análisis</span>
-            </a>
-        </div>
-    </nav>
     <!-- JavaScript -->
     <script src="js/common.js"></script>
     <script src="js/tournaments.js"></script>
@@ -428,6 +364,7 @@
 
 </body>
 </html>
+
 
 
 
