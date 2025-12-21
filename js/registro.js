@@ -16,7 +16,7 @@
         
         // Variables de paginación
         let currentPage = 1;
-        const itemsPerPage = 99;
+        const itemsPerPage = 30;
 
         // Configuración de GitHub (el usuario la configura)
         const GITHUB_CONFIG_KEY = 'xisco_github_config';
@@ -1185,4 +1185,5 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
