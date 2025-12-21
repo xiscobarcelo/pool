@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneos</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles-common.css">
+    <link rel="stylesheet" href="css/styles-tournaments.css">
+    <link rel="stylesheet" href="css/styles-registro.css">
+    
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Verificar sesión -->
+    <script>
+        if (!sessionStorage.getItem('xisco_session_active')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Header con Logo y Menú -->
+    <div class="top-header">
+        <div class="header-content">
+            <a href="registro-partidos.html" class="logo">
+             <div class="logo-icon">
+   <img src="/pool/images/poollogo.svg" width="190px"alt="PoolFlow tracker">               
+			 </div>
+			 </a>
+            <nav class="desktop-nav">
+                <a href="registro-partidos.html" class="nav-link">Registro</a>
+                <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+				<a href="estadisticas.html#historial" class="nav-link">Historial</a>
+                <a href="torneos.html" class="nav-link active">Torneos</a>
+				<a href="analisis.html" class="nav-link">Análisis</a>
+                <a href="config-github.html" class="nav-link">Sincronización</a>
+                <a href="#" class="nav-link danger" onclick="resetAllData(); return false;">Reiniciar</a>
+                <a href="#" class="nav-link" onclick="logout(); return false;">Salir</a>
+            </nav>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay del menú móvil -->
+    <div class="mobile-menu-overlay"></div>
+
+    <!-- Menú lateral móvil -->
+    <div class="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="registro-partidos.html" class="nav-link">Registro</a>
+            <a href="estadisticas.html" class="nav-link">Estadísticas</a>
+			<a href="estadisticas.html#historial" class="nav-link">Historial</a>
+            <a href="torneos.html" class="nav-link active">Torneos</a>
+<a href="analisis.html" class="nav-link">Análisis</a>
+            <a href="config-github.html" class="nav-link">Configuración</a>
+            <a href="#" class="nav-link danger" onclick="resetAllData(); return false;">Reiniciar Datos</a>
+            <a href="#" class="nav-link" onclick="logout(); return false;">Cerrar Sesión</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Torneos</h1>
+            <p class="subtitle">Gestiona tus competiciones y circuitos</p>
+        </header>
+
+        <!-- Estadísticas Globales -->
+        <div class="stats-overview" id="statsOverview"></div>
+
+        <!-- Gráficos Analíticos -->
+        <!-- Filtros -->
+        <div class="export-section">
+          <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;"> ☁️ Sincronización con GitHub </h3>
+          <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;"> Guarda tus datos en la nube para acceder desde cualquier dispositivo </p>
+          <div class="export-buttons">
+            <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub"> ↑ Guardar cambios </button>
+            <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub"> ↓ Cargar datos </button>
+            <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> ⟳ Refrescar</button>
+            <button class="btn-secondary" onclick="exportToJSON()"> ↓ Exportar JSON </button>
+            <button class="btn-secondary" onclick="exportToCSV()"> ↓Exportar CSV </button>
+          </div>
+        </div>
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label class="filter-label">Año</label>
+                <select class="filter-select" id="filterYear" onchange="applyFilters()">
+                    <option value="">Todos los años</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Modalidad</label>
+                <select class="filter-select" id="filterModality" onchange="applyFilters()">
+                    <option value="">Todas las modalidades</option>
+                    <option value="Bola 8">Bola 8</option>
+                    <option value="Bola 9">Bola 9</option>
+                    <option value="Bola 10">Bola 10</option>
+                    <option value="14.1 Continuo">14.1 Continuo</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Circuito</label>
+                <select class="filter-select" id="filterCircuit" onchange="applyFilters()">
+                    <option value="">Todos los circuitos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Resultado</label>
+                <select class="filter-select" id="filterResult" onchange="applyFilters()">
+                    <option value="">Todos los resultados</option>
+                    <option value="Campeón">Campeón</option>
+                    <option value="Subcampeón">Subcampeón</option>
+                    <option value="Semifinales">Semifinales</option>
+                    <option value="Cuartos de Final">Cuartos de Final</option>
+                </select>
+            </div>
+            <button class="filter-reset" onclick="resetFilters()">Limpiar filtros</button>
+        </div>
+
+        <!-- Tabs de Navegación -->
+        <div class="section">
+            <div class="button-group" style="margin-bottom: 32px;">
+                <button class="btn btn-secondary" onclick="showSection('tournaments')">
+                    🏆 Mis Torneos
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('circuits')">
+                    Circuitos
+                </button>
+               
+            </div>
+        </div>
+
+        <!-- Sección: Lista de Torneos -->
+      <div id="tournamentsSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Mis Torneos</h2>
+                <p class="section-description">Historial completo de competiciones</p>
+            </div>
+ 			<button class="btn btn-secondary" onclick="showSection('add')">
+                    + Nuevo Torneo
+                </button>
+            <div id="tournamentsGrid" class="tournaments-grid"></div>
+		
+<!-- Paginación -->
+<div id="tournamentsPagination" class="pagination-container" style="display: none;"></div>
+
+<!-- Estado vacío -->
+ <div id="emptyTournaments" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">🏆</div>
+                <h3 class="empty-state-title">No hay torneos en esta selección.</h3>
+                <p class="empty-state-description">
+                    Comienza a registrar tus competiciones para llevar un seguimiento completo
+                </p>
+                <button class="btn btn-primary" onclick="showSection('add')">
+                    + Añadir Torneo
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Sección: Circuitos -->
+        <div id="circuitsSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Circuitos</h2>
+                <p class="section-description">Tus rankings en diferentes circuitos</p>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <button class="btn btn-secondary" onclick="showAddCircuitModal()">
+                    + Nuevo Circuito
+                </button>
+            </div>
+
+            <div id="circuitsGrid" class="circuits-grid"></div>
+
+            <!-- Estado vacío -->
+            <div id="emptyCircuits" class="empty-state" style="display: none;">
+                <div class="empty-state-icon"></div>
+                <h3 class="empty-state-title">...</h3>
+                <p class="empty-state-description">
+                    Crea circuitos para agrupar torneos y calcular rankings
+                </p>
+                <button class="btn btn-primary" onclick="showAddCircuitModal()">
+                    + Crear Circuito
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección: Añadir Torneo -->
+        <div id="addTournamentSection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Nuevo Torneo</h2>
+                <p class="section-description">Registra los detalles de tu competición</p>
+            </div>
+
+            <div class="tournament-form-card">
+                <form id="tournamentForm" onsubmit="saveTournament(event)">
+                    <!-- Información Básica -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">Información Básica</h3>
+                        <div class="form-grid">
+                            <div class="form-group form-group-full">
+                                <label>Nombre del Torneo <span class="required">*</span></label>
+                                <input type="text" id="tournamentName" required 
+                                       placeholder="Ej: Copa Ciudad 2024">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Fecha <span class="required">*</span></label>
+                                <input type="date" id="tournamentDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Modalidad <span class="required">*</span></label>
+                                <select id="tournamentModality" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Bola 8">Bola 8</option>
+                                    <option value="Bola 9">Bola 9</option>
+                                    <option value="Bola 10">Bola 10</option>
+                                    <option value="14.1 Continuo">14.1 Continuo</option>
+                                    <option value="Banco Pool">Banco Pool</option>
+                                    <option value="One Pocket">One Pocket</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Total de Jugadores</label>
+                                <input type="number" id="tournamentPlayers" min="2" 
+                                       placeholder="Ej: 32">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Resultado <span class="required">*</span></label>
+                                <select id="tournamentResult" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Campeón">🥇 Campeón</option>
+                                    <option value="Subcampeón">🥈 Subcampeón</option>
+                                    <option value="Semifinales">🥉 Semifinales</option>
+                                    <option value="Cuartos de Final">5º</option>
+                                    <option value="Octavos de Final">9º</option>
+                                    <option value="Dieciseisavos">16º</option>
+                                    <option value="Fase de Grupos">Fase de Grupos</option>
+                                    <option value="Eliminado en Ronda 1">Eliminado en Ronda 1</option>
+                                    <option value="Participación">Participación</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+					
+
+                    <!-- Detalles Adicionales -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">📝 Detalles Adicionales</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Circuito</label>
+                                <select id="tournamentCircuit">
+                                    <option value="">Sin circuito</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Taco Usado</label>
+                                <select id="tournamentCue">
+                                    <option value="">Seleccionar...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group form-group-full">
+                                <label>Rival de la Última Ronda</label>
+                                <input type="text" id="tournamentRival" 
+                                       placeholder="Nombre del rival final">
+                            </div>
+                            
+                            <div class="form-group form-group-full">
+                                <label>Notas</label>
+                                <textarea id="tournamentNotes" rows="3" 
+                                          style="resize: vertical; font-family: inherit; padding: 14px 16px; border: 1.5px solid rgba(0, 0, 0, 0.15); border-radius: 12px; font-size: 1rem;"
+                                          placeholder="Notas adicionales sobre el torneo..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas del Torneo (Opcional) -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">📊 Estadísticas (Opcional)</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Partidos Jugados</label>
+                                <input type="number" id="tournamentMatchesPlayed" min="0" 
+                                       placeholder="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Partidos Ganados</label>
+                                <input type="number" id="tournamentMatchesWon" min="0" 
+                                       placeholder="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Partidas Ganadas</label>
+                                <input type="number" id="tournamentGamesWon" min="0" 
+                                       placeholder="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Partidas Perdidas</label>
+                                <input type="number" id="tournamentGamesLost" min="0" 
+                                       placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="button-group">
+                        <button type="submit" class="btn-secondary">
+                            Guardar Torneo
+                        </button>
+                        <button type="button" class="btn-secondary" onclick="cancelEditTournament()">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+		 <div class="export-section">
+          <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;"> ☁️ Sincronización con GitHub </h3>
+          <p style="color: #86868b; font-size: 0.95rem; margin-bottom: 16px;"> Guarda tus datos en la nube para acceder desde cualquier dispositivo </p>
+          <div class="export-buttons">
+            <button class="btn-secondary" onclick="syncToGitHub()" title="Subir a GitHub"> ↑ Guardar cambios </button>
+            <button class="btn-secondary" onclick="loadFromGitHub()" title="Descargar de GitHub"> ↓ Cargar datos </button>
+            <button class="btn-secondary"  onclick="location.reload()"  title="Refrescar página"> ⟳ Refrescar</button>
+            <button class="btn-secondary" onclick="exportToJSON()"> ↓ Exportar JSON </button>
+            <button class="btn-secondary" onclick="exportToCSV()"> ↓Exportar CSV </button>
+          </div>
+        </div>
+
+		
+        <!-- Sección de Exportación y Sincronización -->
+        <div class="analytics-section">
+          <div class="section-header" id="analisis">
+            <h2 class="section-title" >Análisis Detallado</h2>
+            <p class="section-description">Visualiza tu rendimiento con gráficos interactivos</p>
+          </div>
+          <div class="charts-grid">
+            <!-- Gráfico: Resultados por Año -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Resultados por Año</h3>
+                <p class="chart-description">Evolución de tus logros en el tiempo</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="yearResultsChart"></canvas>
+              </div>
+            </div>
+            <!-- Gráfico: Rendimiento por Material -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Rendimiento por Taco</h3>
+                <p class="chart-description">¿Qué material te da mejores resultados?</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="materialPerformanceChart"></canvas>
+              </div>
+            </div>
+            <!-- Gráfico: Evolución Temporal -->
+            <div class="chart-card chart-card-wide">
+              <div class="chart-header">
+                <h3 class="chart-title">Evolución Temporal</h3>
+                <p class="chart-description">Línea de tiempo de tus torneos</p>
+              </div>
+              <div class="chart-container">
+                <canvas id="timelineChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- ============================================ -->
+<!-- NUEVA SECCIÓN: COMPARATIVA DE CIRCUITOS -->
+<!-- Añadir esto en la sección de estadísticas -->
+<!-- ============================================ -->
+
+<div class="card">
+    <div class="card-header">
+        <h2>📊 Comparativa de Circuitos</h2>
+        <p class="card-subtitle">Compara el rendimiento entre diferentes circuitos</p>
+    </div>
+    
+    <div class="card-body">
+        <!-- Selector de circuitos -->
+        <div class="circuit-selector-container">
+            <div class="selector-header">
+                <span class="selector-label">Selecciona circuitos para comparar:</span>
+                <button class="btn-secondary btn-small" onclick="selectAllCircuits()">
+                    Seleccionar todos
+                </button>
+                <button class="btn-secondary btn-small" onclick="clearCircuitSelection()">
+                    Limpiar selección
+                </button>
+            </div>
+            
+            <div id="circuitCheckboxes" class="circuit-checkboxes">
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </div>
+            
+            <div class="no-circuits" id="noCircuitsMessage" style="display: none;">
+                <p>⚠️ No hay circuitos para comparar. Añade circuitos a tus torneos primero.</p>
+            </div>
+        </div>
+        
+        <!-- Selector de métrica -->
+        <div class="metric-selector">
+            <label for="comparisonMetric">Comparar por:</label>
+            <select id="comparisonMetric" onchange="updateCircuitComparison()">
+                <option value="tournaments">Número de torneos</option>
+                <option value="winRate">Tasa de victoria (%)</option>
+                <option value="avgPosition">Posición promedio</option>
+                <option value="totalMatches">Total de partidas</option>
+                <option value="totalWins">Total de victorias</option>
+            </select>
+        </div>
+        
+        <!-- Gráfica -->
+        <div class="chart-container">
+            <canvas id="circuitComparisonChart"></canvas>
+        </div>
+        
+        <!-- Tabla comparativa -->
+        <div class="comparison-table-container">
+            <h3>Detalles por circuito</h3>
+            <div class="table-responsive">
+                <table id="circuitComparisonTable" class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Circuito</th>
+                            <th>Torneos</th>
+                            <th>Victorias</th>
+                            <th>% Victoria</th>
+                            <th>Pos. Media</th>
+                            <th>Mejor Pos.</th>
+                            <th>Última participación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="circuitComparisonTableBody">
+                        <!-- Se llenará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+		<!-- ============================================ -->
+<!-- COMPARATIVA DE CIRCUITOS - VERSIÓN CORREGIDA V2 -->
+<!-- Con detección mejorada de victorias y métricas -->
+<!-- ============================================ -->
+
+<script>
+// ============================================
+// VARIABLES GLOBALES PARA COMPARATIVA
+// ============================================
+
+let circuitComparisonChart = null;
+let selectedCircuits = new Set();
+const circuitColors = [
+    '#3b82f6', // Azul
+    '#ef4444', // Rojo
+    '#10b981', // Verde
+    '#f59e0b', // Amarillo
+    '#8b5cf6', // Púrpura
+    '#ec4899', // Rosa
+    '#14b8a6', // Turquesa
+    '#f97316', // Naranja
+    '#6366f1', // Índigo
+    '#84cc16', // Lima
+];
+
+// ============================================
+// FUNCIÓN PARA OBTENER NOMBRE REAL DEL CIRCUITO
+// ============================================
+
+function getCircuitName(circuitId) {
+    if (!circuitId) return 'Sin circuito';
+    
+    // Si es un ID (empieza con "circuit_"), buscar el nombre real
+    if (circuitId.startsWith('circuit_')) {
+        // Buscar en la lista de circuitos
+        if (matchesData.circuits && Array.isArray(matchesData.circuits)) {
+            const circuit = matchesData.circuits.find(c => c.id === circuitId);
+            if (circuit && circuit.name) {
+                return circuit.name;
+            }
+        }
+        
+        // Si no se encuentra, intentar obtener de los torneos
+        const tournament = matchesData.tournaments.find(t => t.circuit === circuitId);
+        if (tournament && tournament.circuitName) {
+            return tournament.circuitName;
+        }
+        
+        // Si aún no se encuentra, retornar un nombre más legible
+        return circuitId.replace('circuit_', 'Circuito #').substring(0, 20);
+    }
+    
+    // Si no es un ID, retornar tal cual (es el nombre)
+    return circuitId;
+}
+
+// ============================================
+// FUNCIÓN PARA DETECTAR SI ES VICTORIA
+// ============================================
+
+function isVictory(result) {
+    if (!result) return false;
+    
+    // Normalizar el resultado
+    const normalized = String(result).trim().toLowerCase();
+    
+    // Casos de victoria
+    const victoryPatterns = [
+        '1º',
+        '1°',
+        '1',
+        'primero',
+        'ganador',
+        'campeón',
+        'campeon',
+        'victoria',
+        'winner',
+        'first'
+    ];
+    
+    // Verificar si coincide con algún patrón
+    for (const pattern of victoryPatterns) {
+        if (normalized === pattern || normalized === pattern.toLowerCase()) {
+            return true;
+        }
+    }
+    
+    // Verificar si empieza con "1" seguido de caracteres no numéricos
+    if (/^1[^\d]/.test(normalized)) {
+        return true;
+    }
+    
+    return false;
+}
+
+// ============================================
+// FUNCIÓN PARA EXTRAER POSICIÓN NUMÉRICA
+// ============================================
+
+function extractPosition(result) {
+    if (!result) return null;
+    
+    const str = String(result).trim();
+    
+    // Intentar extraer número al inicio
+    const match = str.match(/^(\d+)/);
+    if (match) {
+        return parseInt(match[1]);
+    }
+    
+    // Casos especiales
+    const specialCases = {
+        'primero': 1,
+        'segundo': 2,
+        'tercero': 3,
+        'cuarto': 4,
+        'quinto': 5,
+        'first': 1,
+        'second': 2,
+        'third': 3
+    };
+    
+    const normalized = str.toLowerCase();
+    if (specialCases[normalized]) {
+        return specialCases[normalized];
+    }
+    
+    return null;
+}
+
+// ============================================
+// INICIALIZAR COMPARATIVA DE CIRCUITOS
+// ============================================
+
+function initCircuitComparison() {
+    console.log('🔄 Inicializando comparativa de circuitos...');
+    
+    // Obtener circuitos únicos de los torneos
+    const circuits = getCircuitsFromTournaments();
+    
+    console.log('📊 Circuitos encontrados:', circuits.length);
+    
+    if (circuits.length === 0) {
+        document.getElementById('circuitCheckboxes').style.display = 'none';
+        document.getElementById('noCircuitsMessage').style.display = 'block';
+        return;
+    }
+    
+    document.getElementById('circuitCheckboxes').style.display = 'grid';
+    document.getElementById('noCircuitsMessage').style.display = 'none';
+    
+    // Crear checkboxes
+    renderCircuitCheckboxes(circuits);
+    
+    // Seleccionar todos por defecto (máximo 5)
+    const circuitsToSelect = circuits.slice(0, 5);
+    circuitsToSelect.forEach(circuit => selectedCircuits.add(circuit.id));
+    
+    // Actualizar UI
+    updateCheckboxStates();
+    
+    // Renderizar gráfica
+    updateCircuitComparison();
+}
+
+// ============================================
+// OBTENER CIRCUITOS DE TORNEOS
+// ============================================
+
+function getCircuitsFromTournaments() {
+    const circuitMap = new Map();
+    
+    matchesData.tournaments.forEach(tournament => {
+        if (tournament.circuit && tournament.circuit.trim() !== '') {
+            const circuitId = tournament.circuit.trim();
+            const circuitName = getCircuitName(circuitId);
+            
+            if (!circuitMap.has(circuitId)) {
+                circuitMap.set(circuitId, {
+                    id: circuitId,
+                    name: circuitName,
+                    count: 0,
+                    tournaments: []
+                });
+            }
+            
+            const circuit = circuitMap.get(circuitId);
+            circuit.count++;
+            circuit.tournaments.push(tournament);
+        }
+    });
+    
+    // Convertir a array y ordenar por cantidad de torneos
+    return Array.from(circuitMap.values())
+        .sort((a, b) => b.count - a.count);
+}
+
+// ============================================
+// RENDERIZAR CHECKBOXES
+// ============================================
+
+function renderCircuitCheckboxes(circuits) {
+    const container = document.getElementById('circuitCheckboxes');
+    
+    container.innerHTML = circuits.map((circuit, index) => `
+        <div class="circuit-checkbox ${selectedCircuits.has(circuit.id) ? 'selected' : ''}" 
+             onclick="toggleCircuitSelection('${escapeHtml(circuit.id)}')">
+            <input 
+                type="checkbox" 
+                id="circuit_${index}"
+                ${selectedCircuits.has(circuit.id) ? 'checked' : ''}
+                onchange="toggleCircuitSelection('${escapeHtml(circuit.id)}')"
+                onclick="event.stopPropagation()">
+            <label for="circuit_${index}">${escapeHtml(circuit.name)}</label>
+            <span class="circuit-count">${circuit.count}</span>
+        </div>
+    `).join('');
+}
+
+// ============================================
+// TOGGLE SELECCIÓN DE CIRCUITO
+// ============================================
+
+function toggleCircuitSelection(circuitId) {
+    if (selectedCircuits.has(circuitId)) {
+        selectedCircuits.delete(circuitId);
+    } else {
+        selectedCircuits.add(circuitId);
+    }
+    
+    updateCheckboxStates();
+    updateCircuitComparison();
+}
+
+// ============================================
+// ACTUALIZAR ESTADOS DE CHECKBOXES
+// ============================================
+
+function updateCheckboxStates() {
+    const circuits = getCircuitsFromTournaments();
+    const checkboxes = document.querySelectorAll('.circuit-checkbox');
+    
+    checkboxes.forEach((checkbox, index) => {
+        const circuit = circuits[index];
+        if (!circuit) return;
+        
+        const input = checkbox.querySelector('input[type="checkbox"]');
+        
+        if (selectedCircuits.has(circuit.id)) {
+            checkbox.classList.add('selected');
+            input.checked = true;
+        } else {
+            checkbox.classList.remove('selected');
+            input.checked = false;
+        }
+    });
+}
+
+// ============================================
+// SELECCIONAR TODOS LOS CIRCUITOS
+// ============================================
+
+function selectAllCircuits() {
+    const circuits = getCircuitsFromTournaments();
+    selectedCircuits.clear();
+    circuits.forEach(circuit => selectedCircuits.add(circuit.id));
+    updateCheckboxStates();
+    updateCircuitComparison();
+}
+
+// ============================================
+// LIMPIAR SELECCIÓN
+// ============================================
+
+function clearCircuitSelection() {
+    selectedCircuits.clear();
+    updateCheckboxStates();
+    updateCircuitComparison();
+}
+
+// ============================================
+// ACTUALIZAR COMPARATIVA
+// ============================================
+
+function updateCircuitComparison() {
+    if (selectedCircuits.size === 0) {
+        destroyCircuitChart();
+        document.getElementById('circuitComparisonTableBody').innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; color: #86868b; padding: 40px;">
+                    Selecciona al menos un circuito para ver la comparativa
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    const metric = document.getElementById('comparisonMetric').value;
+    const circuitsData = calculateCircuitStats();
+    
+    console.log('📊 Datos de circuitos calculados:', circuitsData);
+    
+    renderCircuitChart(circuitsData, metric);
+    renderCircuitTable(circuitsData);
+}
+
+// ============================================
+// CALCULAR ESTADÍSTICAS DE CIRCUITOS
+// ============================================
+
+function calculateCircuitStats() {
+    const stats = [];
+    const circuits = getCircuitsFromTournaments();
+    
+    selectedCircuits.forEach(circuitId => {
+        const circuit = circuits.find(c => c.id === circuitId);
+        if (!circuit) return;
+        
+        const tournaments = matchesData.tournaments.filter(t => t.circuit === circuitId);
+        
+        if (tournaments.length === 0) return;
+        
+        // Calcular estadísticas
+        const totalTournaments = tournaments.length;
+        
+        // Contar victorias con la nueva función mejorada
+        const totalWins = tournaments.filter(t => isVictory(t.result)).length;
+        
+        console.log(`🏆 ${circuit.name}: ${totalWins} victorias de ${totalTournaments} torneos`);
+        
+        const winRate = totalTournaments > 0 ? (totalWins / totalTournaments * 100) : 0;
+        
+        // Calcular total de partidas
+        let totalMatches = 0;
+        let totalMatchWins = 0;
+        
+        tournaments.forEach(t => {
+            if (t.stats) {
+                // Intentar diferentes nombres de campos
+                const wins = t.stats.victorias || t.stats.wins || t.stats.gamesWon || 0;
+                const losses = t.stats.derrotas || t.stats.losses || t.stats.gamesLost || 0;
+                
+                totalMatches += wins + losses;
+                totalMatchWins += wins;
+            }
+        });
+        
+        // Calcular posición promedio
+        const positions = tournaments
+            .map(t => extractPosition(t.result))
+            .filter(p => p !== null && p > 0);
+        
+        const avgPosition = positions.length > 0 
+            ? positions.reduce((a, b) => a + b, 0) / positions.length 
+            : 0;
+        
+        const bestPosition = positions.length > 0 ? Math.min(...positions) : 0;
+        
+        // Última participación
+        const sortedTournaments = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const lastDate = sortedTournaments[0]?.date || '';
+        
+        const circuitStats = {
+            id: circuitId,
+            name: circuit.name,
+            tournaments: totalTournaments,
+            wins: totalWins,
+            winRate: winRate,
+            avgPosition: avgPosition,
+            bestPosition: bestPosition,
+            totalMatches: totalMatches,
+            totalMatchWins: totalMatchWins,
+            lastDate: lastDate
+        };
+        
+        console.log('📊 Estadísticas calculadas:', circuitStats);
+        
+        stats.push(circuitStats);
+    });
+    
+    return stats;
+}
+
+// ============================================
+// RENDERIZAR GRÁFICA DE CIRCUITOS (LÍNEAS)
+// ============================================
+
+function renderCircuitChart(circuitsData, metric) {
+    const ctx = document.getElementById('circuitComparisonChart');
+    
+    if (!ctx) {
+        console.error('Canvas no encontrado');
+        return;
+    }
+    
+    // Destruir gráfica anterior
+    destroyCircuitChart();
+    
+    // Preparar datos según la métrica
+    let labels = circuitsData.map(c => c.name);
+    let data, label, yAxisLabel;
+    
+    switch(metric) {
+        case 'tournaments':
+            data = circuitsData.map(c => c.tournaments);
+            label = 'Número de Torneos';
+            yAxisLabel = 'Torneos';
+            break;
+        case 'winRate':
+            data = circuitsData.map(c => parseFloat(c.winRate.toFixed(1)));
+            label = 'Tasa de Victoria (%)';
+            yAxisLabel = 'Porcentaje (%)';
+            break;
+        case 'avgPosition':
+            data = circuitsData.map(c => c.avgPosition > 0 ? parseFloat(c.avgPosition.toFixed(1)) : 0);
+            label = 'Posición Promedio';
+            yAxisLabel = 'Posición';
+            break;
+        case 'totalMatches':
+            data = circuitsData.map(c => c.totalMatches);
+            label = 'Total de Partidas';
+            yAxisLabel = 'Partidas';
+            break;
+        case 'totalWins':
+            data = circuitsData.map(c => c.wins);
+            label = 'Total de Victorias';
+            yAxisLabel = 'Victorias en Torneos';
+            break;
+        default:
+            data = circuitsData.map(c => c.tournaments);
+            label = 'Número de Torneos';
+            yAxisLabel = 'Torneos';
+    }
+    
+    console.log('📊 Renderizando gráfica:', { metric, label, data });
+    
+    // Si hay múltiples circuitos, crear línea conectada
+    if (circuitsData.length > 1) {
+        // Crear una sola línea que conecta todos los puntos
+        const mainDataset = {
+            label: label,
+            data: data,
+            borderColor: '#94a3b8',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            tension: 0.4,
+            fill: false
+        };
+        
+        // Crear puntos individuales de colores
+        const pointDatasets = circuitsData.map((circuit, index) => {
+            const color = circuitColors[index % circuitColors.length];
+            
+            return {
+                label: circuit.name,
+                data: data.map((_, i) => i === index ? data[i] : null),
+                borderColor: color,
+                backgroundColor: color,
+                borderWidth: 3,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointBackgroundColor: color,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 3,
+                tension: 0.4,
+                fill: false,
+                showLine: false
+            };
+        });
+        
+        // Crear gráfica con línea base y puntos de colores
+        circuitComparisonChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [mainDataset, ...pointDatasets]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'point',
+                    intersect: true
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                                size: 12,
+                                weight: '500'
+                            },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            filter: function(item, chart) {
+                                return item.text !== label;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        bodyFont: {
+                            size: 13
+                        },
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1,
+                        displayColors: true,
+                        callbacks: {
+                            label: function(context) {
+                                if (context.dataset.label === label) return null;
+                                
+                                let labelText = context.dataset.label || '';
+                                if (labelText) {
+                                    labelText += ': ';
+                                }
+                                labelText += context.parsed.y;
+                                if (metric === 'winRate') {
+                                    labelText += '%';
+                                } else if (metric === 'avgPosition') {
+                                    labelText += 'º';
+                                }
+                                return labelText;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            drawBorder: false
+                        },
+                        title: {
+                            display: true,
+                            text: yAxisLabel,
+                            font: {
+                                size: 13,
+                                weight: '600'
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            },
+                            padding: 8,
+                            callback: function(value) {
+                                if (metric === 'winRate') {
+                                    return value + '%';
+                                } else if (metric === 'avgPosition') {
+                                    return value + 'º';
+                                }
+                                return value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: '500'
+                            },
+                            padding: 8
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        // Para un solo circuito, usar gráfica de barras simple
+        circuitComparisonChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: circuitColors[0] + '40',
+                    borderColor: circuitColors[0],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                let labelText = label + ': ' + context.parsed.y;
+                                if (metric === 'winRate') {
+                                    labelText += '%';
+                                } else if (metric === 'avgPosition') {
+                                    labelText += 'º';
+                                }
+                                return labelText;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        title: {
+                            display: true,
+                            text: yAxisLabel
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                if (metric === 'winRate') {
+                                    return value + '%';
+                                } else if (metric === 'avgPosition') {
+                                    return value + 'º';
+                                }
+                                return value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+}
+
+// ============================================
+// DESTRUIR GRÁFICA
+// ============================================
+
+function destroyCircuitChart() {
+    if (circuitComparisonChart) {
+        circuitComparisonChart.destroy();
+        circuitComparisonChart = null;
+    }
+}
+
+// ============================================
+// RENDERIZAR TABLA COMPARATIVA
+// ============================================
+
+function renderCircuitTable(circuitsData) {
+    const tbody = document.getElementById('circuitComparisonTableBody');
+    
+    if (circuitsData.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; color: #86868b; padding: 40px;">
+                    No hay datos para mostrar
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = circuitsData.map((circuit, index) => {
+        const color = circuitColors[index % circuitColors.length];
+        const winRateClass = circuit.winRate >= 50 ? 'positive' : circuit.winRate >= 30 ? 'neutral' : 'negative';
+        const positionClass = circuit.avgPosition <= 3 ? 'positive' : circuit.avgPosition <= 8 ? 'neutral' : 'negative';
+        
+        return `
+            <tr>
+                <td>
+                    <div class="circuit-name">
+                        <div class="circuit-color" style="background-color: ${color};"></div>
+                        ${escapeHtml(circuit.name)}
+                    </div>
+                </td>
+                <td class="metric-value">${circuit.tournaments}</td>
+                <td class="metric-value">${circuit.wins}</td>
+                <td class="metric-value ${winRateClass}">${circuit.winRate.toFixed(1)}%</td>
+                <td class="metric-value ${positionClass}">
+                    ${circuit.avgPosition > 0 ? circuit.avgPosition.toFixed(1) + 'º' : '-'}
+                </td>
+                <td class="metric-value positive">
+                    ${circuit.bestPosition > 0 ? circuit.bestPosition + 'º' : '-'}
+                </td>
+                <td>${circuit.lastDate ? new Date(circuit.lastDate).toLocaleDateString('es-ES') : '-'}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// ============================================
+// FUNCIÓN AUXILIAR: ESCAPE HTML
+// ============================================
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+
+// ============================================
+// INICIALIZAR AL CARGAR LA PÁGINA
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof initCircuitComparison === 'function') {
+            initCircuitComparison();
+        }
+    }, 500);
+});
+
+// También actualizar cuando cambien los datos
+function updateCircuitComparisonIfVisible() {
+    const comparisonChart = document.getElementById('circuitComparisonChart');
+    if (comparisonChart && comparisonChart.offsetParent !== null) {
+        initCircuitComparison();
+    }
+}
+
+console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + todas las métricas)');
+</script>
+
+		
+<!-- Indicador de sincronización -->
+    <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
+        ☁️ Sincronizado
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/tournaments.js"></script>
+</body>
+</html>
+
+
+
+
