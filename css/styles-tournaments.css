@@ -867,6 +867,7 @@
     border: 1px solid #e5e7eb;
 }
 
+
 /* Tabla comparativa */
 .comparison-table-container {
     margin-top: 24px;
@@ -1125,7 +1126,7 @@
     position: relative;
     height: 300px;
 }
-.chart-container {
+.chart-container2 {
     position: relative;
     height: 300px;
 }
