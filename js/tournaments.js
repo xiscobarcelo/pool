@@ -24,7 +24,7 @@ let matchesData = {
 let currentSection = 'tournaments';
 let filteredTournaments = [];
 let currentPage = 1;
-let itemsPerPage = 50;
+let itemsPerPage = 30;
 
 // ============================================================
 // INICIALIZACIÓN
