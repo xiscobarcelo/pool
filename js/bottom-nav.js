@@ -8,7 +8,7 @@ function initBottomNav() {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"></circle>
                 </svg>
-                <span class="nav-label">Partidas</span>
+                <span class="nav-label">Partidos</span>
             </a>
             
             <a href="estadisticas.html" class="nav-item" data-page="estadisticas">
