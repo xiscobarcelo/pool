@@ -1,7 +1,7 @@
 {
   "name": "PoolFlow",
   "short_name": "PoolFlow",
-  "start_url": "/",
+  "start_url": "https://xiscobarcelo.github.io/pool/index.html",
   "display": "standalone",
   "icons": [
     {
