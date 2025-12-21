@@ -981,7 +981,7 @@
                         score1: score1.toString(),
                         score2: score2.toString(),
                         material1: material.toString().trim(),
-                        material2: '-',
+                   //     material2: '-',
                         modality: normalizedModality,
                         date: matchDate,
                         id: Date.now() + index
@@ -1185,6 +1185,7 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
 
 
