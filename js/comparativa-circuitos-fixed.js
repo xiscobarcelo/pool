@@ -1,6 +1,6 @@
 <!-- ============================================ -->
-<!-- COMPARATIVA DE CIRCUITOS - VERSIÓN CORREGIDA -->
-<!-- Con nombres reales y gráfica de líneas -->
+<!-- COMPARATIVA DE CIRCUITOS - VERSIÓN CORREGIDA V2 -->
+<!-- Con detección mejorada de victorias y métricas -->
 <!-- ============================================ -->
 
 <script>
@@ -55,6 +55,80 @@ function getCircuitName(circuitId) {
 }
 
 // ============================================
+// FUNCIÓN PARA DETECTAR SI ES VICTORIA
+// ============================================
+
+function isVictory(result) {
+    if (!result) return false;
+    
+    // Normalizar el resultado
+    const normalized = String(result).trim().toLowerCase();
+    
+    // Casos de victoria
+    const victoryPatterns = [
+        '1º',
+        '1°',
+        '1',
+        'primero',
+        'ganador',
+        'campeón',
+        'campeon',
+        'victoria',
+        'winner',
+        'first'
+    ];
+    
+    // Verificar si coincide con algún patrón
+    for (const pattern of victoryPatterns) {
+        if (normalized === pattern || normalized === pattern.toLowerCase()) {
+            return true;
+        }
+    }
+    
+    // Verificar si empieza con "1" seguido de caracteres no numéricos
+    if (/^1[^\d]/.test(normalized)) {
+        return true;
+    }
+    
+    return false;
+}
+
+// ============================================
+// FUNCIÓN PARA EXTRAER POSICIÓN NUMÉRICA
+// ============================================
+
+function extractPosition(result) {
+    if (!result) return null;
+    
+    const str = String(result).trim();
+    
+    // Intentar extraer número al inicio
+    const match = str.match(/^(\d+)/);
+    if (match) {
+        return parseInt(match[1]);
+    }
+    
+    // Casos especiales
+    const specialCases = {
+        'primero': 1,
+        'segundo': 2,
+        'tercero': 3,
+        'cuarto': 4,
+        'quinto': 5,
+        'first': 1,
+        'second': 2,
+        'third': 3
+    };
+    
+    const normalized = str.toLowerCase();
+    if (specialCases[normalized]) {
+        return specialCases[normalized];
+    }
+    
+    return null;
+}
+
+// ============================================
 // INICIALIZAR COMPARATIVA DE CIRCUITOS
 // ============================================
 
@@ -63,6 +137,8 @@ function initCircuitComparison() {
     
     // Obtener circuitos únicos de los torneos
     const circuits = getCircuitsFromTournaments();
+    
+    console.log('📊 Circuitos encontrados:', circuits.length);
     
     if (circuits.length === 0) {
         document.getElementById('circuitCheckboxes').style.display = 'none';
@@ -101,8 +177,8 @@ function getCircuitsFromTournaments() {
             
             if (!circuitMap.has(circuitId)) {
                 circuitMap.set(circuitId, {
-                    id: circuitId,           // ID original (circuit_xxxxx)
-                    name: circuitName,       // Nombre legible
+                    id: circuitId,
+                    name: circuitName,
                     count: 0,
                     tournaments: []
                 });
@@ -222,6 +298,8 @@ function updateCircuitComparison() {
     const metric = document.getElementById('comparisonMetric').value;
     const circuitsData = calculateCircuitStats();
     
+    console.log('📊 Datos de circuitos calculados:', circuitsData);
+    
     renderCircuitChart(circuitsData, metric);
     renderCircuitTable(circuitsData);
 }
@@ -244,26 +322,33 @@ function calculateCircuitStats() {
         
         // Calcular estadísticas
         const totalTournaments = tournaments.length;
-        const totalWins = tournaments.filter(t => t.result === '1º' || t.result === '1').length;
+        
+        // Contar victorias con la nueva función mejorada
+        const totalWins = tournaments.filter(t => isVictory(t.result)).length;
+        
+        console.log(`🏆 ${circuit.name}: ${totalWins} victorias de ${totalTournaments} torneos`);
+        
         const winRate = totalTournaments > 0 ? (totalWins / totalTournaments * 100) : 0;
         
         // Calcular total de partidas
         let totalMatches = 0;
+        let totalMatchWins = 0;
+        
         tournaments.forEach(t => {
-            if (t.stats && t.stats.victorias !== undefined && t.stats.derrotas !== undefined) {
-                totalMatches += t.stats.victorias + t.stats.derrotas;
+            if (t.stats) {
+                // Intentar diferentes nombres de campos
+                const wins = t.stats.victorias || t.stats.wins || t.stats.gamesWon || 0;
+                const losses = t.stats.derrotas || t.stats.losses || t.stats.gamesLost || 0;
+                
+                totalMatches += wins + losses;
+                totalMatchWins += wins;
             }
         });
         
         // Calcular posición promedio
         const positions = tournaments
-            .map(t => {
-                const result = t.result;
-                if (!result) return null;
-                const match = result.match(/\d+/);
-                return match ? parseInt(match[0]) : null;
-            })
-            .filter(p => p !== null);
+            .map(t => extractPosition(t.result))
+            .filter(p => p !== null && p > 0);
         
         const avgPosition = positions.length > 0 
             ? positions.reduce((a, b) => a + b, 0) / positions.length 
@@ -275,17 +360,22 @@ function calculateCircuitStats() {
         const sortedTournaments = tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
         const lastDate = sortedTournaments[0]?.date || '';
         
-        stats.push({
+        const circuitStats = {
             id: circuitId,
-            name: circuit.name,  // Nombre legible
+            name: circuit.name,
             tournaments: totalTournaments,
             wins: totalWins,
             winRate: winRate,
             avgPosition: avgPosition,
             bestPosition: bestPosition,
             totalMatches: totalMatches,
+            totalMatchWins: totalMatchWins,
             lastDate: lastDate
-        });
+        };
+        
+        console.log('📊 Estadísticas calculadas:', circuitStats);
+        
+        stats.push(circuitStats);
     });
     
     return stats;
@@ -317,12 +407,12 @@ function renderCircuitChart(circuitsData, metric) {
             yAxisLabel = 'Torneos';
             break;
         case 'winRate':
-            data = circuitsData.map(c => c.winRate.toFixed(1));
+            data = circuitsData.map(c => parseFloat(c.winRate.toFixed(1)));
             label = 'Tasa de Victoria (%)';
             yAxisLabel = 'Porcentaje (%)';
             break;
         case 'avgPosition':
-            data = circuitsData.map(c => c.avgPosition > 0 ? c.avgPosition.toFixed(1) : 0);
+            data = circuitsData.map(c => c.avgPosition > 0 ? parseFloat(c.avgPosition.toFixed(1)) : 0);
             label = 'Posición Promedio';
             yAxisLabel = 'Posición';
             break;
@@ -334,29 +424,15 @@ function renderCircuitChart(circuitsData, metric) {
         case 'totalWins':
             data = circuitsData.map(c => c.wins);
             label = 'Total de Victorias';
-            yAxisLabel = 'Victorias';
+            yAxisLabel = 'Victorias en Torneos';
             break;
+        default:
+            data = circuitsData.map(c => c.tournaments);
+            label = 'Número de Torneos';
+            yAxisLabel = 'Torneos';
     }
     
-    // Crear datasets con líneas separadas por circuito
-    const datasets = circuitsData.map((circuit, index) => {
-        const color = circuitColors[index % circuitColors.length];
-        
-        return {
-            label: circuit.name,
-            data: [data[index]], // Punto único
-            borderColor: color,
-            backgroundColor: color + '20',
-            borderWidth: 3,
-            pointRadius: 6,
-            pointHoverRadius: 8,
-            pointBackgroundColor: color,
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            tension: 0.4, // Curvas suaves
-            fill: false
-        };
-    });
+    console.log('📊 Renderizando gráfica:', { metric, label, data });
     
     // Si hay múltiples circuitos, crear línea conectada
     if (circuitsData.length > 1) {
@@ -390,7 +466,7 @@ function renderCircuitChart(circuitsData, metric) {
                 pointBorderWidth: 3,
                 tension: 0.4,
                 fill: false,
-                showLine: false // Solo puntos, sin línea
+                showLine: false
             };
         });
         
@@ -422,7 +498,6 @@ function renderCircuitChart(circuitsData, metric) {
                             usePointStyle: true,
                             pointStyle: 'circle',
                             filter: function(item, chart) {
-                                // No mostrar la línea base en la leyenda
                                 return item.text !== label;
                             }
                         }
@@ -551,6 +626,16 @@ function renderCircuitChart(circuitsData, metric) {
                         title: {
                             display: true,
                             text: yAxisLabel
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                if (metric === 'winRate') {
+                                    return value + '%';
+                                } else if (metric === 'avgPosition') {
+                                    return value + 'º';
+                                }
+                                return value;
+                            }
                         }
                     }
                 }
@@ -636,11 +721,7 @@ function escapeHtml(text) {
 // INICIALIZAR AL CARGAR LA PÁGINA
 // ============================================
 
-// Añadir a tu DOMContentLoaded existente:
 document.addEventListener('DOMContentLoaded', () => {
-    // ... tu código existente ...
-    
-    // Inicializar comparativa de circuitos
     setTimeout(() => {
         if (typeof initCircuitComparison === 'function') {
             initCircuitComparison();
@@ -656,5 +737,5 @@ function updateCircuitComparisonIfVisible() {
     }
 }
 
-console.log('✅ Comparativa de circuitos con líneas cargada');
+console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + todas las métricas)');
 </script>
