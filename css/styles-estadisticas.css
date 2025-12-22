@@ -370,7 +370,7 @@
 
 .winner {
     font-weight: 700;
-    background: linear-gradient(90deg, #00d9ff, #00fff2);
+    background:linear-gradient(135deg, #00d9ff 0%, #00fff2 100%)
 	    color: #0a0a2e !important;
 	
 
