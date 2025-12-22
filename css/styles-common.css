@@ -86,12 +86,12 @@ width:150px;
 
 .nav-link:hover {
     background: rgba(0, 0, 0, 0.05);
-    color: #000;
+    color: #0a0a2e;
 }
 
 .nav-link.active {
     background: #fff;
-    color: #000;
+    color: #0a0a2e;
 }
 
 .nav-link.danger {
@@ -223,7 +223,7 @@ h1 {
 }
 
 .btn-primary {
-    background: #000000;
+    background: #0a0a2e0a0a2e;
     color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -237,7 +237,7 @@ h1 {
         .btn-secondary {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
-            color: #000;
+            color: #0a0a2e;
             border: 1px solid rgba(0, 0, 0, 0.2);
             padding: 10px 16px;
             border-radius: 8px;
@@ -248,8 +248,8 @@ h1 {
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.9);
-            border-color: #000000;
-            color: #000000;
+            border-color: #0a0a2e0a0a2e;
+            color: #0a0a2e0a0a2e;
             transform: translateY(-2px);
         }
 
@@ -285,13 +285,13 @@ h1 {
         }
 
         .btn-primary {
-            background: #000;
+            background: #0a0a2e;
             color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary:hover {
-            background: #000000;
+            background: #0a0a2e0a0a2e;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
@@ -299,7 +299,7 @@ h1 {
         .btn-secondary {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
-            color: #000;
+            color: #0a0a2e;
             border: 1px solid rgba(0, 0, 0, 0.2);
             padding: 10px 16px;
             border-radius: 8px;
@@ -309,8 +309,8 @@ h1 {
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.9);
-            border-color: #000000;
-            color: #000000;
+            border-color: #0a0a2e0a0a2e;
+            color: #0a0a2e0a0a2e;
             transform: translateY(-2px);
         }
 
@@ -347,7 +347,7 @@ h1 {
             background: rgba(0, 0, 0, 0.01);
             border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            color: #000000;
+            color: #0a0a2e0a0a2e;
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
