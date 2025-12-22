@@ -999,9 +999,9 @@
             preview.style.display = 'block';
             
             preview.innerHTML = `
-                <div style="background: rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 20px;">
-                    <h3 style="color: #34c759; margin-bottom: 16px;">✅ Archivo procesado correctamente</h3>
-                    <p style="color: #86868b; margin-bottom: 20px;">
+                <div style="background: #f3f3f3; border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 20px;">
+                    <h3 style="color: #0a0a2e; margin-bottom: 16px;">✅ Archivo procesado correctamente</h3>
+                    <p style="color: #0a0a2e; margin-bottom: 20px;">
                         Se encontraron <strong>${matches.length} partidos</strong> para importar
                     </p>
                     
@@ -1185,6 +1185,7 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
 
 
