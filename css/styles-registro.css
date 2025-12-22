@@ -669,7 +669,7 @@ tbody tr:last-child td {
 }
 
 .message.success {
-    background: #0a0a2e;
+    background: #00fff2e;
     color: white;
 }
 
@@ -874,7 +874,7 @@ input[type="file"] {
         }
 
         .success-message {
-            background: rgba(52, 199, 89, 0.1);
+            background:linear-gradient(135deg, #00d9ff 0%, #00fff2 100%);
             border: 1px solid rgba(52, 199, 89, 0.3);
             border-radius: 12px;
             padding: 16px;
