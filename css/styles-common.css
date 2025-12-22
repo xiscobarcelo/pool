@@ -12,7 +12,7 @@ body {
     font-family: 'Syne', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
     min-height: 100vh;
-    color: #1d1d1f;
+    color: #0a0a2e;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
