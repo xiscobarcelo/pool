@@ -114,7 +114,7 @@ input[type="number"]:focus,
 input[type="date"]:focus,
 select:focus {
     outline: none;
-    border-color: #000000;
+    border-color: #0a0a2e;
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -148,7 +148,7 @@ select:disabled {
             border-radius: 24px;
             font-size: 0.9rem;
             font-weight: 500;
-            color: #000000;
+            color: #0a0a2e;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -159,8 +159,8 @@ select:disabled {
         }
 
         .material-chip.selected {
-            background: #000000;
-            border-color: #000000;
+            background: #0a0a2e;
+            border-color: #0a0a2e;
             color: white;
         }
 
@@ -181,7 +181,7 @@ select:disabled {
             border-radius: 12px;
             font-size: 0.9rem;
             font-weight: 600;
-            color: #000000;
+            color: #0a0a2e;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
@@ -365,7 +365,7 @@ select:disabled {
             text-align: center;
             font-size: 1.5rem;
             font-weight: 700;
-            color: #000000;
+            color: #0a0a2e;
         }
 
 /* History section */
@@ -395,7 +395,7 @@ select:disabled {
 
 .history-stat strong {
     font-weight: 700;
-    color: #000000;
+    color: #0a0a2e;
     font-size: 1.25rem;
     margin-left: 6px;
 }
@@ -462,7 +462,7 @@ tbody tr:last-child td {
 .result-cell {
     font-weight: 700;
     font-size: 1.125rem;
-    color: #000000;
+    color: #0a0a2e;
     font-variant-numeric: tabular-nums;
 }
 
@@ -522,7 +522,7 @@ tbody tr:last-child td {
     background: rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    color: #000000;
+    color: #0a0a2e;
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
@@ -567,9 +567,9 @@ tbody tr:last-child td {
 }
 
 .page-number.active {
-    background: #000000;
+    background: #0a0a2e;
     color: white;
-    border-color: #000000;
+    border-color: #0a0a2e;
 }
 
 .page-number.ellipsis {
@@ -595,7 +595,7 @@ tbody tr:last-child td {
         .modality-stat-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #000000!important;
+            color: #0a0a2e!important;
             margin-bottom: 16px;
             text-align: center;
         }
@@ -644,7 +644,7 @@ tbody tr:last-child td {
 
         .stat-input-value:focus {
             outline: none;
-            border-color: #000000;
+            border-color: #0a0a2e;
             box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
         }
 
@@ -716,12 +716,12 @@ input[type="file"] {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    color: #000000;
+    color: #0a0a2e;
 }
 
 .file-upload-label:hover {
     background: rgba(0, 0, 0, 0.1);
-    border-color: #000000;
+    border-color: #0a0a2e;
     transform: translateY(-2px);
 }
 
@@ -753,7 +753,7 @@ input[type="file"] {
 .info-icon {
     width: 20px;
     height: 20px;
-    background: #000000;
+    background: #0a0a2e;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -868,7 +868,7 @@ input[type="file"] {
 
         .match-details {
             font-size: 0.875rem;
-            color: #000;
+            color: #0a0a2e;
 			text-align:center;
 				margin-top:5px;
         }
@@ -905,7 +905,7 @@ input[type="file"] {
         .nav-button {
             display: inline-block;
             padding: 12px 28px;
-            background: linear-gradient(135deg, #000000, #5856d6);
+            background: linear-gradient(135deg, #0a0a2e, #5856d6);
             color: white;
             text-decoration: none;
             border-radius: 12px;
@@ -990,7 +990,7 @@ input[type="file"] {
             background: rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            color: #000000;
+            color: #0a0a2e;
             font-size: 1.1rem;
             font-weight: 400;
             cursor: pointer;
@@ -1010,9 +1010,9 @@ input[type="file"] {
         }
 
         .pagination-btn.active {
-            background: #000000;
+            background: #0a0a2e;
             color: white;
-            border-color: #000000;
+            border-color: #0a0a2e;
         }
 
         .page-numbers {
@@ -1042,9 +1042,9 @@ input[type="file"] {
         }
 
         .page-number.active {
-            background: #000000;
+            background: #0a0a2e;
             color: white;
-            border-color: #000000;
+            border-color: #0a0a2e;
         }
 
         .page-number.ellipsis {
@@ -1074,7 +1074,7 @@ input[type="file"] {
         .modality-stat-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #000000!important;
+            color: #0a0a2e!important;
             margin-bottom: 16px;
             text-align: center;
         }
@@ -1123,7 +1123,7 @@ input[type="file"] {
 
         .stat-input-value:focus {
             outline: none;
-            border-color: #000000;
+            border-color: #0a0a2e;
             box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
         }
 
