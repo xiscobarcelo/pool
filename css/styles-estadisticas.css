@@ -6,6 +6,7 @@
 .loading {
     text-align: center;
     padding: 120px 20px;
+	background-color:#00fff2;
 }
 
 .spinner {
@@ -24,7 +25,7 @@
 }
 
 .loading p {
-    color: #86868b;
+    color: #0a0a2e;
     font-size: 1rem;
     font-weight: 500;
 }
