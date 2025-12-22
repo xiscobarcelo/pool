@@ -125,7 +125,7 @@
 
         function showGitHubSyncBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
+            banner.style.cssText = 'background: linear-gradient(135deg, #00d9ff, #00fff2); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
             banner.innerHTML = '☁️ Datos sincronizados desde GitHub (Cloud)';
             
             const container = document.querySelector('.container');
@@ -141,7 +141,7 @@
 
         function showSharedDataBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(135deg, #34c759, #30d158); color: white; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
+            banner.style.cssText = 'background: linear-gradient(135deg, #00d9ff, #00fff2); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
             banner.innerHTML = '✅ Datos sincronizados desde el registro de partidos';
             
             const container = document.querySelector('.container');
@@ -1760,4 +1760,5 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
