@@ -6,7 +6,6 @@
 .loading {
     text-align: center;
     padding: 120px 20px;
-	background-color:#00fff2;
 }
 
 .spinner {
@@ -17,6 +16,8 @@
     border-top: 3px solid #3b82f6;
     border-radius: 50%;
     animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+		background-color:#00fff2;
+
 }
 
 @keyframes spin {
