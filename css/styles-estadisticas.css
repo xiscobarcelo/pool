@@ -70,7 +70,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #0000ff);
+    background: linear-gradient(90deg, #3b82f6, #00fff2);
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -481,7 +481,7 @@ select:focus {
 }
 
 .comparison-value.player2 {
-    color: #0000ff;
+    color: #00fff2;
     text-align: right;
 }
 
