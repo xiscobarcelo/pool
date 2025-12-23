@@ -1388,103 +1388,140 @@ function createMaterialUsageChart(matches) {
             updateComparison(matches);
         }
 
-        function updateComparison(matches) {
-            const player1 = document.getElementById('player1Select').value;
-            const player2 = document.getElementById('player2Select').value;
-            const content = document.getElementById('comparisonContent');
+function updateComparison(matches) {
+    const player1 = document.getElementById('player1Select').value;
+    const player2 = document.getElementById('player2Select').value;
+    const content = document.getElementById('comparisonContent');
 
-            if (!player1 || !player2) {
-                content.innerHTML = '<div class="no-comparison">Selecciona un rival para comparar con Xisco</div>';
-                return;
-            }
+    if (!player1 || !player2) {
+        content.innerHTML = '<div class="no-comparison">Selecciona un rival para comparar con Xisco</div>';
+        return;
+    }
 
-            // Calcular estadísticas
-            const stats1 = calculatePlayerStats(matches, player1);
-            const stats2 = calculatePlayerStats(matches, player2);
+    // ✅ CAMBIO IMPORTANTE: Pasar el oponente como tercer parámetro
+    // Esto filtrará solo los partidos directos entre estos dos jugadores
+    const stats1 = calculatePlayerStats(matches, player1, player2);
+    const stats2 = calculatePlayerStats(matches, player2, player1);
 
-            // Mostrar estadísticas comparativas
-            let html = '<div class="comparison-stats">';
+    // Verificar si han jugado partidos entre ellos
+    if (stats1.totalMatches === 0) {
+        content.innerHTML = `
+            <div class="no-comparison" style="padding: 40px; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🤷‍♂️</div>
+                <h3 style="color: #1d1d1f; margin-bottom: 10px;">Sin Enfrentamientos Directos</h3>
+                <p style="color: #86868b;">Xisco y ${player2} aún no se han enfrentado en ningún partido registrado.</p>
+            </div>
+        `;
+        return;
+    }
 
-            const comparisons = [
-                { label: 'Partidos Jugados', key: 'totalMatches', format: 'number' },
-                { label: 'Victorias', key: 'wins', format: 'number' },
-                { label: 'Partidas Anotadas', key: 'scoreGained', format: 'number' },
-                { label: 'Partidas Recibidas', key: 'scoreConceded', format: 'number' },
-                { label: 'Partidas Promedio', key: 'avgScore', format: 'decimal' },
-                { label: 'Win Rate', key: 'winRate', format: 'percentage' }
-            ];
+    // Mostrar estadísticas comparativas
+    let html = '<div class="comparison-stats">';
 
-            comparisons.forEach(comp => {
-                const val1 = stats1[comp.key];
-                const val2 = stats2[comp.key];
-                const isWinner1 = val1 > val2;
-                const isWinner2 = val2 > val1;
+    const comparisons = [
+        { label: 'Partidos Jugados', key: 'totalMatches', format: 'number' },
+        { label: 'Victorias', key: 'wins', format: 'number' },
+        { label: 'Partidas Anotadas', key: 'scoreGained', format: 'number' },
+        { label: 'Partidas Recibidas', key: 'scoreConceded', format: 'number' },
+        { label: 'Partidas Promedio', key: 'avgScore', format: 'decimal' },
+        { label: 'Win Rate', key: 'winRate', format: 'percentage' }
+    ];
 
-                let displayVal1 = val1;
-                let displayVal2 = val2;
+    comparisons.forEach(comp => {
+        const val1 = stats1[comp.key];
+        const val2 = stats2[comp.key];
+        const isWinner1 = val1 > val2;
+        const isWinner2 = val2 > val1;
 
-                if (comp.format === 'decimal') {
-                    displayVal1 = val1.toFixed(1);
-                    displayVal2 = val2.toFixed(1);
-                } else if (comp.format === 'percentage') {
-                    displayVal1 = val1.toFixed(1) + '%';
-                    displayVal2 = val2.toFixed(1) + '%';
-                }
+        let displayVal1 = val1;
+        let displayVal2 = val2;
 
-                html += `
-                    <div class="comparison-stat">
-                        <div class="comparison-stat-label">${comp.label}</div>
-                        <div class="comparison-stat-values">
-                            <div class="comparison-value player1 ${isWinner1 && val1 !== val2 ? 'comparison-winner' : ''}">${displayVal1}</div>
-                            <div class="comparison-separator">·</div>
-                            <div class="comparison-value player2 ${isWinner2 && val1 !== val2 ? 'comparison-winner' : ''}">${displayVal2}</div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += '</div>';
-
-            // Añadir gráficos comparativos
-            html += '<div class="charts-grid" id="comparisonCharts"></div>';
-
-            content.innerHTML = html;
-
-            // Crear gráficos de comparación
-            setTimeout(() => {
-                createComparisonCharts(stats1, stats2, player1, player2);
-            }, 100);
+        if (comp.format === 'decimal') {
+            displayVal1 = val1.toFixed(1);
+            displayVal2 = val2.toFixed(1);
+        } else if (comp.format === 'percentage') {
+            displayVal1 = val1.toFixed(1) + '%';
+            displayVal2 = val2.toFixed(1) + '%';
         }
 
-        function calculatePlayerStats(matches, player) {
-            const playerMatches = matches.filter(m => m.player1 === player || m.player2 === player);
-            
-            let wins = 0;
-            let scoreGained = 0;
-            let scoreConceded = 0;
+        html += `
+            <div class="comparison-stat">
+                <div class="comparison-stat-label">${comp.label}</div>
+                <div class="comparison-stat-values">
+                    <div class="comparison-value player1 ${isWinner1 && val1 !== val2 ? 'comparison-winner' : ''}">${displayVal1}</div>
+                    <div class="comparison-separator">·</div>
+                    <div class="comparison-value player2 ${isWinner2 && val1 !== val2 ? 'comparison-winner' : ''}">${displayVal2}</div>
+                </div>
+            </div>
+        `;
+    });
 
-            playerMatches.forEach(m => {
-                const isPlayer1 = m.player1 === player;
-                const myScore = parseInt(isPlayer1 ? m.score1 : m.score2);
-                const opponentScore = parseInt(isPlayer1 ? m.score2 : m.score1);
+    html += '</div>';
 
-                scoreGained += myScore;
-                scoreConceded += opponentScore;
+    // Añadir badge informativo
+    html = `
+        <div style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 255, 242, 0.1) 100%); 
+                    border: 1px solid rgba(0, 217, 255, 0.3); 
+                    border-radius: 12px; 
+                    padding: 16px; 
+                    margin-bottom: 24px; 
+                    text-align: center;">
+            <p style="color: #1d1d1f; font-weight: 600; margin-bottom: 4px;">🆚 Enfrentamientos Directos</p>
+            <p style="color: #86868b; font-size: 0.9rem;">
+                Estadísticas basadas en ${stats1.totalMatches} ${stats1.totalMatches === 1 ? 'partido' : 'partidos'} entre ${player1} y ${player2}
+            </p>
+        </div>
+    ` + html;
 
-                if (myScore > opponentScore) wins++;
-            });
+    // Añadir gráficos comparativos
+    html += '<div class="charts-grid" id="comparisonCharts"></div>';
 
-            return {
-                totalMatches: playerMatches.length,
-                wins: wins,
-                losses: playerMatches.length - wins,
-                scoreGained: scoreGained,
-                scoreConceded: scoreConceded,
-                avgScore: playerMatches.length > 0 ? scoreGained / playerMatches.length : 0,
-                winRate: playerMatches.length > 0 ? (wins / playerMatches.length) * 100 : 0
-            };
-        }
+    content.innerHTML = html;
 
+    // Crear gráficos de comparación
+    setTimeout(() => {
+        createComparisonCharts(stats1, stats2, player1, player2);
+    }, 100);
+}
+      function calculatePlayerStats(matches, player, opponent = null) {
+    let playerMatches;
+    
+    // Si se especifica un oponente, filtrar solo partidos entre estos dos jugadores
+    if (opponent) {
+        playerMatches = matches.filter(m => 
+            (m.player1 === player && m.player2 === opponent) ||
+            (m.player1 === opponent && m.player2 === player)
+        );
+    } else {
+        // Si no hay oponente, usar todos los partidos del jugador
+        playerMatches = matches.filter(m => m.player1 === player || m.player2 === player);
+    }
+    
+    let wins = 0;
+    let scoreGained = 0;
+    let scoreConceded = 0;
+
+    playerMatches.forEach(m => {
+        const isPlayer1 = m.player1 === player;
+        const myScore = parseInt(isPlayer1 ? m.score1 : m.score2);
+        const opponentScore = parseInt(isPlayer1 ? m.score2 : m.score1);
+
+        scoreGained += myScore;
+        scoreConceded += opponentScore;
+
+        if (myScore > opponentScore) wins++;
+    });
+
+    return {
+        totalMatches: playerMatches.length,
+        wins: wins,
+        losses: playerMatches.length - wins,
+        scoreGained: scoreGained,
+        scoreConceded: scoreConceded,
+        avgScore: playerMatches.length > 0 ? scoreGained / playerMatches.length : 0,
+        winRate: playerMatches.length > 0 ? (wins / playerMatches.length) * 100 : 0
+    };
+}
         function createComparisonCharts(stats1, stats2, player1, player2) {
             const container = document.getElementById('comparisonCharts');
             if (!container) return;
@@ -1836,6 +1873,7 @@ function createMaterialUsageChart(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
