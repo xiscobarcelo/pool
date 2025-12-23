@@ -16,7 +16,12 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+.page-header img{
+	postition relative;
+	right:200px;
+	
+	
+}
 /* ===================================
    HEADER Y NAVEGACIÓN
    =================================== */
