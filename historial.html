@@ -29,29 +29,125 @@
         }
     </script>
 	<style>
+		/* ============================================
+   CSS PARA PÁGINA DE SOLO HISTORIAL
+   ============================================ */
 
-		/* Ocultar todo excepto el historial */
+/* Ocultar TODAS las secciones excepto el historial */
 #statsGrid,
+#statsSection,
 #chartsGrid,
+#chartsSection,
 #comparisonSection,
 #modalitySection,
-.hero-section,
+#modalityInputsSection,
+#modalityStats,
+.modality-section,
+.modality-inputs-section,
+.charts-section,
+.comparison-section,
+.stats-hero,
 header h1,
-.stats-hero {
+header p {
     display: none !important;
 }
 
-/* Asegurar que la tabla de historial sea visible */
+/* Asegurar que el historial sea visible */
 #matchesSection,
-#matchesTable {
+#matchesTable,
+#paginationTopStats,
+#paginationBottomStats {
     display: block !important;
 }
 
-/* Opcional: Ajustar el título del historial */
-#matchesSection h2 {
-    margin-top: 40px;
+/* Mejorar el aspecto de la página de historial */
+body {
+    padding-top: 40px;
+}
+
+#matchesSection {
+    display: block !important;
+    max-width: 1400px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+/* Header bonito para el historial (opcional) */
+.history-header {
     text-align: center;
-    font-size: 2rem;
+    margin-bottom: 40px;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #040045 0%, #0a0a2e 100%);
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.history-header h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00d9ff 0%, #00fff2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.history-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 400;
+    display: block !important; /* Mostrar este párrafo específico */
+}
+
+/* Mejorar tabla */
+#matchesTable {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+}
+
+/* Botones de acción (opcional) */
+.history-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.history-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #00d9ff 0%, #00fff2 100%);
+    color: #040045;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+}
+
+.history-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 217, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .history-header h1 {
+        font-size: 2rem;
+    }
+    
+    .history-header p {
+        font-size: 1rem;
+    }
+    
+    #matchesSection {
+        margin: 20px auto;
+        padding: 10px;
+    }
 }
 	</style>
 </head>
