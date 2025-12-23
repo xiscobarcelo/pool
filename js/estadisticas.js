@@ -419,9 +419,16 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('content').style.display = 'block';
 
             const matches = data.matches || [];
-            const players = data.players || [];
+       
             const materials = data.materials || [];
+            
+// Sincronizar estadísticas: combinar partidos registrados con modalityStats
+            const combinedStats = combineMatchesWithModalityStats(matches, data.modalityStats);
 
+            generateHeroStats(matches, players, materials, combinedStats);
+            generateCharts(matches, players, materials);
+            setupPlayerComparison(matches, players);
+            setupModalityCalculator();
 
 
 
@@ -1863,6 +1870,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
