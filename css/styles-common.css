@@ -18,7 +18,7 @@ body {
 }
 /* Header con imagen */
 .page-header {
-    background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+    background: #16213e;
     border-radius: 20px;
     padding: 0;
     margin-bottom: 30px;
@@ -44,7 +44,7 @@ body {
 .page-header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(90deg,rgba(0, 217, 255, 1) 0%, rgba(0, 255, 242, 1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 10px;
