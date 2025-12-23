@@ -21,8 +21,8 @@ body {
    HEADER Y NAVEGACIÓN
    =================================== */
 .destacado{
-background: #0a0a2e;
-	color:#00d9ff;
+background: #0a0a2e!important;
+	color:#00d9ff!important;
 }
 .top-header {
     background: rgba(255, 255, 255, 0.95);
