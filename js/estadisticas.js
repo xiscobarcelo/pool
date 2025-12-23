@@ -346,16 +346,19 @@ Escribe "BORRAR" para confirmar:`;
             
         }
 
+function combineMatchesWithModalityStats(matches, modalityStats) {
+    // Si no hay modalityStats, calcular solo desde partidos
+    if (!modalityStats) {
+        return calculateStatsFromMatches(matches);
+    }
+    
+    // Si hay modalityStats, estos YA incluyen los partidos registrados
+    // NO hay que sumar nada más, solo retornarlos tal cual
+    return modalityStats;
+}
 
 
-        function combineMatchesWithModalityStats(matches, modalityStats) {
-       // Calcular estadísticas de los partidos registrados
-            const matchStats = calculateStatsFromMatches(matches);
-            
-            // Si no hay modalityStats, retornar solo las de partidos
-            if (!modalityStats) {
-                return matchStats;
-            }
+
 
             
             // Combinar ambas fuentes de datos
@@ -1780,6 +1783,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
