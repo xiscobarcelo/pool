@@ -6,7 +6,7 @@
         // Rellena estos datos con tus credenciales para no tener que configurar cada vez
         const HARDCODED_GITHUB_CONFIG = {
             username: 'xiscobarcelo',
-            repo: 'xisco-pool',
+            repo: 'pool',
             token: ''
         };
         
@@ -125,7 +125,7 @@
 
         function showGitHubSyncBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 0.2) 0%, rgba(0, 217, 255, 0.2) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
+            banner.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
             banner.innerHTML = '☁️ Datos sincronizados desde GitHub (Cloud)';
             
             const container = document.querySelector('.container');
@@ -1460,14 +1460,14 @@ function updateComparison(matches) {
 
     // Añadir badge informativo
     html = `
-        <div style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 255, 242, 0.1) 100%); 
+        <div style="background: #f3f3f3; 
                     border: 1px solid rgba(0, 217, 255, 0.3); 
                     border-radius: 12px; 
                     padding: 16px; 
                     margin-bottom: 24px; 
                     text-align: center;">
-            <p style="color: #1d1d1f; font-weight: 600; margin-bottom: 4px;">🆚 Enfrentamientos Directos</p>
-            <p style="color: #86868b; font-size: 0.9rem;">
+            <p style="color: #0a0a2e; font-weight: 600; margin-bottom: 4px;">🆚 Enfrentamientos Directos</p>
+            <p style="color: #0a0a2e; font-size: 0.9rem;">
                 Estadísticas basadas en ${stats1.totalMatches} ${stats1.totalMatches === 1 ? 'partido' : 'partidos'} entre ${player1} y ${player2}
             </p>
         </div>
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
