@@ -42,7 +42,38 @@
     display: none !important;
 }
 
+/* AJUSTAR ANCHO DEL HISTORIAL */
+.section {
+    max-width: 100% !important;
+    width: 100% !important;
+}
 
+.chart-card.full-width {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.table-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-x: auto;
+}
+
+.matches-table {
+    width: 100% !important;
+}
+
+/* Asegurar que el contenedor principal no limite el ancho */
+.container {
+    max-width: 1400px !important;
+    padding: 0 20px !important;
+}
+
+#content {
+    width: 100% !important;
+}
 	</style>
 </head>
 <body>
@@ -163,7 +194,7 @@
                 <!-- Controles de paginación superior -->
                 <div id="paginationTopStats" class="pagination-container-stats" style="display: none;"></div>
                 
-                <div class="chart-card full-width">
+<div class="chart-card full-width" style="padding: 0; margin: 0; box-shadow: none;">
                     <div class="table-container">
                         <table class="matches-table" id="matchesTable"></table>
                     </div>
