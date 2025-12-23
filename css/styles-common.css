@@ -20,7 +20,10 @@ body {
 /* ===================================
    HEADER Y NAVEGACIÓN
    =================================== */
-
+.destacado{
+background: #0a0a2e;
+	color:#00d9ff;
+}
 .top-header {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
