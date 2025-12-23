@@ -902,7 +902,6 @@ function generateHeroStats(matches, players, materials, combinedStats) {
     const topXiscoMaterial = Object.entries(xiscoMaterials).sort((a, b) => b[1] - a[1])[0];
 
     const stats = [
-        { label: 'Total Partidos', value: totalMatches },
         { label: 'Material Popular Xisco', value: topXiscoMaterial ? topXiscoMaterial[0] : 'N/A', smallText: true }
     ];
 
@@ -1827,6 +1826,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
