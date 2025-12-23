@@ -90,28 +90,7 @@
 
         <div id="error" style="display: none;"></div>
 
-        <div id="fileUploadSection" style="display: none;">
-            <div class="chart-card" style="max-width: 600px; margin: 40px auto; text-align: center;">
-                <h2 style="font-size: 1.5rem; font-weight: 600; color: #1d1d1f; margin-bottom: 16px;">
-                    Cargar datos
-                </h2>
-                <p style="color: #86868b; margin-bottom: 24px;">
-                    No se encontraron datos en el servidor. Elige una opción:
-                </p>
-                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="loadFromRegistration()" class="action-btn primary" style="cursor: pointer; display: inline-block;">
-                        Ir a Registro
-                    </button>
-                    <label for="jsonFileInput" class="action-btn secondary" style="cursor: pointer; display: inline-block;">
-                        Subir JSON
-                    </label>
-                    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
-                    <button onclick="loadDemoData()" class="action-btn secondary">
-                        Cargar Demo
-                    </button>
-                </div>
-            </div>
-        </div>
+
 
         <div id="content" style="display: none;">
             <div class="stats-grid" id="statsGrid"></div>
