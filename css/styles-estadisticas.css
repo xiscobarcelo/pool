@@ -195,7 +195,8 @@
         }
 
         .action-btn.primary {
-            background: #000000;
+background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%);
+
             color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
