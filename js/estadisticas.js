@@ -946,7 +946,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
         const box = document.createElement('div');
         box.className = 'stat-card fade-in';
         if (stat.highlight) {
-            box.style.background = 'linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 255, 242, 0.1) 100%)';
+            box.style.background = 'rgba(255, 255, 255, 0.7) 100%)';
             box.style.borderColor = 'rgba(0, 217, 255, 0.3)';
         }
         box.innerHTML = `
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
