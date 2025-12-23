@@ -334,12 +334,13 @@ Escribe "BORRAR" para confirmar:`;
         }
 
         function combineMatchesWithModalityStats(matches, modalityStats) {
-
-
-
-
-
-
+       // Calcular estadísticas de los partidos registrados
+            const matchStats = calculateStatsFromMatches(matches);
+            
+            // Si no hay modalityStats, retornar solo las de partidos
+            if (!modalityStats) {
+                return matchStats;
+            }
 
             
             // Combinar ambas fuentes de datos
@@ -409,10 +410,10 @@ Escribe "BORRAR" para confirmar:`;
 
             // Mostrar indicadores de sincronización
             const syncInfo = document.createElement('div');
-            syncInfo.style.cssText = 'background: rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
+            syncInfo.style.cssText = 'background: #00fff2; border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
             syncInfo.innerHTML = `
-                <p style="color: #34c759; font-weight: 600; margin-bottom: 8px;">✅ Datos Sincronizados</p>
-                <p style="color: #86868b; font-size: 0.9rem;">
+                <p style="color: #0a0a2e; font-weight: 600; margin-bottom: 8px;">✅ Datos Sincronizados</p>
+                <p style="color: #0a0a2e; font-size: 0.9rem;">
                     Los valores mostrados en los formularios ya incluyen los partidos registrados automáticamente
                 </p>
             `;
@@ -1760,6 +1761,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
