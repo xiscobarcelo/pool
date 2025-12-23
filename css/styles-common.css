@@ -226,12 +226,14 @@ h1 {
    background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%);
     color: #0a0a2e;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	text-transform:inherit;
 }
 
 .btn-primary:hover {
     background: #1a1a1a;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+	color: white;
 }
 
         .btn-secondary {
