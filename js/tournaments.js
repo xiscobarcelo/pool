@@ -390,7 +390,7 @@ function showSyncIndicator() {
     const indicator = document.getElementById('syncIndicator');
     if (indicator) {
         indicator.innerHTML = '💾 Guardado localmente';
-        indicator.style.background = '#34c759';
+        indicator.style.background = 'linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%)';
         indicator.style.opacity = '1';
         setTimeout(() => {
             indicator.style.opacity = '0';
@@ -1257,7 +1257,7 @@ function showMessage(text, type = 'success') {
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         z-index: 10000;
         animation: slideIn 0.3s ease-out;
-        background: ${type === 'success' ? '#34c759' : '#007aff'};
+        background: ${type === 'success' ? 'linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%)' : '#007aff'};
         color: white;
     `;
     
@@ -1383,7 +1383,7 @@ function renderYearResultsChart() {
         {
             label: 'Otros',
             data: years.map(y => yearData[y]['Otros']),
-            backgroundColor: 'rgba(102, 126, 234, 0.3)',
+            backgroundColor: '#00d9ff',
             borderColor: 'rgba(102, 126, 234, 1)',
             borderWidth: 2
         }
@@ -1517,7 +1517,7 @@ function renderMaterialPerformanceChart() {
                     'rgba(255, 215, 0, 0.8)',
                     'rgba(102, 126, 234, 0.8)',
                     'rgba(52, 199, 89, 0.8)',
-                    '(0, 255, 242, 0.8)',
+                    'rgba(0, 255, 242, 0.8)',
                     'rgba(88, 86, 214, 0.8)'
                 ],
                 borderColor: '#fff',
