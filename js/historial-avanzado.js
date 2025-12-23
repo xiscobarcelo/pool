@@ -216,7 +216,6 @@ function updateStats() {
 // ========================================
 // GRÁFICO
 // ========================================
-
 function updateChart() {
     let wins = 0;
     let losses = 0;
@@ -230,7 +229,11 @@ function updateChart() {
         else if (xiscoScore < opponentScore) losses++;
     });
     
-    const ctx = document.getElementById('winsChart');
+    // ✅ CORRECCIÓN: Obtener el contexto 2D del canvas
+    const canvas = document.getElementById('winsChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
     
     if (winsChart) {
         winsChart.destroy();
@@ -281,7 +284,6 @@ function updateChart() {
         }
     });
 }
-
 // ========================================
 // TABLA DE PARTIDOS
 // ========================================
