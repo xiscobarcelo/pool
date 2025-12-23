@@ -223,8 +223,8 @@ h1 {
 }
 
 .btn-primary {
-    background: #0a0a2e0a0a2e;
-    color: white;
+   background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%);
+    color: #0a0a2e;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -285,13 +285,13 @@ h1 {
         }
 
         .btn-primary {
-            background: #0a0a2e;
-            color: white;
+           background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%);
+            color: #0a0a2e;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary:hover {
-            background: #0a0a2e0a0a2e;
+            background: #0a0a2e;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
