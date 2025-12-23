@@ -243,8 +243,8 @@ function updateChart() {
             datasets: [{
                 data: [wins, losses],
                 backgroundColor: [
-                    'rgba(0, 255, 242, 1) ',
-                    'rgba(0, 217, 255, 1)
+                    'rgba(0, 255, 242, 1)',
+                    'rgba(0, 217, 255, 1)'
 '
                 ],
                 borderWidth: 0,
