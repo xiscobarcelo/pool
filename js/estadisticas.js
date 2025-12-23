@@ -441,7 +441,7 @@ function calculateStatsFromMatches(matches) {
 
             // Mostrar indicadores de sincronización
             const syncInfo = document.createElement('div');
-            syncInfo.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
+            syncInfo.style.cssText = 'background: #f3f3f3; border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
             syncInfo.innerHTML = `
                 <p style="color: #0a0a2e; font-weight: 600; margin-bottom: 8px;">✅ Datos Sincronizados</p>
                 <p style="color: #0a0a2e; font-size: 0.9rem;">
@@ -1224,8 +1224,8 @@ function createMaterialUsageChart(matches) {
                     datasets: [{
                         label: 'Total Partidas',
                         data: sortedMatches.map(m => parseInt(m.score1) + parseInt(m.score2)),
-                        borderColor: 'rgba(0, 0, 0, 1)',
-                        backgroundColor: 'rgba(0, 255, 242, 0.1)',
+                        borderColor: '#00d9ff',
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
                         tension: 0.4,
                         fill: true,
                         pointRadius: 4,
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
