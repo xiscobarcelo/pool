@@ -1258,7 +1258,7 @@ function showMessage(text, type = 'success') {
         z-index: 10000;
         animation: slideIn 0.3s ease-out;
         background: ${type === 'success' ? 'linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%)' : '#007aff'};
-        color: dark;
+        color: #000;
     `;
     
     document.body.appendChild(message);
