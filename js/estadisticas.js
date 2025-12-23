@@ -344,85 +344,127 @@ Escribe "BORRAR" para confirmar:`;
 
 
             
-        }
 
 function combineMatchesWithModalityStats(matches, modalityStats) {
-    // Si no hay modalityStats, calcular solo desde partidos
+    // Calcular estadísticas de los partidos registrados
+    const matchStats = calculateStatsFromMatches(matches);
+    
+    // Si no hay modalityStats, retornar solo las de partidos
     if (!modalityStats) {
-        return calculateStatsFromMatches(matches);
+        return matchStats;
+    }
+
+    // Si hay modalityStats, verificar si tiene datos
+    const hasModalityData = 
+        (modalityStats.bola8 && Object.keys(modalityStats.bola8).length > 0) ||
+        (modalityStats.bola9 && Object.keys(modalityStats.bola9).length > 0) ||
+        (modalityStats.bola10 && Object.keys(modalityStats.bola10).length > 0);
+
+    // Si modalityStats está vacío, usar solo matchStats
+    if (!hasModalityData) {
+        return matchStats;
+    }
+
+    // Los valores en modalityStats YA son el total (automático + manual)
+    // NO los sumamos con matchStats para evitar duplicación
+    return {
+        bola8: {
+            matchesPlayed: modalityStats.bola8?.matchesPlayed || 0,
+            matchesWon: modalityStats.bola8?.matchesWon || 0,
+            gamesPlayed: modalityStats.bola8?.gamesPlayed || 0,
+            gamesWon: modalityStats.bola8?.gamesWon || 0
+        },
+        bola9: {
+            matchesPlayed: modalityStats.bola9?.matchesPlayed || 0,
+            matchesWon: modalityStats.bola9?.matchesWon || 0,
+            gamesPlayed: modalityStats.bola9?.gamesPlayed || 0,
+            gamesWon: modalityStats.bola9?.gamesWon || 0
+        },
+        bola10: {
+            matchesPlayed: modalityStats.bola10?.matchesPlayed || 0,
+            matchesWon: modalityStats.bola10?.matchesWon || 0,
+            gamesPlayed: modalityStats.bola10?.gamesPlayed || 0,
+            gamesWon: modalityStats.bola10?.gamesWon || 0
+        }
+    };
+}
+
+            // Esta función permanece igual - NO CAMBIAR
+function calculateStatsFromMatches(matches) {
+    const stats = {
+        bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+        bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+        bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
+    };
+
+    matches.forEach(match => {
+        const modality = match.modality?.toLowerCase().replace(/\s+/g, '') || '';
+        const isXiscoPlayer1 = match.player1?.toLowerCase() === 'xisco';
+        const isXiscoPlayer2 = match.player2?.toLowerCase() === 'xisco';
+        
+        // Solo contar partidos donde Xisco participa
+        if (!isXiscoPlayer1 && !isXiscoPlayer2) return;
+
+        const xiscoScore = isXiscoPlayer1 ? parseInt(match.score1) : parseInt(match.score2);
+        const opponentScore = isXiscoPlayer1 ? parseInt(match.score2) : parseInt(match.score1);
+        const xiscoWon = xiscoScore > opponentScore;
+
+        // Determinar la modalidad
+        let modalityKey = null;
+        if (modality.includes('8') || modality.includes('bola8')) modalityKey = 'bola8';
+        else if (modality.includes('9') || modality.includes('bola9')) modalityKey = 'bola9';
+        else if (modality.includes('10') || modality.includes('bola10')) modalityKey = 'bola10';
+
+        if (modalityKey && stats[modalityKey]) {
+            stats[modalityKey].matchesPlayed += 1;
+            if (xiscoWon) stats[modalityKey].matchesWon += 1;
+            stats[modalityKey].gamesPlayed += xiscoScore + opponentScore;
+            stats[modalityKey].gamesWon += xiscoScore;
+        }
+    });
+
+    return stats;
+}
+
+
+// DEBUGGING: Añade esto temporalmente al inicio de displayDashboard para ver qué está pasando
+function displayDashboard(data) {
+    console.log('📊 displayDashboard called with data:', data);
+    console.log('🔍 Matches:', data.matches?.length || 0);
+    console.log('🔍 Players:', data.players?.length || 0);
+    console.log('🔍 ModalityStats:', data.modalityStats);
+    
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+
+    const matches = data.matches || [];
+    const players = data.players || [];
+    const materials = data.materials || [];
+    
+    // Sincronizar estadísticas
+    const combinedStats = combineMatchesWithModalityStats(matches, data.modalityStats);
+    console.log('✅ Combined Stats:', combinedStats);
+
+    generateHeroStats(matches, players, materials, combinedStats);
+    generateCharts(matches, players, materials);
+    setupPlayerComparison(matches, players);
+    setupModalityCalculator();
+
+    // Cargar datos de modalidad si existen
+    if (data.modalityStats) {
+        loadModalityData(data.modalityStats, matches);
     }
     
-    // Si hay modalityStats, estos YA incluyen los partidos registrados
-    // NO hay que sumar nada más, solo retornarlos tal cual
-    return modalityStats;
+    generateMatchesTable(matches);
 }
 
 
 
 
             
-            // Combinar ambas fuentes de datos
-            const combined = {
-                bola8: {
-                    matchesPlayed: (matchStats.bola8?.matchesPlayed || 0) + (modalityStats.bola8?.matchesPlayed || 0),
-                    matchesWon: (matchStats.bola8?.matchesWon || 0) + (modalityStats.bola8?.matchesWon || 0),
-                    gamesPlayed: (matchStats.bola8?.gamesPlayed || 0) + (modalityStats.bola8?.gamesPlayed || 0),
-                    gamesWon: (matchStats.bola8?.gamesWon || 0) + (modalityStats.bola8?.gamesWon || 0)
-                },
-                bola9: {
-                    matchesPlayed: (matchStats.bola9?.matchesPlayed || 0) + (modalityStats.bola9?.matchesPlayed || 0),
-                    matchesWon: (matchStats.bola9?.matchesWon || 0) + (modalityStats.bola9?.matchesWon || 0),
-                    gamesPlayed: (matchStats.bola9?.gamesPlayed || 0) + (modalityStats.bola9?.gamesPlayed || 0),
-                    gamesWon: (matchStats.bola9?.gamesWon || 0) + (modalityStats.bola9?.gamesWon || 0)
-                },
-                bola10: {
-                    matchesPlayed: (matchStats.bola10?.matchesPlayed || 0) + (modalityStats.bola10?.matchesPlayed || 0),
-                    matchesWon: (matchStats.bola10?.matchesWon || 0) + (modalityStats.bola10?.matchesWon || 0),
-                    gamesPlayed: (matchStats.bola10?.gamesPlayed || 0) + (modalityStats.bola10?.gamesPlayed || 0),
-                    gamesWon: (matchStats.bola10?.gamesWon || 0) + (modalityStats.bola10?.gamesWon || 0)
-                }
-            };
-
-            return combined;
-        }
-
-        function calculateStatsFromMatches(matches) {
-            const stats = {
-                bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
-                bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
-                bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
-            };
-
-            matches.forEach(match => {
-                const modality = match.modality?.toLowerCase().replace(/\s+/g, '') || '';
-                const isXiscoPlayer1 = match.player1?.toLowerCase() === 'xisco';
-                const isXiscoPlayer2 = match.player2?.toLowerCase() === 'xisco';
-                
-                // Solo contar partidos donde Xisco participa
-                if (!isXiscoPlayer1 && !isXiscoPlayer2) return;
-
-                const xiscoScore = isXiscoPlayer1 ? parseInt(match.score1) : parseInt(match.score2);
-                const opponentScore = isXiscoPlayer1 ? parseInt(match.score2) : parseInt(match.score1);
-                const xiscoWon = xiscoScore > opponentScore;
-
-                // Determinar la modalidad
-                let modalityKey = null;
-                if (modality.includes('8') || modality.includes('bola8')) modalityKey = 'bola8';
-                else if (modality.includes('9') || modality.includes('bola9')) modalityKey = 'bola9';
-                else if (modality.includes('10') || modality.includes('bola10')) modalityKey = 'bola10';
-
-                if (modalityKey && stats[modalityKey]) {
-                    stats[modalityKey].matchesPlayed += 1;
-                    if (xiscoWon) stats[modalityKey].matchesWon += 1;
-                    stats[modalityKey].gamesPlayed += xiscoScore + opponentScore;
-                    stats[modalityKey].gamesWon += xiscoScore;
-                }
-            });
-
-            return stats;
-        }
 
 
+            
 
 
 
@@ -1783,6 +1825,7 @@ function combineMatchesWithModalityStats(matches, modalityStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
