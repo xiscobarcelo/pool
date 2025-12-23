@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- ... meta tags existentes ... -->
+      <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+
+    <!-- Reemplaza todo el <style>...</style> con: -->
+    <link rel="stylesheet" href="css/styles-common.css">
+    <link rel="stylesheet" href="css/styles-estadisticas.css">
+	<link rel="stylesheet" href="css/bottom-nav.css">
+	
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     
+    <!-- Librerías externas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+     <script>
+        // Verificar sesión activa
+        if (!sessionStorage.getItem('xisco_session_active')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Header con Logo y Menú -->
+    <div class="top-header">
+        <div class="header-content">
+              <a href="inicio.html" class="logo">
+             <div class="logo-icon">
+   <img src="/pool/images/poollogo_1.svg" width="190px"alt="PoolFlow tracker">               
+			 </div>
+			 </a>
+            
+            
+            <nav class="desktop-nav">
+                <a href="registro-partidos.html" class="nav-link">Partidos</a>
+                <a href="estadisticas.html" class="nav-link active">Estadísticas</a>
+				 <a href="#historial" class="nav-link active">Historial</a>	
+				<a href="torneos.html" class="nav-link">Torneos</a>
+<a href="analisis.html" class="nav-link">Análisis</a>
+				<a href="config-github.html" class="nav-link">Sincronización</a>
+                <a href="#" class="nav-link danger" onclick="resetAllDataDashboard(); return false;">Reiniciar</a>
+                <a href="#" class="nav-link" onclick="logoutDashboard(); return false;">Salir</a>
+            </nav>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay del menú móvil -->
+    <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- Menú lateral móvil -->
+    <div class="mobile-menu">
+        <nav class="mobile-nav">
+            <a href="registro-partidos.html" class="nav-link">Partidos</a>
+            <a href="estadisticas.html" class="nav-link active">Estadísticas</a>
+			 <a href="#historial" class="nav-link active">Historial</a>
+					<a href="torneos.html" class="nav-link">Torneos</a>
+<a href="analisis.html" class="nav-link">Análisis</a>
+			<a href="config-github.html" class="nav-link">Configuración</a>
+            <a href="#" class="nav-link danger" onclick="resetAllDataDashboard(); return false;">Reiniciar Datos</a>
+            <a href="#" class="nav-link" onclick="logoutDashboard(); return false;">Cerrar Sesión</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Historial</h1>
+            <p class="subtitle">Análisis de rendimiento deportivo</p>
+        </header>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+
+        <div id="error" style="display: none;"></div>
+
+        <div id="fileUploadSection" style="display: none;">
+            <div class="chart-card" style="max-width: 600px; margin: 40px auto; text-align: center;">
+                <h2 style="font-size: 1.5rem; font-weight: 600; color: #1d1d1f; margin-bottom: 16px;">
+                    Cargar datos
+                </h2>
+                <p style="color: #86868b; margin-bottom: 24px;">
+                    No se encontraron datos en el servidor. Elige una opción:
+                </p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="loadFromRegistration()" class="action-btn primary" style="cursor: pointer; display: inline-block;">
+                        Ir a Registro
+                    </button>
+                    <label for="jsonFileInput" class="action-btn secondary" style="cursor: pointer; display: inline-block;">
+                        Subir JSON
+                    </label>
+                    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+                    <button onclick="loadDemoData()" class="action-btn secondary">
+                        Cargar Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+       
+            
+
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title" id="historial">Historial</h2>
+                    <p class="section-description">Registro completo de partidos</p>
+                </div>
+                
+                <!-- Controles de paginación superior -->
+                <div id="paginationTopStats" class="pagination-container-stats" style="display: none;"></div>
+                
+                <div class="chart-card full-width">
+                    <div class="table-container">
+                        <table class="matches-table" id="matchesTable"></table>
+                    </div>
+                </div>
+                
+                <!-- Controles de paginación inferior -->
+                <div id="paginationBottomStats" class="pagination-container-stats" style="display: none;"></div>
+            </div>
+    </div>
+    <script src="js/common.js"></script>
+<script src="js/estadisticas.js"></script>
+	<script src="js/bottom-nav.js"></script>
+</body>
+</html>
