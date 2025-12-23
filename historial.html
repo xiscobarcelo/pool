@@ -97,13 +97,68 @@
 	
 	
     <div class="container">
+     <header>
+            <h1>Historial</h1>
+            <p class="subtitle">Resumen de todos los partidos juagados.</p>
+        </header>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
 
+        <div id="error" style="display: none;"></div>
+
+
+
+        <div id="content" style="display: none;">
+            <div class="stats-grid" id="statsGrid"></div>
+            
+  <div class="section" style="display: none;>
+                <div class="section-header">
+                    <h2 class="section-title">Análisis visual</h2>
+                    <p class="section-description">Gráficos interactivos de rendimiento</p>
+                </div>
+                <div class="charts-grid" id="chartsGrid"></div>
+            </div>
+
+           
+		
+		
+		
+		
+		
+		<div id="modalityStats" style="display: none; margin-top: 32px;">
+
+						
+                        <div class="modality-stats-grid" id="modalityStatsGrid"></div>
+                        <div class="charts-grid" id="modalityChartsGrid" style="margin-top: 24px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="comparisonSection" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Comparativa de jugadores</h2>
+                    <p class="section-description">Análisis cara a cara de rendimiento</p>
+                </div>
+                <div class="chart-card">
+                    <div class="player-selector">
+                        <div class="player-select-wrapper">
+                            <label class="player-select-label">Xisco</label>
+                            <select id="player1Select"></select>
+                        </div>
+                        <div class="vs-divider">VS</div>
+                        <div class="player-select-wrapper">
+                            <label class="player-select-label">Rival</label>
+                            <select id="player2Select"></select>
+                        </div>
+                    </div>
+                    <div id="comparisonContent"></div>
+                </div>
+            </div>
 
             <div class="section">
-                <div class="section-header">
-                    <h2 class="section-title" id="historial">Historial</h2>
-                    <p class="section-description">Registro completo de partidos</p>
-                </div>
+                
                 
                 <!-- Controles de paginación superior -->
                 <div id="paginationTopStats" class="pagination-container-stats" style="display: none;"></div>
