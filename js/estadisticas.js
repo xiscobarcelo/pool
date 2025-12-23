@@ -1539,12 +1539,12 @@ function updateComparison(matches) {
                     datasets: [{
                         label: 'Victorias',
                         data: [stats1.wins, stats2.wins],
-                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        backgroundColor: 'rgba(0, 255, 242, 1)',
                         borderRadius: 8
                     }, {
                         label: 'Derrotas',
                         data: [stats1.losses, stats2.losses],
-                        backgroundColor: 'rgba(255, 59, 48, 0.8)',
+                        backgroundColor: 'rgba(0, 217, 255, 1)',
                         borderRadius: 8
                     }]
                 },
@@ -1672,12 +1672,12 @@ function updateComparison(matches) {
                     datasets: [{
                         label: player1,
                         data: [stats1.scoreGained, stats1.scoreConceded, stats1.scoreGained - stats1.scoreConceded],
-                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        backgroundColor: 'rgba(0, 255, 242, 1) ',
                         borderRadius: 8
                     }, {
                         label: player2,
                         data: [stats2.scoreGained, stats2.scoreConceded, stats2.scoreGained - stats2.scoreConceded],
-                        backgroundColor: 'rgba(88, 86, 214, 0.8)',
+                        backgroundColor: 'rgba(0, 217, 255, 1)',
                         borderRadius: 8
                     }]
                 },
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
