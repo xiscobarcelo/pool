@@ -315,58 +315,55 @@ Escribe "BORRAR" para confirmar:`;
 
 
 
-        function displayDashboard(data) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-
-            const matches = data.matches || [];
-            const players = data.players || [];
-            const materials = data.materials || [];
-            
-// Sincronizar estadísticas: combinar partidos registrados con modalityStats
-            const combinedStats = combineMatchesWithModalityStats(matches, data.modalityStats);
-
-            generateHeroStats(matches, players, materials, combinedStats);
-            generateCharts(matches, players, materials);
-            setupPlayerComparison(matches, players);
-            setupModalityCalculator();
 
 
-  
-            // Cargar datos de modalidad si existen
-            if (data.modalityStats) {
-                loadModalityData(data.modalityStats, matches);
-            }
-            
-            generateMatchesTable(matches);
-            
+// ========================================
+// CÓDIGO CORREGIDO - REEMPLAZA DESDE displayDashboard HASTA EL FINAL
+// ========================================
 
+function displayDashboard(data) {
+    console.log('📊 displayDashboard called with data:', data);
+    
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
 
+    const matches = data.matches || [];
+    const players = data.players || [];
+    const materials = data.materials || [];
+    
+    // Sincronizar estadísticas: combinar partidos registrados con modalityStats
+    const combinedStats = combineMatchesWithModalityStats(matches, data.modalityStats);
 
-            
+    generateHeroStats(matches, players, materials, combinedStats);
+    generateCharts(matches, players, materials);
+    setupPlayerComparison(matches, players);
+    setupModalityCalculator();
+
+    // Cargar datos de modalidad si existen
+    if (data.modalityStats) {
+        loadModalityData(data.modalityStats, matches);
+    }
+    
+    generateMatchesTable(matches);
+}
 
 function combineMatchesWithModalityStats(matches, modalityStats) {
-    // Calcular estadísticas de los partidos registrados
     const matchStats = calculateStatsFromMatches(matches);
     
-    // Si no hay modalityStats, retornar solo las de partidos
     if (!modalityStats) {
         return matchStats;
     }
 
-    // Si hay modalityStats, verificar si tiene datos
     const hasModalityData = 
         (modalityStats.bola8 && Object.keys(modalityStats.bola8).length > 0) ||
         (modalityStats.bola9 && Object.keys(modalityStats.bola9).length > 0) ||
         (modalityStats.bola10 && Object.keys(modalityStats.bola10).length > 0);
 
-    // Si modalityStats está vacío, usar solo matchStats
     if (!hasModalityData) {
         return matchStats;
     }
 
     // Los valores en modalityStats YA son el total (automático + manual)
-    // NO los sumamos con matchStats para evitar duplicación
     return {
         bola8: {
             matchesPlayed: modalityStats.bola8?.matchesPlayed || 0,
@@ -389,7 +386,6 @@ function combineMatchesWithModalityStats(matches, modalityStats) {
     };
 }
 
-            // Esta función permanece igual - NO CAMBIAR
 function calculateStatsFromMatches(matches) {
     const stats = {
         bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
@@ -402,14 +398,12 @@ function calculateStatsFromMatches(matches) {
         const isXiscoPlayer1 = match.player1?.toLowerCase() === 'xisco';
         const isXiscoPlayer2 = match.player2?.toLowerCase() === 'xisco';
         
-        // Solo contar partidos donde Xisco participa
         if (!isXiscoPlayer1 && !isXiscoPlayer2) return;
 
         const xiscoScore = isXiscoPlayer1 ? parseInt(match.score1) : parseInt(match.score2);
         const opponentScore = isXiscoPlayer1 ? parseInt(match.score2) : parseInt(match.score1);
         const xiscoWon = xiscoScore > opponentScore;
 
-        // Determinar la modalidad
         let modalityKey = null;
         if (modality.includes('8') || modality.includes('bola8')) modalityKey = 'bola8';
         else if (modality.includes('9') || modality.includes('bola9')) modalityKey = 'bola9';
@@ -426,37 +420,10 @@ function calculateStatsFromMatches(matches) {
     return stats;
 }
 
-
-// DEBUGGING: Añade esto temporalmente al inicio de displayDashboard para ver qué está pasando
-function displayDashboard(data) {
-    console.log('📊 displayDashboard called with data:', data);
-    console.log('🔍 Matches:', data.matches?.length || 0);
-    console.log('🔍 Players:', data.players?.length || 0);
-    console.log('🔍 ModalityStats:', data.modalityStats);
-    
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('content').style.display = 'block';
-
-    const matches = data.matches || [];
-    const players = data.players || [];
-    const materials = data.materials || [];
-    
-    // Sincronizar estadísticas
-    const combinedStats = combineMatchesWithModalityStats(matches, data.modalityStats);
-    console.log('✅ Combined Stats:', combinedStats);
-
-    generateHeroStats(matches, players, materials, combinedStats);
-    generateCharts(matches, players, materials);
-    setupPlayerComparison(matches, players);
-    setupModalityCalculator();
-
-    // Cargar datos de modalidad si existen
-    if (data.modalityStats) {
-        loadModalityData(data.modalityStats, matches);
-    }
-    
-    generateMatchesTable(matches);
-}
+// ========================================
+// CONTINÚA CON EL RESTO DE TUS FUNCIONES...
+// (loadModalityData, setupModalityCalculator, etc.)
+// ========================================
 
 
 
@@ -1825,6 +1792,7 @@ function displayDashboard(data) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
