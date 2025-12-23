@@ -1139,65 +1139,77 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             });
         }
 
-        function createMaterialUsageChart(matches) {
-            const materials = {};
-            matches.forEach(m => {
-                materials[m.material1] = (materials[m.material1] || 0) + 1;
-                materials[m.material2] = (materials[m.material2] || 0) + 1;
-            });
+function createMaterialUsageChart(matches) {
+    const materials = {};
+    
+    // Solo contar materiales usados por Xisco
+    matches.forEach(m => {
+        const isXiscoPlayer1 = m.player1.toLowerCase() === 'xisco';
+        const isXiscoPlayer2 = m.player2.toLowerCase() === 'xisco';
+        
+        // Solo contar si Xisco participa en el partido
+        if (isXiscoPlayer1) {
+            materials[m.material1] = (materials[m.material1] || 0) + 1;
+        } else if (isXiscoPlayer2) {
+            materials[m.material2] = (materials[m.material2] || 0) + 1;
+        }
+    });
 
-           const container = createChartContainer('Uso de Materiales', true);
-            const canvas = container.querySelector('canvas');
+    const container = createChartContainer('Uso de Materiales', true);
+    const canvas = container.querySelector('canvas');
 
-            new Chart(canvas, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(materials),
-                    datasets: [{
-                        label: 'Usos',
-                        data: Object.values(materials),
-                        backgroundColor: 'rgba(88, 86, 214, 0.8)',
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(29, 29, 31, 0.95)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 12,
-                            borderRadius: 8
-                        }
+    new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(materials),
+            datasets: [{
+                label: 'Usos',
+                data: Object.values(materials),
+                backgroundColor: 'rgba(88, 86, 214, 0.8)',
+                borderRadius: 8,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(29, 29, 31, 0.95)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 12,
+                    borderRadius: 8
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: { 
+                        color: 'rgba(0, 0, 0, 0.05)',
+                        drawBorder: false
                     },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: { 
-                                color: 'rgba(0, 0, 0, 0.05)',
-                                drawBorder: false
-                            },
-                            ticks: { 
-                                color: '#86868b',
-                                font: { size: 12, weight: '500' }
-                            }
-                        },
-                        y: {
-                            grid: { display: false },
-                            ticks: { 
-                                color: '#1d1d1f',
-                                font: { size: 12, weight: '500' }
-                            }
-                        }
+                    ticks: { 
+                        color: '#86868b',
+                        font: { size: 12, weight: '500' }
+                    }
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { 
+                        color: '#1d1d1f',
+                        font: { size: 12, weight: '500' }
                     }
                 }
-            });
+            }
         }
+    });
+}
+
+
+
 
         function createTimelineChart(matches) {
             const sortedMatches = [...matches].sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -1824,6 +1836,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
