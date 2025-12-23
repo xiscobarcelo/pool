@@ -933,9 +933,10 @@ function calculateStatsFromMatches(matches) {
         }
 
         function generateCharts(matches, players, materials) {
-            createPlayerWinsChart(matches);
-            createScoreDistributionChart(matches);
-            createModalityChart(matches);
+        
+            // createPlayerWinsChart(matches);              // Oculto
+    // createScoreDistributionChart(matches);       // Oculto
+    // createModalityChart(matches);  
             createMaterialUsageChart(matches);
             createTimelineChart(matches);
             createPlayerPerformanceChart(matches);
@@ -1792,6 +1793,7 @@ function calculateStatsFromMatches(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
