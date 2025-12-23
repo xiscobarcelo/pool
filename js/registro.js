@@ -668,9 +668,9 @@
                     <div class="match-date">${formatDate(match.date)}</div>
                     <div class="match-info">
                         <div class="match-players">
-                            <span style="color: ${isXiscoWinner ? '#619af8' : '#86868b'}">${match.player1}</span>
+                            <span style="color: ${isXiscoWinner ? '#00d9ff' : '#86868b'}">${match.player1}</span>
                             vs
-                            <span style="color: ${!isXiscoWinner ? '#619af8' : '#86868b'}">${match.player2}</span>
+                            <span style="color: ${!isXiscoWinner ? '#00d9ff' : '#86868b'}">${match.player2}</span>
                         </div>
                         <div class="match-score">${match.score1} - ${match.score2}</div>
                         <div class="match-details">${match.modality} • ${match.material1}</div>
@@ -1185,6 +1185,7 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
 
 
