@@ -334,14 +334,14 @@ Escribe "BORRAR" para confirmar:`;
         }
 
         function combineMatchesWithModalityStats(matches, modalityStats) {
-            // Calcular estadísticas de los partidos registrados
-            const matchStats = calculateStatsFromMatches(matches);
-            
-            // Si no hay modalityStats, retornar solo las de partidos
-            if (!modalityStats) {
-                return matchStats;
-            }
 
+
+
+
+
+
+
+            
             // Combinar ambas fuentes de datos
             const combined = {
                 bola8: {
@@ -1760,5 +1760,6 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
