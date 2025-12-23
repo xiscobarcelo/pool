@@ -1383,8 +1383,8 @@ function renderYearResultsChart() {
         {
             label: 'Otros',
             data: years.map(y => yearData[y]['Otros']),
-            backgroundColor: '#00d9ff',
-            borderColor: 'rgba(102, 126, 234, 1)',
+            backgroundColor: '#666',
+            borderColor: '#666',
             borderWidth: 2
         }
     ];
@@ -1514,11 +1514,11 @@ function renderMaterialPerformanceChart() {
             datasets: [{
                 data: sortedData.map(d => d.rate),
                 backgroundColor: [
-                    'rgba(255, 215, 0, 0.8)',
-                    'rgba(102, 126, 234, 0.8)',
-                    'rgba(59, 49, 189, 0.8)',
-                    'rgba(32, 107, 120, 0.8)',
-                    'rgba(45, 38, 182, 0.8)'
+                    'rgba(0, 255, 242, 1)',
+                    'rgba(0, 217, 255, 1)',
+                    'rgba(22, 35, 129, 1)',
+                    'rgba(22, 47, 133, 1)',
+                    'rgba(0, 255, 242, 0.7)'
                 ],
                 borderColor: '#fff',
                 borderWidth: 3
@@ -1618,7 +1618,7 @@ function renderTimelineChart() {
                 tension: 0.4,
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                pointBackgroundColor: 'rgba(22, 35, 129, 1)',
                 pointBorderColor: '#fff',
                 pointBorderWidth: 2
             }]
