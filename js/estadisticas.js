@@ -939,7 +939,7 @@ function calculateStatsFromMatches(matches) {
     // createModalityChart(matches);  
             createMaterialUsageChart(matches);
             createTimelineChart(matches);
-            createPlayerPerformanceChart(matches);
+           // createPlayerPerformanceChart(matches);
         }
 
         function createPlayerWinsChart(matches) {
@@ -1793,6 +1793,7 @@ function calculateStatsFromMatches(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
