@@ -1165,7 +1165,7 @@ function createMaterialUsageChart(matches) {
             datasets: [{
                 label: 'Usos',
                 data: Object.values(materials),
-                backgroundColor: 'rgba(88, 86, 214, 0.8)',
+                backgroundColor: '#00d9ff',
                 borderRadius: 8,
                 borderSkipped: false
             }]
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
