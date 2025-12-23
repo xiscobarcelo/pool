@@ -61,6 +61,7 @@
             padding-bottom: 100px;
         }
 
+		
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -88,6 +89,7 @@
             color: rgba(255, 255, 255, 0.8);
             font-size: 1.1rem;
         }
+
 
         /* Stats Cards Row */
         .stats-row {
@@ -319,54 +321,49 @@
             color: var(--gray);
             font-size: 0.9rem;
         }
+/* Paginación responsive mejorada */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
 
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+.pagination-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
 
-        .pagination-info {
-            color: var(--gray);
-            font-weight: 500;
-        }
+.pagination-btn {
+    padding: 10px 20px;
+    border: 2px solid #e5e5e5;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--dark);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
 
-        .pagination-buttons {
-            display: flex;
-            gap: 8px;
-        }
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(0, 217, 255, 0.05);
+}
 
-        .pagination-btn {
-            padding: 10px 16px;
-            border: 2px solid #e5e5e5;
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--dark);
-            transition: all 0.3s ease;
-        }
+.pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 
-        .pagination-btn:hover:not(:disabled) {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
 
-        .pagination-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
+		
 
-        .pagination-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
+		
         /* Loading & Empty States */
         .loading,
         .empty-state {
@@ -460,6 +457,29 @@
                 font-weight: 600;
                 color: var(--gray);
             }
+			.pagination {
+        justify-content: center;
+    }
+    
+    .pagination-info {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .pagination-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .pagination-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .pagination-buttons span {
+        font-size: 0.9rem;
+        padding: 10px 12px !important;
+    }
         }
     </style>
 </head>
