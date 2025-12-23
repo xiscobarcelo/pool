@@ -16,11 +16,106 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.page-header img{
-	postition relative;
-	right:200px;
-	
-	
+/* Header con imagen */
+.page-header {
+    background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+    border-radius: 20px;
+    padding: 0;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+.header-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    padding: 40px;
+    min-height: 200px;
+}
+
+.header-text {
+    flex: 1;
+    z-index: 2;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.page-header p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+}
+
+/* Contenedor de imagen con máscara */
+.header-image {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.header-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        var(--dark) 0%, 
+        rgba(10, 10, 46, 0.8) 30%, 
+        transparent 60%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+.header-image img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center bottom;
+    mask-image: linear-gradient(to top, 
+        rgba(0, 0, 0, 1) 0%, 
+        rgba(0, 0, 0, 1) 70%, 
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(to top, 
+        rgba(0, 0, 0, 1) 0%, 
+        rgba(0, 0, 0, 1) 70%, 
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+/* Efecto de brillo sutil en la imagen */
+.header-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, 
+        rgba(0, 217, 255, 0.1) 0%, 
+        transparent 100%
+    );
+    z-index: 3;
+    pointer-events: none;
 }
 /* ===================================
    HEADER Y NAVEGACIÓN
@@ -389,33 +484,6 @@ h1 {
         }
 
 
-/* Header */
-        .page-header {
-            background: #16213e;
-			
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .page-header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-			font-family:"Syne";
-            background: linear-gradient(90deg,rgba(0, 217, 255, 1) 0%, rgba(0, 255, 242, 1) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .page-header p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-			font-family:"Syne";
-        }
-
-
 
 
 /* ===================================
@@ -426,13 +494,23 @@ h1 {
     .desktop-nav {
         display: none;
     }
-	.page-header {
-                padding: 30px 20px;
-            }
-
-            .page-header h1 {
-                font-size: 2rem;
-            }
+	 .header-content-wrapper {
+        padding: 30px 20px;
+        min-height: 180px;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .page-header p {
+        font-size: 1rem;
+    }
+    
+    .header-image {
+        width: 150px;
+        opacity: 0.6;
+    }
 
     .hamburger {
         display: flex;
