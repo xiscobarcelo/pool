@@ -622,9 +622,9 @@ function calculateStatsFromMatches(matches) {
             chartsGrid.innerHTML = '';
 
             // Añadir indicador de sincronización
-            const syncBadge = document.createElement('div');
-            syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border-radius: 8px;';
-            syncBadge.innerHTML = '<p style="color: #0a0a2e; font-weight: 600; font-size: 0.9rem;">✅ Estadísticas Totales (Partidos Registrados + Datos Manuales)</p>';
+            // const syncBadge = document.createElement('div');
+      //      syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border-radius: 8px;';
+        //     syncBadge.innerHTML = '<p style="color: #0a0a2e; font-weight: 600; font-size: 0.9rem;">✅ Estadísticas Totales (Partidos Registrados + Datos Manuales)</p>';
             
             statsGrid.parentElement.insertBefore(syncBadge, statsGrid);
 
@@ -1824,6 +1824,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
