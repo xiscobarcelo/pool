@@ -1,7 +1,28 @@
 /* ===================================
    ESTILOS ESPECÍFICOS - REGISTRO DE PARTIDOS
    =================================== */
+/* Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
 
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
 /* Form card glassmorphism */
 .form-card {
     background: rgba(255, 255, 255, 0.7);
