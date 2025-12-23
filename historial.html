@@ -28,6 +28,32 @@
             window.location.href = 'index.html';
         }
     </script>
+	<style>
+
+		/* Ocultar todo excepto el historial */
+#statsGrid,
+#chartsGrid,
+#comparisonSection,
+#modalitySection,
+.hero-section,
+header h1,
+.stats-hero {
+    display: none !important;
+}
+
+/* Asegurar que la tabla de historial sea visible */
+#matchesSection,
+#matchesTable {
+    display: block !important;
+}
+
+/* Opcional: Ajustar el título del historial */
+#matchesSection h2 {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 2rem;
+}
+	</style>
 </head>
 <body>
 
