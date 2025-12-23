@@ -1516,9 +1516,9 @@ function renderMaterialPerformanceChart() {
                 backgroundColor: [
                     'rgba(255, 215, 0, 0.8)',
                     'rgba(102, 126, 234, 0.8)',
-                    'rgba(52, 199, 89, 0.8)',
-                    'rgba(0, 255, 242, 0.8)',
-                    'rgba(88, 86, 214, 0.8)'
+                    'rgba(59, 49, 189, 0.8)',
+                    'rgba(32, 107, 120, 0.8)',
+                    'rgba(45, 38, 182, 0.8)'
                 ],
                 borderColor: '#fff',
                 borderWidth: 3
