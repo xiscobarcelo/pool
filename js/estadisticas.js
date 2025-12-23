@@ -125,7 +125,7 @@
 
         function showGitHubSyncBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(135deg, #00d9ff, #00fff2); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
+            banner.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 0.2) 0%, rgba(0, 217, 255, 0.2) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
             banner.innerHTML = '☁️ Datos sincronizados desde GitHub (Cloud)';
             
             const container = document.querySelector('.container');
@@ -141,7 +141,7 @@
 
         function showSharedDataBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(135deg, #00d9ff, #00fff2); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
+            banner.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 0.2) 0%, rgba(0, 217, 255, 0.2) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
             banner.innerHTML = '✅ Datos sincronizados desde el registro de partidos';
             
             const container = document.querySelector('.container');
@@ -623,7 +623,7 @@ function calculateStatsFromMatches(matches) {
 
             // Añadir indicador de sincronización
          const syncBadge = document.createElement('div');
-          syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border-radius: 8px;';
+          syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: background: linear-gradient(62deg,rgba(0, 255, 242, 0.2) 0%, rgba(0, 217, 255, 0.2) 100%); border-radius: 8px;';
            syncBadge.innerHTML = '<p style="color: #0a0a2e; font-weight: 600; font-size: 0.9rem;">✅ Estadísticas Totales (Partidos Registrados + Datos Manuales)</p>';
              syncBadge.style.display = 'none';
 
@@ -1824,6 +1824,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
