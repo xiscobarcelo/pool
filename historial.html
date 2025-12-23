@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -78,7 +79,7 @@
 
     <div class="container">
         <header>
-            <h1>Historial</h1>
+            <h1>Estadísticas</h1>
             <p class="subtitle">Análisis de rendimiento deportivo</p>
         </header>
 
@@ -112,9 +113,131 @@
             </div>
         </div>
 
-       
+        <div id="content" style="display: none;">
+            <div class="stats-grid" id="statsGrid"></div>
             
+  <div class="section" style="display: none;>
+                <div class="section-header">
+                    <h2 class="section-title">Análisis visual</h2>
+                    <p class="section-description">Gráficos interactivos de rendimiento</p>
+                </div>
+                <div class="charts-grid" id="chartsGrid"></div>
+            </div>
 
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Cómputo por Modalidad</h2>
+                    <p class="section-description">Añade estadísticas manuales para generar análisis adicionales</p>
+                </div>
+                <div class="chart-card">
+                    <div class="modality-inputs-grid">
+                        <div class="modality-input-group">
+                            <h3 class="modality-title">Bola 8</h3>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label>Partidos Jugados</label>
+                                    <input type="number" id="bola8_played" min="0" value="0">
+                                </div>
+                                <div class="input-field">
+                                    <label>Partidos Ganados</label>
+                                    <input type="number" id="bola8_won" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label>Partidas Jugadas</label>
+                                    <input type="number" id="bola8_games_played" min="0" value="0">
+                                </div>
+                                <div class="input-field">
+                                    <label>Partidas Ganadas</label>
+                                    <input type="number" id="bola8_games_won" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modality-input-group">
+                            <h3 class="modality-title">Bola 9</h3>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label>Partidos Jugados</label>
+                                    <input type="number" id="bola9_played" min="0" value="0">
+                                </div>
+                                <div class="input-field">
+                                    <label>Partidos Ganados</label>
+                                    <input type="number" id="bola9_won" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label>Partidas Jugadas</label>
+                                    <input type="number" id="bola9_games_played" min="0" value="0">
+                                </div>
+                                <div class="input-field">
+                                    <label>Partidas Ganadas</label>
+                                    <input type="number" id="bola9_games_won" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modality-input-group">
+                            <h3 class="modality-title">Bola 10</h3>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label>Partidos Jugados</label>
+                                    <input type="number" id="bola10_played" min="0" value="0">
+                                </div>
+                                <div class="input-field">
+                                    <label>Partidos Ganados</label>
+                                    <input type="number" id="bola10_won" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <label>Partidas Jugadas</label>
+                                    <input type="number" id="bola10_games_played" min="0" value="0">
+                                </div>
+                                <div class="input-field">
+                                    <label>Partidas Ganadas</label>
+                                    <input type="number" id="bola10_games_won" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modality-actions">
+                        <button id="calculateModalityBtn" class="action-btn primary">Calcular Estadísticas</button>
+                        <button id="saveModalityBtn" class="action-btn secondary">Guardar en data.json</button>
+                    </div>
+
+                    <div id="modalityStats" style="display: none; margin-top: 32px;">
+
+						
+                        <div class="modality-stats-grid" id="modalityStatsGrid"></div>
+                        <div class="charts-grid" id="modalityChartsGrid" style="margin-top: 24px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="comparisonSection" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">Comparativa de jugadores</h2>
+                    <p class="section-description">Análisis cara a cara de rendimiento</p>
+                </div>
+                <div class="chart-card">
+                    <div class="player-selector">
+                        <div class="player-select-wrapper">
+                            <label class="player-select-label">Xisco</label>
+                            <select id="player1Select"></select>
+                        </div>
+                        <div class="vs-divider">VS</div>
+                        <div class="player-select-wrapper">
+                            <label class="player-select-label">Rival</label>
+                            <select id="player2Select"></select>
+                        </div>
+                    </div>
+                    <div id="comparisonContent"></div>
+                </div>
+            </div>
 
             <div class="section">
                 <div class="section-header">
@@ -134,6 +257,7 @@
                 <!-- Controles de paginación inferior -->
                 <div id="paginationBottomStats" class="pagination-container-stats" style="display: none;"></div>
             </div>
+        </div>
     </div>
     <script src="js/common.js"></script>
 <script src="js/estadisticas.js"></script>
