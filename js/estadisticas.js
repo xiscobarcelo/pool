@@ -141,7 +141,7 @@
 
         function showSharedDataBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 0.2) 0%, rgba(0, 217, 255, 0.2) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
+            banner.style.cssText = 'background: #f3f3f3; color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
             banner.innerHTML = '✅ Datos sincronizados desde el registro de partidos';
             
             const container = document.querySelector('.container');
@@ -1225,7 +1225,7 @@ function createMaterialUsageChart(matches) {
                         label: 'Total Partidas',
                         data: sortedMatches.map(m => parseInt(m.score1) + parseInt(m.score2)),
                         borderColor: 'rgba(0, 0, 0, 1)',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        backgroundColor: 'rgba(0, 255, 242, 0.1)',
                         tension: 0.4,
                         fill: true,
                         pointRadius: 4,
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
