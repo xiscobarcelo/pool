@@ -674,12 +674,12 @@ function calculateStatsFromMatches(matches) {
                     datasets: [{
                         label: 'Jugados',
                         data: [modalities.bola8.played, modalities.bola9.played, modalities.bola10.played],
-                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        backgroundColor: 'rgba(0, 255, 242, 1)',
                         borderRadius: 8
                     }, {
                         label: 'Ganados',
                         data: [modalities.bola8.won, modalities.bola9.won, modalities.bola10.won],
-                        backgroundColor: 'rgba(52, 199, 89, 0.8)',
+                        backgroundColor: 'rgba(0, 217, 255, 1)',
                         borderRadius: 8
                     }]
                 },
@@ -796,9 +796,9 @@ function calculateStatsFromMatches(matches) {
                             modalities.bola10.gamesPlayed
                         ],
                         backgroundColor: [
-                            'rgba(59, 130, 246, 0.9)',   // Azul vibrante
-                            'rgba(16, 185, 129, 0.9)',   // Verde esmeralda
-                            'rgba(249, 115, 22, 0.9)'    // Naranja cálido
+                            'rgba(22, 35, 129, 1)',   // Azul oscuro
+                            'rgba(0, 255, 242, 1)',   // Azul corporartivo 1
+                            'rgba(0, 217, 255, 1)'    // Azul corporativo 2
                         ],
                         borderWidth: 0,
                         spacing: 2
@@ -1225,11 +1225,11 @@ function createMaterialUsageChart(matches) {
                         label: 'Total Partidas',
                         data: sortedMatches.map(m => parseInt(m.score1) + parseInt(m.score2)),
                         borderColor: '#00d9ff',
-                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.01)',
                         tension: 0.4,
                         fill: true,
                         pointRadius: 4,
-                        pointBackgroundColor: '#3b82f6',
+                        pointBackgroundColor: '#00d9ff',
                         pointBorderColor: '#fff',
                         pointBorderWidth: 2,
                         pointHoverRadius: 6
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
