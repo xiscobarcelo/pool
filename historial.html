@@ -29,40 +29,34 @@
         }
     </script>
 	<style>
-		/* OCULTAR TODO EXCEPTO HISTORIAL - VERSIÓN AGRESIVA */
-body > *:not(.container),
-.container > *:not(#content):not(#loading),
-#content > *:not(#matchesSection),
-section:not(#matchesSection),
-.modality-section,
-.modality-inputs-section,
-#modalitySection,
-#modalityStats,
-#modalityInputsSection,
-#modalityStatsGrid,
-#modalityChartsGrid,
+		/* OCULTAR SECCIONES - VERSIÓN SIMPLE */
 #statsSection,
 #statsGrid,
 #chartsSection,
 #chartsGrid,
 #comparisonSection,
-header:not(.history-header),
-h2:not(#matchesSection h2) {
+#modalitySection,
+#modalityInputsSection,
+#modalityStats,
+.modality-section {
     display: none !important;
 }
 
-/* Asegurar que SOLO el historial sea visible */
-#matchesSection,
-#matchesSection *,
-#matchesTable,
-#matchesTable *,
-#paginationTopStats,
-#paginationBottomStats {
-    display: revert !important;
-}
-
+/* MOSTRAR SOLO HISTORIAL */
 #matchesSection {
     display: block !important;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+#matchesTable {
+    display: table !important;
+}
+
+#paginationTopStats,
+#paginationBottomStats {
+    display: flex !important;
 }
 	</style>
 </head>
