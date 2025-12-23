@@ -617,7 +617,7 @@ function calculateStatsFromMatches(matches) {
             const chartsGrid = document.getElementById('modalityChartsGrid');
 
             statsSection.style.display = 'block';
-            statsGrid.style.display = 'none';
+          
             statsGrid.innerHTML = '';
             chartsGrid.innerHTML = '';
 
@@ -1824,6 +1824,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
