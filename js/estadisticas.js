@@ -1115,7 +1115,7 @@ function calculateStatsFromMatches(matches) {
                 materials[m.material2] = (materials[m.material2] || 0) + 1;
             });
 
-            const container = createChartContainer('Uso de Materiales');
+           const container = createChartContainer('Uso de Materiales', true);
             const canvas = container.querySelector('canvas');
 
             new Chart(canvas, {
@@ -1793,6 +1793,7 @@ function calculateStatsFromMatches(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
