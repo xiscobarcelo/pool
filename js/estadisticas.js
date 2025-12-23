@@ -419,7 +419,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('content').style.display = 'block';
 
             const matches = data.matches || [];
-       
+            const players = data.players || [];
             const materials = data.materials || [];
             
 // Sincronizar estadísticas: combinar partidos registrados con modalityStats
@@ -433,13 +433,10 @@ Escribe "BORRAR" para confirmar:`;
 
 
             
+
+
+
             
-            // Cargar datos de modalidad si existen
-            if (data.modalityStats) {
-                loadModalityData(data.modalityStats, matches);
-            }
-            
-            generateMatchesTable(matches);
         }
 
         function combineMatchesWithModalityStats(matches, modalityStats) {
@@ -1870,6 +1867,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
