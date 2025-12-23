@@ -309,6 +309,111 @@ Escribe "BORRAR" para confirmar:`;
             }
         }
 
+
+
+        function displayModalityStats(totals, modalities) {
+            const statsSection = document.getElementById('modalityStats');
+            const statsGrid = document.getElementById('modalityStatsGrid');
+            const chartsGrid = document.getElementById('modalityChartsGrid');
+
+            statsSection.style.display = 'block';
+            statsGrid.innerHTML = '';
+            chartsGrid.innerHTML = '';
+
+            // Añadir indicador de sincronización
+            const syncBadge = document.createElement('div');
+            syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border-radius: 8px;';
+            syncBadge.innerHTML = '<p style="color: #34c759; font-weight: 600; font-size: 0.9rem;">✅ Estadísticas Totales (Partidos Registrados + Datos Manuales)</p>';
+            
+            statsGrid.parentElement.insertBefore(syncBadge, statsGrid);
+
+            // Tarjetas de estadísticas totales
+            const stats = [
+                { label: 'Total Partidos', value: totals.matchesPlayed },
+                { label: 'Partidos Ganados', value: totals.matchesWon },
+                { label: 'Win Rate Partidos', value: totals.matchWinRate.toFixed(1) + '%' },
+                { label: 'Total Partidas', value: totals.gamesPlayed },
+                { label: 'Partidas Ganadas', value: totals.gamesWon },
+                { label: 'Win Rate Partidas', value: totals.gameWinRate.toFixed(1) + '%' }
+            ];
+
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = 'modality-stat-card';
+                card.innerHTML = `
+                    <div class="modality-stat-label">${stat.label}</div>
+                    <div class="modality-stat-value">${stat.value}</div>
+                `;
+                statsGrid.appendChild(card);
+            });
+
+            // Gráfico de comparación de modalidades - Partidos
+            createModalityComparisonChart(modalities, chartsGrid);
+
+            // Gráfico de win rates
+            createWinRateChart(modalities, chartsGrid);
+
+            // Gráfico de distribución
+            createModalityDistributionChart(modalities, chartsGrid);
+        }
+
+        function createModalityComparisonChart(modalities, container) {
+            const chartDiv = document.createElement('div');
+            chartDiv.className = 'chart-card1';
+            chartDiv.innerHTML = '<h3 class="chart-title">Partidos por Modalidad</h3><canvas></canvas>';
+            container.appendChild(chartDiv);
+
+            new Chart(chartDiv.querySelector('canvas'), {
+                type: 'bar',
+                data: {
+                    labels: ['Bola 8', 'Bola 9', 'Bola 10'],
+                    datasets: [{
+                        label: 'Jugados',
+                        data: [modalities.bola8.played, modalities.bola9.played, modalities.bola10.played],
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderRadius: 8
+                    }, {
+                        label: 'Ganados',
+                        data: [modalities.bola8.won, modalities.bola9.won, modalities.bola10.won],
+                        backgroundColor: 'rgba(52, 199, 89, 0.8)',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#1d1d1f',
+                                font: { size: 12, weight: '500' },
+                                padding: 16,
+                                usePointStyle: true
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0, 0, 0, 0.05)', drawBorder: false },
+                            ticks: { color: '#86868b', font: { size: 12, weight: '500' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#1d1d1f', font: { size: 12, weight: '500' } }
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+
+
+
         function displayDashboard(data) {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('content').style.display = 'block';
@@ -410,7 +515,7 @@ Escribe "BORRAR" para confirmar:`;
 
             // Mostrar indicadores de sincronización
             const syncInfo = document.createElement('div');
-            syncInfo.style.cssText = 'background: #00fff2; border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
+            syncInfo.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
             syncInfo.innerHTML = `
                 <p style="color: #0a0a2e; font-weight: 600; margin-bottom: 8px;">✅ Datos Sincronizados</p>
                 <p style="color: #0a0a2e; font-size: 0.9rem;">
@@ -461,7 +566,7 @@ Escribe "BORRAR" para confirmar:`;
             if (totalAutoMatches > 0) {
                 autoDetectedInfo.style.cssText = 'background: rgb(0,0,0,0); border: 1px solid rgba(0, 0, 0, 0); border-radius: 12px; padding: 16px; margin-bottom: 36px; margin-top:20px;';
                 autoDetectedInfo.innerHTML = `
-                    <p style="color: #000; font-weight: 600; margin-bottom: 8px;">📊 Partidos en el Sistema (ya incluidos arriba)</p>
+                    <p style="color: #000; font-weight: 600; margin-bottom: 8px;">Partidos en el Sistema (ya incluidos arriba)</p>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 32px;">
                         <div style="text-align: center;">
                             <div style="font-size: 0.75rem; color: #000; text-transform: uppercase; letter-spacing: 0.05em;">Bola 8</div>
@@ -591,7 +696,7 @@ Escribe "BORRAR" para confirmar:`;
 
             // Añadir indicador de sincronización
             const syncBadge = document.createElement('div');
-            syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: rgba(52, 199, 89, 0.1); border-radius: 8px;';
+            syncBadge.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 12px; background: linear-gradient(62deg,rgba(0, 255, 242, 0.49) 0%, rgba(0, 217, 255, 0.27) 100%); border-radius: 8px;';
             syncBadge.innerHTML = '<p style="color: #34c759; font-weight: 600; font-size: 0.9rem;">✅ Estadísticas Totales (Partidos Registrados + Datos Manuales)</p>';
             
             statsGrid.parentElement.insertBefore(syncBadge, statsGrid);
@@ -1761,6 +1866,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
