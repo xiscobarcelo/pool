@@ -422,13 +422,10 @@ Escribe "BORRAR" para confirmar:`;
             const players = data.players || [];
             const materials = data.materials || [];
 
-            // Sincronizar estadísticas: combinar partidos registrados con modalityStats
-            const combinedStats = combineMatchesWithModalityStats(matches, data.modalityStats);
 
-            generateHeroStats(matches, players, materials, combinedStats);
-            generateCharts(matches, players, materials);
-            setupPlayerComparison(matches, players);
-            setupModalityCalculator();
+
+
+            
             
             // Cargar datos de modalidad si existen
             if (data.modalityStats) {
@@ -1866,6 +1863,7 @@ Escribe "BORRAR" para confirmar:`;
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
