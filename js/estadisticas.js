@@ -867,70 +867,100 @@ function calculateStatsFromMatches(matches) {
             alert('✅ Archivo data.json descargado correctamente. Súbelo a tu servidor para actualizar las estadísticas.');
         }
 
-        function generateHeroStats(matches, players, materials, combinedStats) {
-            const statsHero = document.getElementById('statsGrid');
-            
-            const totalMatches = matches.length;
 
-            // Filtrar partidos de Xisco
-            const xiscoMatches = matches.filter(m => 
-                m.player1.toLowerCase() === 'xisco' || m.player2.toLowerCase() === 'xisco'
+
+
+function generateHeroStats(matches, players, materials, combinedStats) {
+    const statsHero = document.getElementById('statsGrid');
+    
+    const totalMatches = matches.length;
+
+    // Filtrar partidos de Xisco
+    const xiscoMatches = matches.filter(m => 
+        m.player1.toLowerCase() === 'xisco' || m.player2.toLowerCase() === 'xisco'
+    );
+
+    // Calcular puntuación total y promedio de Xisco
+    let xiscoTotalScore = 0;
+    xiscoMatches.forEach(m => {
+        const isPlayer1 = m.player1.toLowerCase() === 'xisco';
+        xiscoTotalScore += parseInt(isPlayer1 ? m.score1 : m.score2);
+    });
+    const xiscoAvgScore = xiscoMatches.length > 0 ? (xiscoTotalScore / xiscoMatches.length).toFixed(1) : 0;
+
+    // Material más usado por Xisco
+    const xiscoMaterials = {};
+    xiscoMatches.forEach(m => {
+        const isPlayer1 = m.player1.toLowerCase() === 'xisco';
+        const material = isPlayer1 ? m.material1 : m.material2;
+        xiscoMaterials[material] = (xiscoMaterials[material] || 0) + 1;
+    });
+    const topXiscoMaterial = Object.entries(xiscoMaterials).sort((a, b) => b[1] - a[1])[0];
+
+    const stats = [
+        { label: 'Total Partidos', value: totalMatches },
+        { label: 'Material Popular Xisco', value: topXiscoMaterial ? topXiscoMaterial[0] : 'N/A', smallText: true }
+    ];
+
+    // Si hay estadísticas combinadas, añadir estadísticas de modalidad
+    if (combinedStats) {
+        const totalCombinedMatches = 
+            (combinedStats.bola8?.matchesPlayed || 0) +
+            (combinedStats.bola9?.matchesPlayed || 0) +
+            (combinedStats.bola10?.matchesPlayed || 0);
+        
+        const totalCombinedMatchesWon = 
+            (combinedStats.bola8?.matchesWon || 0) +
+            (combinedStats.bola9?.matchesWon || 0) +
+            (combinedStats.bola10?.matchesWon || 0);
+        
+        const totalCombinedGames = 
+            (combinedStats.bola8?.gamesPlayed || 0) +
+            (combinedStats.bola9?.gamesPlayed || 0) +
+            (combinedStats.bola10?.gamesPlayed || 0);
+        
+        const totalCombinedGamesWon = 
+            (combinedStats.bola8?.gamesWon || 0) +
+            (combinedStats.bola9?.gamesWon || 0) +
+            (combinedStats.bola10?.gamesWon || 0);
+
+        // Calcular win rates
+        const matchWinRate = totalCombinedMatches > 0 ? ((totalCombinedMatchesWon / totalCombinedMatches) * 100).toFixed(1) : 0;
+        const gameWinRate = totalCombinedGames > 0 ? ((totalCombinedGamesWon / totalCombinedGames) * 100).toFixed(1) : 0;
+
+        if (totalCombinedMatches > 0 || totalCombinedGames > 0) {
+            stats.push(
+                { label: 'Total Partidos (Global)', value: totalCombinedMatches },
+                { label: 'Partidos Ganados', value: totalCombinedMatchesWon },
+                { label: 'Win Rate Partidos', value: matchWinRate + '%', highlight: true },
+                { label: 'Total Partidas (Global)', value: totalCombinedGames },
+                { label: 'Partidas Ganadas', value: totalCombinedGamesWon },
+                { label: 'Win Rate Partidas', value: gameWinRate + '%', highlight: true }
             );
-
-            // Calcular puntuación total y promedio de Xisco
-            let xiscoTotalScore = 0;
-            xiscoMatches.forEach(m => {
-                const isPlayer1 = m.player1.toLowerCase() === 'xisco';
-                xiscoTotalScore += parseInt(isPlayer1 ? m.score1 : m.score2);
-            });
-            const xiscoAvgScore = xiscoMatches.length > 0 ? (xiscoTotalScore / xiscoMatches.length).toFixed(1) : 0;
-
-            // Material más usado por Xisco
-            const xiscoMaterials = {};
-            xiscoMatches.forEach(m => {
-                const isPlayer1 = m.player1.toLowerCase() === 'xisco';
-                const material = isPlayer1 ? m.material1 : m.material2;
-                xiscoMaterials[material] = (xiscoMaterials[material] || 0) + 1;
-            });
-            const topXiscoMaterial = Object.entries(xiscoMaterials).sort((a, b) => b[1] - a[1])[0];
-
-            const stats = [
-                { label: 'Total Partidos', value: totalMatches },
-           
-                { label: 'Material Popular Xisco', value: topXiscoMaterial ? topXiscoMaterial[0] : 'N/A', smallText: true }
-            ];
-
-            // Si hay estadísticas combinadas, mostrar totales sincronizados
-            if (combinedStats) {
-                const totalCombinedMatches = 
-                    (combinedStats.bola8?.matchesPlayed || 0) +
-                    (combinedStats.bola9?.matchesPlayed || 0) +
-                    (combinedStats.bola10?.matchesPlayed || 0);
-                
-                const totalCombinedGames = 
-                    (combinedStats.bola8?.gamesPlayed || 0) +
-                    (combinedStats.bola9?.gamesPlayed || 0) +
-                    (combinedStats.bola10?.gamesPlayed || 0);
-
-                if (totalCombinedMatches > 0 || totalCombinedGames > 0) {
-                    stats.push(
-                        { label: 'Total Partidos (Global)', value: totalCombinedMatches },
-                        { label: 'Total Partidas (Global)', value: totalCombinedGames }
-                    );
-                }
-            }
-
-            statsHero.innerHTML = '';
-            stats.forEach((stat, index) => {
-                const box = document.createElement('div');
-                box.className = 'stat-card fade-in';
-                box.innerHTML = `
-                    <div class="stat-label">${stat.label}</div>
-                    <div class="stat-value ${stat.smallText ? 'small-text' : ''}">${stat.value}</div>
-                `;
-                statsHero.appendChild(box);
-            });
         }
+    }
+
+    statsHero.innerHTML = '';
+    stats.forEach((stat, index) => {
+        const box = document.createElement('div');
+        box.className = 'stat-card fade-in';
+        if (stat.highlight) {
+            box.style.background = 'linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 255, 242, 0.1) 100%)';
+            box.style.borderColor = 'rgba(0, 217, 255, 0.3)';
+        }
+        box.innerHTML = `
+            <div class="stat-label">${stat.label}</div>
+            <div class="stat-value ${stat.smallText ? 'small-text' : ''}">${stat.value}</div>
+        `;
+        statsHero.appendChild(box);
+    });
+}
+
+
+
+
+
+
 
         function generateCharts(matches, players, materials) {
         
@@ -1793,6 +1823,7 @@ function calculateStatsFromMatches(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
