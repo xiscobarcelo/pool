@@ -1383,7 +1383,7 @@ function renderYearResultsChart() {
         {
             label: 'Otros',
             data: years.map(y => yearData[y]['Otros']),
-            backgroundColor: 'rgba(102, 126, 234, 0.6)',
+            backgroundColor: 'rgba(102, 126, 234, 0.3)',
             borderColor: 'rgba(102, 126, 234, 1)',
             borderWidth: 2
         }
@@ -1517,7 +1517,7 @@ function renderMaterialPerformanceChart() {
                     'rgba(255, 215, 0, 0.8)',
                     'rgba(102, 126, 234, 0.8)',
                     'rgba(52, 199, 89, 0.8)',
-                    'rgba(255, 149, 0, 0.8)',
+                    '(0, 255, 242, 0.8)',
                     'rgba(88, 86, 214, 0.8)'
                 ],
                 borderColor: '#fff',
@@ -1611,8 +1611,8 @@ function renderTimelineChart() {
             datasets: [{
                 label: 'Rendimiento',
                 data: values,
-                borderColor: 'rgba(102, 126, 234, 1)',
-                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderColor: '#00d9ff',
+                backgroundColor: 'rgba(0, 0, 0, 0.01)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
