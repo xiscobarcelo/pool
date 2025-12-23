@@ -141,7 +141,7 @@
 
         function showSharedDataBanner() {
             const banner = document.createElement('div');
-            banner.style.cssText = 'background: #f3f3f3; color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
+            banner.style.cssText = 'background: linear-gradient(135deg,rgba(245, 247, 250, 0) 0%, rgba(232, 236, 241, 1) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
             banner.innerHTML = '✅ Datos sincronizados desde el registro de partidos';
             
             const container = document.querySelector('.container');
@@ -441,7 +441,7 @@ function calculateStatsFromMatches(matches) {
 
             // Mostrar indicadores de sincronización
             const syncInfo = document.createElement('div');
-            syncInfo.style.cssText = 'background: #f3f3f3; border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
+            syncInfo.style.cssText = 'background: linear-gradient(135deg,rgba(245, 247, 250, 0) 0%, rgba(232, 236, 241, 1) 100%); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: center;';
             syncInfo.innerHTML = `
                 <p style="color: #0a0a2e; font-weight: 600; margin-bottom: 8px;">✅ Datos Sincronizados</p>
                 <p style="color: #0a0a2e; font-size: 0.9rem;">
@@ -1460,7 +1460,7 @@ function updateComparison(matches) {
 
     // Añadir badge informativo
     html = `
-        <div style="background: #f3f3f3; 
+        <div style="background: linear-gradient(135deg,rgba(245, 247, 250, 0) 0%, rgba(232, 236, 241, 1) 100%);
                     border: 1px solid rgba(0, 217, 255, 0.3); 
                     border-radius: 12px; 
                     padding: 16px; 
@@ -1873,6 +1873,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
