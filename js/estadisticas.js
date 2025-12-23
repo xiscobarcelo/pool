@@ -634,10 +634,10 @@ function calculateStatsFromMatches(matches) {
             // Tarjetas de estadísticas totales
             const stats = [
                 { label: 'Total Partidos', value: totals.matchesPlayed },
-                { label: 'Partidos Ganados', value: totals.matchesWon },
+               
                 { label: 'Win Rate Partidos', value: totals.matchWinRate.toFixed(1) + '%' },
                 { label: 'Total Partidas', value: totals.gamesPlayed },
-                { label: 'Partidas Ganadas', value: totals.gamesWon },
+                
                 { label: 'Win Rate Partidas', value: totals.gameWinRate.toFixed(1) + '%' }
             ];
 
@@ -1826,6 +1826,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
