@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Partidos - PoolFlow</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Bottom Nav -->
+    <link rel="stylesheet" href="bottom-nav.css">
+    
+    <script>
+        // Verificar sesión
+        if (!sessionStorage.getItem('xisco_session_active')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    
+    <style>
+        :root {
+            --primary: #00d9ff;
+            --primary-dark: #00a8cc;
+            --secondary: #00fff2;
+            --dark: #0a0a2e;
+            --gray: #86868b;
+            --light-gray: #f5f5f7;
+            --white: #ffffff;
+            --success: #34c759;
+            --danger: #ff3b30;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        /* Stats Cards Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .stat-value.success {
+            color: var(--success);
+        }
+
+        .stat-value.danger {
+            color: var(--danger);
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .filters-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .filter-input,
+        .filter-select {
+            padding: 12px 16px;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .filter-input:focus,
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.1);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e2;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-container {
+            max-width: 400px;
+            margin: 0 auto;
+            height: 300px;
+        }
+
+        /* Table Section */
+        .table-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .results-count {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .matches-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .matches-table thead {
+            background: var(--light-gray);
+        }
+
+        .matches-table th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .matches-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--dark);
+        }
+
+        .matches-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .winner {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .loser {
+            color: var(--gray);
+        }
+
+        .score-cell {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .date-cell {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pagination-info {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            padding: 10px 16px;
+            border: 2px solid #e5e5e5;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Loading & Empty States */
+        .loading,
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .loading .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .empty-state-text {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .page-header {
+                padding: 30px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .filters-section,
+            .chart-section,
+            .table-section {
+                padding: 20px;
+            }
+
+            .matches-table {
+                font-size: 0.9rem;
+            }
+
+            .matches-table th,
+            .matches-table td {
+                padding: 12px 8px;
+            }
+
+            /* Hacer tabla responsive */
+            .matches-table thead {
+                display: none;
+            }
+
+            .matches-table tr {
+                display: block;
+                margin-bottom: 15px;
+                border: 1px solid #e5e5e5;
+                border-radius: 12px;
+                padding: 15px;
+            }
+
+            .matches-table td {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 0;
+                border: none;
+            }
+
+            .matches-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--gray);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>📋 Historial de Partidos</h1>
+            <p>Todos tus partidos con filtros avanzados</p>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando historial...</p>
+        </div>
+
+        <!-- Content -->
+        <div id="content" style="display: none;">
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label">Total Partidos</div>
+                    <div class="stat-value" id="totalMatches">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Victorias</div>
+                    <div class="stat-value success" id="totalWins">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Derrotas</div>
+                    <div class="stat-value danger" id="totalLosses">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value" id="winRate">0%</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filters-title">
+                    🔍 Filtros de Búsqueda
+                </div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Año</label>
+                        <select id="filterYear" class="filter-select">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Modalidad</label>
+                        <select id="filterModality" class="filter-select">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Material</label>
+                        <select id="filterMaterial" class="filter-select">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Buscar Rival</label>
+                        <input type="text" id="filterPlayer" class="filter-input" placeholder="Nombre del rival...">
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-primary" onclick="applyFilters()">Aplicar Filtros</button>
+                    <button class="btn btn-secondary" onclick="clearFilters()">Limpiar</button>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="chart-section">
+                <div class="filters-title" style="text-align: center; margin-bottom: 30px;">
+                    📊 Victorias vs Derrotas
+                </div>
+                <div class="chart-container">
+                    <canvas id="winsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2 class="table-title">Resultados</h2>
+                    <div class="results-count" id="resultsCount">0 partidos</div>
+                </div>
+
+                <div id="tableContainer">
+                    <!-- Table will be inserted here -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination" style="display: none;">
+                    <div class="pagination-info" id="paginationInfo"></div>
+                    <div class="pagination-buttons" id="paginationButtons"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">🎱</div>
+            <h3 class="empty-state-title">No se encontraron partidos</h3>
+            <p class="empty-state-text">Intenta ajustar los filtros de búsqueda</p>
+        </div>
+    </div>
+
+    <script src="bottom-nav.js"></script>
+    <script src="js/historial-avanzado.js"></script>
+</body>
+</html>
