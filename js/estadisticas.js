@@ -934,10 +934,8 @@ function generateHeroStats(matches, players, materials, combinedStats) {
         if (totalCombinedMatches > 0 || totalCombinedGames > 0) {
             stats.push(
                 { label: 'Total Partidos (Global)', value: totalCombinedMatches },
-                { label: 'Partidos Ganados', value: totalCombinedMatchesWon },
                 { label: 'Win Rate Partidos', value: matchWinRate + '%', highlight: true },
                 { label: 'Total Partidas (Global)', value: totalCombinedGames },
-                { label: 'Partidas Ganadas', value: totalCombinedGamesWon },
                 { label: 'Win Rate Partidas', value: gameWinRate + '%', highlight: true }
             );
         }
@@ -1826,6 +1824,7 @@ function generateHeroStats(matches, players, materials, combinedStats) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
