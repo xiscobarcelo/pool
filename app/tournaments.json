@@ -632,12 +632,12 @@
       "createdAt": "2025-12-19T14:59:09.892Z"
     },
     {
-      "name": "kdjsbhxfjkhadkjlfh",
+      "name": "Cjdhrklf",
       "date": "2025-12-24",
-      "modality": "Bola 10",
+      "modality": "Bola 8",
       "totalPlayers": 21,
-      "result": "Campeón",
-      "circuit": null,
+      "result": "Cuartos de Final",
+      "circuit": "circuit_1766139032239",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
       "notes": "",
@@ -650,8 +650,8 @@
         "winRate": 0,
         "averageGamesPerMatch": 0
       },
-      "id": "tournament_1766574208999",
-      "createdAt": "2025-12-24T11:03:28.999Z"
+      "id": "tournament_1766574263541",
+      "createdAt": "2025-12-24T11:04:23.541Z"
     }
   ],
   "circuits": [
@@ -1096,5 +1096,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T11:03:36.515Z"
+  "lastUpdated": "2025-12-24T11:04:30.590Z"
 }
