@@ -1693,6 +1693,17 @@
       "modality": "Bola 8",
       "date": "2025-12-24",
       "id": 1766577621500
+    },
+    {
+      "player1": "Xisco",
+      "player2": "PAPA",
+      "score1": "111",
+      "score2": "1",
+      "material1": "Cuetec+cinergy12.5",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2025-12-24",
+      "id": 1766577791823
     }
   ],
   "players": [
@@ -1711,7 +1722,8 @@
     "test4",
     "Jesus Muñoz",
     "MAMA",
-    "MAMAMMAMA"
+    "MAMAMMAMA",
+    "PAPA"
   ],
   "materials": [
     "Velasco+Revo12.9",
