@@ -402,58 +402,21 @@ function renderPagination(totalPages, startIndex, endIndex) {
     paginationInfo.textContent = 
         `${startIndex + 1}-${Math.min(endIndex, filteredMatches.length)} de ${filteredMatches.length}`;
     
-    // Botones
-    let buttonsHTML = '';
-    
-    // Primera página
-    buttonsHTML += `
-        <button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>
-            ⟨⟨
-        </button>
-    `;
-    
-    // Anterior
-    buttonsHTML += `
+    // ✅ BOTONES SIMPLIFICADOS - Solo anterior y siguiente
+    let buttonsHTML = `
         <button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-            ‹
+            ← Anterior
         </button>
-    `;
-    
-    // Números de página
-    const maxVisible = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-    
-    if (endPage - startPage < maxVisible - 1) {
-        startPage = Math.max(1, endPage - maxVisible + 1);
-    }
-    
-    for (let i = startPage; i <= endPage; i++) {
-        buttonsHTML += `
-            <button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
-                ${i}
-            </button>
-        `;
-    }
-    
-    // Siguiente
-    buttonsHTML += `
+        <span style="padding: 10px 16px; color: var(--dark); font-weight: 600;">
+            Página ${currentPage} de ${totalPages}
+        </span>
         <button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-            ›
-        </button>
-    `;
-    
-    // Última página
-    buttonsHTML += `
-        <button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
-            ⟩⟩
+            Siguiente →
         </button>
     `;
     
     paginationButtons.innerHTML = buttonsHTML;
-}
-
-function goToPage(page) {
+}function goToPage(page) {
     const totalPages = Math.ceil(filteredMatches.length / itemsPerPage);
     if (page < 1 || page > totalPages) return;
     
