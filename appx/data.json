@@ -1660,6 +1660,17 @@
       "modality": "Bola 10",
       "date": "2025-12-17",
       "id": 1765964747011
+    },
+    {
+      "player1": "Xisco",
+      "player2": "MAma",
+      "score1": "3",
+      "score2": "1",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2025-12-24",
+      "id": 1766582886280
     }
   ],
   "players": [
@@ -1679,7 +1690,8 @@
     "Jesus Muñoz",
     "MAMA",
     "MAMAMMAMA",
-    "PAPAjkghjkhgjh"
+    "PAPAjkghjkhgjh",
+    "MAma"
   ],
   "materials": [
     "Velasco+Revo12.9",
