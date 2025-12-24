@@ -516,3 +516,10 @@ h1 {
         display: flex;
     }
 }
+
+/* Responsive */
+@media (max-width: 968px) {
+    .header-image {
+        width: 200px;
+    }
+}
