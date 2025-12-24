@@ -632,13 +632,13 @@
       "createdAt": "2025-12-19T14:59:09.892Z"
     },
     {
-      "name": "Cjdhrklf",
+      "name": "Campeonato de Mallorca",
       "date": "2025-12-24",
-      "modality": "Bola 8",
+      "modality": "Bola 10",
       "totalPlayers": 21,
-      "result": "Cuartos de Final",
-      "circuit": "circuit_1766139032239",
-      "cue": "Velasco+Revo12.9",
+      "result": "Subcampeón",
+      "circuit": null,
+      "cue": "Lucasi+Revo12.9",
       "finalRival": "",
       "notes": "",
       "stats": {
@@ -650,8 +650,8 @@
         "winRate": 0,
         "averageGamesPerMatch": 0
       },
-      "id": "tournament_1766574263541",
-      "createdAt": "2025-12-24T11:04:23.541Z"
+      "id": "tournament_1766574344023",
+      "createdAt": "2025-12-24T11:05:44.023Z"
     }
   ],
   "circuits": [
@@ -1096,5 +1096,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T11:04:30.590Z"
+  "lastUpdated": "2025-12-24T11:06:01.812Z"
 }
