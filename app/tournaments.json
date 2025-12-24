@@ -326,7 +326,7 @@
       "modality": "Bola 10",
       "totalPlayers": 16,
       "result": "Semifinales",
-      "circuit": "circuit_1766137853380",
+      "circuit": "circuit_1766138156616",
       "cue": "Velasco+Revo12.9",
       "finalRival": "Borja Gutierrez",
       "notes": "Palma Palace",
@@ -340,7 +340,8 @@
         "averageGamesPerMatch": "12.0"
       },
       "id": "tournament_1766153790703",
-      "createdAt": "2025-12-19T14:16:30.703Z"
+      "createdAt": "2025-12-19T14:16:30.703Z",
+      "updatedAt": "2025-12-24T23:58:41.689Z"
     },
     {
       "name": "Copa Sénior I",
@@ -1251,5 +1252,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T18:56:10.887Z"
+  "lastUpdated": "2025-12-24T23:58:49.751Z"
 }
