@@ -1708,13 +1708,13 @@
     {
       "player1": "Xisco",
       "player2": "MAMA",
-      "score1": "3",
-      "score2": "11",
+      "score1": "2",
+      "score2": "1",
       "material1": "Bear+Centro",
       "material2": "rival",
-      "modality": "Bola 8",
+      "modality": "Bola 10",
       "date": "2025-12-24",
-      "id": 1766573967193
+      "id": 1766574002608
     }
   ],
   "players": [
@@ -1742,10 +1742,10 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 31,
+      "matchesPlayed": 30,
       "matchesWon": 23,
-      "gamesPlayed": 298,
-      "gamesWon": 178
+      "gamesPlayed": 284,
+      "gamesWon": 175
     },
     "bola9": {
       "matchesPlayed": 126,
@@ -1754,10 +1754,10 @@
       "gamesWon": 799
     },
     "bola10": {
-      "matchesPlayed": 157,
-      "matchesWon": 119,
-      "gamesPlayed": 2050,
-      "gamesWon": 1147
+      "matchesPlayed": 158,
+      "matchesWon": 120,
+      "gamesPlayed": 2053,
+      "gamesWon": 1149
     }
   }
 }
