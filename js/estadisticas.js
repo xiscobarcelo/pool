@@ -38,7 +38,7 @@
 
         // Configurar el input de archivo
         document.addEventListener('DOMContentLoaded', () => {
-            const fileInput = document.getElementById('jsonFileInput');
+        //    const fileInput = document.getElementById('jsonFileInput');
             if (fileInput) {
                 fileInput.addEventListener('change', handleFileUpload);
             }
@@ -1685,6 +1685,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
