@@ -1,23 +1,8 @@
-window.addEventListener('DOMContentLoaded', async () => {
-    // Cargar local primero
-    const data = CloudSync.getData();
-    mostrarDatos(data);
-    
-    // Sincronizar con GitHub
-    setTimeout(async () => {
-        const githubData = await CloudSync.pullFromGitHub();
-        if (githubData) {
-            mostrarDatos(githubData);
-        }
-    }, 500);
-});
-
 // ============================================================
-// GESTIÓN DE TORNEOS - Pool Tracker
-// Con sincronización automática a GitHub
+// GESTIÓN DE TORNEOS - Pool Tracker CON CloudSync
+// PARTE 1/3 - Inicialización y Funciones Principales
 // ============================================================
 
-// Configuración
 const STORAGE_KEY = 'xisco_matches_data';
 const GITHUB_CONFIG_KEY = 'xisco_github_config';
 
@@ -39,68 +24,72 @@ let currentSection = 'tournaments';
 let filteredTournaments = [];
 let currentPage = 1;
 let itemsPerPage = 30;
+let editingTournamentId = null;
 
 // ============================================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN CON CloudSync
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Cargar datos locales primero
-    loadData();
+    console.log('🚀 Inicializando torneos...');
+    
+    // 1️⃣ CARGAR DATOS LOCALES INMEDIATAMENTE
+    const localData = CloudSync.getData();
+    matchesData = {
+        ...matchesData,
+        ...localData,
+        tournaments: localData.tournaments || [],
+        circuits: localData.circuits || []
+    };
+    
+    filteredTournaments = matchesData.tournaments;
+    
+    console.log('📦 Datos locales:', matchesData.tournaments.length, 'torneos,', matchesData.circuits.length, 'circuitos');
+    
+    // Renderizar UI
     populateSelects();
     renderAll();
-    
-    // ✅ Limpiar filtros al cargar (evita bug de filtros activados)
     resetFiltersOnLoad();
-    
-    // Intentar sincronizar automáticamente desde GitHub
-    await autoSyncFromGitHub();
-    
-    // Después de sincronizar, recargar todo
-    populateSelects();
-    renderAll();
-    
-    // Mostrar la sección de torneos por defecto con carga automática
     showSection('tournaments');
     
-    console.log('✅ Sistema de carga automática activado');
-    console.log('   - Los torneos se cargan al abrir la pestaña');
-    console.log('   - Los circuitos se cargan al abrir su pestaña');
-    console.log('   - Sincronización automática desde GitHub completada');
+    // 2️⃣ SINCRONIZAR CON GITHUB EN SEGUNDO PLANO
+    if (CloudSync.config && CloudSync.config.token) {
+        setTimeout(async () => {
+            console.log('🔄 Sincronizando torneos con GitHub...');
+            
+            const githubData = await CloudSync.pullFromGitHub();
+            
+            if (githubData) {
+                console.log('📦 Datos de GitHub:', githubData.tournaments?.length || 0, 'torneos');
+                
+                // Solo actualizar si hay cambios
+                if (githubData.tournaments && githubData.tournaments.length !== matchesData.tournaments.length) {
+                    console.log('🔄 Actualizando UI con datos de GitHub');
+                    
+                    matchesData.tournaments = githubData.tournaments || [];
+                    matchesData.circuits = githubData.circuits || [];
+                    filteredTournaments = matchesData.tournaments;
+                    
+                    populateSelects();
+                    renderAll();
+                } else {
+                    console.log('✅ Torneos ya sincronizados');
+                }
+            }
+        }, 500);
+    }
 });
 
-// Cargar datos
-function loadData() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-        try {
-            const data = JSON.parse(stored);
-            matchesData = {
-                ...matchesData,
-                ...data,
-                tournaments: data.tournaments || [],
-                circuits: data.circuits || []
-            };
-            console.log('✅ Datos cargados:', {
-                tournaments: matchesData.tournaments.length,
-                circuits: matchesData.circuits.length
-            });
-        } catch (e) {
-            console.error('Error cargando datos:', e);
-        }
-    } else {
-        console.log('⚠️ No hay datos en localStorage');
-    }
-    
-    // Inicializar filtros
-    filteredTournaments = matchesData.tournaments;
-    console.log('🔍 Torneos filtrados:', filteredTournaments.length);
-}
+// ============================================================
+// GUARDAR DATOS CON CloudSync
+// ============================================================
 
-// Guardar datos
 function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(matchesData));
-    localStorage.setItem('shared_matches_data', JSON.stringify(matchesData));
+    console.log('💾 Guardando datos...');
+    
+    // ✅ Usar CloudSync para guardar
+    CloudSync.saveData(matchesData);
+    
     showSyncIndicator();
     
     // Recargar automáticamente la sección actual
@@ -110,305 +99,6 @@ function saveData() {
     } else if (currentSection === 'circuits') {
         renderCircuits();
         console.log('🔄 Circuitos recargados automáticamente');
-    }
-    
-    // NO sincronizar automáticamente - el usuario lo hace manualmente
-    // syncToGitHub();
-}
-
-// ============================================================
-// SINCRONIZACIÓN CON GITHUB
-// ============================================================
-
-function getGitHubConfig() {
-    const config = localStorage.getItem(GITHUB_CONFIG_KEY);
-    return config ? JSON.parse(config) : null;
-}
-
-function setGitHubConfig(username, repo, token) {
-    localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify({ username, repo, token }));
-}
-
-async function syncToGitHub() {
-    let config = getGitHubConfig();
-
-    // Si no hay configuración, pedirla
-    if (!config) {
-        const username = prompt('🔧 Configuración de GitHub\n\n1️⃣ Introduce tu USUARIO de GitHub:');
-        if (!username) return;
-
-        const repo = prompt('2️⃣ Introduce el NOMBRE del repositorio:\n(ejemplo: pool-tracker-data)');
-        if (!repo) return;
-
-        const token = prompt('3️⃣ Pega tu TOKEN de acceso personal:\n(empieza con ghp_...)');
-        if (!token) return;
-
-        setGitHubConfig(username, repo, token);
-        config = { username, repo, token };
-        
-        alert('✅ Configuración guardada!\nAhora se subirán los datos...');
-    }
-
-    // Mostrar loading
-    const btn = event ? event.target : null;
-    let originalText = '';
-    if (btn) {
-        originalText = btn.innerHTML;
-        btn.innerHTML = '⏳ Subiendo...';
-        btn.disabled = true;
-    }
-
-    try {
-        // Preparar SOLO datos de torneos
-        const tournamentsData = {
-            tournaments: matchesData.tournaments || [],
-            circuits: matchesData.circuits || [],
-            lastUpdated: new Date().toISOString()
-        };
-        
-        const dataToUpload = JSON.stringify(tournamentsData, null, 2);
-        const encodedContent = btoa(unescape(encodeURIComponent(dataToUpload)));
-
-        // Usar tournaments.json en lugar de data.json
-        const getUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
-        let sha = null;
-
-        try {
-            const getResponse = await fetch(getUrl, {
-                headers: {
-                    'Authorization': `token ${config.token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            });
-
-            if (getResponse.ok) {
-                const fileData = await getResponse.json();
-                sha = fileData.sha;
-            }
-        } catch (e) {
-            console.log('Archivo tournaments.json no existe, se creará uno nuevo');
-        }
-
-        // Subir archivo
-        const putUrl = `https://api.github.com/repos/${config.username}/${config.repo}/contents/app/tournaments.json`;
-        
-        // Preparar el body del request
-        const requestBody = {
-            message: `Update tournaments - ${new Date().toLocaleString('es-ES')}`,
-            content: encodedContent,
-            branch: 'main'
-        };
-        
-        // Solo incluir SHA si existe (archivo ya existente)
-        if (sha) {
-            requestBody.sha = sha;
-        }
-        
-        const response = await fetch(putUrl, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${config.token}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (response.ok) {
-            if (btn) {
-                btn.innerHTML = '✅ ¡Subido!';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, 2000);
-            }
-            showMessage('☁️ Torneos sincronizados', 'success');
-            console.log('✅ Archivo subido correctamente a app/tournaments.json');
-        } else {
-            const errorData = await response.json();
-            console.error('❌ Error de Servidor:', errorData);
-            
-            let errorMessage = errorData.message || 'Error desconocido';
-            
-            // Mensajes específicos según el error
-            if (response.status === 404) {
-                errorMessage = 'Repositorio no encontrado. Verifica el nombre.';
-            } else if (response.status === 401) {
-                errorMessage = 'Token inválido o sin permisos.';
-            } else if (response.status === 422) {
-                errorMessage = 'Error en los datos enviados. Verifica que la carpeta "app" exista en tu repositorio.';
-            }
-            
-            throw new Error(errorMessage);
-        }
-
-    } catch (error) {
-        console.error('Error completo:', error);
-        if (btn) {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-        
-        let troubleshootMsg = '';
-        if (error.message.includes('Token')) {
-            troubleshootMsg = '\n\n📝 Cómo crear un token:\n1. GitHub → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Seleccionar scope: repo (todos los checks)\n5. Copiar el token';
-        } else if (error.message.includes('Repositorio')) {
-            troubleshootMsg = '\n\n📝 Formato del repositorio: usuario/nombre-repo\nEjemplo: juanperez/pool-tracker-data';
-        } else if (error.message.includes('carpeta')) {
-            troubleshootMsg = '\n\n📝 Crear carpeta "app":\n1. Ve a tu repositorio en GitHub\n2. Click "Add file" → "Create new file"\n3. Escribe: app/README.md\n4. Commit';
-        }
-        
-        alert(`❌ Error al subir a GitHub:\n\n${error.message}${troubleshootMsg}`);
-        
-        // Opción de reconfigurar
-        if (confirm('¿Quieres reconfigurar GitHub?')) {
-            localStorage.removeItem(GITHUB_CONFIG_KEY);
-            syncToGitHub();
-        }
-    }
-}
-
-async function loadFromGitHub() {
-    const config = getGitHubConfig();
-    if (!config) {
-        alert('⚠️ Primero configura GitHub haciendo click en "↑ Subir a Cloud"');
-        return;
-    }
-
-    // Mostrar loading
-    const btn = event ? event.target : null;
-    let originalText = '';
-    if (btn) {
-        originalText = btn.innerHTML;
-        btn.innerHTML = '⏳ Descargando...';
-        btn.disabled = true;
-    }
-
-    try {
-        // Descargar desde tournaments.json
-        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
-        
-        console.log('🔄 Cargando torneos desde el server:', githubUrl);
-        
-        const response = await fetch(githubUrl, {
-            cache: 'no-cache',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            const githubData = await response.json();
-            
-            // Validar estructura
-            if (!githubData.tournaments || !Array.isArray(githubData.tournaments)) {
-                throw new Error('Datos inválidos en GitHub');
-            }
-            
-            // Mantener partidos locales y actualizar solo torneos
-            matchesData.tournaments = githubData.tournaments || [];
-            matchesData.circuits = githubData.circuits || [];
-            
-            // Guardar localmente
-            saveData();
-            
-            // Re-poblar selectores y renderizar
-            populateSelects();
-            renderAll();
-            
-            const tournamentsCount = githubData.tournaments ? githubData.tournaments.length : 0;
-            const circuitsCount = githubData.circuits ? githubData.circuits.length : 0;
-            const message = `☁️ Torneos actualizados desde GitHub\n${tournamentsCount} torneos y ${circuitsCount} circuitos sincronizados`;
-            showMessage(message, 'success');
-            console.log('✅ Torneos cargados desde el server:', tournamentsCount, 'torneos');
-            
-            if (btn) {
-                btn.innerHTML = '✅ ¡Descargado!';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, 2000);
-            }
-        } else {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-
-    } catch (error) {
-        console.error('Error cargando desde GitHub:', error);
-        if (btn) {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-        
-        alert(`❌ Error al descargar de GitHub:\n\n${error.message}\n\nVerifica:\n• Repositorio existe\n• Archivo tournaments.json existe en /app/\n• Configuración correcta\n\nNOTA: Si es la primera vez, primero SUBE datos para crear el archivo.`);
-    }
-}
-
-// Sincronización automática silenciosa al cargar
-async function autoSyncFromGitHub() {
-    const config = getGitHubConfig();
-    
-    // Si no hay configuración, no hacer nada (silencioso)
-    if (!config) {
-        console.log('ℹ️ GitHub no configurado - usando datos locales');
-        return;
-    }
-
-    try {
-        const githubUrl = `https://raw.githubusercontent.com/${config.username}/${config.repo}/main/app/tournaments.json`;
-        
-        console.log('🔄 Sincronización automática desde GitHub...');
-        
-        const response = await fetch(githubUrl, {
-            cache: 'no-cache',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            const githubData = await response.json();
-            
-            // Validar estructura
-            if (githubData.tournaments && Array.isArray(githubData.tournaments)) {
-                // Actualizar datos
-                matchesData.tournaments = githubData.tournaments || [];
-                matchesData.circuits = githubData.circuits || [];
-                
-                // ✅ IMPORTANTE: Actualizar torneos filtrados
-                filteredTournaments = matchesData.tournaments;
-                
-                // Guardar localmente
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(matchesData));
-                localStorage.setItem('shared_matches_data', JSON.stringify(matchesData));
-                
-                const tournamentsCount = githubData.tournaments.length;
-                const circuitsCount = githubData.circuits ? githubData.circuits.length : 0;
-                
-                console.log(`✅ Sincronización automática completada: ${tournamentsCount} torneos, ${circuitsCount} circuitos`);
-                
-                // Mostrar indicador discreto
-                showMessage(`☁️ ${tournamentsCount} torneos sincronizados desde la nube`, 'success');
-            }
-        } else {
-            console.log('ℹ️ No se encontraron datos en GitHub - usando datos locales');
-        }
-    } catch (error) {
-        // Error silencioso - solo log en consola
-        console.log('ℹ️ No se pudo sincronizar desde GitHub - usando datos locales:', error.message);
-    }
-}
-
-// Mostrar indicador de sincronización
-function showSyncIndicator() {
-    const indicator = document.getElementById('syncIndicator');
-    if (indicator) {
-        indicator.innerHTML = '💾 Guardado localmente';
-        indicator.style.background = 'linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%)';
-        indicator.style.opacity = '1';
-        setTimeout(() => {
-            indicator.style.opacity = '0';
-        }, 2000);
     }
 }
 
@@ -467,13 +157,11 @@ function renderAll() {
     renderTournaments();
     renderCircuits();
     
-    // Renderizar gráficos analíticos
     if (typeof renderCharts === 'function') {
         renderCharts();
     }
 }
 
-// Renderizar estadísticas globales
 function renderStats() {
     const stats = calculateGlobalStats();
     const container = document.getElementById('statsOverview');
@@ -486,8 +174,6 @@ function renderStats() {
     console.log('📊 Renderizando stats:', stats);
     
     container.innerHTML = `
-        
-        
         <div class="stat-card-tournament">
             <div class="stat-icon">🥇</div>
             <div class="stat-number">${stats.championships}</div>
@@ -500,12 +186,12 @@ function renderStats() {
             <div class="stat-label">Subcampeón</div>
         </div>
        
-        
         <div class="stat-card-tournament">
             <div class="stat-icon">🥉</div>
             <div class="stat-number">${stats.semifinals}</div>
             <div class="stat-label">Semifinales</div>
         </div>
+        
         <div class="stat-card-tournament">
             <div class="stat-icon">🏆</div>
             <div class="stat-number">${stats.totalTournaments}</div>
@@ -519,11 +205,9 @@ function renderStats() {
         </div>
     `;
     
-    // Añadir clase para animación
     container.classList.add('fade-in');
 }
 
-// Calcular estadísticas globales
 function calculateGlobalStats() {
     const tournaments = matchesData.tournaments;
     
@@ -551,8 +235,172 @@ function calculateGlobalStats() {
     return stats;
 }
 
-// Renderizar torneos
-// Renderizar torneos
+// ============================================================
+// GESTIÓN DE TORNEOS CON CloudSync
+// ============================================================
+
+function saveTournament(event) {
+    event.preventDefault();
+    
+    const tournamentData = {
+        name: document.getElementById('tournamentName').value,
+        date: document.getElementById('tournamentDate').value,
+        modality: document.getElementById('tournamentModality').value,
+        totalPlayers: parseInt(document.getElementById('tournamentPlayers').value) || 0,
+        result: document.getElementById('tournamentResult').value,
+        circuit: document.getElementById('tournamentCircuit').value || null,
+        cue: document.getElementById('tournamentCue').value,
+        finalRival: document.getElementById('tournamentRival').value,
+        notes: document.getElementById('tournamentNotes').value,
+        stats: {
+            matchesPlayed: parseInt(document.getElementById('tournamentMatchesPlayed').value) || 0,
+            matchesWon: parseInt(document.getElementById('tournamentMatchesWon').value) || 0,
+            matchesLost: 0,
+            gamesWon: parseInt(document.getElementById('tournamentGamesWon').value) || 0,
+            gamesLost: parseInt(document.getElementById('tournamentGamesLost').value) || 0,
+            winRate: 0,
+            averageGamesPerMatch: 0
+        }
+    };
+    
+    // Calcular stats derivadas
+    tournamentData.stats.matchesLost = tournamentData.stats.matchesPlayed - tournamentData.stats.matchesWon;
+    if (tournamentData.stats.matchesPlayed > 0) {
+        tournamentData.stats.winRate = ((tournamentData.stats.matchesWon / tournamentData.stats.matchesPlayed) * 100).toFixed(1);
+        tournamentData.stats.averageGamesPerMatch = 
+            ((tournamentData.stats.gamesWon + tournamentData.stats.gamesLost) / tournamentData.stats.matchesPlayed).toFixed(1);
+    }
+    
+    console.log(editingTournamentId ? '✏️ Editando torneo' : '➕ Creando torneo');
+    
+    if (editingTournamentId) {
+        // MODO EDICIÓN
+        const index = matchesData.tournaments.findIndex(t => t.id === editingTournamentId);
+        if (index !== -1) {
+            matchesData.tournaments[index] = {
+                ...tournamentData,
+                id: editingTournamentId,
+                createdAt: matchesData.tournaments[index].createdAt,
+                updatedAt: new Date().toISOString()
+            };
+            
+            console.log('✅ Torneo actualizado:', editingTournamentId);
+            showMessage('✅ Torneo actualizado correctamente', 'success');
+        }
+        editingTournamentId = null;
+    } else {
+        // MODO CREACIÓN
+        const tournament = {
+            ...tournamentData,
+            id: `tournament_${Date.now()}`,
+            createdAt: new Date().toISOString()
+        };
+        matchesData.tournaments.push(tournament);
+        
+        console.log('✅ Torneo creado:', tournament.id);
+        showMessage('✅ Torneo guardado correctamente', 'success');
+    }
+    
+    // ✅ Guardar con CloudSync
+    saveData();
+    
+    // Actualizar filtros
+    filteredTournaments = matchesData.tournaments;
+    
+    // Resetear formulario
+    document.getElementById('tournamentForm').reset();
+    resetFormToCreateMode();
+    
+    // Volver a la lista
+    showSection('tournaments');
+}
+
+function deleteTournament(id) {
+    if (!confirm('¿Estás seguro de que quieres eliminar este torneo?')) return;
+    
+    console.log('🗑️ Eliminando torneo:', id);
+    
+    const before = matchesData.tournaments.length;
+    matchesData.tournaments = matchesData.tournaments.filter(t => t.id !== id);
+    const after = matchesData.tournaments.length;
+    
+    console.log(`Torneos. Antes: ${before}, Después: ${after}`);
+    
+    // ✅ Guardar con CloudSync
+    saveData();
+    
+    // Actualizar filtros
+    filteredTournaments = matchesData.tournaments;
+    
+    renderAll();
+    showMessage('🗑️ Torneo eliminado', 'success');
+}
+
+function editTournament(id) {
+    const tournament = matchesData.tournaments.find(t => t.id === id);
+    if (!tournament) {
+        showMessage('❌ Torneo no encontrado', 'error');
+        return;
+    }
+    
+    console.log('✏️ Editando torneo:', id);
+    
+    editingTournamentId = id;
+    showSection('add');
+    
+    const titleElement = document.querySelector('#addTournamentSection .section-title');
+    if (titleElement) {
+        titleElement.textContent = 'Editar Torneo';
+    }
+    
+    const descElement = document.querySelector('#addTournamentSection .section-description');
+    if (descElement) {
+        descElement.textContent = 'Actualiza los detalles de tu competición';
+    }
+    
+    document.getElementById('tournamentName').value = tournament.name;
+    document.getElementById('tournamentDate').value = tournament.date;
+    document.getElementById('tournamentModality').value = tournament.modality;
+    document.getElementById('tournamentPlayers').value = tournament.totalPlayers || '';
+    document.getElementById('tournamentResult').value = tournament.result;
+    document.getElementById('tournamentCircuit').value = tournament.circuit || '';
+    document.getElementById('tournamentCue').value = tournament.cue || '';
+    document.getElementById('tournamentRival').value = tournament.finalRival || '';
+    document.getElementById('tournamentNotes').value = tournament.notes || '';
+    
+    if (tournament.stats) {
+        document.getElementById('tournamentMatchesPlayed').value = tournament.stats.matchesPlayed || '';
+        document.getElementById('tournamentMatchesWon').value = tournament.stats.matchesWon || '';
+        document.getElementById('tournamentGamesWon').value = tournament.stats.gamesWon || '';
+        document.getElementById('tournamentGamesLost').value = tournament.stats.gamesLost || '';
+    }
+    
+    const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.innerHTML = '💾 Actualizar Torneo';
+    }
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showTournamentDetails(id) {
+    console.log('Mostrar detalles del torneo:', id);
+}
+
+
+
+
+// ============================================================
+// GESTIÓN DE TORNEOS - Pool Tracker CON CloudSync
+// PARTE 2/3 - Renderizado de Torneos y Gestión de Circuitos
+// ============================================================
+
+// CONTINÚA DESDE PARTE 1...
+
+// ============================================================
+// RENDERIZAR TORNEOS
+// ============================================================
+
 function renderTournaments() {
     const container = document.getElementById('tournamentsGrid');
     const empty = document.getElementById('emptyTournaments');
@@ -570,18 +418,15 @@ function renderTournaments() {
     container.style.display = 'grid';
     empty.style.display = 'none';
     
-    // Ordenar por fecha (más reciente primero)
     const sorted = [...filteredTournaments].sort((a, b) => 
         new Date(b.date) - new Date(a.date)
     );
     
-    // Calcular paginación
     const totalPages = Math.ceil(sorted.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentTournaments = sorted.slice(startIndex, endIndex);
     
-    // Renderizar torneos de la página actual
     container.innerHTML = currentTournaments.map(tournament => {
         const resultClass = getResultClass(tournament.result);
         const trophy = getResultTrophy(tournament.result);
@@ -663,7 +508,6 @@ function renderTournaments() {
         `;
     }).join('');
     
-    // Renderizar controles de paginación
     if (pagination && totalPages > 1) {
         pagination.style.display = 'flex';
         pagination.innerHTML = `
@@ -672,11 +516,11 @@ function renderTournaments() {
             </div>
             <div class="pagination-controls">
                 <button class="pagination-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-                    Anterior
+                    ← Anterior
                 </button>
                 <span class="pagination-current">Página ${currentPage} de ${totalPages}</span>
                 <button class="pagination-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-                    Siguiente
+                    Siguiente →
                 </button>
             </div>
         `;
@@ -685,7 +529,10 @@ function renderTournaments() {
     }
 }
 
-// Renderizar circuitos
+// ============================================================
+// RENDERIZAR CIRCUITOS
+// ============================================================
+
 function renderCircuits() {
     const container = document.getElementById('circuitsGrid');
     const empty = document.getElementById('emptyCircuits');
@@ -752,6 +599,114 @@ function renderCircuits() {
 }
 
 // ============================================================
+// GESTIÓN DE CIRCUITOS CON CloudSync
+// ============================================================
+
+function showAddCircuitModal() {
+    const name = prompt('Nombre del circuito:');
+    if (!name) return;
+    
+    const year = prompt('Año:', new Date().getFullYear());
+    if (!year) return;
+    
+    const description = prompt('Descripción (opcional):');
+    
+    const circuit = {
+        id: `circuit_${Date.now()}`,
+        name: name,
+        year: parseInt(year),
+        description: description || '',
+        pointsSystem: {
+            'Campeón': 100,
+            'Subcampeón': 75,
+            'Semifinales': 50,
+            'Cuartos de Final': 25,
+            'Octavos de Final': 15,
+            'Dieciseisavos': 10,
+            'Fase de Grupos': 5,
+            'Eliminado en Ronda 1': 3,
+            'Participación': 1
+        },
+        tournaments: [],
+        totalPoints: 0,
+        ranking: null
+    };
+    
+    console.log('➕ Creando circuito:', circuit.name);
+    
+    matchesData.circuits.push(circuit);
+    
+    // ✅ Guardar con CloudSync
+    saveData();
+    
+    populateSelects();
+    renderAll();
+    
+    showMessage('✅ Circuito creado correctamente', 'success');
+}
+
+function deleteCircuit(id) {
+    if (!confirm('¿Estás seguro? Esto no eliminará los torneos asociados.')) return;
+    
+    console.log('🗑️ Eliminando circuito:', id);
+    
+    matchesData.circuits = matchesData.circuits.filter(c => c.id !== id);
+    
+    matchesData.tournaments.forEach(t => {
+        if (t.circuit === id) {
+            t.circuit = null;
+        }
+    });
+    
+    // ✅ Guardar con CloudSync
+    saveData();
+    
+    populateSelects();
+    renderAll();
+    
+    showMessage('🗑️ Circuito eliminado', 'success');
+}
+
+function editCircuit(id) {
+    const circuit = matchesData.circuits.find(c => c.id === id);
+    if (!circuit) {
+        showMessage('❌ Circuito no encontrado', 'error');
+        return;
+    }
+    
+    console.log('✏️ Editando circuito:', id);
+    
+    const name = prompt('Nombre del circuito:', circuit.name);
+    if (name === null) return;
+    if (!name.trim()) {
+        showMessage('❌ El nombre no puede estar vacío', 'error');
+        return;
+    }
+    
+    const year = prompt('Año:', circuit.year);
+    if (year === null) return;
+    if (!year || isNaN(parseInt(year))) {
+        showMessage('❌ Año inválido', 'error');
+        return;
+    }
+    
+    const description = prompt('Descripción (opcional):', circuit.description || '');
+    if (description === null) return;
+    
+    circuit.name = name.trim();
+    circuit.year = parseInt(year);
+    circuit.description = description.trim();
+    
+    // ✅ Guardar con CloudSync
+    saveData();
+    
+    populateSelects();
+    renderAll();
+    
+    showMessage('✅ Circuito actualizado correctamente', 'success');
+}
+
+// ============================================================
 // FUNCIONES DE HELPERS
 // ============================================================
 
@@ -793,245 +748,6 @@ function calculateCircuitPoints(circuit) {
 }
 
 // ============================================================
-// GESTIÓN DE TORNEOS
-// ============================================================
-
-function saveTournament(event) {
-    event.preventDefault();
-    
-    const tournamentData = {
-        name: document.getElementById('tournamentName').value,
-        date: document.getElementById('tournamentDate').value,
-        modality: document.getElementById('tournamentModality').value,
-        totalPlayers: parseInt(document.getElementById('tournamentPlayers').value) || 0,
-        result: document.getElementById('tournamentResult').value,
-        circuit: document.getElementById('tournamentCircuit').value || null,
-        cue: document.getElementById('tournamentCue').value,
-        finalRival: document.getElementById('tournamentRival').value,
-        notes: document.getElementById('tournamentNotes').value,
-        stats: {
-            matchesPlayed: parseInt(document.getElementById('tournamentMatchesPlayed').value) || 0,
-            matchesWon: parseInt(document.getElementById('tournamentMatchesWon').value) || 0,
-            matchesLost: 0,
-            gamesWon: parseInt(document.getElementById('tournamentGamesWon').value) || 0,
-            gamesLost: parseInt(document.getElementById('tournamentGamesLost').value) || 0,
-            winRate: 0,
-            averageGamesPerMatch: 0
-        }
-    };
-    
-    // Calcular stats derivadas
-    tournamentData.stats.matchesLost = tournamentData.stats.matchesPlayed - tournamentData.stats.matchesWon;
-    if (tournamentData.stats.matchesPlayed > 0) {
-        tournamentData.stats.winRate = ((tournamentData.stats.matchesWon / tournamentData.stats.matchesPlayed) * 100).toFixed(1);
-        tournamentData.stats.averageGamesPerMatch = 
-            ((tournamentData.stats.gamesWon + tournamentData.stats.gamesLost) / tournamentData.stats.matchesPlayed).toFixed(1);
-    }
-    
-    if (editingTournamentId) {
-        // MODO EDICIÓN - Actualizar torneo existente
-        const index = matchesData.tournaments.findIndex(t => t.id === editingTournamentId);
-        if (index !== -1) {
-            // Mantener el ID y fecha de creación originales
-            matchesData.tournaments[index] = {
-                ...tournamentData,
-                id: editingTournamentId,
-                createdAt: matchesData.tournaments[index].createdAt,
-                updatedAt: new Date().toISOString()
-            };
-            showMessage('✅ Torneo actualizado correctamente', 'success');
-        }
-        editingTournamentId = null;
-    } else {
-        // MODO CREACIÓN - Nuevo torneo
-        const tournament = {
-            ...tournamentData,
-            id: `tournament_${Date.now()}`,
-            createdAt: new Date().toISOString()
-        };
-        matchesData.tournaments.push(tournament);
-        showMessage('✅ Torneo guardado correctamente', 'success');
-    }
-    
-    saveData();
-    
-    // Resetear formulario
-    document.getElementById('tournamentForm').reset();
-    resetFormToCreateMode();
-    
-    // Volver a la lista
-    showSection('tournaments');
-}
-
-function deleteTournament(id) {
-    if (!confirm('¿Estás seguro de que quieres eliminar este torneo?')) return;
-    
-    matchesData.tournaments = matchesData.tournaments.filter(t => t.id !== id);
-    saveData();
-    renderAll();
-    
-    showMessage('🗑️ Torneo eliminado', 'success');
-}
-
-// Variable global para saber si estamos editando
-let editingTournamentId = null;
-
-function editTournament(id) {
-    const tournament = matchesData.tournaments.find(t => t.id === id);
-    if (!tournament) {
-        showMessage('❌ Torneo no encontrado', 'error');
-        return;
-    }
-    
-    // Guardar ID del torneo que estamos editando
-    editingTournamentId = id;
-    
-    // Cambiar a la sección de añadir
-    showSection('add');
-    
-    // Cambiar el título
-    const titleElement = document.querySelector('#addTournamentSection .section-title');
-    if (titleElement) {
-        titleElement.textContent = 'Editar Torneo';
-    }
-    
-    const descElement = document.querySelector('#addTournamentSection .section-description');
-    if (descElement) {
-        descElement.textContent = 'Actualiza los detalles de tu competición';
-    }
-    
-    // Rellenar el formulario con los datos existentes
-    document.getElementById('tournamentName').value = tournament.name;
-    document.getElementById('tournamentDate').value = tournament.date;
-    document.getElementById('tournamentModality').value = tournament.modality;
-    document.getElementById('tournamentPlayers').value = tournament.totalPlayers || '';
-    document.getElementById('tournamentResult').value = tournament.result;
-    document.getElementById('tournamentCircuit').value = tournament.circuit || '';
-    document.getElementById('tournamentCue').value = tournament.cue || '';
-    document.getElementById('tournamentRival').value = tournament.finalRival || '';
-    document.getElementById('tournamentNotes').value = tournament.notes || '';
-    
-    // Stats
-    if (tournament.stats) {
-        document.getElementById('tournamentMatchesPlayed').value = tournament.stats.matchesPlayed || '';
-        document.getElementById('tournamentMatchesWon').value = tournament.stats.matchesWon || '';
-        document.getElementById('tournamentGamesWon').value = tournament.stats.gamesWon || '';
-        document.getElementById('tournamentGamesLost').value = tournament.stats.gamesLost || '';
-    }
-    
-    // Cambiar el texto del botón de guardar
-    const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
-    if (submitBtn) {
-        submitBtn.innerHTML = '💾 Actualizar Torneo';
-    }
-    
-    // Scroll hacia arriba
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function showTournamentDetails(id) {
-    // Por implementar
-    console.log('Mostrar detalles del torneo:', id);
-}
-
-// ============================================================
-// GESTIÓN DE CIRCUITOS
-// ============================================================
-
-function showAddCircuitModal() {
-    const name = prompt('Nombre del circuito:');
-    if (!name) return;
-    
-    const year = prompt('Año:', new Date().getFullYear());
-    if (!year) return;
-    
-    const description = prompt('Descripción (opcional):');
-    
-    const circuit = {
-        id: `circuit_${Date.now()}`,
-        name: name,
-        year: parseInt(year),
-        description: description || '',
-        pointsSystem: {
-            'Campeón': 100,
-            'Subcampeón': 75,
-            'Semifinales': 50,
-            'Cuartos de Final': 25,
-            'Octavos de Final': 15,
-            'Dieciseisavos': 10,
-            'Fase de Grupos': 5,
-            'Eliminado en Ronda 1': 3,
-            'Participación': 1
-        },
-        tournaments: [],
-        totalPoints: 0,
-        ranking: null
-    };
-    
-    matchesData.circuits.push(circuit);
-    saveData();
-    populateSelects();
-    renderAll();
-    
-    showMessage('✅ Circuito creado correctamente', 'success');
-}
-
-function deleteCircuit(id) {
-    if (!confirm('¿Estás seguro? Esto no eliminará los torneos asociados.')) return;
-    
-    matchesData.circuits = matchesData.circuits.filter(c => c.id !== id);
-    
-    // Quitar circuito de los torneos
-    matchesData.tournaments.forEach(t => {
-        if (t.circuit === id) {
-            t.circuit = null;
-        }
-    });
-    
-    saveData();
-    populateSelects();
-    renderAll();
-    
-    showMessage('🗑️ Circuito eliminado', 'success');
-}
-
-function editCircuit(id) {
-    const circuit = matchesData.circuits.find(c => c.id === id);
-    if (!circuit) {
-        showMessage('❌ Circuito no encontrado', 'error');
-        return;
-    }
-    
-    const name = prompt('Nombre del circuito:', circuit.name);
-    if (name === null) return; // Usuario canceló
-    if (!name.trim()) {
-        showMessage('❌ El nombre no puede estar vacío', 'error');
-        return;
-    }
-    
-    const year = prompt('Año:', circuit.year);
-    if (year === null) return; // Usuario canceló
-    if (!year || isNaN(parseInt(year))) {
-        showMessage('❌ Año inválido', 'error');
-        return;
-    }
-    
-    const description = prompt('Descripción (opcional):', circuit.description || '');
-    if (description === null) return; // Usuario canceló
-    
-    // Actualizar circuito
-    circuit.name = name.trim();
-    circuit.year = parseInt(year);
-    circuit.description = description.trim();
-    
-    saveData();
-    populateSelects();
-    renderAll();
-    
-    showMessage('✅ Circuito actualizado correctamente', 'success');
-}
-
-// ============================================================
 // PAGINACIÓN
 // ============================================================
 
@@ -1043,7 +759,6 @@ function changePage(page) {
     currentPage = page;
     renderTournaments();
     
-    // Scroll suave hacia arriba
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1051,9 +766,7 @@ function changePage(page) {
 // FILTROS
 // ============================================================
 
-// Limpiar filtros al cargar (sin renderizar)
 function resetFiltersOnLoad() {
-    // Limpiar selectores sin disparar onChange
     const filterYear = document.getElementById('filterYear');
     const filterModality = document.getElementById('filterModality');
     const filterCircuit = document.getElementById('filterCircuit');
@@ -1064,7 +777,6 @@ function resetFiltersOnLoad() {
     if (filterCircuit) filterCircuit.value = '';
     if (filterResult) filterResult.value = '';
     
-    // Asegurar que filteredTournaments tiene todos los torneos
     filteredTournaments = matchesData.tournaments;
     
     console.log('🔍 Filtros reseteados al cargar');
@@ -1084,7 +796,6 @@ function applyFilters() {
         return true;
     });
     
-    // Reset a la primera página al filtrar
     currentPage = 1;
     renderTournaments();
 }
@@ -1096,9 +807,18 @@ function resetFilters() {
     document.getElementById('filterResult').value = '';
     
     filteredTournaments = matchesData.tournaments;
-    currentPage = 1; // Reset a primera página
+    currentPage = 1;
     renderTournaments();
 }
+
+
+
+// ============================================================
+// GESTIÓN DE TORNEOS - Pool Tracker CON CloudSync
+// PARTE 3/3 - Navegación, Exportación, Gráficos y Utilidades
+// ============================================================
+
+// CONTINÚA DESDE PARTE 2...
 
 // ============================================================
 // NAVEGACIÓN
@@ -1107,7 +827,6 @@ function resetFilters() {
 function resetFormToCreateMode() {
     editingTournamentId = null;
     
-    // Restaurar títulos originales
     const titleElement = document.querySelector('#addTournamentSection .section-title');
     if (titleElement) {
         titleElement.textContent = 'Nuevo Torneo';
@@ -1118,7 +837,6 @@ function resetFormToCreateMode() {
         descElement.textContent = 'Registra los detalles de tu competición';
     }
     
-    // Restaurar texto del botón
     const submitBtn = document.querySelector('#tournamentForm button[type="submit"]');
     if (submitBtn) {
         submitBtn.innerHTML = '💾 Crear Torneo';
@@ -1126,51 +844,37 @@ function resetFormToCreateMode() {
 }
 
 function cancelEditTournament() {
-    // Resetear formulario
     document.getElementById('tournamentForm').reset();
     resetFormToCreateMode();
-    
-    // Volver a la lista
     showSection('tournaments');
 }
-
-// ============================================================
-// NAVEGACIÓN
-// ============================================================
 
 function showSection(section) {
     currentSection = section;
     
-    // Si vamos a añadir y NO estamos editando, resetear el formulario
     if (section === 'add' && editingTournamentId === null) {
         resetFormToCreateMode();
     }
     
-    // Ocultar todas las secciones
     document.getElementById('tournamentsSection').style.display = 'none';
     document.getElementById('circuitsSection').style.display = 'none';
     document.getElementById('addTournamentSection').style.display = 'none';
     
-    // Mostrar sección actual y cargar datos automáticamente
     if (section === 'tournaments') {
         document.getElementById('tournamentsSection').style.display = 'block';
-        // Cargar torneos automáticamente
         renderTournaments();
         console.log('📊 Torneos cargados automáticamente');
     } else if (section === 'circuits') {
         document.getElementById('circuitsSection').style.display = 'block';
-        // Cargar circuitos automáticamente
         renderCircuits();
         console.log('🔄 Circuitos cargados automáticamente');
     } else if (section === 'add') {
         document.getElementById('addTournamentSection').style.display = 'block';
-        // Establecer fecha de hoy por defecto solo si no estamos editando
         if (editingTournamentId === null) {
             document.getElementById('tournamentDate').value = new Date().toISOString().split('T')[0];
         }
     }
     
-    // Actualizar botones activos
     document.querySelectorAll('.button-group .btn, .button-group .btn-secondary').forEach(btn => {
         btn.classList.remove('btn-primary');
         btn.classList.add('btn-secondary');
@@ -1280,6 +984,18 @@ function showMessage(text, type = 'success') {
     setTimeout(() => message.remove(), 3000);
 }
 
+function showSyncIndicator() {
+    const indicator = document.getElementById('syncIndicator');
+    if (indicator) {
+        indicator.innerHTML = '💾 Guardado localmente';
+        indicator.style.background = 'linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%)';
+        indicator.style.opacity = '1';
+        setTimeout(() => {
+            indicator.style.opacity = '0';
+        }, 2000);
+    }
+}
+
 function resetAllData() {
     if (!confirm('⚠️ ¿BORRAR TODOS LOS DATOS DE TORNEOS? Esta acción no se puede deshacer.')) return;
     
@@ -1314,10 +1030,8 @@ let charts = {
     timeline: null
 };
 
-// Renderizar todos los gráficos
 function renderCharts() {
     if (matchesData.tournaments.length === 0) {
-        // Ocultar sección de gráficos si no hay datos
         const analyticsSection = document.querySelector('.analytics-section');
         if (analyticsSection) {
             analyticsSection.style.display = 'none';
@@ -1335,17 +1049,14 @@ function renderCharts() {
     renderTimelineChart();
 }
 
-// Gráfico 1: Resultados por Año
 function renderYearResultsChart() {
     const ctx = document.getElementById('yearResultsChart');
     if (!ctx) return;
     
-    // Destruir gráfico anterior si existe
     if (charts.yearResults) {
         charts.yearResults.destroy();
     }
     
-    // Agrupar por año y resultado
     const yearData = {};
     
     matchesData.tournaments.forEach(t => {
@@ -1467,7 +1178,6 @@ function renderYearResultsChart() {
     });
 }
 
-// Gráfico 2: Rendimiento por Material (Taco)
 function renderMaterialPerformanceChart() {
     const ctx = document.getElementById('materialPerformanceChart');
     if (!ctx) return;
@@ -1476,7 +1186,6 @@ function renderMaterialPerformanceChart() {
         charts.materialPerformance.destroy();
     }
     
-    // Agrupar por material
     const materialData = {};
     
     matchesData.tournaments.forEach(t => {
@@ -1486,7 +1195,7 @@ function renderMaterialPerformanceChart() {
             materialData[t.cue] = {
                 total: 0,
                 championships: 0,
-                podium: 0 // Top 3
+                podium: 0
             };
         }
         
@@ -1500,24 +1209,17 @@ function renderMaterialPerformanceChart() {
         }
     });
     
-    // Calcular porcentaje de éxito (podium / total)
     const materials = Object.keys(materialData);
     const successRates = materials.map(m => {
         return (materialData[m].podium / materialData[m].total * 100).toFixed(1);
     });
     
-    // Ordenar por tasa de éxito
     const sortedData = materials
         .map((m, i) => ({ material: m, rate: parseFloat(successRates[i]), total: materialData[m].total }))
         .sort((a, b) => b.rate - a.rate)
-        .slice(0, 5); // Top 5
+        .slice(0, 5);
     
     if (sortedData.length === 0) {
-        // No hay datos de materiales
-        ctx.getContext('2d').font = '14px Inter';
-        ctx.getContext('2d').fillStyle = '#86868b';
-        ctx.getContext('2d').textAlign = 'center';
-        ctx.getContext('2d').fillText('No hay datos de tacos registrados', ctx.width / 2, ctx.height / 2);
         return;
     }
     
@@ -1584,7 +1286,6 @@ function renderMaterialPerformanceChart() {
     });
 }
 
-// Gráfico 3: Evolución Temporal
 function renderTimelineChart() {
     const ctx = document.getElementById('timelineChart');
     if (!ctx) return;
@@ -1593,12 +1294,10 @@ function renderTimelineChart() {
         charts.timeline.destroy();
     }
     
-    // Ordenar torneos por fecha
     const sorted = [...matchesData.tournaments].sort((a, b) => 
         new Date(a.date) - new Date(b.date)
     );
     
-    // Asignar valor numérico a resultados
     const resultValues = {
         'Campeón': 5,
         'Subcampeón': 4,
@@ -1695,7 +1394,5 @@ function renderTimelineChart() {
     });
 }
 
-// Gráfico 4: Win Rate por Modalidad
 
-// Integrar gráficos en la función renderAll existente
-// (Los gráficos se renderizarán automáticamente cuando se llame a renderAll)
+console.log('✅ torneos.js cargado completamente con CloudSync');
