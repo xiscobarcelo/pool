@@ -630,6 +630,138 @@
       },
       "id": "tournament_1766156349892",
       "createdAt": "2025-12-19T14:59:09.892Z"
+    },
+    {
+      "name": "Cro Europa Sénior 25",
+      "date": "2025-10-17",
+      "modality": "Bola 8",
+      "totalPlayers": 94,
+      "result": "Fase de Grupos",
+      "circuit": "circuit_1766307061120",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594136886",
+      "createdAt": "2025-12-24T16:35:36.886Z"
+    },
+    {
+      "name": "Cto Europa Sénior",
+      "date": "2025-10-18",
+      "modality": "Bola 9",
+      "totalPlayers": 94,
+      "result": "Fase de Grupos",
+      "circuit": "circuit_1766307061120",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594208553",
+      "createdAt": "2025-12-24T16:36:48.553Z"
+    },
+    {
+      "name": "Cto Europa 25",
+      "date": "2025-10-19",
+      "modality": "Bola 10",
+      "totalPlayers": 94,
+      "result": "Dieciseisavos",
+      "circuit": "circuit_1766307061120",
+      "cue": "Bear+Centro",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594264414",
+      "createdAt": "2025-12-24T16:37:44.414Z"
+    },
+    {
+      "name": "Cto Europa Sénior Selección ",
+      "date": "2025-10-20",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766307061120",
+      "cue": "",
+      "finalRival": "Alemania ",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594328412",
+      "createdAt": "2025-12-24T16:38:48.412Z"
+    },
+    {
+      "name": "Cto Europa Sénior 24",
+      "date": "2024-11-24",
+      "modality": "Bola 8",
+      "totalPlayers": 94,
+      "result": "Fase de Grupos",
+      "circuit": "circuit_1766307078500",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594385289",
+      "createdAt": "2025-12-24T16:39:45.289Z"
+    },
+    {
+      "name": "Cto Europa Sénior 24",
+      "date": "2024-11-24",
+      "modality": "Bola 9",
+      "totalPlayers": 84,
+      "result": "Dieciseisavos",
+      "circuit": "circuit_1766307078500",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594446043",
+      "createdAt": "2025-12-24T16:40:46.043Z"
     }
   ],
   "circuits": [
@@ -1094,5 +1226,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T12:23:37.949Z"
+  "lastUpdated": "2025-12-24T16:40:52.589Z"
 }
