@@ -1693,6 +1693,17 @@
       "modality": "Bola 9",
       "date": "2025-12-06",
       "id": 1766018096357
+    },
+    {
+      "player1": "Xisco",
+      "player2": "MAMA",
+      "score1": "121",
+      "score2": "12",
+      "material1": "Cuetec+cinergy12.5",
+      "material2": "rival",
+      "modality": "Bola 9",
+      "date": "2025-12-24",
+      "id": 1766577073473
     }
   ],
   "players": [
@@ -1716,7 +1727,8 @@
     "Velasco+Revo12.9",
     "Lucasi+Revo12.9",
     "Bear+Centro",
-    "Cuetec+cinergy12.5"
+    "Cuetec+cinergy12.5",
+    "rival"
   ],
   "modalityStats": {
     "bola8": {
