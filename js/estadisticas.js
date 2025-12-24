@@ -1,16 +1,4 @@
-window.addEventListener('DOMContentLoaded', async () => {
-    // Cargar local primero
-    const data = CloudSync.getData();
-    mostrarDatos(data);
-    
-    // Sincronizar con GitHub
-    setTimeout(async () => {
-        const githubData = await CloudSync.pullFromGitHub();
-        if (githubData) {
-            mostrarDatos(githubData);
-        }
-    }, 500);
-});
+
     
         const GITHUB_CONFIG_KEY = 'xisco_github_config';
 
@@ -48,8 +36,28 @@ window.addEventListener('DOMContentLoaded', async () => {
         let currentPageStats = 1;
         const itemsPerPageStats = 100;
 
-        window.addEventListener('DOMContentLoaded', loadData);
-
+window.addEventListener('DOMContentLoaded', async () => {
+    console.log('🚀 Inicializando estadísticas...');
+    
+    // 1. Cargar local INMEDIATAMENTE
+    const localData = CloudSync.getData();
+    console.log('📦 Datos locales:', localData.matches.length, 'partidos');
+    
+    currentData = localData;
+    document.getElementById('loading').style.display = 'none';
+    displayDashboard(localData);
+    
+    // 2. Sync GitHub
+    if (CloudSync.config && CloudSync.config.token) {
+        setTimeout(async () => {
+            const githubData = await CloudSync.pullFromGitHub();
+            if (githubData && githubData.matches.length !== localData.matches.length) {
+                currentData = githubData;
+                displayDashboard(githubData);
+            }
+        }, 500);
+    }
+});
         // Configurar el input de archivo
         document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('jsonFileInput');
@@ -1885,6 +1893,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
