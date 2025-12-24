@@ -1682,6 +1682,17 @@
       "modality": "Bola 9",
       "date": "2025-12-06",
       "id": 1765966023323
+    },
+    {
+      "player1": "Xisco",
+      "player2": "jhhhhhhh",
+      "score1": "3",
+      "score2": "2",
+      "material1": "Cuetec+cinergy12.5",
+      "material2": "rival",
+      "modality": "Bola 9",
+      "date": "2025-12-24",
+      "id": 1766578631994
     }
   ],
   "players": [
@@ -1701,7 +1712,8 @@
     "Jesus Muñoz",
     "MAMA",
     "MAMAMMAMA",
-    "PAPAjkghjkhgjh"
+    "PAPAjkghjkhgjh",
+    "jhhhhhhh"
   ],
   "materials": [
     "Velasco+Revo12.9",
