@@ -1671,6 +1671,17 @@
       "modality": "Bola 8",
       "date": "2025-12-24",
       "id": 1766582886280
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Test",
+      "score1": "5",
+      "score2": "1",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2025-12-24",
+      "id": 1766583398910
     }
   ],
   "players": [
@@ -1691,7 +1702,8 @@
     "MAMA",
     "MAMAMMAMA",
     "PAPAjkghjkhgjh",
-    "MAma"
+    "MAma",
+    "Test"
   ],
   "materials": [
     "Velasco+Revo12.9",
