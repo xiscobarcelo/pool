@@ -44,7 +44,7 @@
             margin-bottom: 24px;
         }
   .main-card1 {
-            background: #fff;
+            background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -54,6 +54,19 @@
                         0 2px 8px rgba(0, 0, 0, 0.04);
             margin-bottom: 24px;
         }
+
+.btn-primary1 {
+    background: #0a0a2e
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-transform: inherit;
+}
+.btn-primary1:hover{
+    background: #fff
+    color: #0a0a2e;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-transform: inherit;
+}
 
 /* Form grid */
 .form-grid {
