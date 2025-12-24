@@ -1696,14 +1696,14 @@
     },
     {
       "player1": "Xisco",
-      "player2": "MAMA",
-      "score1": "2",
+      "player2": "MAMA1111",
+      "score1": "11",
       "score2": "1",
-      "material1": "Lucasi+Revo12.9",
+      "material1": "Bear+Centro",
       "material2": "rival",
       "modality": "Bola 8",
       "date": "2025-12-24",
-      "id": 1766573731517
+      "id": 1766573826013
     }
   ],
   "players": [
@@ -1721,7 +1721,7 @@
     "Test1",
     "test4",
     "Jesus Muñoz",
-    "MAMA"
+    "MAMA1111"
   ],
   "materials": [
     "Velasco+Revo12.9",
@@ -1733,8 +1733,8 @@
     "bola8": {
       "matchesPlayed": 30,
       "matchesWon": 23,
-      "gamesPlayed": 283,
-      "gamesWon": 174
+      "gamesPlayed": 292,
+      "gamesWon": 183
     },
     "bola9": {
       "matchesPlayed": 126,
