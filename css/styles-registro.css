@@ -56,13 +56,13 @@
         }
 
 .btn-primary1 {
-    background: #0a0a2e
+    background: #0a0a2e!important;
     color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     text-transform: inherit;
 }
 .btn-primary1:hover{
-    background: #fff
+    background: #fff!important;
     color: #0a0a2e;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     text-transform: inherit;
