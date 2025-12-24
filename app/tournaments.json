@@ -762,6 +762,50 @@
       },
       "id": "tournament_1766594446043",
       "createdAt": "2025-12-24T16:40:46.043Z"
+    },
+    {
+      "name": "Cto Europa Sénior 24",
+      "date": "2024-12-24",
+      "modality": "Bola 10",
+      "totalPlayers": 94,
+      "result": "Octavos de Final",
+      "circuit": "circuit_1766307078500",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594504595",
+      "createdAt": "2025-12-24T16:41:44.595Z"
+    },
+    {
+      "name": "Cto Europa Sénior 24 Selección",
+      "date": "2024-12-24",
+      "modality": "Bola 10",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766307078500",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766594562498",
+      "createdAt": "2025-12-24T16:42:42.498Z"
     }
   ],
   "circuits": [
@@ -1226,5 +1270,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T16:40:52.589Z"
+  "lastUpdated": "2025-12-24T16:42:44.141Z"
 }
