@@ -1,4 +1,16 @@
-
+window.addEventListener('DOMContentLoaded', async () => {
+    // Cargar local primero
+    const data = CloudSync.getData();
+    mostrarDatos(data);
+    
+    // Sincronizar con GitHub
+    setTimeout(async () => {
+        const githubData = await CloudSync.pullFromGitHub();
+        if (githubData) {
+            mostrarDatos(githubData);
+        }
+    }, 500);
+});
     
         const GITHUB_CONFIG_KEY = 'xisco_github_config';
 
@@ -1873,6 +1885,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
