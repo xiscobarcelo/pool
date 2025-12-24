@@ -1685,6 +1685,17 @@
     },
     {
       "player1": "Xisco",
+      "player2": "MAMAMMAMA",
+      "score1": "12",
+      "score2": "11",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2025-12-24",
+      "id": 1766577621500
+    },
+    {
+      "player1": "Xisco",
       "player2": "PAPAjkghjkhgjh",
       "score1": "1",
       "score2": "199",
@@ -1693,6 +1704,17 @@
       "modality": "Bola 10",
       "date": "2025-12-24",
       "id": 1766577868481
+    },
+    {
+      "player1": "Xisco",
+      "player2": "MONICA",
+      "score1": "12",
+      "score2": "1",
+      "material1": "Bear+Centro",
+      "material2": "rival",
+      "modality": "Bola 9",
+      "date": "2025-12-24",
+      "id": 1766577971877
     }
   ],
   "players": [
@@ -1712,7 +1734,8 @@
     "Jesus Muñoz",
     "MAMA",
     "MAMAMMAMA",
-    "PAPAjkghjkhgjh"
+    "PAPAjkghjkhgjh",
+    "MONICA"
   ],
   "materials": [
     "Velasco+Revo12.9",
