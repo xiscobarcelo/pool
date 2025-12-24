@@ -303,7 +303,7 @@
       "modality": "Bola 9",
       "totalPlayers": 24,
       "result": "Campeón",
-      "circuit": "circuit_1766137853380",
+      "circuit": "circuit_1766138156616",
       "cue": "Velasco+Revo12.9",
       "finalRival": "Christian Vargas",
       "notes": "",
@@ -317,7 +317,8 @@
         "averageGamesPerMatch": "8.3"
       },
       "id": "tournament_1766153671844",
-      "createdAt": "2025-12-19T14:14:31.844Z"
+      "createdAt": "2025-12-19T14:14:31.844Z",
+      "updatedAt": "2025-12-24T17:55:36.482Z"
     },
     {
       "name": "Cto Mallorca",
@@ -1270,5 +1271,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T16:42:44.141Z"
+  "lastUpdated": "2025-12-24T17:55:40.071Z"
 }
