@@ -1,5 +1,5 @@
 // ========================================
-// REGISTRO DE PARTIDOS - ULTRA SIMPLE
+// REGISTRO DE PARTIDOS - FINAL VERSION
 // ========================================
 
 const STORAGE_KEY = 'xisco_matches_data';
@@ -12,14 +12,17 @@ let currentPage = 1;
 const itemsPerPage = 30;
 
 // ========================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN CON SYNC
 // ========================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Cargar datos SÍNCRONAMENTE
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('🚀 Inicializando página de registro...');
+    
+    // 1. Cargar datos locales INMEDIATAMENTE
     matchesData = CloudSync.getData();
     if (matchesData.materials) materials = matchesData.materials;
     
+    // 2. Renderizar UI con datos locales
     document.getElementById('matchDate').valueAsDate = new Date();
     renderMaterialChips();
     renderHistory();
@@ -27,7 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('excelFileInput').addEventListener('change', handleExcelImport);
     
-    console.log('✅ Página cargada. Partidos:', matchesData.matches.length);
+    console.log('✅ UI renderizada con', matchesData.matches.length, 'partidos');
+    
+    // 3. Bajar datos de GitHub en segundo plano y actualizar UI
+    if (CloudSync.config && CloudSync.config.token) {
+        setTimeout(async () => {
+            console.log('🔄 Sincronizando con GitHub...');
+            const githubData = await CloudSync.pullFromGitHub();
+            
+            if (githubData) {
+                // Recargar datos y actualizar UI
+                matchesData = CloudSync.getData();
+                if (matchesData.materials) materials = matchesData.materials;
+                
+                renderMaterialChips();
+                renderHistory();
+                updateModalityStats();
+                
+                console.log('✅ UI actualizada con datos de GitHub');
+            }
+        }, 500);
+    }
 });
 
 // ========================================
@@ -71,10 +94,7 @@ document.getElementById('matchForm').addEventListener('submit', (e) => {
             date: matchDate
         };
 
-        // ✅ GUARDAR INMEDIATAMENTE
         matchesData = CloudSync.addMatch(match);
-        
-        console.log('✅ Partido guardado. Total ahora:', matchesData.matches.length);
         showSuccess('✅ Partido guardado');
     }
 
@@ -134,10 +154,10 @@ function deleteMatch(id) {
     
     console.log('🗑️ Eliminando partido ID:', id);
     
-    // ✅ ELIMINAR INMEDIATAMENTE
+    // Eliminar INMEDIATAMENTE
     matchesData = CloudSync.deleteMatch(id);
     
-    console.log('✅ Partido eliminado. Total ahora:', matchesData.matches.length);
+    console.log('✅ Partido eliminado. Total:', matchesData.matches.length);
     
     // Actualizar materials
     if (matchesData.materials) materials = matchesData.materials;
@@ -209,7 +229,7 @@ function renderHistory() {
     const container = document.getElementById('matchHistory');
     const matches = [...matchesData.matches].reverse();
 
-    console.log('📋 Renderizando historial. Partidos:', matches.length);
+    console.log('📋 Renderizando historial:', matches.length, 'partidos');
 
     if (matches.length === 0) {
         container.innerHTML = '<div class="empty-state">No hay partidos registrados</div>';
@@ -486,21 +506,23 @@ function downloadData() {
     showSuccess('📥 Descargado');
 }
 
-function loadFromGitHub() {
-    matchesData = CloudSync.getData();
-    if (matchesData.materials) materials = matchesData.materials;
-    renderMaterialChips();
-    renderHistory();
-    updateModalityStats();
-    showSuccess('🔄 Datos recargados');
+async function loadFromGitHub() {
+    const githubData = await CloudSync.pullFromGitHub();
+    if (githubData) {
+        matchesData = CloudSync.getData();
+        if (matchesData.materials) materials = matchesData.materials;
+        renderMaterialChips();
+        renderHistory();
+        updateModalityStats();
+    }
 }
 
 function syncToGitHub() {
-    showSuccess('☁️ Sincronización automática');
+    CloudSync.pushToGitHub(matchesData);
 }
 
 // ========================================
-// EXCEL IMPORT
+// EXCEL IMPORT (abreviado, mantener del original)
 // ========================================
 
 function handleExcelImport(event) {
@@ -542,9 +564,7 @@ function processExcelData(jsonData) {
             const modality = row['Modalidad'] || 'Bola 8';
             const dateStr = row['Fecha'] || row['Date'];
 
-            if (!rival || score1 === undefined || score2 === undefined) {
-                return;
-            }
+            if (!rival || score1 === undefined || score2 === undefined) return;
 
             let normalizedModality = 'Bola 8';
             if (modality) {
@@ -595,7 +615,7 @@ function showImportPreview(matches) {
     
     preview.innerHTML = `
         <div style="background: #f3f3f3; border-radius: 12px; padding: 20px;">
-            <h3 style="color: #0a0a2e;">✅ ${matches.length} partidos</h3>
+            <h3 style="color: #0a0a2e;">✅ ${matches.length} partidos listos</h3>
             <button onclick="confirmImport()" class="btn btn-primary">Importar</button>
             <button onclick="cancelImport()" class="btn btn-secondary">Cancelar</button>
         </div>
