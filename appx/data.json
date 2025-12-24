@@ -1682,6 +1682,17 @@
       "modality": "Bola 9",
       "date": "2025-12-06",
       "id": 1765966023323
+    },
+    {
+      "player1": "Xisco",
+      "player2": "MAMAMMAMA",
+      "score1": "12",
+      "score2": "11",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2025-12-24",
+      "id": 1766577621500
     }
   ],
   "players": [
@@ -1699,13 +1710,15 @@
     "Test1",
     "test4",
     "Jesus Muñoz",
-    "MAMA"
+    "MAMA",
+    "MAMAMMAMA"
   ],
   "materials": [
     "Velasco+Revo12.9",
     "Lucasi+Revo12.9",
     "Bear+Centro",
-    "Cuetec+cinergy12.5"
+    "Cuetec+cinergy12.5",
+    "rival"
   ],
   "modalityStats": {
     "bola8": {
