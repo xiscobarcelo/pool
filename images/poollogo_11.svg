@@ -24,11 +24,11 @@
 		c1.14-0.02,1.45,0.36,1.45,1.46C145.42,10.21,145.43,18.83,145.43,27.44z"/>
 </g>
 <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="149.0392" y1="28.0147" x2="298" y2="28.0147">
-	<stop  offset="0.325" style="stop-color:#54C3E9"/>
-	<stop  offset="0.3825" style="stop-color:#47C6EC"/>
-	<stop  offset="0.547" style="stop-color:#28CEF4"/>
-	<stop  offset="0.7073" style="stop-color:#12D4FA"/>
-	<stop  offset="0.8599" style="stop-color:#05D8FE"/>
+	<stop  offset="0" style="stop-color:#54C3E9"/>
+	<stop  offset="0.0853" style="stop-color:#47C6EC"/>
+	<stop  offset="0.3295" style="stop-color:#28CEF4"/>
+	<stop  offset="0.5672" style="stop-color:#12D4FA"/>
+	<stop  offset="0.7937" style="stop-color:#05D8FE"/>
 	<stop  offset="0.9967" style="stop-color:#00D9FF"/>
 </linearGradient>
 <path class="st1" d="M238.85,16.04c0.27-0.05,0.49-0.13,0.71-0.13c3.69-0.01,7.39,0.01,11.08-0.02c0.71-0.01,0.92,0.33,1.03,0.93
