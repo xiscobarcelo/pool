@@ -1,6 +1,5 @@
 // ============================================================
 // GESTIÓN DE TORNEOS - Pool Tracker CON CloudSync
-// PARTE 1/3 - Inicialización y Funciones Principales
 // ============================================================
 
 const STORAGE_KEY = 'xisco_matches_data';
