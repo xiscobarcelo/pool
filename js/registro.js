@@ -11,8 +11,7 @@
         ];
         
         let selectedMaterial = null;
-        let matchesData = loadData();
-        let editingMatchId = null; // ID del partido que se está editando
+let matchesData = await loadData();        let editingMatchId = null; // ID del partido que se está editando
         
         // Variables de paginación
         let currentPage = 1;
@@ -149,8 +148,9 @@
         }
 
         // Inicializar
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('matchDate').valueAsDate = new Date();
+document.addEventListener('DOMContentLoaded', async () => {
+    matchesData = await loadData();
+        document.getElementById('matchDate').valueAsDate = new Date();
             renderMaterialChips();
             renderHistory();
             updateModalityStats();
@@ -160,32 +160,27 @@
         });
 
         // Cargar datos del localStorage
-        function loadData() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                const data = JSON.parse(stored);
-                if (data.materials) materials = data.materials;
-                // Asegurar que modalityStats existe
-                if (!data.modalityStats) {
-                    data.modalityStats = {
-                        bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
-                        bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
-                        bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
-                    };
-                }
-                return data;
-            }
-            return {
-                matches: [],
-                players: ['Xisco'],
-                materials: materials,
-                modalityStats: {
-                    bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
-                    bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
-                    bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
-                }
-            };
-        }
+async function loadData() {
+    // ✅ Cargar desde CloudSync
+    const data = await CloudSync.getData();
+    
+    if (data.materials) materials = data.materials;
+    
+    // Asegurar que modalityStats existe
+    if (!data.modalityStats) {
+        data.modalityStats = {
+            bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+            bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+            bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
+        };
+    }
+    
+    return data;
+}
+
+
+
+
 
         // Cargar datos desde GitHub automáticamente
         async function loadFromGitHub() {
@@ -453,10 +448,9 @@
             showSuccess(`✅ Material "${newMaterial}" añadido`);
         }
 
-        // Enviar formulario
-        document.getElementById('matchForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
+        // Enviar formulari           
+         document.getElementById('matchForm').addEventListener('submit', async (e) => {
+                e.preventDefault();        
             if (!selectedMaterial) {
                 alert('⚠️ Por favor, selecciona un material');
                 return;
@@ -479,50 +473,27 @@
                     date: matchDate
                 });
             } else {
-                // MODO CREACIÓN
-                const match = {
-                    player1: 'Xisco',
-                    player2: player2,
-                    score1: score1,
-                    score2: score2,
-                    material1: selectedMaterial,
-                    material2: 'rival',
-                    modality: modality,
-                    date: matchDate,
-                    id: Date.now()
-                };
+// MODO CREACIÓN
+const match = {
+    player1: 'Xisco',
+    player2: player2,
+    score1: score1,
+    score2: score2,
+    material1: selectedMaterial,
+    material2: 'rival',
+    modality: modality,
+    date: matchDate
+    // ✅ No añadas 'id' aquí, CloudSync lo genera automáticamente
+};
 
-                // Añadir jugador a la lista si es nuevo
-                if (!matchesData.players.includes(player2)) {
-                    matchesData.players.push(player2);
-                }
+// ✅ USAR CloudSync para guardar automáticamente
+await CloudSync.addMatch(match);
 
-                // Calcular estadísticas ANTES de añadir
-                const statsBefore = calculateAutoStats();
-                
-                // Añadir partido
-                matchesData.matches.push(match);
-                
-                // Calcular estadísticas DESPUÉS de añadir
-                const statsAfter = calculateAutoStats();
-                
-                // Actualizar modalityStats sumando solo lo nuevo
-                ['bola8', 'bola9', 'bola10'].forEach(mod => {
-                    const diff = {
-                        matchesPlayed: statsAfter[mod].matchesPlayed - statsBefore[mod].matchesPlayed,
-                        matchesWon: statsAfter[mod].matchesWon - statsBefore[mod].matchesWon,
-                        gamesPlayed: statsAfter[mod].gamesPlayed - statsBefore[mod].gamesPlayed,
-                        gamesWon: statsAfter[mod].gamesWon - statsBefore[mod].gamesWon
-                    };
-                    
-                    matchesData.modalityStats[mod].matchesPlayed += diff.matchesPlayed;
-                    matchesData.modalityStats[mod].matchesWon += diff.matchesWon;
-                    matchesData.modalityStats[mod].gamesPlayed += diff.gamesPlayed;
-                    matchesData.modalityStats[mod].gamesWon += diff.gamesWon;
-                });
-                
-                saveData();
-                showSuccess('✅ Partido guardado correctamente');
+// ✅ Recargar datos desde CloudSync
+matchesData = await CloudSync.getData();
+if (matchesData.materials) materials = matchesData.materials;
+
+showSuccess('✅ Partido guardado y sincronizado');
             }
 
             // Limpiar formulario
@@ -781,40 +752,20 @@
         }
 
         // Eliminar partido
-        function deleteMatch(id) {
-            if (confirm('¿Estás seguro de eliminar este partido?')) {
-                // Calcular estadísticas ANTES de eliminar
-                const statsBefore = calculateAutoStats();
-                
-                // Eliminar el partido
-                matchesData.matches = matchesData.matches.filter(m => m.id !== id);
-                
-                // Calcular estadísticas DESPUÉS de eliminar
-                const statsAfter = calculateAutoStats();
-                
-                // Actualizar modalityStats restando solo lo que se eliminó
-                ['bola8', 'bola9', 'bola10'].forEach(mod => {
-                    const diff = {
-                        matchesPlayed: statsBefore[mod].matchesPlayed - statsAfter[mod].matchesPlayed,
-                        matchesWon: statsBefore[mod].matchesWon - statsAfter[mod].matchesWon,
-                        gamesPlayed: statsBefore[mod].gamesPlayed - statsAfter[mod].gamesPlayed,
-                        gamesWon: statsBefore[mod].gamesWon - statsAfter[mod].gamesWon
-                    };
-                    
-                    // Restar la diferencia (mantiene datos manuales adicionales)
-                    matchesData.modalityStats[mod].matchesPlayed = Math.max(0, matchesData.modalityStats[mod].matchesPlayed - diff.matchesPlayed);
-                    matchesData.modalityStats[mod].matchesWon = Math.max(0, matchesData.modalityStats[mod].matchesWon - diff.matchesWon);
-                    matchesData.modalityStats[mod].gamesPlayed = Math.max(0, matchesData.modalityStats[mod].gamesPlayed - diff.gamesPlayed);
-                    matchesData.modalityStats[mod].gamesWon = Math.max(0, matchesData.modalityStats[mod].gamesWon - diff.gamesWon);
-                });
-                
-                saveData();
-                renderHistory();
-                updateModalityStats();
-                showSuccess('🗑️ Partido eliminado');
-            }
-        }
-
+async function deleteMatch(id) {
+    if (confirm('¿Estás seguro de eliminar este partido?')) {
+        // ✅ Eliminar con CloudSync
+        await CloudSync.deleteMatch(id);
+        
+        // ✅ Recargar datos
+        matchesData = await CloudSync.getData();
+        if (matchesData.materials) materials = matchesData.materials;
+        
+        renderHistory();
+        updateModalityStats();
+        showSuccess('🗑️ Partido eliminado y sincronizado');
+    }
+}
         // Descargar data.json
         function downloadData() {
             const dataStr = JSON.stringify(matchesData, null, 2);
@@ -1185,6 +1136,7 @@ Escribe "BORRAR" para confirmar:`;
                 }, 1000);
             }
         });
+
 
 
 
