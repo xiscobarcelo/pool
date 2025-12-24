@@ -1,28 +1,36 @@
 // ========================================
-// CLOUD SYNC - ULTRA SIMPLE & INMEDIATO
+// CLOUD SYNC - FINAL VERSION
+// Sincronización bidireccional automática
 // ========================================
 
 const CloudSync = {
     config: null,
+    syncing: false,
     
     init() {
         const config = localStorage.getItem('xisco_github_config');
         if (config) {
             this.config = JSON.parse(config);
+            console.log('✅ CloudSync configurado para:', this.config.username + '/' + this.config.repo);
+        } else {
+            console.log('⚠️ CloudSync sin configurar (solo local)');
         }
     },
     
     // ========================================
-    // OBTENER DATOS - SÍNCRONO Y DIRECTO
+    // OBTENER DATOS - SIEMPRE DESDE LOCALSTORAGE
     // ========================================
     
     getData() {
         const data = localStorage.getItem('shared_matches_data');
         
         if (data) {
-            return JSON.parse(data);
+            const parsed = JSON.parse(data);
+            console.log('📦 Datos cargados:', parsed.matches.length, 'partidos');
+            return parsed;
         }
         
+        console.log('📦 Sin datos, estructura vacía');
         return {
             matches: [],
             players: ["Xisco"],
@@ -36,18 +44,18 @@ const CloudSync = {
     },
     
     // ========================================
-    // GUARDAR DATOS - INMEDIATO
+    // GUARDAR DATOS - INMEDIATO + BACKGROUND SYNC
     // ========================================
     
     saveData(data) {
-        // Guardar INMEDIATAMENTE en localStorage
+        // 1. Guardar INMEDIATAMENTE en localStorage
         localStorage.setItem('shared_matches_data', JSON.stringify(data));
-        console.log('💾 Guardado local inmediato');
+        console.log('💾 [LOCAL] Guardado:', data.matches.length, 'partidos');
         
-        // Subir a GitHub en segundo plano (no bloquea)
+        // 2. Subir a GitHub en segundo plano
         if (this.config && this.config.token) {
             setTimeout(() => {
-                this.uploadToGitHub(data);
+                this.pushToGitHub(data);
             }, 100);
         }
     },
@@ -59,29 +67,18 @@ const CloudSync = {
     addMatch(match) {
         const data = this.getData();
         
-        // ID único
         match.id = Date.now() + Math.floor(Math.random() * 1000);
-        
-        // Añadir partido
         data.matches.push(match);
         
-        // Añadir jugadores si son nuevos
-        if (!data.players.includes(match.player1)) {
-            data.players.push(match.player1);
-        }
-        if (!data.players.includes(match.player2)) {
-            data.players.push(match.player2);
-        }
-        
-        // Añadir materiales
+        if (!data.players.includes(match.player1)) data.players.push(match.player1);
+        if (!data.players.includes(match.player2)) data.players.push(match.player2);
         if (match.material1 && !data.materials.includes(match.material1)) {
             data.materials.push(match.material1);
         }
         
-        // Guardar INMEDIATAMENTE
         this.saveData(data);
+        console.log('✅ [ADD] Partido añadido. ID:', match.id);
         
-        console.log('✅ Partido añadido:', match.id);
         return data;
     },
     
@@ -92,22 +89,12 @@ const CloudSync = {
     deleteMatch(matchId) {
         const data = this.getData();
         
-        console.log('🔍 Buscando partido ID:', matchId);
-        console.log('📊 Total partidos antes:', data.matches.length);
+        const before = data.matches.length;
+        data.matches = data.matches.filter(m => m.id !== matchId);
+        const after = data.matches.length;
         
-        // Filtrar
-        data.matches = data.matches.filter(m => {
-            const keep = m.id !== matchId;
-            if (!keep) {
-                console.log('🗑️ Eliminando partido:', m);
-            }
-            return keep;
-        });
-        
-        console.log('📊 Total partidos después:', data.matches.length);
-        
-        // Guardar INMEDIATAMENTE
         this.saveData(data);
+        console.log(`🗑️ [DELETE] Partido eliminado. Antes: ${before}, Después: ${after}`);
         
         return data;
     },
@@ -125,15 +112,23 @@ const CloudSync = {
         }
         
         this.saveData(data);
+        console.log('✅ [UPDATE] Partido actualizado. ID:', matchId);
         
         return data;
     },
     
     // ========================================
-    // SUBIR A GITHUB (BACKGROUND)
+    // SUBIR A GITHUB (PUSH)
     // ========================================
     
-    async uploadToGitHub(data) {
+    async pushToGitHub(data) {
+        if (this.syncing) {
+            console.log('⏳ Sync ya en progreso...');
+            return;
+        }
+        
+        this.syncing = true;
+        
         try {
             const apiUrl = `https://api.github.com/repos/${this.config.username}/${this.config.repo}/contents/appx/data.json`;
             
@@ -152,7 +147,7 @@ const CloudSync = {
                     sha = fileData.sha;
                 }
             } catch (e) {
-                console.log('Archivo no existe, creando nuevo');
+                console.log('📝 Creando archivo nuevo en GitHub');
             }
             
             // Subir
@@ -177,20 +172,75 @@ const CloudSync = {
             });
             
             if (response.ok) {
-                console.log('☁️ Subido a GitHub');
-                this.showNotification('☁️ Sincronizado', 'success');
+                console.log('☁️ [PUSH] Subido a GitHub');
+                this.showNotification('☁️ Sincronizado con GitHub');
+            } else {
+                console.error('❌ [PUSH] Error:', response.status);
             }
             
         } catch (error) {
-            console.error('Error GitHub:', error);
+            console.error('❌ [PUSH] Error:', error);
+        } finally {
+            this.syncing = false;
         }
+    },
+    
+    // ========================================
+    // BAJAR DE GITHUB (PULL)
+    // ========================================
+    
+    async pullFromGitHub() {
+        if (!this.config || !this.config.token) {
+            console.log('⚠️ Sin configuración de GitHub');
+            return null;
+        }
+        
+        try {
+            const url = `https://raw.githubusercontent.com/${this.config.username}/${this.config.repo}/main/appx/data.json`;
+            
+            console.log('🔄 [PULL] Descargando desde GitHub...');
+            
+            const response = await fetch(url, {
+                cache: 'no-cache',
+                headers: { 'Accept': 'application/json' }
+            });
+            
+            if (response.ok) {
+                const githubData = await response.json();
+                
+                // Comparar con datos locales
+                const localData = this.getData();
+                
+                console.log('📊 Local:', localData.matches.length, 'partidos');
+                console.log('📊 GitHub:', githubData.matches.length, 'partidos');
+                
+                // Si GitHub tiene más datos recientes, usar esos
+                if (githubData.matches.length !== localData.matches.length) {
+                    localStorage.setItem('shared_matches_data', JSON.stringify(githubData));
+                    console.log('✅ [PULL] Datos actualizados desde GitHub');
+                    this.showNotification('🔄 Actualizado desde GitHub');
+                    return githubData;
+                } else {
+                    console.log('✅ [PULL] Datos ya sincronizados');
+                }
+                
+                return githubData;
+            } else {
+                console.log('⚠️ [PULL] No se pudo descargar:', response.status);
+            }
+            
+        } catch (error) {
+            console.error('❌ [PULL] Error:', error);
+        }
+        
+        return null;
     },
     
     // ========================================
     // NOTIFICACIÓN
     // ========================================
     
-    showNotification(message, type) {
+    showNotification(message) {
         let notif = document.getElementById('sync-notif');
         
         if (!notif) {
@@ -208,7 +258,22 @@ const CloudSync = {
                 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
                 background: linear-gradient(135deg, #00d9ff 0%, #00fff2 100%);
                 color: #0a0a2e;
+                animation: slideIn 0.3s ease-out;
             `;
+            
+            // Añadir estilos de animación
+            if (!document.getElementById('sync-animation-styles')) {
+                const style = document.createElement('style');
+                style.id = 'sync-animation-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(400px); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
             document.body.appendChild(notif);
         }
         
@@ -217,10 +282,12 @@ const CloudSync = {
         
         setTimeout(() => {
             notif.style.display = 'none';
-        }, 2000);
+        }, 2500);
     }
 };
 
 // Inicializar
 CloudSync.init();
 window.CloudSync = CloudSync;
+
+console.log('🚀 CloudSync cargado');
