@@ -1,3 +1,17 @@
+window.addEventListener('DOMContentLoaded', async () => {
+    // Cargar local primero
+    const data = CloudSync.getData();
+    mostrarDatos(data);
+    
+    // Sincronizar con GitHub
+    setTimeout(async () => {
+        const githubData = await CloudSync.pullFromGitHub();
+        if (githubData) {
+            mostrarDatos(githubData);
+        }
+    }, 500);
+});
+
 // ============================================================
 // GESTIÓN DE TORNEOS - Pool Tracker
 // Con sincronización automática a GitHub
