@@ -102,22 +102,6 @@ body {
     );
 }
 
-/* Efecto de brillo sutil en la imagen */
-.header-image::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 40%;
-    background: linear-gradient(to top, 
-        rgba(0, 217, 255, 0.1) 0%, 
-        transparent 100%
-    );
-    z-index: 3;
-    pointer-events: none;
-}
-
 /* Animaciones del header */
 .header-text h1 {
     animation: slideInLeft 0.8s ease-out;
@@ -172,7 +156,7 @@ body {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-10px);
+        transform: translateX(-10px);
     }
 }
 
@@ -605,6 +589,22 @@ h1 {
     .hamburger {
         display: flex;
     }
+	/* Efecto de brillo sutil en la imagen */
+.header-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, 
+        rgba(0, 217, 255, 0.1) 0%, 
+        transparent 100%
+    );
+    z-index: 3;
+    pointer-events: none;
+}
+
 }
 
 /* Responsive */
