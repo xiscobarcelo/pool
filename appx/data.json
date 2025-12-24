@@ -1696,14 +1696,14 @@
     },
     {
       "player1": "Xisco",
-      "player2": "MAMA",
-      "score1": "121",
-      "score2": "12",
-      "material1": "Cuetec+cinergy12.5",
+      "player2": "jon",
+      "score1": "123",
+      "score2": "111",
+      "material1": "Velasco+Revo12.9",
       "material2": "rival",
-      "modality": "Bola 9",
+      "modality": "Bola 8",
       "date": "2025-12-24",
-      "id": 1766577073473
+      "id": 1766577191735
     }
   ],
   "players": [
@@ -1721,7 +1721,8 @@
     "Test1",
     "test4",
     "Jesus Muñoz",
-    "MAMA"
+    "MAMA",
+    "jon"
   ],
   "materials": [
     "Velasco+Revo12.9",
