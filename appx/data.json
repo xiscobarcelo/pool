@@ -1674,14 +1674,25 @@
     },
     {
       "player1": "Xisco",
-      "player2": "jhhhhhhh",
-      "score1": "3",
-      "score2": "2",
-      "material1": "Cuetec+cinergy12.5",
-      "material2": "rival",
+      "player2": "Adrian",
+      "score1": "5",
+      "score2": "6",
+      "material1": "Bear+Centro",
+      "material2": "-",
       "modality": "Bola 9",
+      "date": "2025-12-06",
+      "id": 1765966023323
+    },
+    {
+      "player1": "Xisco",
+      "player2": "PAPAjkghjkhgjh",
+      "score1": "1",
+      "score2": "199",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
       "date": "2025-12-24",
-      "id": 1766578631994
+      "id": 1766577868481
     }
   ],
   "players": [
@@ -1701,8 +1712,7 @@
     "Jesus Muñoz",
     "MAMA",
     "MAMAMMAMA",
-    "PAPAjkghjkhgjh",
-    "jhhhhhhh"
+    "PAPAjkghjkhgjh"
   ],
   "materials": [
     "Velasco+Revo12.9",
@@ -1729,7 +1739,6 @@
       "matchesWon": 119,
       "gamesPlayed": 2050,
       "gamesWon": 1147
-    },
-    "lastUpdated": "2025-12-24T12:10:36.175Z"
+    }
   }
 }
