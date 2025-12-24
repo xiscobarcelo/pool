@@ -1704,17 +1704,6 @@
       "modality": "Bola 8",
       "date": "2025-12-24",
       "id": 1766573921280
-    },
-    {
-      "player1": "Xisco",
-      "player2": "MAMA",
-      "score1": "2",
-      "score2": "1",
-      "material1": "Lucasi+Revo12.9",
-      "material2": "rival",
-      "modality": "Bola 9",
-      "date": "2025-12-24",
-      "id": 1766574050817
     }
   ],
   "players": [
@@ -1748,10 +1737,10 @@
       "gamesWon": 175
     },
     "bola9": {
-      "matchesPlayed": 127,
-      "matchesWon": 89,
-      "gamesPlayed": 1406,
-      "gamesWon": 801
+      "matchesPlayed": 126,
+      "matchesWon": 88,
+      "gamesPlayed": 1403,
+      "gamesWon": 799
     },
     "bola10": {
       "matchesPlayed": 157,
