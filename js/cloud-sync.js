@@ -25,13 +25,17 @@ const CloudSync = {
     
     // Obtener datos actuales (combina localStorage con GitHub)
     async getData() {
-        // Primero intentar GitHub
-        if (this.config) {
+        // Primero verificar localStorage (más rápido)
+        const localData = localStorage.getItem('shared_matches_data');
+        
+        // Si hay configuración de GitHub, intentar obtener desde allí
+        if (this.config && this.config.token) {
             try {
                 const githubData = await this.getFromGitHub();
                 if (githubData) {
                     // Guardar en localStorage como backup
                     localStorage.setItem('shared_matches_data', JSON.stringify(githubData));
+                    console.log('✅ Datos obtenidos desde GitHub');
                     return githubData;
                 }
             } catch (error) {
@@ -40,12 +44,13 @@ const CloudSync = {
         }
         
         // Fallback a localStorage
-        const localData = localStorage.getItem('shared_matches_data');
         if (localData) {
+            console.log('✅ Datos obtenidos desde localStorage');
             return JSON.parse(localData);
         }
         
         // Si no hay datos, retornar estructura vacía
+        console.log('⚠️ No hay datos, retornando estructura vacía');
         return {
             matches: [],
             players: ["Xisco"],

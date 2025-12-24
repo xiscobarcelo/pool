@@ -328,6 +328,9 @@ document.getElementById('matchForm').addEventListener('submit', async (e) => {
             showSuccess('✅ Partido guardado y sincronizado');
         }
 
+        // Esperar un momento para que GitHub termine
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
         // Recargar datos
         matchesData = await CloudSync.getData();
         if (matchesData.materials) materials = matchesData.materials;
@@ -336,6 +339,7 @@ document.getElementById('matchForm').addEventListener('submit', async (e) => {
         resetForm();
 
         // Actualizar UI
+        renderMaterialChips();
         renderHistory();
         updateModalityStats();
         
@@ -399,10 +403,15 @@ async function deleteMatch(id) {
         // ✅ Eliminar con CloudSync (automático)
         await CloudSync.deleteMatch(id);
         
-        // Recargar datos
+        // Esperar un momento para que termine
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Recargar datos FORZANDO desde localStorage
         matchesData = await CloudSync.getData();
         if (matchesData.materials) materials = matchesData.materials;
         
+        // Actualizar UI
+        renderMaterialChips();
         renderHistory();
         updateModalityStats();
         showSuccess('🗑️ Partido eliminado y sincronizado');
