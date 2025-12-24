@@ -36,28 +36,6 @@
         let currentPageStats = 1;
         const itemsPerPageStats = 100;
 
-window.addEventListener('DOMContentLoaded', async () => {
-    console.log('🚀 Inicializando estadísticas...');
-    
-    // 1. Cargar local INMEDIATAMENTE
-    const localData = CloudSync.getData();
-    console.log('📦 Datos locales:', localData.matches.length, 'partidos');
-    
-    currentData = localData;
-    document.getElementById('loading').style.display = 'none';
-    displayDashboard(localData);
-    
-    // 2. Sync GitHub
-    if (CloudSync.config && CloudSync.config.token) {
-        setTimeout(async () => {
-            const githubData = await CloudSync.pullFromGitHub();
-            if (githubData && githubData.matches.length !== localData.matches.length) {
-                currentData = githubData;
-                displayDashboard(githubData);
-            }
-        }, 500);
-    }
-});
         // Configurar el input de archivo
         document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('jsonFileInput');
@@ -65,230 +43,44 @@ window.addEventListener('DOMContentLoaded', async () => {
                 fileInput.addEventListener('change', handleFileUpload);
             }
         });
-
-        async function loadData() {
-            const config = localStorage.getItem('xisco_github_config');
+window.addEventListener('DOMContentLoaded', async () => {
+    console.log('🚀 Inicializando estadísticas...');
+    
+    // 1️⃣ CARGAR DATOS LOCALES INMEDIATAMENTE
+    const localData = CloudSync.getData();
+    console.log('📦 Datos locales cargados:', localData.matches.length, 'partidos');
+    
+    currentData = localData;
+    document.getElementById('loading').style.display = 'none';
+    displayDashboard(localData);
+    
+    // 2️⃣ SINCRONIZAR CON GITHUB EN SEGUNDO PLANO
+    if (CloudSync.config && CloudSync.config.token) {
+        setTimeout(async () => {
+            console.log('🔄 Sincronizando con GitHub...');
             
-            // Primero intentar cargar desde GitHub si está configurado
-            if (config) {
-                try {
-                    const data = JSON.parse(config);
-                    const githubUrl = `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/appx/data.json`;
-                    
-                    console.log('🔄 Cargando desde GitHub:', githubUrl);
-                    
-                    const response = await fetch(githubUrl, {
-                        cache: 'no-cache', // Siempre obtener la versión más reciente
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const githubData = await response.json();
-                        currentData = githubData;
-                        
-                        // Guardar en localStorage como backup
-                        localStorage.setItem('shared_matches_data', JSON.stringify(githubData));
-                        
-                        document.getElementById('loading').style.display = 'none';
-                        displayDashboard(githubData);
-                        showGitHubSyncBanner();
-                        return;
-                    }
-                } catch (error) {
-                    console.error('Error cargando desde GitHub:', error);
-                }
-            }
+            const githubData = await CloudSync.pullFromGitHub();
             
-            // Si GitHub falla, intentar localStorage compartido
-            const sharedData = localStorage.getItem('shared_matches_data');
-            if (sharedData) {
-                try {
-                    const data = JSON.parse(sharedData);
-                    currentData = data;
-                    document.getElementById('loading').style.display = 'none';
-                    displayDashboard(data);
-                    showSharedDataBanner();
-                    return;
-                } catch (error) {
-                    console.error('Error al cargar datos compartidos:', error);
-                }
-            }
-
-            // Fallback: intentar cargar desde servidor original
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                    mode: 'cors'
-                });
+            if (githubData) {
+                console.log('📦 Datos de GitHub:', githubData.matches.length, 'partidos');
                 
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        showFileUploadOption();
-                        return;
-                    }
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // Solo actualizar si hay cambios
+                if (githubData.matches.length !== localData.matches.length) {
+                    console.log('🔄 Actualizando UI con datos de GitHub');
+                    currentData = githubData;
+                    displayDashboard(githubData);
+                } else {
+                    console.log('✅ Datos ya sincronizados');
                 }
-                
-                const data = await response.json();
-                currentData = data;
-                displayDashboard(data);
-            } catch (error) {
-                console.error('Error al cargar datos:', error);
-                showFileUploadOption();
             }
-        }
+        }, 500);
+    } else {
+        console.log('⚠️ Sin configuración de GitHub (solo datos locales)');
+    }
+});
 
-        function showGitHubSyncBanner() {
-            const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);';
-            banner.innerHTML = '☁️ Datos sincronizados desde GitHub (Cloud)';
-            
-            const container = document.querySelector('.container');
-            const header = container.querySelector('header');
-            header.insertAdjacentElement('afterend', banner);
-            
-            setTimeout(() => {
-                banner.style.opacity = '0';
-                banner.style.transition = 'opacity 0.5s';
-                setTimeout(() => banner.remove(), 500);
-            }, 5000);
-        }
 
-        function showSharedDataBanner() {
-            const banner = document.createElement('div');
-            banner.style.cssText = 'background: linear-gradient(135deg,rgba(245, 247, 250, 0) 0%, rgba(232, 236, 241, 1) 100%); color: dark; padding: 16px; text-align: center; border-radius: 12px; margin: 0 auto 20px; max-width: 1400px; font-weight: 600; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);';
-            banner.innerHTML = '✅ Datos sincronizados desde el registro de partidos';
-            
-            const container = document.querySelector('.container');
-            const header = container.querySelector('header');
-            header.insertAdjacentElement('afterend', banner);
-            
-            setTimeout(() => {
-                banner.style.opacity = '0';
-                banner.style.transition = 'opacity 0.5s';
-                setTimeout(() => banner.remove(), 500);
-            }, 5000);
-        }
 
-        function showFileUploadOption() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('fileUploadSection').style.display = 'block';
-        }
-
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    currentData = data;
-                    document.getElementById('fileUploadSection').style.display = 'none';
-                    displayDashboard(data);
-                } catch (error) {
-                    alert('❌ Error al leer el archivo JSON: ' + error.message);
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function loadDemoData() {
-            const demoData = {
-                "matches": [
-                    {
-                        "player1": "Xisco",
-                        "player2": "Juan",
-                        "score1": "3",
-                        "score2": "2",
-                        "material1": "Raqueta A",
-                        "material2": "Raqueta B",
-                        "modality": "Bola 8",
-                        "date": "2025-12-10",
-                        "id": 1
-                    },
-                    {
-                        "player1": "Xisco",
-                        "player2": "Pedro",
-                        "score1": "4",
-                        "score2": "1",
-                        "material1": "Raqueta A",
-                        "material2": "Raqueta C",
-                        "modality": "Bola 9",
-                        "date": "2025-12-11",
-                        "id": 2
-                    },
-                    {
-                        "player1": "Xisco",
-                        "player2": "Juan",
-                        "score1": "2",
-                        "score2": "3",
-                        "material1": "Pelota Pro",
-                        "material2": "Raqueta B",
-                        "modality": "Bola 10",
-                        "date": "2025-12-12",
-                        "id": 3
-                    },
-                    {
-                        "player1": "Juan",
-                        "player2": "Xisco",
-                        "score1": "1",
-                        "score2": "4",
-                        "material1": "Raqueta B",
-                        "material2": "Pelota Pro",
-                        "modality": "Bola 8",
-                        "date": "2025-12-13",
-                        "id": 4
-                    },
-                    {
-                        "player1": "Pedro",
-                        "player2": "Xisco",
-                        "score1": "2",
-                        "score2": "5",
-                        "material1": "Raqueta C",
-                        "material2": "Raqueta A",
-                        "modality": "Bola 9",
-                        "date": "2025-12-14",
-                        "id": 5
-                    }
-                ],
-                "players": ["Xisco", "Juan", "Pedro"],
-                "materials": ["Raqueta A", "Raqueta B", "Raqueta C", "Pelota Pro", "Pelota Standard"],
-                "modalityStats": {
-                    "bola8": {
-                        "matchesPlayed": 10,
-                        "matchesWon": 7,
-                        "gamesPlayed": 42,
-                        "gamesWon": 28
-                    },
-                    "bola9": {
-                        "matchesPlayed": 8,
-                        "matchesWon": 5,
-                        "gamesPlayed": 35,
-                        "gamesWon": 22
-                    },
-                    "bola10": {
-                        "matchesPlayed": 6,
-                        "matchesWon": 4,
-                        "gamesPlayed": 28,
-                        "gamesWon": 18
-                    }
-                }
-            };
-
-            currentData = demoData;
-            document.getElementById('fileUploadSection').style.display = 'none';
-            displayDashboard(demoData);
-        }
-
-        function loadFromRegistration() {
-            window.location.href = 'registro-partidos.html';
-        }
 
         function resetAllDataDashboard() {
             const confirmMessage = `⚠️ ADVERTENCIA IMPORTANTE ⚠️
@@ -1893,6 +1685,7 @@ function updateComparison(matches) {
             document.getElementById('chartsGrid').appendChild(container);
             return container;
         }
+
 
 
 
