@@ -90,11 +90,11 @@ ESTRUCTURA COMPLETA DEL DATA.JSON AMPLIADA:
 const TOURNAMENT_RESULTS = [
     'Campeón',
     'Subcampeón', 
-    'Semifinales',
-    'Cuartos de Final',
-    'Octavos de Final',
-    'Dieciseisavos',
-    'Fase de Grupos',
+    '3º',
+    '5º',
+    '9º',
+    '17º',
+    '33º',
     'Eliminado en Ronda 1',
     'Participación'
 ];
@@ -112,10 +112,10 @@ const DEFAULT_POINTS_SYSTEM = {
     'Campeón': 100,
     'Subcampeón': 75,
     'Semifinales': 50,
-    'Cuartos de Final': 25,
-    'Octavos de Final': 15,
-    'Dieciseisavos': 10,
-    'Fase de Grupos': 5,
+    '5º': 25,
+    '9º': 15,
+    '17º': 10,
+    '33º': 5,
     'Eliminado en Ronda 1': 3,
     'Participación': 1
 };
@@ -201,7 +201,7 @@ function calculateTournamentStats(tournaments) {
         if (t.result === 'Campeón') stats.championships++;
         if (t.result === 'Subcampeón') stats.runnerUps++;
         if (t.result === 'Semifinales') stats.semifinals++;
-        if (t.result === 'Cuartos de Final') stats.quarters++;
+        if (t.result === '5º') stats.quarters++;
         
         // Sumar partidos
         if (t.stats) {
