@@ -632,13 +632,13 @@
       "createdAt": "2025-12-19T14:59:09.892Z"
     },
     {
-      "name": "COPA KK",
+      "name": "kdjsbhxfjkhadkjlfh",
       "date": "2025-12-24",
-      "modality": "Bola 8",
+      "modality": "Bola 10",
       "totalPlayers": 21,
-      "result": "Semifinales",
-      "circuit": "circuit_1766138144155",
-      "cue": "Lucasi+Revo12.9",
+      "result": "Campeón",
+      "circuit": null,
+      "cue": "Velasco+Revo12.9",
       "finalRival": "",
       "notes": "",
       "stats": {
@@ -650,8 +650,8 @@
         "winRate": 0,
         "averageGamesPerMatch": 0
       },
-      "id": "tournament_1766574146512",
-      "createdAt": "2025-12-24T11:02:26.512Z"
+      "id": "tournament_1766574208999",
+      "createdAt": "2025-12-24T11:03:28.999Z"
     }
   ],
   "circuits": [
@@ -1096,5 +1096,5 @@
       "ranking": null
     }
   ],
-  "lastUpdated": "2025-12-24T11:02:34.345Z"
+  "lastUpdated": "2025-12-24T11:03:36.515Z"
 }
