@@ -148,6 +148,12 @@ function renderStatsGrid(totals, unified) {
     const statsGrid = document.getElementById('statsGrid');
     if (!statsGrid) return;
     
+    // Calcular material con más victorias
+    const bestMaterial = calculateBestMaterial();
+    
+    // Aplicar estilo de 4 columnas
+    statsGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+    
     statsGrid.innerHTML = `
         <div class="stat-card primary">
             <div class="stat-icon">🎯</div>
@@ -197,7 +203,64 @@ function renderStatsGrid(totals, unified) {
             <div class="stat-label">Bola 10</div>
             <div class="stat-detail">${unified.bola10.matchesPlayed > 0 ? ((unified.bola10.matchesWon/unified.bola10.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
         </div>
+        
+        <div class="stat-card special">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value">${bestMaterial.winRate}%</div>
+            <div class="stat-label">Mejor Material</div>
+            <div class="stat-detail">${bestMaterial.name}<br>${bestMaterial.wins}/${bestMaterial.total} partidos</div>
+        </div>
     `;
+}
+
+function calculateBestMaterial() {
+    if (!matchesData || !matchesData.matches || matchesData.matches.length === 0) {
+        return { name: 'N/A', wins: 0, total: 0, winRate: 0 };
+    }
+    
+    const materialStats = {};
+    
+    matchesData.matches.forEach(match => {
+        const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
+        const isXiscoP2 = match.player2?.toLowerCase() === 'xisco';
+        
+        if (!isXiscoP1 && !isXiscoP2) return;
+        
+        const material = isXiscoP1 ? match.material1 : match.material2;
+        if (!material) return;
+        
+        const xiscoScore = isXiscoP1 ? parseInt(match.score1) : parseInt(match.score2);
+        const opponentScore = isXiscoP1 ? parseInt(match.score2) : parseInt(match.score1);
+        const won = xiscoScore > opponentScore;
+        
+        if (!materialStats[material]) {
+            materialStats[material] = { total: 0, wins: 0 };
+        }
+        
+        materialStats[material].total++;
+        if (won) materialStats[material].wins++;
+    });
+    
+    let bestMaterial = { name: 'N/A', wins: 0, total: 0, winRate: 0 };
+    let bestWinRate = 0;
+    
+    Object.keys(materialStats).forEach(material => {
+        const stats = materialStats[material];
+        const winRate = stats.total > 0 ? (stats.wins / stats.total * 100) : 0;
+        
+        // Solo considerar materiales con al menos 5 partidos
+        if (stats.total >= 5 && winRate > bestWinRate) {
+            bestWinRate = winRate;
+            bestMaterial = {
+                name: material,
+                wins: stats.wins,
+                total: stats.total,
+                winRate: winRate.toFixed(1)
+            };
+        }
+    });
+    
+    return bestMaterial;
 }
 
 function renderCharts(unified) {
