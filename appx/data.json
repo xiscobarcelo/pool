@@ -997,7 +997,7 @@
       "updatedAt": "2025-12-25T00:20:16.094Z"
     },
     {
-      "name": "Copa Baleares",
+      "name": "Copa Baleares VI",
       "date": "2023-03-25",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -1016,7 +1016,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766622283461",
-      "createdAt": "2025-12-25T00:24:43.461Z"
+      "createdAt": "2025-12-25T00:24:43.461Z",
+      "updatedAt": "2025-12-25T00:28:21.562Z"
     },
     {
       "name": "Copa Baleares",
