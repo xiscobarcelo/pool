@@ -1,15 +1,6 @@
-// ============================================================
-// ESTADISTICAS - VERSION UNIFICADA
-// Suma: Importados + Manuales + Stats Manuales
-// ============================================================
-
 let matchesData = null;
 let unifiedStats = null;
 let charts = {};
-
-// ============================================================
-// INICIALIZACION
-// ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Inicializando estadisticas...');
@@ -42,10 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 500);
     }
 });
-
-// ============================================================
-// CALCULO UNIFICADO
-// ============================================================
 
 function calculateUnifiedStats(matches, modalityStats) {
     console.log('Calculando stats unificadas...');
@@ -148,10 +135,6 @@ function calculateTotalStats(unified) {
     };
 }
 
-// ============================================================
-// RENDERIZAR
-// ============================================================
-
 function renderStats(totals, unified) {
     console.log('Renderizando stats...');
     
@@ -212,7 +195,17 @@ function renderCharts(unified, totals) {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, max: 100, ticks: { callback: function(v) { return v + '%'; } } } }
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        max: 100, 
+                        ticks: { 
+                            callback: function(value) { 
+                                return value + '%'; 
+                            } 
+                        } 
+                    } 
+                }
             }
         });
     }
@@ -242,11 +235,11 @@ function renderCharts(unified, totals) {
 }
 
 function calcularEstadisticas() {
-    console.log('Funcion obsoleta - calculo automatico');
+    console.log('Funcion obsoleta');
 }
 
 function guardarJSON() {
-    console.log('Funcion obsoleta - usa CloudSync');
+    console.log('Funcion obsoleta');
 }
 
 function logout() {
