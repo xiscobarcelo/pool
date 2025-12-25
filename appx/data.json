@@ -1285,6 +1285,28 @@
       },
       "id": "tournament_1766623242424",
       "createdAt": "2025-12-25T00:40:42.424Z"
+    },
+    {
+      "name": "Cto España Sénior",
+      "date": "2023-05-02",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766139214055",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766623302550",
+      "createdAt": "2025-12-25T00:41:42.550Z"
     }
   ],
   "circuits": [
