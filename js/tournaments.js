@@ -619,10 +619,10 @@ function showAddCircuitModal() {
             'Campeón': 100,
             'Subcampeón': 75,
             'Semifinales': 50,
-            'Cuartos de Final': 25,
-            'Octavos de Final': 15,
-            'Dieciseisavos': 10,
-            'Fase de Grupos': 5,
+            '5º': 25,
+            '9º': 15,
+            '17º': 10,
+            '33º': 5,
             'Eliminado en Ronda 1': 3,
             'Participación': 1
         },
@@ -720,8 +720,8 @@ function getResultTrophy(result) {
     if (result === 'Campeón') return '🥇';
     if (result === 'Subcampeón') return '🥈';
     if (result === 'Semifinales') return '🥉';
-    if (result === 'Cuartos de Final') return '🏅';
-    return '🎯';
+    if (result === '5º') return '';
+    return '';
 }
 
 function formatDate(dateString) {
@@ -1377,7 +1377,7 @@ function renderTimelineChart() {
                     ticks: {
                         stepSize: 1,
                         callback: function(value) {
-                            const labels = ['', 'Octavos', 'Cuartos', 'Semi', 'Sub', 'Campeón'];
+                            const labels = ['', '9º', '5º', 'Semi', 'Sub', 'Campeón'];
                             return labels[value] || '';
                         },
                         font: {
