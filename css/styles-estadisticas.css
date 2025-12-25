@@ -12,8 +12,8 @@
 
 /* Card especial para mejor material */
 .stat-card.special {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 100%);
+color: white;
 }
 
 .stat-card.special .stat-icon {
