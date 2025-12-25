@@ -926,6 +926,28 @@
       },
       "id": "tournament_1766621453338",
       "createdAt": "2025-12-25T00:10:53.338Z"
+    },
+    {
+      "name": "Copa Baleares",
+      "date": "2023-11-25",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766137868935",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766621588533",
+      "createdAt": "2025-12-25T00:13:08.533Z"
     }
   ],
   "circuits": [
