@@ -26,7 +26,7 @@ const CloudSync = {
         
         if (data) {
             const parsed = JSON.parse(data);
-            console.log('📦 Datos cargados:', parsed.matches.length, 'partidos');
+            console.log('📦 Datos cargados:', parsed.matches?.length || 0, 'partidos,', parsed.tournaments?.length || 0, 'torneos');
             return parsed;
         }
         
@@ -35,6 +35,7 @@ const CloudSync = {
             matches: [],
             players: ["Xisco"],
             materials: ["Velasco+Revo12.9", "Lucasi+Revo12.9", "Bear+Centro"],
+            tournaments: [],
             modalityStats: {
                 bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
                 bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
@@ -48,14 +49,28 @@ const CloudSync = {
     // ========================================
     
     saveData(data) {
+        // Asegurar que TODOS los datos se preserven
+        const completeData = {
+            matches: data.matches || [],
+            players: data.players || ["Xisco"],
+            materials: data.materials || [],
+            tournaments: data.tournaments || [],
+            circuits: data.circuits || [],
+            modalityStats: data.modalityStats || {
+                bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+                bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+                bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
+            }
+        };
+        
         // 1. Guardar INMEDIATAMENTE en localStorage
-        localStorage.setItem('shared_matches_data', JSON.stringify(data));
-        console.log('💾 [LOCAL] Guardado:', data.matches.length, 'partidos');
+        localStorage.setItem('shared_matches_data', JSON.stringify(completeData));
+        console.log('💾 [LOCAL] Guardado:', completeData.matches.length, 'partidos,', completeData.tournaments.length, 'torneos');
         
         // 2. Subir a GitHub en segundo plano
         if (this.config && this.config.token) {
             setTimeout(() => {
-                this.pushToGitHub(data);
+                this.pushToGitHub(completeData);
             }, 100);
         }
     },
@@ -208,23 +223,41 @@ const CloudSync = {
             if (response.ok) {
                 const githubData = await response.json();
                 
-                // Comparar con datos locales
+                // Obtener datos locales actuales
                 const localData = this.getData();
                 
-                console.log('📊 Local:', localData.matches.length, 'partidos');
-                console.log('📊 GitHub:', githubData.matches.length, 'partidos');
+                console.log('📊 Local:', localData.matches?.length || 0, 'partidos,', localData.tournaments?.length || 0, 'torneos');
+                console.log('📊 GitHub:', githubData.matches?.length || 0, 'partidos,', githubData.tournaments?.length || 0, 'torneos');
                 
-                // Si GitHub tiene más datos recientes, usar esos
-                if (githubData.matches.length !== localData.matches.length) {
-                    localStorage.setItem('shared_matches_data', JSON.stringify(githubData));
+                // Combinar datos: priorizar GitHub pero preservar lo que no venga
+                const mergedData = {
+                    matches: githubData.matches || localData.matches || [],
+                    players: githubData.players || localData.players || ["Xisco"],
+                    materials: githubData.materials || localData.materials || [],
+                    tournaments: githubData.tournaments || localData.tournaments || [],
+                    circuits: githubData.circuits || localData.circuits || [],
+                    modalityStats: githubData.modalityStats || localData.modalityStats || {
+                        bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+                        bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+                        bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
+                    }
+                };
+                
+                // Detectar si hay cambios
+                const hasChanges = 
+                    mergedData.matches.length !== localData.matches.length ||
+                    mergedData.tournaments.length !== localData.tournaments.length;
+                
+                if (hasChanges) {
+                    localStorage.setItem('shared_matches_data', JSON.stringify(mergedData));
                     console.log('✅ [PULL] Datos actualizados desde GitHub');
                     this.showNotification('🔄 Actualizado desde GitHub');
-                    return githubData;
+                    return mergedData;
                 } else {
                     console.log('✅ [PULL] Datos ya sincronizados');
                 }
                 
-                return githubData;
+                return mergedData;
             } else {
                 console.log('⚠️ [PULL] No se pudo descargar:', response.status);
             }
