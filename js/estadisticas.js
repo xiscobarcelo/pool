@@ -177,28 +177,28 @@ function renderStatsGrid(totals, unified) {
         </div>
         
         <div class="stat-card warning">
-            <div class="stat-icon">📊</div>
+            <div class="stat-icon">🏆</div>
             <div class="stat-value">${totals.gameWinRate}%</div>
             <div class="stat-label">Game Win Rate</div>
             <div class="stat-detail">Partidas ganadas</div>
         </div>
         
         <div class="stat-card modality">
-            <div class="stat-icon">🎱</div>
+            <div class="stat-icon"><img src="images/8.svg"></div>
             <div class="stat-value">${unified.bola8.matchesWon}/${unified.bola8.matchesPlayed}</div>
             <div class="stat-label">Bola 8</div>
             <div class="stat-detail">${unified.bola8.matchesPlayed > 0 ? ((unified.bola8.matchesWon/unified.bola8.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
         </div>
         
         <div class="stat-card modality">
-            <div class="stat-icon">🎯</div>
+            <div class="stat-icon"><img src="images/9.svg"></div>
             <div class="stat-value">${unified.bola9.matchesWon}/${unified.bola9.matchesPlayed}</div>
             <div class="stat-label">Bola 9</div>
             <div class="stat-detail">${unified.bola9.matchesPlayed > 0 ? ((unified.bola9.matchesWon/unified.bola9.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
         </div>
         
         <div class="stat-card modality">
-            <div class="stat-icon">🎳</div>
+            <div class="stat-icon"><img src="images/10.svg"></div>
             <div class="stat-value">${unified.bola10.matchesWon}/${unified.bola10.matchesPlayed}</div>
             <div class="stat-label">Bola 10</div>
             <div class="stat-detail">${unified.bola10.matchesPlayed > 0 ? ((unified.bola10.matchesWon/unified.bola10.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
