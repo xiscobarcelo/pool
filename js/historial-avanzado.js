@@ -313,21 +313,17 @@ function renderPagination() {
         `Mostrando ${start}-${end} de ${filteredMatches.length}`;
     
     const buttonsHtml = `
-        <button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>
-            ⏮ Primero
-        </button>
+        
         <button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-            ◀ Anterior
+            ◀ 
         </button>
         <span style="padding: 10px 20px; font-weight: 600; color: var(--dark);">
             ${currentPage} / ${totalPages}
         </span>
         <button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-            Siguiente ▶
+             ▶
         </button>
-        <button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
-            Último ⏭
-        </button>
+      
     `;
     
     document.getElementById('paginationButtons').innerHTML = buttonsHtml;
