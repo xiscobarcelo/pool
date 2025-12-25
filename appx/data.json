@@ -1785,9 +1785,9 @@
       "date": "2025-06-29",
       "modality": "Bola 10",
       "totalPlayers": 23,
-      "result": "Cuartos de Final",
+      "result": "5º",
       "circuit": "circuit_1766139174903",
-      "cue": "Cuetec+cinergy12.5",
+      "cue": "",
       "finalRival": "Diego Pedro Simón",
       "notes": "Club Sierra Billiard's Valencia Pool",
       "stats": {
@@ -1801,7 +1801,7 @@
       },
       "id": "tournament_1766152308879",
       "createdAt": "2025-12-19T13:51:48.879Z",
-      "updatedAt": "2025-12-19T14:23:29.850Z"
+      "updatedAt": "2025-12-25T23:42:45.608Z"
     },
     {
       "name": "Cto España",
