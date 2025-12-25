@@ -844,7 +844,7 @@
       "modality": "Bola 8",
       "totalPlayers": 23,
       "result": "Campeón",
-      "circuit": "circuit_1766138177498",
+      "circuit": "circuit_1766138156616",
       "cue": "Velasco+Revo12.9",
       "finalRival": "Óscar Olivas",
       "notes": "",
@@ -858,7 +858,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766620823966",
-      "createdAt": "2025-12-25T00:00:23.966Z"
+      "createdAt": "2025-12-25T00:00:23.966Z",
+      "updatedAt": "2025-12-25T00:08:25.047Z"
     },
     {
       "name": "Cto Mallorca",
