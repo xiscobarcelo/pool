@@ -1,5 +1,5 @@
 // ============================================================
-// ESTADÍSTICAS - VERSIÓN UNIFICADA
+// ESTADISTICAS - VERSION UNIFICADA
 // Suma: Importados + Manuales + Stats Manuales
 // ============================================================
 
@@ -8,16 +8,16 @@ let unifiedStats = null;
 let charts = {};
 
 // ============================================================
-// INICIALIZACIÓN
+// INICIALIZACION
 // ============================================================
 
 document.addEventListener(‘DOMContentLoaded’, async () => {
-console.log(‘📊 Inicializando estadísticas…’);
+console.log(‘Inicializando estadisticas…’);
 
 ```
 matchesData = CloudSync.getData();
 
-console.log('📦 Datos:', {
+console.log('Datos:', {
     partidos: matchesData.matches?.length || 0,
     torneos: matchesData.tournaments?.length || 0,
     modalityStats: matchesData.modalityStats
@@ -26,8 +26,8 @@ console.log('📦 Datos:', {
 unifiedStats = calculateUnifiedStats(matchesData.matches, matchesData.modalityStats);
 const totals = calculateTotalStats(unifiedStats);
 
-console.log('✅ Stats unificadas:', unifiedStats);
-console.log('✅ Totales:', totals);
+console.log('Stats unificadas:', unifiedStats);
+console.log('Totales:', totals);
 
 renderStats(totals, unifiedStats);
 
@@ -47,17 +47,17 @@ if (CloudSync.config && CloudSync.config.token) {
 });
 
 // ============================================================
-// CÁLCULO UNIFICADO
+// CALCULO UNIFICADO
 // ============================================================
 
 function calculateUnifiedStats(matches, modalityStats) {
-console.log(‘📊 Calculando stats unificadas…’);
+console.log(‘Calculando stats unificadas…’);
 
 ```
 const matchStats = calculateStatsFromMatches(matches);
 
-console.log('  📦 De partidos:', matchStats);
-console.log('  📦 Manuales:', modalityStats);
+console.log('  De partidos:', matchStats);
+console.log('  Manuales:', modalityStats);
 
 if (!modalityStats) {
     return matchStats;
@@ -84,7 +84,7 @@ const unified = {
     }
 };
 
-console.log('  ✅ Unificadas:', unified);
+console.log('  Unificadas:', unified);
 return unified;
 ```
 
@@ -165,7 +165,7 @@ return {
 // ============================================================
 
 function renderStats(totals, unified) {
-console.log(‘🎨 Renderizando stats…’);
+console.log(‘Renderizando stats…’);
 
 ```
 updateElementById('totalMatches', totals.totalMatches);
@@ -182,11 +182,11 @@ updateElementById('matchWinRate', totals.winRate + '%');
     const data = unified[mod];
     const wr = data.matchesPlayed > 0 ? ((data.matchesWon / data.matchesPlayed) * 100).toFixed(1) : 0;
     
-    updateElementById(`${mod}Matches`, data.matchesPlayed);
-    updateElementById(`${mod}MatchesWon`, data.matchesWon);
-    updateElementById(`${mod}Games`, data.gamesPlayed);
-    updateElementById(`${mod}GamesWon`, data.gamesWon);
-    updateElementById(`${mod}WinRate`, wr + '%');
+    updateElementById(mod + 'Matches', data.matchesPlayed);
+    updateElementById(mod + 'MatchesWon', data.matchesWon);
+    updateElementById(mod + 'Games', data.gamesPlayed);
+    updateElementById(mod + 'GamesWon', data.gamesWon);
+    updateElementById(mod + 'WinRate', wr + '%');
 });
 
 if (typeof Chart !== 'undefined') {
@@ -228,7 +228,7 @@ if (charts.winRate) charts.winRate.destroy();
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+            scales: { y: { beginAtZero: true, max: 100, ticks: { callback: function(v) { return v + '%'; } } } }
         }
     });
 }
@@ -260,18 +260,18 @@ if (distChart) {
 }
 
 function calcularEstadisticas() {
-console.log(‘⚠️ Función obsoleta - cálculo automático’);
+console.log(‘Funcion obsoleta - calculo automatico’);
 }
 
 function guardarJSON() {
-console.log(‘⚠️ Función obsoleta - usa CloudSync’);
+console.log(‘Funcion obsoleta - usa CloudSync’);
 }
 
 function logout() {
-if (confirm(’¿Cerrar sesión?’)) {
+if (confirm(‘Cerrar sesion?’)) {
 sessionStorage.removeItem(‘xisco_session_active’);
 window.location.href = ‘index.html’;
 }
 }
 
-console.log(‘✅ estadisticas.js cargado’);
+console.log(‘estadisticas.js cargado’);
