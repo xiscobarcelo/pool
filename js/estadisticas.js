@@ -206,7 +206,7 @@ function renderStatsGrid(totals, unified) {
         </div>
         
         <div class="stat-card special">
-            <div class="stat-icon"><img src="images/10.svg"></div>
+            <div class="stat-icon"><img src="images/cue.svg"  width="50"></div>
              <div class="stat-label">Mejor Material</div>
             <div class="stat-value">${bestMaterial.winRate}%</div>
             <div class="stat-detail">${bestMaterial.name}<br>${bestMaterial.wins}/${bestMaterial.total} partidos</div>
