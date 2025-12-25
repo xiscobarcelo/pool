@@ -237,29 +237,6 @@
       "updatedAt": "2025-12-19T14:10:41.385Z"
     },
     {
-      "name": "Cto España Absoluto",
-      "date": "2024-06-23",
-      "modality": "Bola 9",
-      "totalPlayers": 94,
-      "result": "Dieciseisavos",
-      "circuit": "circuit_1766139186569",
-      "cue": "Lucasi+Revo12.9",
-      "finalRival": "",
-      "notes": "Lo de Eva (Pool & Food)",
-      "stats": {
-        "matchesPlayed": 0,
-        "matchesWon": 0,
-        "matchesLost": 0,
-        "gamesWon": 0,
-        "gamesLost": 0,
-        "winRate": 0,
-        "averageGamesPerMatch": 0
-      },
-      "id": "tournament_1766153022519",
-      "createdAt": "2025-12-19T14:03:42.519Z",
-      "updatedAt": "2025-12-19T14:40:43.163Z"
-    },
-    {
       "name": "Cto de Baleares",
       "date": "2025-03-08",
       "modality": "Bola 8",
