@@ -973,8 +973,8 @@
       "createdAt": "2025-12-25T00:15:52.907Z"
     },
     {
-      "name": "Cto España",
-      "date": "2023-05-22",
+      "name": "Cto España Absoluto",
+      "date": "2023-06-22",
       "modality": "Bola 10",
       "totalPlayers": 92,
       "result": "Dieciseisavos",
@@ -992,7 +992,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766621795857",
-      "createdAt": "2025-12-25T00:16:35.857Z"
+      "createdAt": "2025-12-25T00:16:35.857Z",
+      "updatedAt": "2025-12-25T00:20:16.094Z"
     }
   ],
   "circuits": [
