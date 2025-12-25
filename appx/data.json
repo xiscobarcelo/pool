@@ -859,6 +859,28 @@
       },
       "id": "tournament_1766620823966",
       "createdAt": "2025-12-25T00:00:23.966Z"
+    },
+    {
+      "name": "Cto Mallorca",
+      "date": "2023-12-05",
+      "modality": "Bola 8",
+      "totalPlayers": 24,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766138177498",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Óscar Olivas",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766621097278",
+      "createdAt": "2025-12-25T00:04:57.278Z"
     }
   ],
   "circuits": [
