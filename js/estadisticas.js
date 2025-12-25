@@ -282,7 +282,7 @@ function renderCharts(unified) {
             </div>
         </div>
         
-        <div class="chart-card">
+        <div class="chart-card full-width">
             <h3 class="chart-title">Materiales: Uso y Efectividad</h3>
             <div class="chart-wrapper">
                 <canvas id="materialsChart"></canvas>
@@ -314,7 +314,16 @@ function renderWinRateChart(unified) {
                     unified.bola9.matchesPlayed > 0 ? (unified.bola9.matchesWon / unified.bola9.matchesPlayed * 100) : 0,
                     unified.bola10.matchesPlayed > 0 ? (unified.bola10.matchesWon / unified.bola10.matchesPlayed * 100) : 0
                 ],
-                backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(240, 147, 251, 0.8)'],
+                backgroundColor: [
+                    'rgba(0, 255, 242, 0.8)',
+                    'rgba(0, 217, 255, 0.8)',
+                    'rgba(22, 35, 129, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(0, 255, 242, 1)',
+                    'rgba(0, 217, 255, 1)',
+                    'rgba(22, 35, 129, 1)'
+                ],
                 borderWidth: 2
             }]
         },
@@ -345,8 +354,16 @@ function renderGamesDistChart(unified) {
             labels: ['Bola 8', 'Bola 9', 'Bola 10'],
             datasets: [{
                 data: [unified.bola8.gamesPlayed, unified.bola9.gamesPlayed, unified.bola10.gamesPlayed],
-                backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(240, 147, 251, 0.8)'],
-                borderColor: '#fff',
+                backgroundColor: [
+                    'rgba(0, 255, 242, 0.8)',
+                    'rgba(0, 217, 255, 0.8)',
+                    'rgba(22, 35, 129, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(0, 255, 242, 1)',
+                    'rgba(0, 217, 255, 1)',
+                    'rgba(22, 35, 129, 1)'
+                ],
                 borderWidth: 3
             }]
         },
@@ -409,14 +426,19 @@ function renderMaterialsChart() {
     
     if (charts.materials) charts.materials.destroy();
     
-    // Colores dinámicos basados en win rate
-    const colors = sortedMaterials.map(mat => {
-        const wr = parseFloat(mat.winRate);
-        if (wr >= 70) return 'rgba(34, 197, 94, 0.8)'; // Verde - Excelente
-        if (wr >= 60) return 'rgba(102, 126, 234, 0.8)'; // Azul - Bueno
-        if (wr >= 50) return 'rgba(251, 191, 36, 0.8)'; // Amarillo - Regular
-        return 'rgba(239, 68, 68, 0.8)'; // Rojo - Bajo
-    });
+    // Generar gradiente de colores azules corporativos
+    const generateBlueGradient = (index, total) => {
+        const colors = [
+            'rgba(0, 255, 242, 0.8)',   // Cyan brillante
+            'rgba(0, 217, 255, 0.8)',   // Azul cielo
+            'rgba(22, 35, 129, 0.8)',   // Azul oscuro
+            'rgba(0, 200, 230, 0.8)',   // Azul medio
+            'rgba(50, 80, 180, 0.8)'    // Azul profundo
+        ];
+        return colors[index % colors.length];
+    };
+    
+    const winRateColors = sortedMaterials.map((mat, idx) => generateBlueGradient(idx, sortedMaterials.length));
     
     charts.materials = new Chart(ctx, {
         type: 'bar',
@@ -434,8 +456,8 @@ function renderMaterialsChart() {
                 {
                     label: 'Win Rate (%)',
                     data: sortedMaterials.map(m => parseFloat(m.winRate)),
-                    backgroundColor: colors,
-                    borderColor: colors.map(c => c.replace('0.8', '1')),
+                    backgroundColor: winRateColors,
+                    borderColor: winRateColors.map(c => c.replace('0.8', '1')),
                     borderWidth: 2,
                     yAxisID: 'y1'
                 }
