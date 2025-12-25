@@ -2394,7 +2394,7 @@
       "date": "2024-12-24",
       "modality": "Bola 10",
       "totalPlayers": 94,
-      "result": "Octavos de Final",
+      "result": "9º",
       "circuit": "circuit_1766307078500",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
@@ -2409,7 +2409,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594504595",
-      "createdAt": "2025-12-24T16:41:44.595Z"
+      "createdAt": "2025-12-24T16:41:44.595Z",
+      "updatedAt": "2025-12-25T23:42:21.206Z"
     },
     {
       "name": "Cto Europa Sénior 24 Selección",
