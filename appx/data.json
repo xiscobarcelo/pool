@@ -1151,6 +1151,28 @@
       },
       "id": "tournament_1766622711433",
       "createdAt": "2025-12-25T00:31:51.433Z"
+    },
+    {
+      "name": "Máster",
+      "date": "2023-03-25",
+      "modality": "Bola 10",
+      "totalPlayers": 16,
+      "result": "Campeón",
+      "circuit": "circuit_1766137887662",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Faust",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766622797850",
+      "createdAt": "2025-12-25T00:33:17.850Z"
     }
   ],
   "circuits": [
