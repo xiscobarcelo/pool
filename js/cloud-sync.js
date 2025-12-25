@@ -133,6 +133,21 @@ const CloudSync = {
     },
     
     // ========================================
+    // ACTUALIZAR ESTADÍSTICAS DE MODALIDAD
+    // ========================================
+    
+    updateModalityStats(modalityStats) {
+        const data = this.getData();
+        data.modalityStats = modalityStats;
+        data.modalityStats.lastUpdated = new Date().toISOString();
+        
+        this.saveData(data);
+        console.log('✅ [UPDATE] Estadísticas de modalidad actualizadas');
+        
+        return data;
+    },
+    
+    // ========================================
     // SUBIR A GITHUB (PUSH)
     // ========================================
     
@@ -229,34 +244,39 @@ const CloudSync = {
                 console.log('📊 Local:', localData.matches?.length || 0, 'partidos,', localData.tournaments?.length || 0, 'torneos');
                 console.log('📊 GitHub:', githubData.matches?.length || 0, 'partidos,', githubData.tournaments?.length || 0, 'torneos');
                 
-                // Combinar datos: priorizar GitHub pero preservar lo que no venga
+                // ⚠️ IMPORTANTE: Solo actualizar si GitHub tiene MÁS datos
+                // Nunca sobrescribir si local tiene más datos recientes
+                const localMatchesCount = localData.matches?.length || 0;
+                const githubMatchesCount = githubData.matches?.length || 0;
+                const localTournamentsCount = localData.tournaments?.length || 0;
+                const githubTournamentsCount = githubData.tournaments?.length || 0;
+                
+                // Si local tiene MÁS o IGUAL, NO actualizar desde GitHub
+                if (localMatchesCount >= githubMatchesCount && localTournamentsCount >= githubTournamentsCount) {
+                    console.log('✅ [PULL] Local tiene datos más recientes o iguales - NO sobrescribir');
+                    return localData;
+                }
+                
+                // Solo si GitHub tiene MÁS datos, combinar inteligentemente
                 const mergedData = {
-                    matches: githubData.matches || localData.matches || [],
-                    players: githubData.players || localData.players || ["Xisco"],
-                    materials: githubData.materials || localData.materials || [],
-                    tournaments: githubData.tournaments || localData.tournaments || [],
+                    // Usar el que tenga MÁS datos
+                    matches: githubMatchesCount > localMatchesCount ? githubData.matches : localData.matches,
+                    tournaments: githubTournamentsCount > localTournamentsCount ? githubData.tournaments : localData.tournaments,
+                    
+                    // Para el resto, combinar
+                    players: [...new Set([...(localData.players || []), ...(githubData.players || [])])],
+                    materials: [...new Set([...(localData.materials || []), ...(githubData.materials || [])])],
                     circuits: githubData.circuits || localData.circuits || [],
-                    modalityStats: githubData.modalityStats || localData.modalityStats || {
+                    modalityStats: localData.modalityStats || githubData.modalityStats || {
                         bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
                         bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
                         bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
                     }
                 };
                 
-                // Detectar si hay cambios
-                const hasChanges = 
-                    mergedData.matches.length !== localData.matches.length ||
-                    mergedData.tournaments.length !== localData.tournaments.length;
-                
-                if (hasChanges) {
-                    localStorage.setItem('shared_matches_data', JSON.stringify(mergedData));
-                    console.log('✅ [PULL] Datos actualizados desde GitHub');
-                    this.showNotification('🔄 Actualizado desde GitHub');
-                    return mergedData;
-                } else {
-                    console.log('✅ [PULL] Datos ya sincronizados');
-                }
-                
+                localStorage.setItem('shared_matches_data', JSON.stringify(mergedData));
+                console.log('✅ [PULL] Datos combinados desde GitHub');
+                this.showNotification('🔄 Sincronizado desde GitHub');
                 return mergedData;
             } else {
                 console.log('⚠️ [PULL] No se pudo descargar:', response.status);
