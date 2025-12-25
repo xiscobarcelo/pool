@@ -1301,10 +1301,10 @@ function renderTimelineChart() {
         'Campeón': 5,
         'Subcampeón': 4,
         'Semifinales': 3,
-        'Cuartos de Final': 2,
-        'Octavos de Final': 1,
-        'Dieciseisavos': 1,
-        'Fase de Grupos': 1,
+        '5º': 2,
+        '9º': 1,
+        '17º': 1,
+        '33º': 1,
         'Eliminado en Ronda 1': 0,
         'Participación': 0
     };
