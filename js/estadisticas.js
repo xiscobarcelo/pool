@@ -5,6 +5,10 @@ let charts = {};
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Inicializando estadisticas...');
     
+    // Ocultar loading y mostrar contenido
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    
     matchesData = CloudSync.getData();
     
     console.log('Datos:', {
@@ -19,7 +23,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Stats unificadas:', unifiedStats);
     console.log('Totales:', totals);
     
-    renderStats(totals, unifiedStats);
+    renderStatsGrid(totals, unifiedStats);
+    renderCharts(unifiedStats);
+    loadModalityInputs();
     
     if (CloudSync.config && CloudSync.config.token) {
         setTimeout(async () => {
@@ -28,7 +34,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 matchesData = githubData;
                 const newUnified = calculateUnifiedStats(matchesData.matches, matchesData.modalityStats);
                 const newTotals = calculateTotalStats(newUnified);
-                renderStats(newTotals, newUnified);
+                renderStatsGrid(newTotals, newUnified);
+                renderCharts(newUnified);
             }
         }, 500);
     }
@@ -135,117 +142,219 @@ function calculateTotalStats(unified) {
     };
 }
 
-function renderStats(totals, unified) {
-    console.log('Renderizando stats...');
+function renderStatsGrid(totals, unified) {
+    console.log('Renderizando stats grid...');
     
-    updateElementById('totalMatches', totals.totalMatches);
-    updateElementById('totalMatchesWon', totals.totalMatchesWon);
-    updateElementById('totalMatchesLost', totals.totalMatchesLost);
-    updateElementById('totalGames', totals.totalGames);
-    updateElementById('totalGamesWon', totals.totalGamesWon);
-    updateElementById('totalGamesLost', totals.totalGamesLost);
-    updateElementById('winRate', totals.winRate + '%');
-    updateElementById('gameWinRate', totals.gameWinRate + '%');
-    updateElementById('matchWinRate', totals.winRate + '%');
+    const statsGrid = document.getElementById('statsGrid');
+    if (!statsGrid) return;
     
-    ['bola8', 'bola9', 'bola10'].forEach(mod => {
-        const data = unified[mod];
-        const wr = data.matchesPlayed > 0 ? ((data.matchesWon / data.matchesPlayed) * 100).toFixed(1) : 0;
+    statsGrid.innerHTML = `
+        <div class="stat-card primary">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value">${totals.totalMatches}</div>
+            <div class="stat-label">Partidos Totales</div>
+            <div class="stat-detail">${totals.totalMatchesWon} ganados • ${totals.totalMatchesLost} perdidos</div>
+        </div>
         
-        updateElementById(mod + 'Matches', data.matchesPlayed);
-        updateElementById(mod + 'MatchesWon', data.matchesWon);
-        updateElementById(mod + 'Games', data.gamesPlayed);
-        updateElementById(mod + 'GamesWon', data.gamesWon);
-        updateElementById(mod + 'WinRate', wr + '%');
+        <div class="stat-card success">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value">${totals.winRate}%</div>
+            <div class="stat-label">Win Rate</div>
+            <div class="stat-detail">Partidos ganados</div>
+        </div>
+        
+        <div class="stat-card info">
+            <div class="stat-icon">🎱</div>
+            <div class="stat-value">${totals.totalGames}</div>
+            <div class="stat-label">Partidas Totales</div>
+            <div class="stat-detail">${totals.totalGamesWon} ganadas • ${totals.totalGamesLost} perdidas</div>
+        </div>
+        
+        <div class="stat-card warning">
+            <div class="stat-icon">📊</div>
+            <div class="stat-value">${totals.gameWinRate}%</div>
+            <div class="stat-label">Game Win Rate</div>
+            <div class="stat-detail">Partidas ganadas</div>
+        </div>
+        
+        <div class="stat-card modality">
+            <div class="stat-icon">🎱</div>
+            <div class="stat-value">${unified.bola8.matchesWon}/${unified.bola8.matchesPlayed}</div>
+            <div class="stat-label">Bola 8</div>
+            <div class="stat-detail">${unified.bola8.matchesPlayed > 0 ? ((unified.bola8.matchesWon/unified.bola8.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+        </div>
+        
+        <div class="stat-card modality">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-value">${unified.bola9.matchesWon}/${unified.bola9.matchesPlayed}</div>
+            <div class="stat-label">Bola 9</div>
+            <div class="stat-detail">${unified.bola9.matchesPlayed > 0 ? ((unified.bola9.matchesWon/unified.bola9.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+        </div>
+        
+        <div class="stat-card modality">
+            <div class="stat-icon">🎳</div>
+            <div class="stat-value">${unified.bola10.matchesWon}/${unified.bola10.matchesPlayed}</div>
+            <div class="stat-label">Bola 10</div>
+            <div class="stat-detail">${unified.bola10.matchesPlayed > 0 ? ((unified.bola10.matchesWon/unified.bola10.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+        </div>
+    `;
+}
+
+function renderCharts(unified) {
+    const chartsGrid = document.getElementById('chartsGrid');
+    if (!chartsGrid) return;
+    
+    chartsGrid.innerHTML = `
+        <div class="chart-card">
+            <h3 class="chart-title">Win Rate por Modalidad</h3>
+            <div class="chart-wrapper">
+                <canvas id="winRateChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <h3 class="chart-title">Distribucion de Partidas</h3>
+            <div class="chart-wrapper">
+                <canvas id="gamesDistChart"></canvas>
+            </div>
+        </div>
+    `;
+    
+    setTimeout(() => {
+        renderWinRateChart(unified);
+        renderGamesDistChart(unified);
+    }, 100);
+}
+
+function renderWinRateChart(unified) {
+    const ctx = document.getElementById('winRateChart');
+    if (!ctx) return;
+    
+    if (charts.winRate) charts.winRate.destroy();
+    
+    charts.winRate = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Bola 8', 'Bola 9', 'Bola 10'],
+            datasets: [{
+                label: 'Win Rate (%)',
+                data: [
+                    unified.bola8.matchesPlayed > 0 ? (unified.bola8.matchesWon / unified.bola8.matchesPlayed * 100) : 0,
+                    unified.bola9.matchesPlayed > 0 ? (unified.bola9.matchesWon / unified.bola9.matchesPlayed * 100) : 0,
+                    unified.bola10.matchesPlayed > 0 ? (unified.bola10.matchesWon / unified.bola10.matchesPlayed * 100) : 0
+                ],
+                backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(240, 147, 251, 0.8)'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { 
+                y: { 
+                    beginAtZero: true, 
+                    max: 100, 
+                    ticks: { callback: function(value) { return value + '%'; } } 
+                } 
+            }
+        }
     });
+}
+
+function renderGamesDistChart(unified) {
+    const ctx = document.getElementById('gamesDistChart');
+    if (!ctx) return;
     
-    if (typeof Chart !== 'undefined') {
-        renderCharts(unified, totals);
-    }
-}
-
-function updateElementById(id, value) {
-    const el = document.getElementById(id);
-    if (el) {
-        el.textContent = value;
-    }
-}
-
-function renderCharts(unified, totals) {
-    const wrChart = document.getElementById('winRateChart');
-    if (wrChart) {
-        if (charts.winRate) charts.winRate.destroy();
-        
-        charts.winRate = new Chart(wrChart, {
-            type: 'bar',
-            data: {
-                labels: ['Bola 8', 'Bola 9', 'Bola 10'],
-                datasets: [{
-                    label: 'Win Rate (%)',
-                    data: [
-                        unified.bola8.matchesPlayed > 0 ? (unified.bola8.matchesWon / unified.bola8.matchesPlayed * 100) : 0,
-                        unified.bola9.matchesPlayed > 0 ? (unified.bola9.matchesWon / unified.bola9.matchesPlayed * 100) : 0,
-                        unified.bola10.matchesPlayed > 0 ? (unified.bola10.matchesWon / unified.bola10.matchesPlayed * 100) : 0
-                    ],
-                    backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(240, 147, 251, 0.8)'],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { 
-                    y: { 
-                        beginAtZero: true, 
-                        max: 100, 
-                        ticks: { 
-                            callback: function(value) { 
-                                return value + '%'; 
-                            } 
-                        } 
-                    } 
-                }
-            }
-        });
-    }
+    if (charts.gamesDist) charts.gamesDist.destroy();
     
-    const distChart = document.getElementById('gamesDistributionChart');
-    if (distChart) {
-        if (charts.distribution) charts.distribution.destroy();
-        
-        charts.distribution = new Chart(distChart, {
-            type: 'doughnut',
-            data: {
-                labels: ['Bola 8', 'Bola 9', 'Bola 10'],
-                datasets: [{
-                    data: [unified.bola8.gamesPlayed, unified.bola9.gamesPlayed, unified.bola10.gamesPlayed],
-                    backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(240, 147, 251, 0.8)'],
-                    borderColor: '#fff',
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom' } }
-            }
-        });
-    }
+    charts.gamesDist = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Bola 8', 'Bola 9', 'Bola 10'],
+            datasets: [{
+                data: [unified.bola8.gamesPlayed, unified.bola9.gamesPlayed, unified.bola10.gamesPlayed],
+                backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(118, 75, 162, 0.8)', 'rgba(240, 147, 251, 0.8)'],
+                borderColor: '#fff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
 }
 
-function calcularEstadisticas() {
-    console.log('Funcion obsoleta');
+function loadModalityInputs() {
+    if (!matchesData.modalityStats) return;
+    
+    const stats = matchesData.modalityStats;
+    
+    document.getElementById('bola8_played').value = stats.bola8?.matchesPlayed || 0;
+    document.getElementById('bola8_won').value = stats.bola8?.matchesWon || 0;
+    document.getElementById('bola8_games_played').value = stats.bola8?.gamesPlayed || 0;
+    document.getElementById('bola8_games_won').value = stats.bola8?.gamesWon || 0;
+    
+    document.getElementById('bola9_played').value = stats.bola9?.matchesPlayed || 0;
+    document.getElementById('bola9_won').value = stats.bola9?.matchesWon || 0;
+    document.getElementById('bola9_games_played').value = stats.bola9?.gamesPlayed || 0;
+    document.getElementById('bola9_games_won').value = stats.bola9?.gamesWon || 0;
+    
+    document.getElementById('bola10_played').value = stats.bola10?.matchesPlayed || 0;
+    document.getElementById('bola10_won').value = stats.bola10?.matchesWon || 0;
+    document.getElementById('bola10_games_played').value = stats.bola10?.gamesPlayed || 0;
+    document.getElementById('bola10_games_won').value = stats.bola10?.gamesWon || 0;
 }
 
-function guardarJSON() {
-    console.log('Funcion obsoleta');
-}
+document.getElementById('saveModalityBtn')?.addEventListener('click', () => {
+    const data = CloudSync.getData();
+    
+    data.modalityStats = {
+        bola8: {
+            matchesPlayed: parseInt(document.getElementById('bola8_played').value) || 0,
+            matchesWon: parseInt(document.getElementById('bola8_won').value) || 0,
+            gamesPlayed: parseInt(document.getElementById('bola8_games_played').value) || 0,
+            gamesWon: parseInt(document.getElementById('bola8_games_won').value) || 0
+        },
+        bola9: {
+            matchesPlayed: parseInt(document.getElementById('bola9_played').value) || 0,
+            matchesWon: parseInt(document.getElementById('bola9_won').value) || 0,
+            gamesPlayed: parseInt(document.getElementById('bola9_games_played').value) || 0,
+            gamesWon: parseInt(document.getElementById('bola9_games_won').value) || 0
+        },
+        bola10: {
+            matchesPlayed: parseInt(document.getElementById('bola10_played').value) || 0,
+            matchesWon: parseInt(document.getElementById('bola10_won').value) || 0,
+            gamesPlayed: parseInt(document.getElementById('bola10_games_played').value) || 0,
+            gamesWon: parseInt(document.getElementById('bola10_games_won').value) || 0
+        }
+    };
+    
+    CloudSync.saveData(data);
+    
+    matchesData = data;
+    unifiedStats = calculateUnifiedStats(matchesData.matches, matchesData.modalityStats);
+    const totals = calculateTotalStats(unifiedStats);
+    
+    renderStatsGrid(totals, unifiedStats);
+    renderCharts(unifiedStats);
+    
+    alert('Estadisticas guardadas exitosamente');
+});
 
-function logout() {
+function logoutDashboard() {
     if (confirm('Cerrar sesion?')) {
         sessionStorage.removeItem('xisco_session_active');
         window.location.href = 'index.html';
+    }
+}
+
+function resetAllDataDashboard() {
+    if (confirm('Esto borrara TODOS los datos. Continuar?')) {
+        localStorage.clear();
+        location.reload();
     }
 }
 
