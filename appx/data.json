@@ -1241,6 +1241,28 @@
       },
       "id": "tournament_1766623076708",
       "createdAt": "2025-12-25T00:37:56.708Z"
+    },
+    {
+      "name": "Copa Sénior VI",
+      "date": "2023-02-25",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766139214055",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Agustín Torga",
+      "notes": "VBillares Salamanca",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766623137225",
+      "createdAt": "2025-12-25T00:38:57.225Z"
     }
   ],
   "circuits": [
