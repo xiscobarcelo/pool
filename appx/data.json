@@ -882,6 +882,28 @@
       },
       "id": "tournament_1766621097278",
       "createdAt": "2025-12-25T00:04:57.278Z"
+    },
+    {
+      "name": "Cto Mallorca",
+      "date": "2023-12-23",
+      "modality": "Bola 10",
+      "totalPlayers": 26,
+      "result": "Campeón",
+      "circuit": "circuit_1766138177498",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Guillermo",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766621382432",
+      "createdAt": "2025-12-25T00:09:42.432Z"
     }
   ],
   "circuits": [
