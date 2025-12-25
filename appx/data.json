@@ -1061,6 +1061,28 @@
       },
       "id": "tournament_1766622412714",
       "createdAt": "2025-12-25T00:26:52.714Z"
+    },
+    {
+      "name": "Copa Baleares V",
+      "date": "2023-02-25",
+      "modality": "Bola 10",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766137887662",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766622462930",
+      "createdAt": "2025-12-25T00:27:42.930Z"
     }
   ],
   "circuits": [
