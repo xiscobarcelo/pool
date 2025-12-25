@@ -1175,6 +1175,28 @@
       },
       "id": "tournament_1766622797850",
       "createdAt": "2025-12-25T00:33:17.850Z"
+    },
+    {
+      "name": "Copa Sénior I",
+      "date": "2022-09-25",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Cuartos de Final",
+      "circuit": "circuit_1766139214055",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766622950752",
+      "createdAt": "2025-12-25T00:35:50.752Z"
     }
   ],
   "circuits": [
