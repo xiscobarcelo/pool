@@ -1,114 +1,157 @@
-window.addEventListener('DOMContentLoaded', async () => {
-    // Cargar local primero
-    const data = CloudSync.getData();
-    mostrarDatos(data);
-    
-    // Sincronizar con GitHub
-    setTimeout(async () => {
-        const githubData = await CloudSync.pullFromGitHub();
-        if (githubData) {
-            mostrarDatos(githubData);
-        }
-    }, 500);
-});
+// ============================================================
+// HISTORIAL AVANZADO CON ESTADÍSTICAS UNIFICADAS
+// Incluye: Partidos registrados + Stats manuales
+// ============================================================
 
-// ========================================
-// HISTORIAL AVANZADO CON FILTROS
-// ========================================
-
-const GITHUB_CONFIG_KEY = 'xisco_github_config';
 let allMatches = [];
 let filteredMatches = [];
 let currentPage = 1;
-const itemsPerPage = 50;
+let matchesPerPage = 20;
 let winsChart = null;
 
-// ========================================
-// CARGA DE DATOS
-// ========================================
-
-window.addEventListener('DOMContentLoaded', loadData);
-
-async function loadData() {
-    const config = localStorage.getItem('xisco_github_config');
-    
-    // Intentar cargar desde GitHub
-    if (config) {
-        try {
-            const data = JSON.parse(config);
-            const githubUrl = `https://raw.githubusercontent.com/${data.username}/${data.repo}/main/appx/data.json`;
-            
-            console.log('🔄 Cargando desde GitHub:', githubUrl);
-            
-            const response = await fetch(githubUrl, {
-                cache: 'no-cache',
-                headers: { 'Accept': 'application/json' }
-            });
-            
-            if (response.ok) {
-                const githubData = await response.json();
-                localStorage.setItem('shared_matches_data', JSON.stringify(githubData));
-                initializeHistory(githubData);
-                return;
-            }
-        } catch (error) {
-            console.error('Error cargando desde GitHub:', error);
-        }
-    }
-    
-    // Intentar localStorage
-    const sharedData = localStorage.getItem('shared_matches_data');
-    if (sharedData) {
-        try {
-            const data = JSON.parse(sharedData);
-            initializeHistory(data);
-            return;
-        } catch (error) {
-            console.error('Error al cargar datos compartidos:', error);
-        }
-    }
-
-    // Mostrar mensaje de error
-    document.getElementById('loading').style.display = 'none';
-    showEmptyState('No se encontraron datos', 'Registra tu primer partido en la sección de Partidos');
-}
-
-// ========================================
+// ============================================================
 // INICIALIZACIÓN
-// ========================================
+// ============================================================
 
-function initializeHistory(data) {
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('🎯 Iniciando historial...');
+    
+    const data = CloudSync.getData();
     allMatches = data.matches || [];
     
-    // Filtrar solo partidos de Xisco
-    allMatches = allMatches.filter(m => 
-        m.player1.toLowerCase() === 'xisco' || m.player2.toLowerCase() === 'xisco'
-    );
+    console.log('📦 Partidos cargados:', allMatches.length);
     
-    // Ordenar por fecha (más reciente primero)
-    allMatches.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Cargar datos y mostrar
+    initializeFilters();
+    applyFilters();
     
-    filteredMatches = [...allMatches];
-    
+    // Ocultar loading, mostrar contenido
     document.getElementById('loading').style.display = 'none';
     document.getElementById('content').style.display = 'block';
     
-    // Poblar filtros
-    populateFilters();
+    // Sincronizar con GitHub si está configurado
+    if (CloudSync.config && CloudSync.config.token) {
+        setTimeout(async () => {
+            const githubData = await CloudSync.pullFromGitHub();
+            if (githubData && githubData.matches) {
+                allMatches = githubData.matches;
+                applyFilters();
+            }
+        }, 500);
+    }
+});
+
+// ============================================================
+// CALCULAR ESTADÍSTICAS UNIFICADAS
+// ============================================================
+
+function calculateUnifiedStats() {
+    const data = CloudSync.getData();
     
-    // Actualizar visualización
-    updateStats();
-    updateChart();
-    displayMatches();
+    // 1. Stats desde partidos registrados
+    const matchStats = calculateStatsFromMatches(data.matches);
+    
+    // 2. Stats manuales
+    const modalityStats = data.modalityStats || {};
+    
+    // 3. Unificar
+    const unified = {
+        bola8: {
+            matchesPlayed: matchStats.bola8.matchesPlayed + (modalityStats.bola8?.matchesPlayed || 0),
+            matchesWon: matchStats.bola8.matchesWon + (modalityStats.bola8?.matchesWon || 0)
+        },
+        bola9: {
+            matchesPlayed: matchStats.bola9.matchesPlayed + (modalityStats.bola9?.matchesPlayed || 0),
+            matchesWon: matchStats.bola9.matchesWon + (modalityStats.bola9?.matchesWon || 0)
+        },
+        bola10: {
+            matchesPlayed: matchStats.bola10.matchesPlayed + (modalityStats.bola10?.matchesPlayed || 0),
+            matchesWon: matchStats.bola10.matchesWon + (modalityStats.bola10?.matchesWon || 0)
+        }
+    };
+    
+    // 4. Calcular totales
+    let totalMatches = 0;
+    let totalWins = 0;
+    
+    ['bola8', 'bola9', 'bola10'].forEach(mod => {
+        totalMatches += unified[mod].matchesPlayed || 0;
+        totalWins += unified[mod].matchesWon || 0;
+    });
+    
+    const totalLosses = totalMatches - totalWins;
+    const winRate = totalMatches > 0 ? ((totalWins / totalMatches) * 100).toFixed(1) : 0;
+    
+    return {
+        totalMatches,
+        totalWins,
+        totalLosses,
+        winRate
+    };
 }
 
-// ========================================
-// FILTROS
-// ========================================
+function calculateStatsFromMatches(matches) {
+    const stats = {
+        bola8: { matchesPlayed: 0, matchesWon: 0 },
+        bola9: { matchesPlayed: 0, matchesWon: 0 },
+        bola10: { matchesPlayed: 0, matchesWon: 0 }
+    };
 
-function populateFilters() {
+    if (!matches || matches.length === 0) return stats;
+
+    matches.forEach(match => {
+        const modality = match.modality?.toLowerCase().replace(/\s+/g, '') || '';
+        const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
+        const isXiscoP2 = match.player2?.toLowerCase() === 'xisco';
+        
+        if (!isXiscoP1 && !isXiscoP2) return;
+
+        const xiscoScore = isXiscoP1 ? parseInt(match.score1) : parseInt(match.score2);
+        const opponentScore = isXiscoP1 ? parseInt(match.score2) : parseInt(match.score1);
+        const xiscoWon = xiscoScore > opponentScore;
+
+        let key = null;
+        if (modality.includes('8') || modality.includes('bola8')) key = 'bola8';
+        else if (modality.includes('9') || modality.includes('bola9')) key = 'bola9';
+        else if (modality.includes('10') || modality.includes('bola10')) key = 'bola10';
+
+        if (key) {
+            stats[key].matchesPlayed += 1;
+            if (xiscoWon) stats[key].matchesWon += 1;
+        }
+    });
+
+    return stats;
+}
+
+// ============================================================
+// ACTUALIZAR CARDS DE TOTALES
+// ============================================================
+
+function updateStatsCards() {
+    const totals = calculateUnifiedStats();
+    
+    console.log('📊 Totales unificados:', totals);
+    
+    document.getElementById('totalMatches').textContent = totals.totalMatches;
+    document.getElementById('totalWins').textContent = totals.totalWins;
+    document.getElementById('totalLosses').textContent = totals.totalLosses;
+    document.getElementById('winRate').textContent = totals.winRate + '%';
+    
+    updateChart(totals.totalWins, totals.totalLosses);
+}
+
+// ============================================================
+// INICIALIZAR FILTROS
+// ============================================================
+
+function initializeFilters() {
     // Años únicos
-    const years = [...new Set(allMatches.map(m => new Date(m.date).getFullYear()))].sort((a, b) => b - a);
+    const years = [...new Set(allMatches.map(m => {
+        const date = new Date(m.date);
+        return date.getFullYear();
+    }))].sort((a, b) => b - a);
+    
     const yearSelect = document.getElementById('filterYear');
     years.forEach(year => {
         const option = document.createElement('option');
@@ -118,73 +161,68 @@ function populateFilters() {
     });
     
     // Modalidades únicas
-    const modalities = [...new Set(allMatches.map(m => m.modality))].sort();
+    const modalities = [...new Set(allMatches.map(m => m.modality))].filter(Boolean).sort();
     const modalitySelect = document.getElementById('filterModality');
-    modalities.forEach(modality => {
+    modalities.forEach(mod => {
         const option = document.createElement('option');
-        option.value = modality;
-        option.textContent = modality;
+        option.value = mod;
+        option.textContent = mod;
         modalitySelect.appendChild(option);
     });
     
-    // Materiales únicos (solo de Xisco)
-    const materials = new Set();
-    allMatches.forEach(m => {
-        const isXiscoPlayer1 = m.player1.toLowerCase() === 'xisco';
-        const material = isXiscoPlayer1 ? m.material1 : m.material2;
-        materials.add(material);
-    });
+    // Materiales únicos (de Xisco)
+    const materials = [...new Set(allMatches.map(m => {
+        const isXiscoP1 = m.player1?.toLowerCase() === 'xisco';
+        return isXiscoP1 ? m.material1 : m.material2;
+    }))].filter(Boolean).sort();
+    
     const materialSelect = document.getElementById('filterMaterial');
-    [...materials].sort().forEach(material => {
+    materials.forEach(mat => {
         const option = document.createElement('option');
-        option.value = material;
-        option.textContent = material;
+        option.value = mat;
+        option.textContent = mat;
         materialSelect.appendChild(option);
     });
 }
+
+// ============================================================
+// APLICAR FILTROS
+// ============================================================
 
 function applyFilters() {
     const year = document.getElementById('filterYear').value;
     const modality = document.getElementById('filterModality').value;
     const material = document.getElementById('filterMaterial').value;
-    const player = document.getElementById('filterPlayer').value.toLowerCase().trim();
+    const player = document.getElementById('filterPlayer').value.toLowerCase();
     
     filteredMatches = allMatches.filter(match => {
-        // Filtro por año
-        if (year && new Date(match.date).getFullYear() !== parseInt(year)) {
-            return false;
-        }
+        const matchDate = new Date(match.date);
+        const matchYear = matchDate.getFullYear().toString();
         
-        // Filtro por modalidad
-        if (modality && match.modality !== modality) {
-            return false;
-        }
+        const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
+        const opponent = isXiscoP1 ? match.player2 : match.player1;
+        const xiscoMaterial = isXiscoP1 ? match.material1 : match.material2;
         
-        // Filtro por material (solo el de Xisco)
-        if (material) {
-            const isXiscoPlayer1 = match.player1.toLowerCase() === 'xisco';
-            const xiscoMaterial = isXiscoPlayer1 ? match.material1 : match.material2;
-            if (xiscoMaterial !== material) {
-                return false;
-            }
-        }
+        const yearMatch = !year || matchYear === year;
+        const modalityMatch = !modality || match.modality === modality;
+        const materialMatch = !material || xiscoMaterial === material;
+        const playerMatch = !player || opponent?.toLowerCase().includes(player);
         
-        // Filtro por rival
-        if (player) {
-            const isXiscoPlayer1 = match.player1.toLowerCase() === 'xisco';
-            const rival = isXiscoPlayer1 ? match.player2.toLowerCase() : match.player1.toLowerCase();
-            if (!rival.includes(player)) {
-                return false;
-            }
-        }
-        
-        return true;
+        return yearMatch && modalityMatch && materialMatch && playerMatch;
     });
     
     currentPage = 1;
-    updateStats();
-    updateChart();
-    displayMatches();
+    updateStatsCards();
+    renderTable();
+    
+    // Mostrar/ocultar estados
+    if (filteredMatches.length === 0) {
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('tableContainer').innerHTML = '';
+        document.getElementById('pagination').style.display = 'none';
+    } else {
+        document.getElementById('emptyState').style.display = 'none';
+    }
 }
 
 function clearFilters() {
@@ -192,62 +230,125 @@ function clearFilters() {
     document.getElementById('filterModality').value = '';
     document.getElementById('filterMaterial').value = '';
     document.getElementById('filterPlayer').value = '';
-    
-    filteredMatches = [...allMatches];
-    currentPage = 1;
-    
-    updateStats();
-    updateChart();
-    displayMatches();
+    applyFilters();
 }
 
-// ========================================
-// ESTADÍSTICAS
-// ========================================
+// ============================================================
+// RENDERIZAR TABLA
+// ============================================================
 
-function updateStats() {
-    let wins = 0;
-    let losses = 0;
+function renderTable() {
+    const start = (currentPage - 1) * matchesPerPage;
+    const end = start + matchesPerPage;
+    const pageMatches = filteredMatches.slice(start, end);
     
-    filteredMatches.forEach(match => {
-        const isXiscoPlayer1 = match.player1.toLowerCase() === 'xisco';
-        const xiscoScore = parseInt(isXiscoPlayer1 ? match.score1 : match.score2);
-        const opponentScore = parseInt(isXiscoPlayer1 ? match.score2 : match.score1);
-        
-        if (xiscoScore > opponentScore) wins++;
-        else if (xiscoScore < opponentScore) losses++;
-    });
+    const tableHtml = `
+        <table class="matches-table">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Modalidad</th>
+                    <th>Jugador 1</th>
+                    <th>Resultado</th>
+                    <th>Jugador 2</th>
+                    <th>Material</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${pageMatches.map(match => {
+                    const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
+                    const xiscoScore = isXiscoP1 ? match.score1 : match.score2;
+                    const opponentScore = isXiscoP1 ? match.score2 : match.score1;
+                    const xiscoWon = xiscoScore > opponentScore;
+                    
+                    const p1Class = (isXiscoP1 && xiscoWon) || (!isXiscoP1 && !xiscoWon) ? 'winner' : 'loser';
+                    const p2Class = (!isXiscoP1 && xiscoWon) || (isXiscoP1 && !xiscoWon) ? 'winner' : 'loser';
+                    
+                    const date = new Date(match.date);
+                    const dateStr = date.toLocaleDateString('es-ES', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                    });
+                    
+                    return `
+                        <tr>
+                            <td data-label="Fecha" class="date-cell">${dateStr}</td>
+                            <td data-label="Modalidad">${match.modality || '-'}</td>
+                            <td data-label="Jugador 1" class="${p1Class}">${match.player1 || '-'}</td>
+                            <td data-label="Resultado" class="score-cell">${match.score1} - ${match.score2}</td>
+                            <td data-label="Jugador 2" class="${p2Class}">${match.player2 || '-'}</td>
+                            <td data-label="Material">${(isXiscoP1 ? match.material1 : match.material2) || '-'}</td>
+                        </tr>
+                    `;
+                }).join('')}
+            </tbody>
+        </table>
+    `;
     
-    const total = filteredMatches.length;
-    const winRate = total > 0 ? ((wins / total) * 100).toFixed(1) : 0;
+    document.getElementById('tableContainer').innerHTML = tableHtml;
+    document.getElementById('resultsCount').textContent = `${filteredMatches.length} partidos`;
     
-    document.getElementById('totalMatches').textContent = total;
-    document.getElementById('totalWins').textContent = wins;
-    document.getElementById('totalLosses').textContent = losses;
-    document.getElementById('winRate').textContent = winRate + '%';
+    renderPagination();
 }
 
-// ========================================
+// ============================================================
+// PAGINACIÓN
+// ============================================================
+
+function renderPagination() {
+    const totalPages = Math.ceil(filteredMatches.length / matchesPerPage);
+    
+    if (totalPages <= 1) {
+        document.getElementById('pagination').style.display = 'none';
+        return;
+    }
+    
+    document.getElementById('pagination').style.display = 'flex';
+    
+    const start = (currentPage - 1) * matchesPerPage + 1;
+    const end = Math.min(currentPage * matchesPerPage, filteredMatches.length);
+    
+    document.getElementById('paginationInfo').textContent = 
+        `Mostrando ${start}-${end} de ${filteredMatches.length}`;
+    
+    const buttonsHtml = `
+        <button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>
+            ⏮ Primero
+        </button>
+        <button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+            ◀ Anterior
+        </button>
+        <span style="padding: 10px 20px; font-weight: 600; color: var(--dark);">
+            ${currentPage} / ${totalPages}
+        </span>
+        <button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+            Siguiente ▶
+        </button>
+        <button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+            Último ⏭
+        </button>
+    `;
+    
+    document.getElementById('paginationButtons').innerHTML = buttonsHtml;
+}
+
+function goToPage(page) {
+    const totalPages = Math.ceil(filteredMatches.length / matchesPerPage);
+    if (page < 1 || page > totalPages) return;
+    
+    currentPage = page;
+    renderTable();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
 // GRÁFICO
-// ========================================
-function updateChart() {
-    let wins = 0;
-    let losses = 0;
-    
-    filteredMatches.forEach(match => {
-        const isXiscoPlayer1 = match.player1.toLowerCase() === 'xisco';
-        const xiscoScore = parseInt(isXiscoPlayer1 ? match.score1 : match.score2);
-        const opponentScore = parseInt(isXiscoPlayer1 ? match.score2 : match.score1);
-        
-        if (xiscoScore > opponentScore) wins++;
-        else if (xiscoScore < opponentScore) losses++;
-    });
-    
-    // ✅ CORRECCIÓN: Obtener el contexto 2D del canvas
-    const canvas = document.getElementById('winsChart');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
+// ============================================================
+
+function updateChart(wins, losses) {
+    const ctx = document.getElementById('winsChart');
+    if (!ctx) return;
     
     if (winsChart) {
         winsChart.destroy();
@@ -260,11 +361,14 @@ function updateChart() {
             datasets: [{
                 data: [wins, losses],
                 backgroundColor: [
-                    'rgba(0, 255, 242, 0.9)',
-                    'rgba(0, 217, 255, 0.9)'
+                    'rgba(0, 217, 255, 0.8)',
+                    'rgba(22, 35, 129, 0.8)'
                 ],
-                borderWidth: 0,
-                spacing: 4
+                borderColor: [
+                    'rgba(0, 217, 255, 1)',
+                    'rgba(22, 35, 129, 1)'
+                ],
+                borderWidth: 3
             }]
         },
         options: {
@@ -274,201 +378,15 @@ function updateChart() {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        color: '#0a0a2e',
-                        font: { 
-                            size: 14, 
-                            weight: '600',
-                            family: 'DM Sans'
-                        },
-                        padding: 20,
-                        usePointStyle: true,
-                        pointStyle: 'circle'
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
                     }
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(10, 10, 46, 0.95)',
-                    titleColor: '#fff',
-                    bodyColor: '#fff',
-                    padding: 12,
-                    borderRadius: 8,
-                    titleFont: { size: 14, weight: '600' },
-                    bodyFont: { size: 14 }
                 }
             }
         }
     });
 }
-// ========================================
-// TABLA DE PARTIDOS
-// ========================================
 
-function displayMatches() {
-    const container = document.getElementById('tableContainer');
-    const emptyState = document.getElementById('emptyState');
-    
-    if (filteredMatches.length === 0) {
-        container.innerHTML = '';
-        document.getElementById('pagination').style.display = 'none';
-        emptyState.style.display = 'block';
-        document.getElementById('resultsCount').textContent = '0 partidos';
-        return;
-    }
-    
-    emptyState.style.display = 'none';
-    
-    // Calcular paginación
-    const totalPages = Math.ceil(filteredMatches.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentMatches = filteredMatches.slice(startIndex, endIndex);
-    
-    // Crear tabla
-    let html = `
-        <table class="matches-table">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Xisco</th>
-                    <th>Resultado</th>
-                    <th>Rival</th>
-                    <th>Modalidad</th>
-                    <th>Material</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-    
-    currentMatches.forEach(match => {
-        const isXiscoPlayer1 = match.player1.toLowerCase() === 'xisco';
-        const xiscoScore = parseInt(isXiscoPlayer1 ? match.score1 : match.score2);
-        const opponentScore = parseInt(isXiscoPlayer1 ? match.score2 : match.score1);
-        const rival = isXiscoPlayer1 ? match.player2 : match.player1;
-        const xiscoMaterial = isXiscoPlayer1 ? match.material1 : match.material2;
-        
-        const xiscoWon = xiscoScore > opponentScore;
-        const xiscoClass = xiscoWon ? 'winner' : 'loser';
-        const rivalClass = xiscoWon ? 'loser' : 'winner';
-        
-        const dateObj = new Date(match.date);
-        const formattedDate = dateObj.toLocaleDateString('es-ES', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-        
-        html += `
-            <tr>
-                <td class="date-cell" data-label="Fecha">${formattedDate}</td>
-                <td class="${xiscoClass}" data-label="Xisco">${xiscoScore} ${xiscoWon ? '✓' : ''}</td>
-                <td class="score-cell" data-label="Resultado">${xiscoScore} - ${opponentScore}</td>
-                <td class="${rivalClass}" data-label="Rival">${rival} ${!xiscoWon ? '✓' : ''}</td>
-                <td data-label="Modalidad">${match.modality}</td>
-                <td data-label="Material">${xiscoMaterial}</td>
-            </tr>
-        `;
-    });
-    
-    html += `
-            </tbody>
-        </table>
-    `;
-    
-    container.innerHTML = html;
-    
-    // Actualizar contador
-    document.getElementById('resultsCount').textContent = 
-        `${filteredMatches.length} ${filteredMatches.length === 1 ? 'partido' : 'partidos'}`;
-    
-    // Mostrar paginación si hay más de 50 resultados
-    if (filteredMatches.length > itemsPerPage) {
-        renderPagination(totalPages, startIndex, endIndex);
-    } else {
-        document.getElementById('pagination').style.display = 'none';
-    }
-}
-
-// ========================================
-// PAGINACIÓN
-// ========================================
-
-function renderPagination(totalPages, startIndex, endIndex) {
-    const pagination = document.getElementById('pagination');
-    const paginationInfo = document.getElementById('paginationInfo');
-    const paginationButtons = document.getElementById('paginationButtons');
-    
-    pagination.style.display = 'flex';
-    
-    // Info
-    paginationInfo.textContent = 
-        `${startIndex + 1}-${Math.min(endIndex, filteredMatches.length)} de ${filteredMatches.length}`;
-    
-    // ✅ BOTONES SIMPLIFICADOS - Solo anterior y siguiente
-    let buttonsHTML = `
-        <button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-            ← Anterior
-        </button>
-        <span style="padding: 10px 16px; color: var(--dark); font-weight: 600;">
-            Página ${currentPage} de ${totalPages}
-        </span>
-        <button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-            Siguiente →
-        </button>
-    `;
-    
-    paginationButtons.innerHTML = buttonsHTML;
-}function goToPage(page) {
-    const totalPages = Math.ceil(filteredMatches.length / itemsPerPage);
-    if (page < 1 || page > totalPages) return;
-    
-    currentPage = page;
-    displayMatches();
-    
-    // Scroll suave al inicio de la tabla
-    document.getElementById('tableContainer').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-    });
-}
-
-// ========================================
-// UTILIDADES
-// ========================================
-
-function showEmptyState(title, message) {
-    const emptyState = document.getElementById('emptyState');
-    emptyState.innerHTML = `
-        <div class="empty-state-icon">🎱</div>
-        <h3 class="empty-state-title">${title}</h3>
-        <p class="empty-state-text">${message}</p>
-    `;
-    emptyState.style.display = 'block';
-}
-
-function logoutDashboard() {
-    if (confirm('¿Cerrar sesión?')) {
-        sessionStorage.removeItem('xisco_session_active');
-        window.location.href = 'index.html';
-    }
-}
-
-function resetAllDataDashboard() {
-    const confirmMessage = `⚠️ ADVERTENCIA IMPORTANTE ⚠️
-
-¿Estás seguro de que quieres BORRAR TODOS LOS DATOS?
-
-Esta acción NO se puede deshacer.
-
-Escribe "BORRAR" para confirmar:`;
-
-    const userInput = prompt(confirmMessage);
-    
-    if (userInput === 'BORRAR') {
-        localStorage.removeItem('xisco_matches_data');
-        localStorage.removeItem('shared_matches_data');
-        localStorage.clear();
-        alert('✅ Todos los datos han sido eliminados');
-        location.reload();
-    } else if (userInput !== null) {
-        alert('❌ Reinicio cancelado.');
-    }
-}
+console.log('✅ Historial avanzado con stats unificadas cargado');
