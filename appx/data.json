@@ -2370,7 +2370,7 @@
       "date": "2024-11-24",
       "modality": "Bola 9",
       "totalPlayers": 84,
-      "result": "Dieciseisavos",
+      "result": "17º",
       "circuit": "circuit_1766307078500",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
@@ -2385,7 +2385,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594446043",
-      "createdAt": "2025-12-24T16:40:46.043Z"
+      "createdAt": "2025-12-24T16:40:46.043Z",
+      "updatedAt": "2025-12-25T23:41:44.574Z"
     },
     {
       "name": "Cto Europa Sénior 24",
