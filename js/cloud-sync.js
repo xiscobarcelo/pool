@@ -230,10 +230,17 @@ const CloudSync = {
             
             console.log('🔄 [PULL] Descargando desde GitHub...');
             
+            // Timeout de 10 segundos para evitar spinners infinitos
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
             const response = await fetch(url, {
                 cache: 'no-cache',
-                headers: { 'Accept': 'application/json' }
+                headers: { 'Accept': 'application/json' },
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
             
             if (response.ok) {
                 const githubData = await response.json();
@@ -280,10 +287,21 @@ const CloudSync = {
                 return mergedData;
             } else {
                 console.log('⚠️ [PULL] No se pudo descargar:', response.status);
+                if (response.status === 404) {
+                    console.log('ℹ️ El archivo no existe en GitHub todavía. Esto es normal si es la primera vez.');
+                    console.log('💡 Añade datos localmente y se subirán automáticamente.');
+                }
+                return this.getData(); // Retornar datos locales
             }
             
         } catch (error) {
-            console.error('❌ [PULL] Error:', error);
+            if (error.name === 'AbortError') {
+                console.error('❌ [PULL] Timeout: GitHub tardó más de 10 segundos');
+                this.showNotification('⚠️ Timeout conectando con GitHub - usando datos locales');
+            } else {
+                console.error('❌ [PULL] Error:', error);
+            }
+            return this.getData(); // Retornar datos locales en caso de error
         }
         
         return null;
