@@ -306,11 +306,18 @@ background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 
 }
 
 /* Charts grid */
+
 .charts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    margin-bottom: 40px;
 }
+
+.charts-grid .chart-card.full-width {
+    grid-column: 1 / -1; /* Ocupa todas las columnas */
+}
+
 
 .chart-card {
     background: rgba(255, 255, 255, 0.7);
@@ -629,8 +636,13 @@ select:focus {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .charts-grid {
+
+	  .charts-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .charts-grid .chart-card.full-width {
+        grid-column: 1;
     }
 
     .stat-card {
