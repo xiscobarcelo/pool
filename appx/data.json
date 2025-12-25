@@ -2712,7 +2712,7 @@
       "date": "2022-11-25",
       "modality": "Bola 10",
       "totalPlayers": 32,
-      "result": "Dieciseisavos",
+      "result": "17º",
       "circuit": "circuit_1766137887662",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
@@ -2727,7 +2727,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766622600365",
-      "createdAt": "2025-12-25T00:30:00.365Z"
+      "createdAt": "2025-12-25T00:30:00.365Z",
+      "updatedAt": "2025-12-25T23:44:32.187Z"
     },
     {
       "name": "Copa Baleares",
