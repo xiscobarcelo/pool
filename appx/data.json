@@ -1129,6 +1129,28 @@
       },
       "id": "tournament_1766622641455",
       "createdAt": "2025-12-25T00:30:41.455Z"
+    },
+    {
+      "name": "Cto de Baleares",
+      "date": "2023-04-25",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766137887662",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Lupillo",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766622711433",
+      "createdAt": "2025-12-25T00:31:51.433Z"
     }
   ],
   "circuits": [
