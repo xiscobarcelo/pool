@@ -1219,6 +1219,28 @@
       },
       "id": "tournament_1766623009589",
       "createdAt": "2025-12-25T00:36:49.589Z"
+    },
+    {
+      "name": "Copa Sénior III",
+      "date": "2023-01-25",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766139214055",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Jepy",
+      "notes": "Oropesa",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766623076708",
+      "createdAt": "2025-12-25T00:37:56.708Z"
     }
   ],
   "circuits": [
