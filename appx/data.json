@@ -1050,7 +1050,7 @@
       "result": "Campeón",
       "circuit": "circuit_1766137887662",
       "cue": "Velasco+Revo12.9",
-      "finalRival": "",
+      "finalRival": "Pedro Invernon",
       "notes": "",
       "stats": {
         "matchesPlayed": 0,
@@ -1062,7 +1062,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766622412714",
-      "createdAt": "2025-12-25T00:26:52.714Z"
+      "createdAt": "2025-12-25T00:26:52.714Z",
+      "updatedAt": "2025-12-25T00:34:07.882Z"
     },
     {
       "name": "Copa Baleares V",
