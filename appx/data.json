@@ -992,6 +992,28 @@
       },
       "id": "tournament_1766621752907",
       "createdAt": "2025-12-25T00:15:52.907Z"
+    },
+    {
+      "name": "Cto España",
+      "date": "2023-05-22",
+      "modality": "Bola 10",
+      "totalPlayers": 92,
+      "result": "Dieciseisavos",
+      "circuit": "circuit_1766139186569",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766621795857",
+      "createdAt": "2025-12-25T00:16:35.857Z"
     }
   ],
   "circuits": [
