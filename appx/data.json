@@ -124,17 +124,6 @@
     {
       "player1": "Xisco",
       "player2": "Jepy",
-      "score1": "8",
-      "score2": "5",
-      "material1": "Lucasi+Revo12.9",
-      "material2": "rival",
-      "modality": "Bola 9",
-      "date": "2023-09-29",
-      "id": 1766657854896
-    },
-    {
-      "player1": "Xisco",
-      "player2": "Jepy",
       "score1": "5",
       "score2": "8",
       "material1": "Lucasi+Revo12.9",
@@ -186,28 +175,6 @@
       "modality": "Bola 10",
       "date": "2023-10-12",
       "id": 1766657854580
-    },
-    {
-      "player1": "Xisco",
-      "player2": "Jepy",
-      "score1": "5",
-      "score2": "8",
-      "material1": "Lucasi+Revo12.9",
-      "material2": "rival",
-      "modality": "Bola 10",
-      "date": "2023-10-12",
-      "id": 1766657854379
-    },
-    {
-      "player1": "Xisco",
-      "player2": "Jepy",
-      "score1": "4",
-      "score2": "8",
-      "material1": "Lucasi+Revo12.9",
-      "material2": "rival",
-      "modality": "Bola 10",
-      "date": "2023-10-12",
-      "id": 1766657854896
     }
   ],
   "players": [
