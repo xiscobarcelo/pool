@@ -22,6 +22,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     matchesData = CloudSync.getData();
     if (matchesData.materials) materials = matchesData.materials;
     
+    // ✅ ASEGURAR que modalityStats existe
+    if (!matchesData.modalityStats) {
+        matchesData.modalityStats = {
+            bola8: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+            bola9: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 },
+            bola10: { matchesPlayed: 0, matchesWon: 0, gamesPlayed: 0, gamesWon: 0 }
+        };
+        CloudSync.saveData(matchesData);
+    }
+    
+    console.log('📊 Partidos:', matchesData.matches.length);
+    console.log('📊 ModalityStats:', matchesData.modalityStats);
+    
     // 2. Renderizar UI con datos locales
     document.getElementById('matchDate').valueAsDate = new Date();
     renderMaterialChips();
@@ -627,20 +640,45 @@ function showImportPreview(matches) {
 }
 
 function confirmImport() {
-    if (!window.pendingImport) return;
+    if (!window.pendingImport || window.pendingImport.length === 0) return;
 
-    window.pendingImport.forEach(match => {
-        matchesData = CloudSync.addMatch(match);
+    console.log('📥 Importando', window.pendingImport.length, 'partidos...');
+    
+    // Obtener datos actuales
+    const data = CloudSync.getData();
+    
+    // Añadir todos los partidos
+    window.pendingImport.forEach((match, index) => {
+        match.id = Date.now() + index;
+        data.matches.push(match);
+        
+        // Añadir jugadores si son nuevos
+        if (!data.players.includes(match.player1)) data.players.push(match.player1);
+        if (!data.players.includes(match.player2)) data.players.push(match.player2);
+        
+        // Añadir materiales si son nuevos
+        if (match.material1 && !data.materials.includes(match.material1)) {
+            data.materials.push(match.material1);
+        }
     });
     
+    // ✅ GUARDAR TODO DE UNA VEZ con CloudSync
+    CloudSync.saveData(data);
+    
+    console.log('✅ Partidos importados. Total ahora:', data.matches.length);
+    
+    // Actualizar variables locales
+    matchesData = data;
     if (matchesData.materials) materials = matchesData.materials;
     
+    // Actualizar UI
     renderMaterialChips();
     renderHistory();
     updateModalityStats();
     
-    showSuccess(`✅ ${window.pendingImport.length} partidos importados`);
+    showSuccess(`✅ ${window.pendingImport.length} partidos importados y sincronizados`);
     
+    // Limpiar
     window.pendingImport = null;
     document.getElementById('importPreview').style.display = 'none';
     document.getElementById('excelFileInput').value = '';
