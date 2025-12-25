@@ -307,6 +307,72 @@
       "modality": "Bola 9",
       "date": "2023-11-02",
       "id": 1766657854709
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "6",
+      "score2": "8",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2023-11-09",
+      "id": 1766657855112
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "6",
+      "score2": "8",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2023-11-09",
+      "id": 1766657854614
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "4",
+      "score2": "8",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2023-11-17",
+      "id": 1766657854568
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "8",
+      "score2": "5",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2023-11-17",
+      "id": 1766657854742
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "8",
+      "score2": "6",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 9",
+      "date": "2023-11-17",
+      "id": 1766657854998
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "8",
+      "score2": "4",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2023-12-21",
+      "id": 1766657855013
     }
   ],
   "players": [
@@ -321,22 +387,22 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 29,
-      "matchesWon": 22,
-      "gamesPlayed": 280,
-      "gamesWon": 172
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
     },
     "bola9": {
-      "matchesPlayed": 95,
-      "matchesWon": 68,
-      "gamesPlayed": 1013,
-      "gamesWon": 588
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
     },
     "bola10": {
-      "matchesPlayed": 54,
-      "matchesWon": 41,
-      "gamesPlayed": 514,
-      "gamesWon": 331
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
     }
   },
   "tournaments": [
