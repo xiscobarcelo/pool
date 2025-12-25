@@ -1,17 +1,5 @@
 {
-  "matches": [
-    {
-      "player1": "Xisco",
-      "player2": "PEPE",
-      "score1": "2",
-      "score2": "1",
-      "material1": "Lucasi+Revo12.9",
-      "material2": "rival",
-      "modality": "Bola 9",
-      "date": "2025-12-25",
-      "id": 1766656460923
-    }
-  ],
+  "matches": [],
   "players": [
     "Xisco",
     "PEPE",
@@ -22,26 +10,6 @@
     "Lucasi+Revo12.9",
     "Bear+Centro"
   ],
-  "modalityStats": {
-    "bola8": {
-      "matchesPlayed": 29,
-      "matchesWon": 22,
-      "gamesPlayed": 280,
-      "gamesWon": 172
-    },
-    "bola9": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
-    },
-    "bola10": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
-    }
-  },
   "tournaments": [
     {
       "name": "Cto Mallorca",
@@ -1708,5 +1676,25 @@
       "totalPoints": 0,
       "ranking": null
     }
-  ]
+  ],
+  "modalityStats": {
+    "bola8": {
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
+    },
+    "bola9": {
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
+    },
+    "bola10": {
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
+    }
+  }
 }
