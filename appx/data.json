@@ -1,5 +1,17 @@
 {
-  "matches": [],
+  "matches": [
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "5",
+      "score2": "8",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2023-08-30",
+      "id": 1766659274023
+    }
+  ],
   "players": [
     "Xisco",
     "PEPE",
@@ -1679,10 +1691,10 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 29,
-      "matchesWon": 22,
-      "gamesPlayed": 280,
-      "gamesWon": 172
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
     },
     "bola9": {
       "matchesPlayed": 0,
@@ -1695,7 +1707,6 @@
       "matchesWon": 0,
       "gamesPlayed": 0,
       "gamesWon": 0
-    },
-    "lastUpdated": "2025-12-25T10:38:05.757Z"
+    }
   }
 }
