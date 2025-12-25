@@ -20,7 +20,7 @@ ESTRUCTURA COMPLETA DEL DATA.JSON AMPLIADA:
             "date": "2024-12-15",
             "modality": "Bola 9",
             "totalPlayers": 32,
-            "result": "Campeón",  // Campeón, Subcampeón, Semifinales, Cuartos, Octavos, etc.
+            "result": "Campeón",  // Campeón, Subcampeón, Semifinales, 5º, 9º, etc.
             "circuit": "Circuito Provincial 2024",  // null si no forma parte de circuito
             "cue": "Velasco+Revo12.9",
             "finalRival": "Juan Pérez",
@@ -68,8 +68,8 @@ ESTRUCTURA COMPLETA DEL DATA.JSON AMPLIADA:
                 "Campeón": 100,
                 "Subcampeón": 75,
                 "Semifinales": 50,
-                "Cuartos": 25,
-                "Octavos": 10,
+                "5º": 25,
+                "9º": 10,
                 "Participación": 5
             },
             "tournaments": [
