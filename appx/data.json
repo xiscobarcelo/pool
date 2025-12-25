@@ -684,7 +684,7 @@
       "createdAt": "2025-12-24T16:36:48.553Z"
     },
     {
-      "name": "Cto Europa 25",
+      "name": "Cto Europa Sénior 25",
       "date": "2025-10-19",
       "modality": "Bola 10",
       "totalPlayers": 94,
@@ -703,7 +703,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594264414",
-      "createdAt": "2025-12-24T16:37:44.414Z"
+      "createdAt": "2025-12-24T16:37:44.414Z",
+      "updatedAt": "2025-12-25T00:18:59.941Z"
     },
     {
       "name": "Cto Europa Sénior Selección ",
