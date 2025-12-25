@@ -1263,6 +1263,28 @@
       },
       "id": "tournament_1766623137225",
       "createdAt": "2025-12-25T00:38:57.225Z"
+    },
+    {
+      "name": "Cto España Sénior",
+      "date": "2023-05-01",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766139214055",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Paquito Díaz 8-4",
+      "notes": "VBillares Salamanca",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766623242424",
+      "createdAt": "2025-12-25T00:40:42.424Z"
     }
   ],
   "circuits": [
