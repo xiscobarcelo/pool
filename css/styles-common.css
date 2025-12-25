@@ -427,8 +427,8 @@ h1 {
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.9);
-            border-color: #0a0a2e0a0a2e;
-            color: #0a0a2e0a0a2e;
+            border-color: #0a0a2e;
+            color: #0a0a2e;
             transform: translateY(-2px);
         }
 
@@ -488,8 +488,8 @@ h1 {
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.9);
-            border-color: #0a0a2e0a0a2e;
-            color: #0a0a2e0a0a2e;
+            border-color: #0a0a2e;
+            color: #0a0a2e;
             transform: translateY(-2px);
         }
 
@@ -526,7 +526,7 @@ h1 {
             background: rgba(0, 0, 0, 0.01);
             border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            color: #0a0a2e0a0a2e;
+            color: #0a0a2e;
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
