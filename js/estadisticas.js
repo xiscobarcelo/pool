@@ -180,7 +180,6 @@ function renderStatsGrid(totals, unified) {
             <div class="stat-icon"></div>
            <div class="stat-label">Partidas Win Rate</div>
             <div class="stat-value">${totals.gameWinRate}%</div>
-            <div class="stat-label">Game Win Rate</div>
             <div class="stat-detail">Partidas ganadas</div>
         </div>
         
@@ -207,7 +206,7 @@ function renderStatsGrid(totals, unified) {
         
         <div class="stat-card special">
             <div class="stat-icon"><img src="images/cue.svg"  width="50"></div>
-             <div class="stat-label">Mejor Material</div>
+             <div class="stat-label1">Mejor Material</div>
             <div class="stat-value">${bestMaterial.winRate}%</div>
             <div class="stat-detail">${bestMaterial.name}<br>${bestMaterial.wins}/${bestMaterial.total} partidos</div>
         </div>
