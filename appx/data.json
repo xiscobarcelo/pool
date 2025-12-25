@@ -2056,7 +2056,7 @@
       "date": "2024-05-12",
       "modality": "Bola 9",
       "totalPlayers": 32,
-      "result": "Octavos de Final",
+      "result": "9º",
       "circuit": "circuit_1766137868935",
       "cue": "Lucasi+Revo12.9",
       "finalRival": "Jepy",
@@ -2071,7 +2071,8 @@
         "averageGamesPerMatch": "12.0"
       },
       "id": "tournament_1766154862011",
-      "createdAt": "2025-12-19T14:34:22.011Z"
+      "createdAt": "2025-12-19T14:34:22.011Z",
+      "updatedAt": "2025-12-25T23:41:14.209Z"
     },
     {
       "name": "Copa Sénior IV",
