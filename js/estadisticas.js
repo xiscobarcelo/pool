@@ -276,9 +276,16 @@ function renderCharts(unified) {
         </div>
         
         <div class="chart-card">
-            <h3 class="chart-title">Distribucion de Partidas</h3>
+            <h3 class="chart-title">Distribución de Partidas</h3>
             <div class="chart-wrapper">
                 <canvas id="gamesDistChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <h3 class="chart-title">Materiales: Uso y Efectividad</h3>
+            <div class="chart-wrapper">
+                <canvas id="materialsChart"></canvas>
             </div>
         </div>
     `;
@@ -286,6 +293,7 @@ function renderCharts(unified) {
     setTimeout(() => {
         renderWinRateChart(unified);
         renderGamesDistChart(unified);
+        renderMaterialsChart();
     }, 100);
 }
 
@@ -346,6 +354,148 @@ function renderGamesDistChart(unified) {
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { position: 'bottom' } }
+        }
+    });
+}
+
+function renderMaterialsChart() {
+    const ctx = document.getElementById('materialsChart');
+    if (!ctx) return;
+    
+    if (!matchesData || !matchesData.matches || matchesData.matches.length === 0) {
+        ctx.parentElement.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No hay datos de materiales</p>';
+        return;
+    }
+    
+    // Calcular estadísticas por material
+    const materialStats = {};
+    
+    matchesData.matches.forEach(match => {
+        const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
+        const isXiscoP2 = match.player2?.toLowerCase() === 'xisco';
+        
+        if (!isXiscoP1 && !isXiscoP2) return;
+        
+        const material = isXiscoP1 ? match.material1 : match.material2;
+        if (!material) return;
+        
+        const xiscoScore = isXiscoP1 ? parseInt(match.score1) : parseInt(match.score2);
+        const opponentScore = isXiscoP1 ? parseInt(match.score2) : parseInt(match.score1);
+        const won = xiscoScore > opponentScore;
+        
+        if (!materialStats[material]) {
+            materialStats[material] = { total: 0, wins: 0 };
+        }
+        
+        materialStats[material].total++;
+        if (won) materialStats[material].wins++;
+    });
+    
+    // Ordenar por número de partidos y tomar los top 5
+    const sortedMaterials = Object.keys(materialStats)
+        .map(material => ({
+            name: material,
+            total: materialStats[material].total,
+            wins: materialStats[material].wins,
+            winRate: (materialStats[material].wins / materialStats[material].total * 100).toFixed(1)
+        }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 5);
+    
+    if (sortedMaterials.length === 0) {
+        ctx.parentElement.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No hay datos de materiales</p>';
+        return;
+    }
+    
+    if (charts.materials) charts.materials.destroy();
+    
+    // Colores dinámicos basados en win rate
+    const colors = sortedMaterials.map(mat => {
+        const wr = parseFloat(mat.winRate);
+        if (wr >= 70) return 'rgba(34, 197, 94, 0.8)'; // Verde - Excelente
+        if (wr >= 60) return 'rgba(102, 126, 234, 0.8)'; // Azul - Bueno
+        if (wr >= 50) return 'rgba(251, 191, 36, 0.8)'; // Amarillo - Regular
+        return 'rgba(239, 68, 68, 0.8)'; // Rojo - Bajo
+    });
+    
+    charts.materials = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sortedMaterials.map(m => m.name),
+            datasets: [
+                {
+                    label: 'Partidos Jugados',
+                    data: sortedMaterials.map(m => m.total),
+                    backgroundColor: 'rgba(156, 163, 175, 0.6)',
+                    borderColor: 'rgba(156, 163, 175, 1)',
+                    borderWidth: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Win Rate (%)',
+                    data: sortedMaterials.map(m => parseFloat(m.winRate)),
+                    backgroundColor: colors,
+                    borderColor: colors.map(c => c.replace('0.8', '1')),
+                    borderWidth: 2,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        afterLabel: function(context) {
+                            const index = context.dataIndex;
+                            const material = sortedMaterials[index];
+                            if (context.dataset.label === 'Win Rate (%)') {
+                                return `${material.wins}/${material.total} partidos ganados`;
+                            }
+                            return '';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Partidos Jugados'
+                    },
+                    beginAtZero: true
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Win Rate (%)'
+                    },
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
         }
     });
 }
