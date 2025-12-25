@@ -995,6 +995,28 @@
       "id": "tournament_1766621795857",
       "createdAt": "2025-12-25T00:16:35.857Z",
       "updatedAt": "2025-12-25T00:20:16.094Z"
+    },
+    {
+      "name": "Copa Baleares",
+      "date": "2023-03-25",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Octavos de Final",
+      "circuit": "circuit_1766137887662",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766622283461",
+      "createdAt": "2025-12-25T00:24:43.461Z"
     }
   ],
   "circuits": [
