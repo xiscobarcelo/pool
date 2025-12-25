@@ -1790,10 +1790,10 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
+      "matchesPlayed": 29,
+      "matchesWon": 22,
+      "gamesPlayed": 280,
+      "gamesWon": 172
     },
     "bola9": {
       "matchesPlayed": 0,
@@ -1806,7 +1806,7 @@
       "matchesWon": 0,
       "gamesPlayed": 0,
       "gamesWon": 0
-    }
-  },
-  "lastLocalSave": "2025-12-25T11:10:16.444Z"
+    },
+    "lastUpdated": "2025-12-25T11:11:37.223Z"
+  }
 }
