@@ -156,59 +156,75 @@ function renderStatsGrid(totals, unified) {
     
     statsGrid.innerHTML = `
         <div class="stat-card primary">
-            <div class="stat-icon"></div>
-            <div class="stat-label">Partidos Totales</div>
-            <div class="stat-value">${totals.totalMatches}</div>
-            <div class="stat-detail">${totals.totalMatchesWon} ganados • ${totals.totalMatchesLost} perdidos</div>
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <div class="stat-value">${totals.totalMatches}</div>
+                <div class="stat-label">Partidos Totales</div>
+                <div class="stat-detail">${totals.totalMatchesWon} ganados • ${totals.totalMatchesLost} perdidos</div>
+            </div>
         </div>
         
         <div class="stat-card success">
-            <div class="stat-icon"></div>
-             <div class="stat-label">Partidos Win Rate</div>
-            <div class="stat-value">${totals.winRate}%</div>
-            <div class="stat-detail">Partidos ganados</div>
+            <div class="stat-icon">🏆</div>
+            <div class="stat-content">
+                <div class="stat-value">${totals.winRate}%</div>
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-detail">Partidos ganados</div>
+            </div>
         </div>
         
         <div class="stat-card info">
-            <div class="stat-icon"></div>
-           <div class="stat-label">Partidas Totales</div>
-            <div class="stat-value">${totals.totalGames}</div>
-            <div class="stat-detail">${totals.totalGamesWon} ganadas • ${totals.totalGamesLost} perdidas</div>
+            <div class="stat-icon">🎱</div>
+            <div class="stat-content">
+                <div class="stat-value">${totals.totalGames}</div>
+                <div class="stat-label">Partidas Totales</div>
+                <div class="stat-detail">${totals.totalGamesWon} ganadas • ${totals.totalGamesLost} perdidas</div>
+            </div>
         </div>
         
         <div class="stat-card warning">
-            <div class="stat-icon"></div>
-           <div class="stat-label">Partidas Win Rate</div>
-            <div class="stat-value">${totals.gameWinRate}%</div>
-            <div class="stat-detail">Partidas ganadas</div>
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <div class="stat-value">${totals.gameWinRate}%</div>
+                <div class="stat-label">Game Win Rate</div>
+                <div class="stat-detail">Partidas ganadas</div>
+            </div>
         </div>
         
         <div class="stat-card modality">
-            <div class="stat-icon"><img src="images/8.svg" width="30"></div>
-             <div class="stat-label">Bola 8</div>
-            <div class="stat-value">${unified.bola8.matchesWon}/${unified.bola8.matchesPlayed}</div>
-            <div class="stat-detail">${unified.bola8.matchesPlayed > 0 ? ((unified.bola8.matchesWon/unified.bola8.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+            <div class="stat-icon">🎱</div>
+            <div class="stat-content">
+                <div class="stat-value">${unified.bola8.matchesWon}/${unified.bola8.matchesPlayed}</div>
+                <div class="stat-label">Bola 8</div>
+                <div class="stat-detail">${unified.bola8.matchesPlayed > 0 ? ((unified.bola8.matchesWon/unified.bola8.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+            </div>
         </div>
         
         <div class="stat-card modality">
-            <div class="stat-icon"><img src="images/9.svg" width="30"></div>
-             <div class="stat-label">Bola 9</div>
-            <div class="stat-value">${unified.bola9.matchesWon}/${unified.bola9.matchesPlayed}</div>
-            <div class="stat-detail">${unified.bola9.matchesPlayed > 0 ? ((unified.bola9.matchesWon/unified.bola9.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <div class="stat-value">${unified.bola9.matchesWon}/${unified.bola9.matchesPlayed}</div>
+                <div class="stat-label">Bola 9</div>
+                <div class="stat-detail">${unified.bola9.matchesPlayed > 0 ? ((unified.bola9.matchesWon/unified.bola9.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+            </div>
         </div>
         
         <div class="stat-card modality">
-            <div class="stat-icon"><img src="images/10.svg" width="30"></div>
-             <div class="stat-label">Bola 10</div>
-            <div class="stat-value">${unified.bola10.matchesWon}/${unified.bola10.matchesPlayed}</div>
-            <div class="stat-detail">${unified.bola10.matchesPlayed > 0 ? ((unified.bola10.matchesWon/unified.bola10.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+            <div class="stat-icon">🎳</div>
+            <div class="stat-content">
+                <div class="stat-value">${unified.bola10.matchesWon}/${unified.bola10.matchesPlayed}</div>
+                <div class="stat-label">Bola 10</div>
+                <div class="stat-detail">${unified.bola10.matchesPlayed > 0 ? ((unified.bola10.matchesWon/unified.bola10.matchesPlayed)*100).toFixed(1) : 0}% win rate</div>
+            </div>
         </div>
         
         <div class="stat-card special">
-            <div class="stat-icon"><img src="images/cue.svg"  width="50"></div>
-             <div class="stat-label1">Mejor Material</div>
-            <div class="stat-value">${bestMaterial.winRate}%</div>
-            <div class="stat-detail">${bestMaterial.name}<br>${bestMaterial.wins}/${bestMaterial.total} partidos</div>
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <div class="stat-value">${bestMaterial.winRate}%</div>
+                <div class="stat-label">Mejor Material</div>
+                <div class="stat-detail">${bestMaterial.name}<br>${bestMaterial.wins}/${bestMaterial.total} partidos</div>
+            </div>
         </div>
     `;
 }
