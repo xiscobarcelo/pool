@@ -153,6 +153,7 @@
     
     .stat-card {
         padding: 16px;
+       margin-bottom:20px;
     }
     
     .stat-value {
@@ -182,10 +183,11 @@
     
     .stat-card {
         padding: 20px;
-        display: flex;
+        display: block;
         align-items: center;
         text-align: left;
         gap: 16px;
+       margin-botton:20px;
     }
     
     .stat-icon {
