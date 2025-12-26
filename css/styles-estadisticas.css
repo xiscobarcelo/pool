@@ -642,7 +642,6 @@ select:focus {
 
 	  .charts-grid {
         grid-template-columns: 1fr;
-		  display:block;
     }
     
     .charts-grid .chart-card.full-width {
@@ -694,7 +693,7 @@ select:focus {
 /* Responsive */
 @media (max-width: 768px) {
     .stats-grid {
-        grid-template-columns: 1fr; /* 1 columna en móvil */
+		  display:block;
     }
 }
 
