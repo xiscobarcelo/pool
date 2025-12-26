@@ -642,6 +642,7 @@ select:focus {
 
 	  .charts-grid {
         grid-template-columns: 1fr;
+		  display:block;
     }
     
     .charts-grid .chart-card.full-width {
@@ -650,6 +651,7 @@ select:focus {
 
     .stat-card {
         padding: 20px 18px;
+		margin-bottom:20px;
     }
 
     .chart-card {
