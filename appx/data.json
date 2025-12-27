@@ -3164,6 +3164,28 @@
       },
       "id": "tournament_1766872425119",
       "createdAt": "2025-12-27T21:53:45.119Z"
+    },
+    {
+      "name": "Cto de Baleares B9",
+      "date": "2021-04-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766137940261",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Manuel Montejo",
+      "notes": "7-6",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766872482547",
+      "createdAt": "2025-12-27T21:54:42.547Z"
     }
   ],
   "circuits": [
