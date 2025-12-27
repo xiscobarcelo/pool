@@ -2346,11 +2346,11 @@
       "createdAt": "2025-12-24T16:38:48.412Z"
     },
     {
-      "name": "Cto Europa Sénior 24",
+      "name": "Cto Europa Sénior B8",
       "date": "2024-11-24",
       "modality": "Bola 8",
       "totalPlayers": 94,
-      "result": "Fase de Grupos",
+      "result": "33º",
       "circuit": "circuit_1766307078500",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
@@ -2365,7 +2365,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594385289",
-      "createdAt": "2025-12-24T16:39:45.289Z"
+      "createdAt": "2025-12-24T16:39:45.289Z",
+      "updatedAt": "2025-12-27T15:01:04.404Z"
     },
     {
       "name": "Cto Europa Sénior 24",
