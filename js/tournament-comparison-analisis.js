@@ -145,14 +145,43 @@ function calculateComparisonStatsAnalysis(editions) {
             console.log(`  Result lowercase: "${resultLower}"`);
             
             // Casos especiales - ORDEN IMPORTA
+            // Primero los más específicos
+            
             if (resultLower.includes('subcampeón') || resultLower.includes('subcampeon') || 
                 resultLower === 'subcampeon' || resultLower === 'subcampeón' ||
-                resultLower.includes('finalista') || resultLower.includes('2º') || 
+                resultLower.includes('finalista') || resultLower === '2º' || 
                 resultLower === '2' || resultLower === '2º puesto' || resultLower === 'segundo') {
                 position = '2º';
                 positionNumber = 2;
                 console.log('  → Detectado como 2º (Subcampeón)');
-            } 
+            }
+            else if (resultLower.includes('semifinal') || resultLower.includes('semi-final') ||
+                     resultLower === 'semifinalista' || resultLower === 'semifinales') {
+                // Semifinales puede ser 3º o 4º, intentar extraer número
+                const match = tournament.result.match(/(\d+)/);
+                if (match) {
+                    positionNumber = parseInt(match[1]);
+                    position = `${positionNumber}º`;
+                    console.log(`  → Detectado semifinal con número: ${position}`);
+                } else {
+                    // Si no tiene número, asumir 3º por defecto
+                    position = '3º-4º';
+                    positionNumber = 3;
+                    console.log('  → Detectado como semifinal (3º-4º)');
+                }
+            }
+            else if (resultLower === '3' || resultLower === '3º' || resultLower === '3º puesto' || 
+                     resultLower === 'tercero' || resultLower === 'tercer puesto') {
+                position = '3º';
+                positionNumber = 3;
+                console.log('  → Detectado como 3º');
+            }
+            else if (resultLower === '4' || resultLower === '4º' || resultLower === '4º puesto' || 
+                     resultLower === 'cuarto' || resultLower === 'cuarto puesto') {
+                position = '4º';
+                positionNumber = 4;
+                console.log('  → Detectado como 4º');
+            }
             else if (resultLower.includes('campeón') || resultLower.includes('campeon') || 
                      resultLower === 'campeon' || resultLower === 'campeón' ||
                      resultLower === '1' || resultLower === '1º' || resultLower === 'primero' ||
@@ -160,19 +189,6 @@ function calculateComparisonStatsAnalysis(editions) {
                 position = '1º';
                 positionNumber = 1;
                 console.log('  → Detectado como 1º (Campeón)');
-            } 
-            else if (resultLower.includes('semifinal') || resultLower === '3' || 
-                     resultLower === '3º' || resultLower === '4' || resultLower === '4º') {
-                // Extraer número específico
-                const match = tournament.result.match(/(\d+)/);
-                if (match) {
-                    positionNumber = parseInt(match[1]);
-                    position = `${positionNumber}º`;
-                    console.log(`  → Detectado como ${position}`);
-                } else {
-                    position = tournament.result;
-                    console.log(`  → Usando result como texto: ${position}`);
-                }
             }
             else {
                 // Intentar extraer cualquier número del string
