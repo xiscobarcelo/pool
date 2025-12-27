@@ -472,41 +472,90 @@ function updateCircuitComparison() {
 // CALCULAR ESTADÍSTICAS DE CIRCUITOS
 // ============================================
 
-function calculateCircuitStats() {
-    const stats = [];
-    const circuits = getCircuitsFromTournaments();
+function calculateCircuitStats(circuitTournaments) {
+    console.log(`🏆 Calculando stats para ${circuitTournaments.length} torneos`);
     
-    selectedCircuits.forEach(circuitId => {
-        const circuit = circuits.find(c => c.id === circuitId);
-        if (!circuit) return;
+    let wins = 0;
+    let bestPositionNumber = Infinity;
+    let bestPositionText = '-';
+    
+    circuitTournaments.forEach(tournament => {
+        const resultLower = (tournament.result || '').toLowerCase();
+        if (resultLower.includes('campeón') || resultLower.includes('campeon')) {
+            wins++;
+        }
         
-        const tournaments = matchesData.tournaments.filter(t => t.circuit === circuitId);
+        const { position, positionNumber } = detectTournamentPosition(tournament.result, tournament.position);
         
-        if (tournaments.length === 0) return;
-        
-        // Calcular estadísticas
-        const totalTournaments = tournaments.length;
-        
-        // Contar victorias con la nueva función mejorada
-        const totalWins = tournaments.filter(t => isVictory(t.result)).length;
-        
-        console.log(`🏆 ${circuit.name}: ${totalWins} victorias de ${totalTournaments} torneos`);
-        
-        const winRate = totalTournaments > 0 ? (totalWins / totalTournaments * 100) : 0;
-        
-        // Calcular total de partidas
-        let totalMatches = 0;
-        let totalMatchWins = 0;
-        
-        tournaments.forEach(t => {
-            if (t.stats) {
-                // Intentar diferentes nombres de campos
-                const wins = t.stats.victorias || t.stats.wins || t.stats.gamesWon || 0;
-                const losses = t.stats.derrotas || t.stats.losses || t.stats.gamesLost || 0;
-                
-                totalMatches += wins + losses;
-                totalMatchWins += wins;
-            }
+        if (positionNumber !== null && positionNumber < bestPositionNumber) {
+            bestPositionNumber = positionNumber;
+            bestPositionText = position;
+        }
+    });
+    
+    const stats = {
+        totalTournaments: circuitTournaments.length,
+        wins: wins,
+        bestPosition: bestPositionText,
+        bestPositionNumber: bestPositionNumber
+    };
+    
+    console.log('📊 Estadísticas calculadas:', stats);
+    return stats;
+}
+
+function detectTournamentPosition(result, position) {
+    let detectedPosition = '-';
+    let positionNumber = null;
+    
+    if (position) {
+        positionNumber = parseInt(position);
+        detectedPosition = `${positionNumber}º`;
+        return { position: detectedPosition, positionNumber };
+    }
+    
+    if (!result) return { position: '-', positionNumber: null };
+    
+    const resultLower = result.toLowerCase().trim();
+    
+    if (resultLower.includes('subcampeón') || resultLower.includes('subcampeon') || resultLower.includes('finalista') || resultLower === '2º' || resultLower === '2') {
+        detectedPosition = '2º';
+        positionNumber = 2;
+    }
+    else if (resultLower.includes('semifinal')) {
+        const match = result.match(/(\d+)/);
+        if (match) {
+            positionNumber = parseInt(match[1]);
+            detectedPosition = `${positionNumber}º`;
+        } else {
+            detectedPosition = '3º-4º';
+            positionNumber = 3;
+        }
+    }
+    else if (resultLower === '3' || resultLower === '3º') {
+        detectedPosition = '3º';
+        positionNumber = 3;
+    }
+    else if (resultLower === '4' || resultLower === '4º') {
+        detectedPosition = '4º';
+        positionNumber = 4;
+    }
+    else if (resultLower.includes('campeón') || resultLower.includes('campeon') || resultLower === '1' || resultLower === '1º') {
+        detectedPosition = '1º';
+        positionNumber = 1;
+    }
+    else {
+        const match = result.match(/(\d+)/);
+        if (match) {
+            positionNumber = parseInt(match[1]);
+            detectedPosition = `${positionNumber}º`;
+        } else {
+            detectedPosition = result;
+        }
+    }
+    
+    return { position: detectedPosition, positionNumber };
+}
         });
         
         // Calcular posición promedio
@@ -1017,6 +1066,7 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
 </script>
 </body>
 </html>
+
 
 
 
