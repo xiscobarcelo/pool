@@ -4,8 +4,7 @@
 // ============================================================
 
 let tournamentComparisonChartsAnalysis = {
-    position: null,
-    winRate: null
+    position: null
 };
 
 // ============================================================
@@ -238,29 +237,8 @@ function calculateComparisonStatsAnalysis(editions) {
 // ============================================================
 
 function renderComparisonAnalysis(data) {
-    // KPI Cards
-    document.getElementById('totalEditionsAnalysis').textContent = data.totalEditions;
-    document.getElementById('bestPositionAnalysis').textContent = data.bestResult || '-';
-    document.getElementById('avgPositionAnalysis').textContent = 
-        data.avgPosition !== '-' ? `${data.avgPosition}º` : '-';
-    
-    // Cambiar último KPI a "Promedio Jugadores" o "Total Premios"
-    const avgPlayersEl = document.getElementById('totalWinRateAnalysis');
-    if (avgPlayersEl) {
-        if (data.totalPrizes > 0) {
-            avgPlayersEl.textContent = `${data.totalPrizes}€`;
-        } else if (data.avgPlayers > 0) {
-            avgPlayersEl.textContent = `${data.avgPlayers} jugadores`;
-        } else {
-            avgPlayersEl.textContent = '-';
-        }
-    }
-    
-    // Gráficos
+    // Solo gráfico y tabla
     renderPositionChartAnalysis(data.editions);
-    renderPlayersChartAnalysis(data.editions);
-    
-    // Tabla
     renderComparisonTableAnalysis(data.editions);
 }
 
@@ -329,74 +307,6 @@ function renderPositionChartAnalysis(editions) {
                     title: {
                         display: true,
                         text: 'Posición (1º = mejor)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Año'
-                    }
-                }
-            }
-        }
-    });
-}
-
-// ============================================================
-// GRÁFICO: JUGADORES POR EDICIÓN
-// ============================================================
-
-function renderPlayersChartAnalysis(editions) {
-    const ctx = document.getElementById('winRateEvolutionChartAnalysis');
-    if (!ctx) return;
-    
-    if (tournamentComparisonChartsAnalysis.winRate) {
-        tournamentComparisonChartsAnalysis.winRate.destroy();
-    }
-    
-    const years = editions.map(e => e.year);
-    const players = editions.map(e => e.totalPlayers || 0);
-    
-    tournamentComparisonChartsAnalysis.winRate = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: years,
-            datasets: [{
-                label: 'Jugadores',
-                data: players,
-                backgroundColor: 'rgba(0, 217, 255, 0.8)',
-                borderColor: 'rgba(0, 217, 255, 1)',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const edition = editions[context.dataIndex];
-                            return [
-                                `Jugadores: ${context.parsed.y}`,
-                                `Posición: ${edition.position}`
-                            ];
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 5
-                    },
-                    title: {
-                        display: true,
-                        text: 'Número de Jugadores'
                     }
                 },
                 x: {
