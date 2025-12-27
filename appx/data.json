@@ -3472,6 +3472,28 @@
       },
       "id": "tournament_1766873310271",
       "createdAt": "2025-12-27T22:08:30.271Z"
+    },
+    {
+      "name": "Copa Baleares I",
+      "date": "2018-12-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766138082749",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766873364535",
+      "createdAt": "2025-12-27T22:09:24.535Z"
     }
   ],
   "circuits": [
