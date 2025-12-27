@@ -2200,7 +2200,7 @@
       "circuit": "circuit_1766139186569",
       "cue": "Lucasi+Revo12.9",
       "finalRival": "Agustín Torga",
-      "notes": "",
+      "notes": "Vbillares Salamanca",
       "stats": {
         "matchesPlayed": 5,
         "matchesWon": 5,
@@ -2211,7 +2211,8 @@
         "averageGamesPerMatch": "11.4"
       },
       "id": "tournament_1766155814994",
-      "createdAt": "2025-12-19T14:50:14.994Z"
+      "createdAt": "2025-12-19T14:50:14.994Z",
+      "updatedAt": "2025-12-27T15:38:01.993Z"
     },
     {
       "name": "Copa Sénior I",
