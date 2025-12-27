@@ -28,52 +28,6 @@
 	
 </head>
 <body>
-    <!-- Header con Logo y Menú -->
-    <div class="top-header">
-        <div class="header-content">
-             <a href="inicio.html" class="logo">
-             <div class="logo-icon">
-   <img src="/pool/images/poollogo_1.svg" width="190px"alt="PoolFlow tracker">               
-			 </div>
-			 </a>
-            
-            <nav class="desktop-nav">
-                <a href="registro-partidos.html" class="nav-link active">Registrar</a>
-                <a href="estadisticas.html" class="nav-link">Estadísticas</a>
-				<a href="historial.html" class="nav-link">Historial</a>
-				<a href="torneos.html" class="nav-link">Torneos</a>
-<a href="analisis.html" class="nav-link">Análisis</a>
-				<a href="config-github.html" class="nav-link">Configuración</a>
-
-                <a href="#" class="nav-link danger" onclick="resetAllDataFromStats(); return false;">Reiniciar</a>
-                <a href="#" class="nav-link" onclick="logout(); return false;">Salir</a>
-            </nav>
-
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Overlay del menú móvil -->
-    <div class="mobile-menu-overlay" onclick="toggleMenu()"></div>
-
-    <!-- Menú lateral móvil -->
-    <div class="mobile-menu">
-        <nav class="mobile-nav">
-            <a href="registro-partidos.html" class="nav-link active">Registrar</a>
-            <a href="estadisticas.html" class="nav-link">Estadísticas</a>
-			<a href="historial.html" class="nav-link">Historial</a>
-					<a href="torneos.html" class="nav-link">Torneos</a>
-<a href="analisis.html" class="nav-link">Análisis</a>
-			<a href="config-github.html" class="nav-link">Configuración</a>
-            <a href="#" class="nav-link danger" onclick="resetAllDataFromStats(); return false;">Reiniciar Datos</a>
-            <a href="#" class="nav-link" onclick="logout(); return false;">Cerrar Sesión</a>
-        </nav>
-    </div>
-
     <div class="container">
 		<!-- Header -->
 <div class="page-header">
@@ -245,7 +199,7 @@
 <script src="js/cloud-sync.js"></script>
 	 <script src="js/registro.js"></script>
  <script src="js/common.js"></script>
-   
+   <script src="js/top-nav.js"></script>
 	<script src="js/bottom-nav.js"></script>
 </body>
 </html>
