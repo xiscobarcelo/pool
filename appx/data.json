@@ -2032,7 +2032,7 @@
       "updatedAt": "2025-12-27T14:58:58.854Z"
     },
     {
-      "name": "Cto España Sénior",
+      "name": "Cto España Sénior B10",
       "date": "2024-05-17",
       "modality": "Bola 10",
       "totalPlayers": 27,
@@ -2051,7 +2051,8 @@
         "averageGamesPerMatch": "9.8"
       },
       "id": "tournament_1766154764615",
-      "createdAt": "2025-12-19T14:32:44.615Z"
+      "createdAt": "2025-12-19T14:32:44.615Z",
+      "updatedAt": "2025-12-27T14:59:19.156Z"
     },
     {
       "name": "Cto de Baleares B9",
