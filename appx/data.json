@@ -1781,13 +1781,13 @@
       "updatedAt": "2025-12-25T23:43:01.323Z"
     },
     {
-      "name": "Cto España",
+      "name": "Cto España B10",
       "date": "2025-06-29",
       "modality": "Bola 10",
       "totalPlayers": 23,
       "result": "5º",
       "circuit": "circuit_1766139174903",
-      "cue": "",
+      "cue": "Velasco+Revo12.9",
       "finalRival": "Diego Pedro Simón",
       "notes": "Club Sierra Billiard's Valencia Pool",
       "stats": {
@@ -1801,7 +1801,7 @@
       },
       "id": "tournament_1766152308879",
       "createdAt": "2025-12-19T13:51:48.879Z",
-      "updatedAt": "2025-12-25T23:42:45.608Z"
+      "updatedAt": "2025-12-27T15:04:02.831Z"
     },
     {
       "name": "Cto España B8",
