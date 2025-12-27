@@ -1,3 +1,10 @@
+
+
+	<!-- ============================================ -->
+<!-- COMPARATIVA DE CIRCUITOS - VERSIÓN CORREGIDA V3 -->
+<!-- Con detección mejorada de victorias, métricas Y POSICIONES -->
+<!-- ============================================ -->
+
 <script>
 // ============================================
 // VARIABLES GLOBALES PARA COMPARATIVA
@@ -827,5 +834,5 @@ function updateCircuitComparisonIfVisible() {
     }
 }
 
-console.log('✅ Comparativa de circuitos FIXED - Detección mejorada de posiciones (Campeón > Subcampeón > Semifinales > Números)');
+console.log('✅ Comparativa de circuitos v3 - FIX APLICADO: Detección mejorada de posiciones (Campeón > Subcampeón > Semifinales > Números)');
 </script>
