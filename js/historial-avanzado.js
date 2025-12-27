@@ -34,8 +34,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(async () => {
             const githubData = await CloudSync.pullFromGitHub();
             if (githubData && githubData.matches) {
+                console.log('🔄 Sincronizando desde GitHub...');
                 allMatches = githubData.matches;
+                
+                // Reinicializar filtros con los nuevos datos
+                document.getElementById('filterYear').innerHTML = '<option value="">Todos</option>';
+                document.getElementById('filterModality').innerHTML = '<option value="">Todas</option>';
+                document.getElementById('filterMaterial').innerHTML = '<option value="">Todos</option>';
+                
+                initializeFilters();
                 applyFilters();
+                
+                console.log('✅ Sincronización completada:', allMatches.length, 'partidos');
             }
         }, 500);
     }
@@ -212,7 +222,17 @@ function applyFilters() {
     });
     
     currentPage = 1;
+    
+    // Calcular victorias y derrotas SOLO de los partidos filtrados
+    const filteredStats = calculateFilteredStats(filteredMatches);
+    
+    // Actualizar cards con totales unificados (sin filtros)
     updateStatsCards();
+    
+    // Actualizar gráfico con stats filtradas
+    updateChart(filteredStats.wins, filteredStats.losses);
+    
+    // Renderizar tabla
     renderTable();
     
     // Mostrar/ocultar estados
@@ -223,6 +243,29 @@ function applyFilters() {
     } else {
         document.getElementById('emptyState').style.display = 'none';
     }
+}
+
+function calculateFilteredStats(matches) {
+    let wins = 0;
+    let losses = 0;
+    
+    matches.forEach(match => {
+        const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
+        const isXiscoP2 = match.player2?.toLowerCase() === 'xisco';
+        
+        if (!isXiscoP1 && !isXiscoP2) return;
+        
+        const xiscoScore = isXiscoP1 ? parseInt(match.score1) : parseInt(match.score2);
+        const opponentScore = isXiscoP1 ? parseInt(match.score2) : parseInt(match.score1);
+        
+        if (xiscoScore > opponentScore) {
+            wins++;
+        } else {
+            losses++;
+        }
+    });
+    
+    return { wins, losses };
 }
 
 function clearFilters() {
@@ -313,17 +356,21 @@ function renderPagination() {
         `Mostrando ${start}-${end} de ${filteredMatches.length}`;
     
     const buttonsHtml = `
-        
+        <button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>
+            ⏮ Primero
+        </button>
         <button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
-            ◀ 
+            ◀ Anterior
         </button>
         <span style="padding: 10px 20px; font-weight: 600; color: var(--dark);">
             ${currentPage} / ${totalPages}
         </span>
         <button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
-             ▶
+            Siguiente ▶
         </button>
-      
+        <button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+            Último ⏭
+        </button>
     `;
     
     document.getElementById('paginationButtons').innerHTML = buttonsHtml;
@@ -348,6 +395,29 @@ function updateChart(wins, losses) {
     
     if (winsChart) {
         winsChart.destroy();
+    }
+    
+    // Verificar si hay filtros activos
+    const year = document.getElementById('filterYear').value;
+    const modality = document.getElementById('filterModality').value;
+    const material = document.getElementById('filterMaterial').value;
+    const player = document.getElementById('filterPlayer').value;
+    const hasFilters = year || modality || material || player;
+    
+    // Actualizar título del gráfico
+    const chartTitle = document.querySelector('.chart-section .filters-title');
+    if (chartTitle) {
+        if (hasFilters) {
+            const filters = [];
+            if (year) filters.push(`Año ${year}`);
+            if (modality) filters.push(modality);
+            if (material) filters.push(material);
+            if (player) filters.push(`vs ${player}`);
+            
+            chartTitle.textContent = `Victorias vs Derrotas (${filters.join(' • ')})`;
+        } else {
+            chartTitle.textContent = 'Victorias vs Derrotas';
+        }
     }
     
     winsChart = new Chart(ctx, {
@@ -377,6 +447,17 @@ function updateChart(wins, losses) {
                         font: {
                             size: 14,
                             weight: '600'
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            const total = wins + losses;
+                            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                            return `${label}: ${value} (${percentage}%)`;
                         }
                     }
                 }
