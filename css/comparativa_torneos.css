@@ -1,0 +1,324 @@
+
+/* ============================================================
+   ESTILOS PARA COMPARATIVA DE TORNEOS EN ANALISIS.HTML
+   ============================================================ */
+
+.tournament-comparison-wrapper {
+    margin-bottom: 40px;
+}
+
+.analysis-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.section-header-analysis {
+    margin-bottom: 30px;
+}
+
+.section-title-group {
+    text-align: center;
+}
+
+.section-main-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 8px;
+}
+
+.section-subtitle-text {
+    font-size: 1rem;
+    color: #86868b;
+}
+
+/* Selector */
+.tournament-selector-wrapper {
+    margin-bottom: 30px;
+}
+
+.selector-card-inner {
+    background: linear-gradient(135deg, rgba(0, 255, 242, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
+    border: 2px solid rgba(0, 217, 255, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.selector-label-wrapper {
+    margin-bottom: 12px;
+}
+
+.tournament-selector-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.label-icon {
+    font-size: 1.3rem;
+}
+
+.tournament-selector-input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    background: white;
+    color: #1d1d1f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Syne', sans-serif;
+    font-weight: 500;
+}
+
+.tournament-selector-input:focus {
+    outline: none;
+    border-color: rgba(0, 217, 255, 1);
+    box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.1);
+}
+
+/* Estados */
+.comparison-state-box {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.state-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f0f0f0;
+    border-top-color: rgba(0, 217, 255, 1);
+    border-radius: 50%;
+    animation: spinner-rotation 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spinner-rotation {
+    to { transform: rotate(360deg); }
+}
+
+.state-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.state-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 10px;
+}
+
+.state-text {
+    font-size: 1rem;
+    color: #86868b;
+}
+
+/* KPI Cards */
+.tournament-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-card.kpi-primary {
+    border-left: 4px solid rgba(0, 255, 242, 1);
+}
+
+.kpi-card.kpi-success {
+    border-left: 4px solid rgba(0, 217, 255, 1);
+}
+
+.kpi-card.kpi-info {
+    border-left: 4px solid rgba(22, 35, 129, 1);
+}
+
+.kpi-card.kpi-warning {
+    border-left: 4px solid rgba(0, 200, 230, 1);
+}
+
+.kpi-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.kpi-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    color: #86868b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Charts Grid */
+.tournament-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.tournament-chart-box {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.chart-box-header {
+    margin-bottom: 20px;
+}
+
+.chart-box-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 4px;
+}
+
+.chart-box-subtitle {
+    font-size: 0.9rem;
+    color: #86868b;
+}
+
+.chart-box-canvas {
+    height: 300px;
+    position: relative;
+}
+
+/* Table */
+.tournament-table-box {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.table-box-header {
+    margin-bottom: 20px;
+}
+
+.table-box-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1d1d1f;
+}
+
+.table-scroll-wrapper {
+    overflow-x: auto;
+}
+
+.tournament-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tournament-detail-table thead {
+    background: linear-gradient(135deg, rgba(0, 255, 242, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
+}
+
+.tournament-detail-table th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    color: #1d1d1f;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tournament-detail-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #1d1d1f;
+}
+
+.tournament-detail-table tbody tr:hover {
+    background: rgba(0, 217, 255, 0.05);
+}
+
+.tournament-detail-table .year-cell {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: rgba(0, 217, 255, 1);
+}
+
+.tournament-detail-table .position-cell {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.position-1 { color: #FFD700 !important; } /* Oro */
+.position-2 { color: #C0C0C0 !important; } /* Plata */
+.position-3 { color: #CD7F32 !important; } /* Bronce */
+
+.winrate-high { color: #34c759; font-weight: 700; }
+.winrate-medium { color: rgba(0, 217, 255, 1); font-weight: 600; }
+.winrate-low { color: #ff3b30; font-weight: 600; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tournament-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tournament-charts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .kpi-card {
+        padding: 16px;
+    }
+    
+    .kpi-icon {
+        font-size: 2rem;
+    }
+    
+    .kpi-number {
+        font-size: 1.6rem;
+    }
+    
+    .chart-box-canvas {
+        height: 250px;
+    }
+    
+    .tournament-detail-table {
+        font-size: 0.85rem;
+    }
+    
+    .tournament-detail-table th,
+    .tournament-detail-table td {
+        padding: 12px 8px;
+    }
+}
