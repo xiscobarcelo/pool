@@ -3186,6 +3186,28 @@
       },
       "id": "tournament_1766872482547",
       "createdAt": "2025-12-27T21:54:42.547Z"
+    },
+    {
+      "name": "Cto de Baleares B8",
+      "date": "2021-03-27",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766137940261",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766872529850",
+      "createdAt": "2025-12-27T21:55:29.850Z"
     }
   ],
   "circuits": [
