@@ -1804,13 +1804,13 @@
       "updatedAt": "2025-12-25T23:42:45.608Z"
     },
     {
-      "name": "Cto España",
+      "name": "Cto España B8",
       "date": "2025-06-27",
       "modality": "Bola 8",
       "totalPlayers": 19,
       "result": "Subcampeón",
       "circuit": "circuit_1766139174903",
-      "cue": "Cuetec+cinergy12.5",
+      "cue": "",
       "finalRival": "Sergio Lagunas",
       "notes": "Club Sierra Billiard's Valencia Pool",
       "stats": {
@@ -1824,7 +1824,7 @@
       },
       "id": "tournament_1766152424030",
       "createdAt": "2025-12-19T13:53:44.030Z",
-      "updatedAt": "2025-12-19T14:23:38.466Z"
+      "updatedAt": "2025-12-27T15:03:18.684Z"
     },
     {
       "name": "Copa Sénior IV",
