@@ -3252,6 +3252,28 @@
       },
       "id": "tournament_1766872664377",
       "createdAt": "2025-12-27T21:57:44.377Z"
+    },
+    {
+      "name": "Copa Baleares III",
+      "date": "2021-03-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "9º",
+      "circuit": "circuit_1766137940261",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766872697577",
+      "createdAt": "2025-12-27T21:58:17.577Z"
     }
   ],
   "circuits": [
