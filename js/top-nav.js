@@ -15,7 +15,7 @@ function loadTopNavigation() {
             </a>
             
             <nav class="desktop-nav">
-                <a href="registro-partidos.html" class="nav-link" data-page="registro-partidos">Partidos</a>
+                <a href="registro-partidos.html" class="nav-link" data-page="registro-partidos">Registrar</a>
                 <a href="estadisticas.html" class="nav-link" data-page="estadisticas">Estadísticas</a>
                 <a href="historial.html" class="nav-link" data-page="historial">Historial</a>	
                 <a href="torneos.html" class="nav-link" data-page="torneos">Torneos</a>
@@ -39,7 +39,7 @@ function loadTopNavigation() {
     <!-- Menú lateral móvil -->
     <div class="mobile-menu">
         <nav class="mobile-nav">
-            <a href="registro-partidos.html" class="nav-link" data-page="registro-partidos">Partidos</a>
+            <a href="registro-partidos.html" class="nav-link" data-page="registro-partidos">Registrar</a>
             <a href="estadisticas.html" class="nav-link" data-page="estadisticas">Estadísticas</a>
             <a href="historial.html" class="nav-link" data-page="historial">Historial</a>
             <a href="torneos.html" class="nav-link" data-page="torneos">Torneos</a>
