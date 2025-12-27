@@ -3450,6 +3450,28 @@
       },
       "id": "tournament_1766873243871",
       "createdAt": "2025-12-27T22:07:23.871Z"
+    },
+    {
+      "name": "Cto de Baleares B8",
+      "date": "2019-04-27",
+      "modality": "Bola 8",
+      "totalPlayers": 32,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766138082749",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Bola",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766873310271",
+      "createdAt": "2025-12-27T22:08:30.271Z"
     }
   ],
   "circuits": [
