@@ -19,10 +19,6 @@
     margin-bottom: 30px;
 }
 
-.section-title-group {
-    text-align: center;
-}
-
 .section-main-title {
     font-size: 1.8rem;
     font-weight: 700;
@@ -323,4 +319,5 @@
         padding: 12px 8px;
     }
 }
+
 
