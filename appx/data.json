@@ -3030,6 +3030,28 @@
       },
       "id": "tournament_1766871835161",
       "createdAt": "2025-12-27T21:43:55.161Z"
+    },
+    {
+      "name": "Copa Baleares IV",
+      "date": "2022-03-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Semifinales",
+      "circuit": "circuit_1766137914997",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766871883375",
+      "createdAt": "2025-12-27T21:44:43.375Z"
     }
   ],
   "circuits": [
