@@ -32,6 +32,18 @@ function initBottomNav() {
                 </svg>
                 <span class="nav-label">Análisis</span>
             </a>
+            <a href="historial.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+        <path d="M6 9a6 6 0 0 0 12 0"></path>
+        <line x1="12" y1="15" x2="12" y2="17"></line>
+        <line x1="8" y1="17" x2="16" y2="17"></line>
+        <circle cx="18" cy="19" r="3"></circle>
+        <path d="M18 18v1.5l1 .5"></path>
+    </svg>
+    <span>Historial</span>
+</a>
         </div>
     </nav>
     `;
