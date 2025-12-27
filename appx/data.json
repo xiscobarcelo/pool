@@ -3052,6 +3052,28 @@
       },
       "id": "tournament_1766871883375",
       "createdAt": "2025-12-27T21:44:43.375Z"
+    },
+    {
+      "name": "Máster",
+      "date": "2022-04-27",
+      "modality": "Bola 10",
+      "totalPlayers": 16,
+      "result": "Campeón",
+      "circuit": "circuit_1766137914997",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Faust",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766871986660",
+      "createdAt": "2025-12-27T21:46:26.660Z"
     }
   ],
   "circuits": [
