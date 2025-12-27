@@ -3538,6 +3538,28 @@
       },
       "id": "tournament_1766873471131",
       "createdAt": "2025-12-27T22:11:11.131Z"
+    },
+    {
+      "name": "Copa Baleares VI",
+      "date": "2019-03-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766138082749",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Manuel Montejo",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766873518382",
+      "createdAt": "2025-12-27T22:11:58.382Z"
     }
   ],
   "circuits": [
