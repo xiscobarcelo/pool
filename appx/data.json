@@ -2281,11 +2281,11 @@
       "updatedAt": "2025-12-27T15:05:00.613Z"
     },
     {
-      "name": "Cto Europa Sénior",
+      "name": "Cto Europa Sénior B9",
       "date": "2025-10-18",
       "modality": "Bola 9",
       "totalPlayers": 94,
-      "result": "Fase de Grupos",
+      "result": "33º",
       "circuit": "circuit_1766307061120",
       "cue": "Velasco+Revo12.9",
       "finalRival": "",
@@ -2300,7 +2300,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594208553",
-      "createdAt": "2025-12-24T16:36:48.553Z"
+      "createdAt": "2025-12-24T16:36:48.553Z",
+      "updatedAt": "2025-12-27T15:05:54.899Z"
     },
     {
       "name": "Cto Europa Sénior B10",
