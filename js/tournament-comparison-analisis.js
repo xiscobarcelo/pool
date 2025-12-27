@@ -120,99 +120,113 @@ function calculateComparisonStatsAnalysis(editions) {
         editions: [],
         totalEditions: editions.length,
         bestPosition: Infinity,
-        worstPosition: 0,
-        totalMatches: 0,
-        totalWins: 0
+        bestResult: null,
+        totalPrizes: 0,
+        avgPlayers: 0
     };
     
-    const data = CloudSync.getData();
-    const allMatches = data.matches || [];
+    let totalPlayers = 0;
+    let countWithPlayers = 0;
     
     editions.forEach(tournament => {
-        console.log('📊 Procesando torneo:', tournament.name, tournament.year);
+        console.log('📊 Procesando torneo:', tournament.name, new Date(tournament.date).getFullYear());
         
-        // Buscar partidos que pertenecen a este torneo
-        const tournamentMatches = allMatches.filter(match => {
-            // Opción 1: Por tournamentId
-            if (match.tournamentId === tournament.id) return true;
-            
-            // Opción 2: Por nombre y año del torneo
-            if (match.tournament === tournament.name && 
-                new Date(match.date).getFullYear() === tournament.year) return true;
-            
-            // Opción 3: Si el torneo tiene array de matches
-            if (tournament.matches && tournament.matches.length > 0) {
-                return tournament.matches.some(m => m.id === match.id);
-            }
-            
-            return false;
-        });
+        // Extraer el año de la fecha
+        const year = new Date(tournament.date).getFullYear();
         
-        console.log('  Partidos encontrados:', tournamentMatches.length);
+        // Procesar la posición o resultado
+        let position = '-';
+        let positionNumber = null;
         
-        // Calcular stats de partidos
-        let wins = 0;
-        let losses = 0;
-        
-        tournamentMatches.forEach(match => {
-            const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
-            const isXiscoP2 = match.player2?.toLowerCase() === 'xisco';
+        // Intentar extraer posición del campo result
+        if (tournament.result) {
+            const resultLower = tournament.result.toLowerCase();
             
-            if (!isXiscoP1 && !isXiscoP2) return;
-            
-            const xiscoScore = isXiscoP1 ? parseInt(match.score1) : parseInt(match.score2);
-            const opponentScore = isXiscoP1 ? parseInt(match.score2) : parseInt(match.score1);
-            
-            if (xiscoScore > opponentScore) {
-                wins++;
+            // Casos especiales
+            if (resultLower.includes('campeón') || resultLower === 'campeon' || resultLower === '1') {
+                position = '1º';
+                positionNumber = 1;
+            } else if (resultLower.includes('subcampeón') || resultLower === 'subcampeon' || resultLower === '2') {
+                position = '2º';
+                positionNumber = 2;
+            } else if (resultLower.includes('semifinal') || resultLower.includes('3') || resultLower.includes('4')) {
+                // Extraer número si está en el formato "3º", "4º", etc.
+                const match = tournament.result.match(/(\d+)/);
+                if (match) {
+                    positionNumber = parseInt(match[1]);
+                    position = `${positionNumber}º`;
+                } else {
+                    position = tournament.result;
+                }
             } else {
-                losses++;
+                // Intentar extraer cualquier número
+                const match = tournament.result.match(/(\d+)/);
+                if (match) {
+                    positionNumber = parseInt(match[1]);
+                    position = `${positionNumber}º`;
+                } else {
+                    position = tournament.result;
+                }
             }
-        });
+        }
         
-        const totalMatches = wins + losses;
-        const winRate = totalMatches > 0 ? ((wins / totalMatches) * 100).toFixed(1) : 0;
+        // Si tiene position directamente
+        if (tournament.position) {
+            positionNumber = parseInt(tournament.position);
+            position = `${positionNumber}º`;
+        }
         
-        console.log(`  Stats: ${wins}W / ${losses}L = ${winRate}%`);
+        // Contar jugadores
+        const players = parseInt(tournament.totalPlayers) || 0;
+        if (players > 0) {
+            totalPlayers += players;
+            countWithPlayers++;
+        }
+        
+        // Contar premio
+        const prize = parseFloat(tournament.prize) || 0;
+        stats.totalPrizes += prize;
+        
+        console.log(`  Posición: ${position}, Jugadores: ${players}, Premio: ${prize}`);
         
         // Guardar stats de esta edición
         const editionStats = {
-            year: tournament.year,
-            position: tournament.position || '-',
-            matches: totalMatches,
-            wins: wins,
-            losses: losses,
-            winRate: parseFloat(winRate),
+            year: year,
+            position: position,
+            positionNumber: positionNumber,
+            totalPlayers: players,
+            prize: prize,
+            modality: tournament.modality || '-',
             notes: tournament.notes || '-'
         };
         
         stats.editions.push(editionStats);
         
-        // Actualizar best/worst position
-        const pos = parseInt(tournament.position);
-        if (!isNaN(pos)) {
-            if (pos < stats.bestPosition) stats.bestPosition = pos;
-            if (pos > stats.worstPosition) stats.worstPosition = pos;
+        // Actualizar mejor posición
+        if (positionNumber !== null && positionNumber < stats.bestPosition) {
+            stats.bestPosition = positionNumber;
+            stats.bestResult = position;
         }
-        
-        // Totales
-        stats.totalMatches += totalMatches;
-        stats.totalWins += wins;
     });
     
-    // Calcular posición media
+    // Calcular posición media (solo de posiciones numéricas)
     const validPositions = stats.editions
-        .map(e => parseInt(e.position))
-        .filter(p => !isNaN(p));
+        .map(e => e.positionNumber)
+        .filter(p => p !== null && !isNaN(p));
     
     stats.avgPosition = validPositions.length > 0
         ? (validPositions.reduce((a, b) => a + b, 0) / validPositions.length).toFixed(1)
         : '-';
     
-    // Win rate total
-    stats.totalWinRate = stats.totalMatches > 0
-        ? ((stats.totalWins / stats.totalMatches) * 100).toFixed(1)
+    // Promedio de jugadores
+    stats.avgPlayers = countWithPlayers > 0
+        ? Math.round(totalPlayers / countWithPlayers)
         : 0;
+    
+    // Mejor resultado
+    if (stats.bestResult === null) {
+        stats.bestResult = '-';
+    }
     
     console.log('📈 Stats finales:', stats);
     
@@ -226,15 +240,25 @@ function calculateComparisonStatsAnalysis(editions) {
 function renderComparisonAnalysis(data) {
     // KPI Cards
     document.getElementById('totalEditionsAnalysis').textContent = data.totalEditions;
-    document.getElementById('bestPositionAnalysis').textContent = 
-        data.bestPosition !== Infinity ? `${data.bestPosition}º` : '-';
+    document.getElementById('bestPositionAnalysis').textContent = data.bestResult || '-';
     document.getElementById('avgPositionAnalysis').textContent = 
         data.avgPosition !== '-' ? `${data.avgPosition}º` : '-';
-    document.getElementById('totalWinRateAnalysis').textContent = `${data.totalWinRate}%`;
+    
+    // Cambiar último KPI a "Promedio Jugadores" o "Total Premios"
+    const avgPlayersEl = document.getElementById('totalWinRateAnalysis');
+    if (avgPlayersEl) {
+        if (data.totalPrizes > 0) {
+            avgPlayersEl.textContent = `${data.totalPrizes}€`;
+        } else if (data.avgPlayers > 0) {
+            avgPlayersEl.textContent = `${data.avgPlayers} jugadores`;
+        } else {
+            avgPlayersEl.textContent = '-';
+        }
+    }
     
     // Gráficos
     renderPositionChartAnalysis(data.editions);
-    renderWinRateChartAnalysis(data.editions);
+    renderPlayersChartAnalysis(data.editions);
     
     // Tabla
     renderComparisonTableAnalysis(data.editions);
@@ -319,10 +343,10 @@ function renderPositionChartAnalysis(editions) {
 }
 
 // ============================================================
-// GRÁFICO: WIN RATE POR AÑO
+// GRÁFICO: JUGADORES POR EDICIÓN
 // ============================================================
 
-function renderWinRateChartAnalysis(editions) {
+function renderPlayersChartAnalysis(editions) {
     const ctx = document.getElementById('winRateEvolutionChartAnalysis');
     if (!ctx) return;
     
@@ -331,26 +355,17 @@ function renderWinRateChartAnalysis(editions) {
     }
     
     const years = editions.map(e => e.year);
-    const winRates = editions.map(e => e.winRate);
-    
-    // Colores según win rate (corporativos)
-    const backgroundColors = winRates.map(wr => {
-        if (wr >= 70) return 'rgba(0, 255, 242, 0.8)'; // Cyan
-        if (wr >= 50) return 'rgba(0, 217, 255, 0.8)'; // Azul
-        return 'rgba(22, 35, 129, 0.8)'; // Azul oscuro
-    });
-    
-    const borderColors = backgroundColors.map(c => c.replace('0.8', '1'));
+    const players = editions.map(e => e.totalPlayers || 0);
     
     tournamentComparisonChartsAnalysis.winRate = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: years,
             datasets: [{
-                label: 'Win Rate (%)',
-                data: winRates,
-                backgroundColor: backgroundColors,
-                borderColor: borderColors,
+                label: 'Jugadores',
+                data: players,
+                backgroundColor: 'rgba(0, 217, 255, 0.8)',
+                borderColor: 'rgba(0, 217, 255, 1)',
                 borderWidth: 2
             }]
         },
@@ -366,8 +381,8 @@ function renderWinRateChartAnalysis(editions) {
                         label: function(context) {
                             const edition = editions[context.dataIndex];
                             return [
-                                `Win Rate: ${context.parsed.y.toFixed(1)}%`,
-                                `Partidos: ${edition.wins}/${edition.matches}`
+                                `Jugadores: ${context.parsed.y}`,
+                                `Posición: ${edition.position}`
                             ];
                         }
                     }
@@ -376,15 +391,12 @@ function renderWinRateChartAnalysis(editions) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 100,
                     ticks: {
-                        callback: function(value) {
-                            return value + '%';
-                        }
+                        stepSize: 5
                     },
                     title: {
                         display: true,
-                        text: 'Win Rate (%)'
+                        text: 'Número de Jugadores'
                     }
                 },
                 x: {
@@ -407,29 +419,27 @@ function renderComparisonTableAnalysis(editions) {
     if (!tbody) return;
     
     tbody.innerHTML = editions.map(edition => {
-        const positionClass = getPositionClassAnalysis(edition.position);
-        const winRateClass = getWinRateClassAnalysis(edition.winRate);
+        const positionClass = getPositionClassAnalysis(edition.positionNumber);
+        const prizeText = edition.prize > 0 ? `${edition.prize}€` : '-';
         
         return `
             <tr>
                 <td class="year-cell">${edition.year}</td>
-                <td class="position-cell ${positionClass}">${edition.position}º</td>
-                <td>${edition.matches}</td>
-                <td>${edition.wins}</td>
-                <td>${edition.losses}</td>
-                <td class="${winRateClass}">${edition.winRate}%</td>
+                <td class="position-cell ${positionClass}">${edition.position}</td>
+                <td>${edition.totalPlayers || '-'}</td>
+                <td>${edition.modality}</td>
+                <td>${prizeText}</td>
                 <td>${edition.notes}</td>
             </tr>
         `;
     }).join('');
 }
 
-function getPositionClassAnalysis(position) {
-    const pos = parseInt(position);
-    if (isNaN(pos)) return '';
-    if (pos === 1) return 'position-1';
-    if (pos === 2) return 'position-2';
-    if (pos === 3) return 'position-3';
+function getPositionClassAnalysis(positionNumber) {
+    if (!positionNumber) return '';
+    if (positionNumber === 1) return 'position-1';
+    if (positionNumber === 2) return 'position-2';
+    if (positionNumber === 3) return 'position-3';
     return '';
 }
 
