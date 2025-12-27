@@ -4,10 +4,7 @@ function initBottomNav() {
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="registro-partidos.html" class="nav-item" data-page="registro-partidos">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"></circle>
-                </svg>
+             <img src="images/partidos.svg width:24px">
                 <span class="nav-label">Partidos</span>
             </a>
             
