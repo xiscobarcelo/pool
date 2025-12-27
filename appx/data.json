@@ -2875,7 +2875,7 @@
       "createdAt": "2025-12-25T00:37:56.708Z"
     },
     {
-      "name": "Copa Sénior VI",
+      "name": "Copa Sénior IV",
       "date": "2023-02-25",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -2894,7 +2894,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766623137225",
-      "createdAt": "2025-12-25T00:38:57.225Z"
+      "createdAt": "2025-12-25T00:38:57.225Z",
+      "updatedAt": "2025-12-27T21:11:17.924Z"
     },
     {
       "name": "Cto España Sénior",
