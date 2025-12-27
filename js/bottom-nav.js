@@ -5,7 +5,7 @@ function initBottomNav() {
         <div class="nav-container">
             <a href="registro-partidos.html" class="nav-item" data-page="registro-partidos">
              <img src="images/partidos.svg" width="24">
-                <span class="nav-label">Partidos</span>
+                <span class="nav-label">Registrar</span>
             </a>
             
             <a href="estadisticas.html" class="nav-item" data-page="estadisticas">
