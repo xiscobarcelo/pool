@@ -3340,6 +3340,28 @@
       },
       "id": "tournament_1766872863326",
       "createdAt": "2025-12-27T22:01:03.326Z"
+    },
+    {
+      "name": "Copa Baleares II",
+      "date": "2020-01-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "5º",
+      "circuit": "circuit_1766138067925",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766872905192",
+      "createdAt": "2025-12-27T22:01:45.192Z"
     }
   ],
   "circuits": [
