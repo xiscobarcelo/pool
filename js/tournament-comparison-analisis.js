@@ -125,14 +125,36 @@ function calculateComparisonStatsAnalysis(editions) {
         totalWins: 0
     };
     
+    const data = CloudSync.getData();
+    const allMatches = data.matches || [];
+    
     editions.forEach(tournament => {
-        const matches = tournament.matches || [];
+        console.log('📊 Procesando torneo:', tournament.name, tournament.year);
+        
+        // Buscar partidos que pertenecen a este torneo
+        const tournamentMatches = allMatches.filter(match => {
+            // Opción 1: Por tournamentId
+            if (match.tournamentId === tournament.id) return true;
+            
+            // Opción 2: Por nombre y año del torneo
+            if (match.tournament === tournament.name && 
+                new Date(match.date).getFullYear() === tournament.year) return true;
+            
+            // Opción 3: Si el torneo tiene array de matches
+            if (tournament.matches && tournament.matches.length > 0) {
+                return tournament.matches.some(m => m.id === match.id);
+            }
+            
+            return false;
+        });
+        
+        console.log('  Partidos encontrados:', tournamentMatches.length);
         
         // Calcular stats de partidos
         let wins = 0;
         let losses = 0;
         
-        matches.forEach(match => {
+        tournamentMatches.forEach(match => {
             const isXiscoP1 = match.player1?.toLowerCase() === 'xisco';
             const isXiscoP2 = match.player2?.toLowerCase() === 'xisco';
             
@@ -150,6 +172,8 @@ function calculateComparisonStatsAnalysis(editions) {
         
         const totalMatches = wins + losses;
         const winRate = totalMatches > 0 ? ((wins / totalMatches) * 100).toFixed(1) : 0;
+        
+        console.log(`  Stats: ${wins}W / ${losses}L = ${winRate}%`);
         
         // Guardar stats de esta edición
         const editionStats = {
@@ -190,7 +214,7 @@ function calculateComparisonStatsAnalysis(editions) {
         ? ((stats.totalWins / stats.totalMatches) * 100).toFixed(1)
         : 0;
     
-    console.log('📈 Stats calculadas:', stats);
+    console.log('📈 Stats finales:', stats);
     
     return stats;
 }
