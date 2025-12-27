@@ -3428,6 +3428,28 @@
       },
       "id": "tournament_1766873131273",
       "createdAt": "2025-12-27T22:05:31.273Z"
+    },
+    {
+      "name": "Cto de Baleares B9",
+      "date": "2019-05-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766138082749",
+      "cue": "Lucasi+Revo12.9",
+      "finalRival": "Adrian Wood",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766873243871",
+      "createdAt": "2025-12-27T22:07:23.871Z"
     }
   ],
   "circuits": [
