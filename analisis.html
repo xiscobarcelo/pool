@@ -905,17 +905,6 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
 </script>
 
 
-
-	 <!-- ============================================================
-     SECCIÓN: COMPARATIVA HISTÓRICA DE TORNEOS PARA ANALISIS.HTML
-     
-     INSTRUCCIONES DE INSTALACIÓN:
-     1. Abre analisis.html
-     2. Busca donde quieres añadir esta sección (recomendado: al final)
-     3. Pega todo este código
-     4. Guarda y refresca
-     ============================================================ -->
-
 <!-- Comparativa de Torneos -->
 <section class="analysis-section tournament-comparison-wrapper">
     <div class="section-header-analysis">
@@ -961,44 +950,8 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
 
         <!-- Contenido Principal -->
         <div id="comparisonContentAnalysis" class="comparison-main-content" style="display: none;">
-            <!-- KPI Cards -->
-            <div class="tournament-kpi-grid">
-                <div class="kpi-card kpi-primary">
-                    <div class="kpi-icon">🏆</div>
-                    <div class="kpi-data">
-                        <div class="kpi-number" id="totalEditionsAnalysis">0</div>
-                        <div class="kpi-label">Ediciones Jugadas</div>
-                    </div>
-                </div>
-                
-                <div class="kpi-card kpi-success">
-                    <div class="kpi-icon">👑</div>
-                    <div class="kpi-data">
-                        <div class="kpi-number" id="bestPositionAnalysis">-</div>
-                        <div class="kpi-label">Mejor Posición</div>
-                    </div>
-                </div>
-                
-                <div class="kpi-card kpi-info">
-                    <div class="kpi-icon">📈</div>
-                    <div class="kpi-data">
-                        <div class="kpi-number" id="avgPositionAnalysis">-</div>
-                        <div class="kpi-label">Posición Media</div>
-                    </div>
-                </div>
-                
-                <div class="kpi-card kpi-warning">
-                    <div class="kpi-icon">💰</div>
-                    <div class="kpi-data">
-                        <div class="kpi-number" id="totalWinRateAnalysis">0€</div>
-                        <div class="kpi-label">Premios Totales</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Charts Grid -->
-            <div class="tournament-charts-grid">
-                <!-- Chart: Evolución de Posición -->
+            <!-- Chart Full Width -->
+            <div class="tournament-chart-full">
                 <div class="tournament-chart-box">
                     <div class="chart-box-header">
                         <h3 class="chart-box-title">📈 Evolución de tu Posición</h3>
@@ -1006,17 +959,6 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
                     </div>
                     <div class="chart-box-canvas">
                         <canvas id="positionEvolutionChartAnalysis"></canvas>
-                    </div>
-                </div>
-
-                <!-- Chart: Players Evolution -->
-                <div class="tournament-chart-box">
-                    <div class="chart-box-header">
-                        <h3 class="chart-box-title">👥 Participación por Edición</h3>
-                        <p class="chart-box-subtitle">Número de jugadores en cada año</p>
-                    </div>
-                    <div class="chart-box-canvas">
-                        <canvas id="winRateEvolutionChartAnalysis"></canvas>
                     </div>
                 </div>
             </div>
@@ -1075,6 +1017,7 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
 </script>
 </body>
 </html>
+
 
 
 
