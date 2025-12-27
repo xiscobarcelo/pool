@@ -2760,7 +2760,7 @@
       "updatedAt": "2025-12-25T23:44:43.887Z"
     },
     {
-      "name": "Cto de Baleares",
+      "name": "Cto de Baleares B8",
       "date": "2023-04-25",
       "modality": "Bola 8",
       "totalPlayers": 32,
@@ -2779,7 +2779,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766622711433",
-      "createdAt": "2025-12-25T00:31:51.433Z"
+      "createdAt": "2025-12-25T00:31:51.433Z",
+      "updatedAt": "2025-12-27T15:07:49.999Z"
     },
     {
       "name": "Máster",
