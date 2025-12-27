@@ -904,6 +904,18 @@ function updateCircuitComparisonIfVisible() {
 console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + todas las métricas)');
 </script>
 
+
+
+	 <!-- ============================================================
+     SECCIÓN: COMPARATIVA HISTÓRICA DE TORNEOS PARA ANALISIS.HTML
+     
+     INSTRUCCIONES DE INSTALACIÓN:
+     1. Abre analisis.html
+     2. Busca donde quieres añadir esta sección (recomendado: al final)
+     3. Pega todo este código
+     4. Guarda y refresca
+     ============================================================ -->
+
 <!-- Comparativa de Torneos -->
 <section class="analysis-section tournament-comparison-wrapper">
     <div class="section-header-analysis">
@@ -976,10 +988,10 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
                 </div>
                 
                 <div class="kpi-card kpi-warning">
-                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-icon">💰</div>
                     <div class="kpi-data">
-                        <div class="kpi-number" id="totalWinRateAnalysis">0%</div>
-                        <div class="kpi-label">Win Rate Global</div>
+                        <div class="kpi-number" id="totalWinRateAnalysis">0€</div>
+                        <div class="kpi-label">Premios Totales</div>
                     </div>
                 </div>
             </div>
@@ -997,11 +1009,11 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
                     </div>
                 </div>
 
-                <!-- Chart: Win Rate Evolution -->
+                <!-- Chart: Players Evolution -->
                 <div class="tournament-chart-box">
                     <div class="chart-box-header">
-                        <h3 class="chart-box-title">🎯 Rendimiento por Edición</h3>
-                        <p class="chart-box-subtitle">Win rate en cada año</p>
+                        <h3 class="chart-box-title">👥 Participación por Edición</h3>
+                        <p class="chart-box-subtitle">Número de jugadores en cada año</p>
                     </div>
                     <div class="chart-box-canvas">
                         <canvas id="winRateEvolutionChartAnalysis"></canvas>
@@ -1021,10 +1033,9 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
                                 <tr>
                                     <th class="col-year">Año</th>
                                     <th class="col-position">Posición</th>
-                                    <th class="col-matches">Partidos</th>
-                                    <th class="col-wins">Victorias</th>
-                                    <th class="col-losses">Derrotas</th>
-                                    <th class="col-winrate">Win Rate</th>
+                                    <th class="col-players">Jugadores</th>
+                                    <th class="col-modality">Modalidad</th>
+                                    <th class="col-prize">Premio</th>
                                     <th class="col-notes">Notas</th>
                                 </tr>
                             </thead>
@@ -1038,6 +1049,7 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
         </div>
     </div>
 </section>
+
 
 
 	 
@@ -1063,6 +1075,7 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
 </script>
 </body>
 </html>
+
 
 
 
