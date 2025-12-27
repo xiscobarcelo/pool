@@ -163,7 +163,8 @@ body {
 /* Animación de las stats cards */
 
 .stat-card {
-    animation: fadeInUp 0.6s ease-out backwards;
+
+    animation: slideInLeft 0.8s ease-out;
 }
 .stat-card:nth-child(1) { animation-delay: 0.1s; }
 .stat-card:nth-child(2) { animation-delay: 0.2s; }
