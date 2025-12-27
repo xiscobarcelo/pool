@@ -2463,7 +2463,7 @@
       "updatedAt": "2025-12-27T14:58:41.622Z"
     },
     {
-      "name": "Cto Mallorca",
+      "name": "Cto Mallorca B8",
       "date": "2023-12-05",
       "modality": "Bola 8",
       "totalPlayers": 24,
@@ -2482,7 +2482,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766621097278",
-      "createdAt": "2025-12-25T00:04:57.278Z"
+      "createdAt": "2025-12-25T00:04:57.278Z",
+      "updatedAt": "2025-12-27T15:07:26.527Z"
     },
     {
       "name": "Cto Mallorca",
