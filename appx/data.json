@@ -3208,6 +3208,28 @@
       },
       "id": "tournament_1766872529850",
       "createdAt": "2025-12-27T21:55:29.850Z"
+    },
+    {
+      "name": "Copa Baleares I",
+      "date": "2020-12-27",
+      "modality": "Bola 9",
+      "totalPlayers": 32,
+      "result": "Campeón",
+      "circuit": "circuit_1766137940261",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Borja Gutierrez",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 0,
+        "matchesWon": 0,
+        "matchesLost": 0,
+        "gamesWon": 0,
+        "gamesLost": 0,
+        "winRate": 0,
+        "averageGamesPerMatch": 0
+      },
+      "id": "tournament_1766872625533",
+      "createdAt": "2025-12-27T21:57:05.533Z"
     }
   ],
   "circuits": [
