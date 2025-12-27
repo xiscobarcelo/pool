@@ -3078,13 +3078,13 @@
     },
     {
       "name": "Cto de Baleares B8",
-      "date": "2022-05-27",
+      "date": "2021-05-27",
       "modality": "Bola 8",
       "totalPlayers": 32,
-      "result": "Subcampeón",
+      "result": "Campeón",
       "circuit": "circuit_1766137914997",
-      "cue": "Lucasi+Revo12.9",
-      "finalRival": "Lupillo",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Manuel Montejo",
       "notes": "con extensión",
       "stats": {
         "matchesPlayed": 0,
@@ -3096,7 +3096,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766872033977",
-      "createdAt": "2025-12-27T21:47:13.977Z"
+      "createdAt": "2025-12-27T21:47:13.977Z",
+      "updatedAt": "2025-12-27T21:50:31.669Z"
     }
   ],
   "circuits": [
