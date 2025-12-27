@@ -2934,7 +2934,7 @@
       "createdAt": "2025-12-25T00:41:42.550Z"
     },
     {
-      "name": "Cto España Sénior",
+      "name": "Cto España Sénior B10",
       "date": "2025-05-03",
       "modality": "Bola 10",
       "totalPlayers": 32,
@@ -2953,7 +2953,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766623343917",
-      "createdAt": "2025-12-25T00:42:23.917Z"
+      "createdAt": "2025-12-25T00:42:23.917Z",
+      "updatedAt": "2025-12-27T15:02:59.736Z"
     },
     {
       "name": "Copa Baleares I",
