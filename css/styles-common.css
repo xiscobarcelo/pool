@@ -161,7 +161,7 @@ body {
 }
 
 /* Animación de las stats cards */
-.stat-card { animation: fadeInUp 0.6s ease-out backwards; 
+.stat-card { animation: fadeInUp 0.6s; 
 		   }
 @keyframes fadeInUp {
     from {
