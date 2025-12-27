@@ -4,29 +4,29 @@ function initBottomNav() {
     <nav class="bottom-nav">
         <div class="nav-container">
             <a href="registro-partidos.html" class="nav-item" data-page="registro-partidos">
-             <img src="images/partidos.svg width:24px">
+             <img src="images/partidos.svg" width="24">
                 <span class="nav-label">Partidos</span>
             </a>
             
             <a href="estadisticas.html" class="nav-item" data-page="estadisticas">
-                            <img src="images/stats.svg width:24px">
+                            <img src="images/stats.svg" width="24">
 
                 <span class="nav-label">Estadísticas</span>
             </a>
             
             <a href="torneos.html" class="nav-item" data-page="torneos">
-                            <img src="images/cup.svg width:24px">
+                            <img src="images/cup.svg" width="24">
 
                 <span class="nav-label">Torneos</span>
             </a>
             
             <a href="analisis.html" class="nav-item" data-page="analisis">
-                            <img src="images/stats1.svg width:24px">
+                            <img src="images/stats1.svg" width="24">
 
                 <span class="nav-label">Análisis</span>
             </a>
               <a href="historial.html" class="nav-item" data-page="historial">
-                            <img src="images/historial.svg width:24px">
+                            <img src="images/historial.svg" width="24">
 
                 <span class="nav-label">Historial</span>
             </a>
