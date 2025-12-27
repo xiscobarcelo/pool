@@ -3055,13 +3055,13 @@
     },
     {
       "name": "Máster",
-      "date": "2022-04-27",
+      "date": "2021-04-27",
       "modality": "Bola 10",
       "totalPlayers": 16,
       "result": "Campeón",
-      "circuit": "circuit_1766137914997",
-      "cue": "Lucasi+Revo12.9",
-      "finalRival": "Faust",
+      "circuit": "circuit_1766137940261",
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "Jepy",
       "notes": "",
       "stats": {
         "matchesPlayed": 0,
@@ -3073,7 +3073,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766871986660",
-      "createdAt": "2025-12-27T21:46:26.660Z"
+      "createdAt": "2025-12-27T21:46:26.660Z",
+      "updatedAt": "2025-12-27T21:49:24.836Z"
     },
     {
       "name": "Cto de Baleares B8",
