@@ -329,7 +329,6 @@ background: linear-gradient(62deg,rgba(0, 255, 242, 1) 0%, rgba(0, 217, 255, 1) 
     border-radius: 20px;
     padding: 32px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chart-card:hover {
