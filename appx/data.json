@@ -1643,7 +1643,7 @@
   ],
   "tournaments": [
     {
-      "name": "Cto Mallorca",
+      "name": "Cto Mallorca B10",
       "date": "2025-12-13",
       "modality": "Bola 10",
       "totalPlayers": 17,
@@ -1663,7 +1663,7 @@
       },
       "id": "tournament_1766138399272",
       "createdAt": "2025-12-19T09:59:59.272Z",
-      "updatedAt": "2025-12-19T10:17:21.117Z"
+      "updatedAt": "2025-12-27T14:58:16.928Z"
     },
     {
       "name": "Cto Mallorca",
