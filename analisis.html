@@ -903,6 +903,143 @@ function updateCircuitComparisonIfVisible() {
 console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + todas las métricas)');
 </script>
 
+<!-- Comparativa de Torneos -->
+<section class="analysis-section tournament-comparison-wrapper">
+    <div class="section-header-analysis">
+        <div class="section-title-group">
+            <h2 class="section-main-title">📊 Comparativa Histórica de Torneos</h2>
+            <p class="section-subtitle-text">Analiza tu evolución en el mismo torneo a través de los años</p>
+        </div>
+    </div>
+
+    <div class="tournament-comparison-container">
+        <!-- Selector Card -->
+        <div class="tournament-selector-wrapper">
+            <div class="selector-card-inner">
+                <div class="selector-label-wrapper">
+                    <label for="tournamentSelectorAnalysis" class="tournament-selector-label">
+                        <span class="label-icon">🏆</span>
+                        <span class="label-text">Selecciona un Torneo</span>
+                    </label>
+                </div>
+                <select id="tournamentSelectorAnalysis" class="tournament-selector-input">
+                    <option value="">-- Elige un torneo para comparar --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Estados -->
+        <div id="comparisonLoadingAnalysis" class="comparison-state-box" style="display: none;">
+            <div class="state-spinner"></div>
+            <p class="state-text">Analizando datos históricos...</p>
+        </div>
+
+        <div id="comparisonEmptyAnalysis" class="comparison-state-box">
+            <div class="state-icon">🏆</div>
+            <h3 class="state-title">Elige un torneo</h3>
+            <p class="state-text">Selecciona un torneo del menú para ver su análisis histórico</p>
+        </div>
+
+        <div id="comparisonNoDataAnalysis" class="comparison-state-box" style="display: none;">
+            <div class="state-icon">📅</div>
+            <h3 class="state-title">Datos insuficientes</h3>
+            <p class="state-text">Este torneo solo tiene una edición. Se necesitan al menos 2 años para comparar.</p>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div id="comparisonContentAnalysis" class="comparison-main-content" style="display: none;">
+            <!-- KPI Cards -->
+            <div class="tournament-kpi-grid">
+                <div class="kpi-card kpi-primary">
+                    <div class="kpi-icon">🏆</div>
+                    <div class="kpi-data">
+                        <div class="kpi-number" id="totalEditionsAnalysis">0</div>
+                        <div class="kpi-label">Ediciones Jugadas</div>
+                    </div>
+                </div>
+                
+                <div class="kpi-card kpi-success">
+                    <div class="kpi-icon">👑</div>
+                    <div class="kpi-data">
+                        <div class="kpi-number" id="bestPositionAnalysis">-</div>
+                        <div class="kpi-label">Mejor Posición</div>
+                    </div>
+                </div>
+                
+                <div class="kpi-card kpi-info">
+                    <div class="kpi-icon">📈</div>
+                    <div class="kpi-data">
+                        <div class="kpi-number" id="avgPositionAnalysis">-</div>
+                        <div class="kpi-label">Posición Media</div>
+                    </div>
+                </div>
+                
+                <div class="kpi-card kpi-warning">
+                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-data">
+                        <div class="kpi-number" id="totalWinRateAnalysis">0%</div>
+                        <div class="kpi-label">Win Rate Global</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="tournament-charts-grid">
+                <!-- Chart: Evolución de Posición -->
+                <div class="tournament-chart-box">
+                    <div class="chart-box-header">
+                        <h3 class="chart-box-title">📈 Evolución de tu Posición</h3>
+                        <p class="chart-box-subtitle">Tendencia año tras año</p>
+                    </div>
+                    <div class="chart-box-canvas">
+                        <canvas id="positionEvolutionChartAnalysis"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart: Win Rate Evolution -->
+                <div class="tournament-chart-box">
+                    <div class="chart-box-header">
+                        <h3 class="chart-box-title">🎯 Rendimiento por Edición</h3>
+                        <p class="chart-box-subtitle">Win rate en cada año</p>
+                    </div>
+                    <div class="chart-box-canvas">
+                        <canvas id="winRateEvolutionChartAnalysis"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Table -->
+            <div class="tournament-table-box">
+                <div class="table-box-header">
+                    <h3 class="table-box-title">📋 Historial Detallado por Año</h3>
+                </div>
+                <div class="table-box-content">
+                    <div class="table-scroll-wrapper">
+                        <table class="tournament-detail-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-year">Año</th>
+                                    <th class="col-position">Posición</th>
+                                    <th class="col-matches">Partidos</th>
+                                    <th class="col-wins">Victorias</th>
+                                    <th class="col-losses">Derrotas</th>
+                                    <th class="col-winrate">Win Rate</th>
+                                    <th class="col-notes">Notas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTableBodyAnalysis">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+	 
 		
 <!-- Indicador de sincronización -->
     <div id="syncIndicator" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #34c759; color: white; border-radius: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;">
@@ -917,3 +1054,4 @@ console.log('✅ Comparativa de circuitos v2 cargada (victorias mejoradas + toda
 	 <script src="js/top-nav.js"></script>
 </body>
 </html>
+
