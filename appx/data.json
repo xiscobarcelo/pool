@@ -2916,7 +2916,7 @@
       "createdAt": "2025-12-25T00:40:42.424Z"
     },
     {
-      "name": "Cto España Sénior",
+      "name": "Cto España Sénior B8",
       "date": "2023-05-02",
       "modality": "Bola 8",
       "totalPlayers": 32,
@@ -2935,7 +2935,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766623302550",
-      "createdAt": "2025-12-25T00:41:42.550Z"
+      "createdAt": "2025-12-25T00:41:42.550Z",
+      "updatedAt": "2025-12-27T15:08:41.693Z"
     },
     {
       "name": "Cto España Sénior B10",
