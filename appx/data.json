@@ -3560,6 +3560,28 @@
       },
       "id": "tournament_1766873518382",
       "createdAt": "2025-12-27T22:11:58.382Z"
+    },
+    {
+      "name": "Copa test",
+      "date": "2025-12-28",
+      "modality": "Bola 9",
+      "totalPlayers": 0,
+      "result": "Campeón",
+      "circuit": null,
+      "cue": "Velasco+Revo12.9",
+      "finalRival": "",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 10,
+        "matchesWon": 9,
+        "matchesLost": 1,
+        "gamesWon": 100,
+        "gamesLost": 90,
+        "winRate": "90.0",
+        "averageGamesPerMatch": "19.0"
+      },
+      "id": "tournament_1766934633916",
+      "createdAt": "2025-12-28T15:10:33.916Z"
     }
   ],
   "circuits": [
