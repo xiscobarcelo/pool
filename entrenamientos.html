@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamientos - PoolFlow</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/entrenamientos.css">
+    <link rel="stylesheet" href="css/bottom-nav.css">
+</head>
+<body>
+    <!-- ============================================ -->
+    <!-- HEADER -->
+    <!-- ============================================ -->
+    
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🎱</span>
+                <span class="logo-text">PoolFlow</span>
+            </div>
+            <h1 class="page-title">Entrenamientos</h1>
+            <button class="sync-button" id="syncButton" onclick="syncTrainingData()">
+                <span class="sync-icon">☁️</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================================ -->
+    
+    <main class="main-content">
+        <!-- ============================================ -->
+        <!-- SECCIÓN: REGISTRAR ENTRENAMIENTO -->
+        <!-- ============================================ -->
+        
+        <section class="training-section">
+            <div class="section-header">
+                <h2 class="section-title">📝 Registrar Entrenamiento</h2>
+            </div>
+
+            <div class="training-form-card">
+                <form id="trainingForm">
+                    <!-- Fecha y Duración -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="trainingDate">Fecha</label>
+                            <input type="date" id="trainingDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="trainingDuration">Duración (min)</label>
+                            <input type="number" id="trainingDuration" min="1" placeholder="60">
+                        </div>
+                    </div>
+
+                    <!-- Modalidad -->
+                    <div class="form-group">
+                        <label for="trainingModality">Modalidad</label>
+                        <select id="trainingModality" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="Bola 8">Bola 8</option>
+                            <option value="Bola 9">Bola 9</option>
+                            <option value="Bola 10">Bola 10</option>
+                            <option value="Drills">Drills</option>
+                            <option value="Técnica">Técnica</option>
+                            <option value="Posición">Posición</option>
+                        </select>
+                    </div>
+
+                    <!-- Total Tiros -->
+                    <div class="form-group">
+                        <label for="totalShots">Total de Tiros/Bolas</label>
+                        <input type="number" id="totalShots" min="1" required placeholder="50">
+                    </div>
+
+                    <!-- Total Errores -->
+                    <div class="form-group">
+                        <label for="totalErrors">Total de Errores</label>
+                        <input type="number" id="totalErrors" min="0" required placeholder="10">
+                    </div>
+
+                    <!-- Distribución de Errores -->
+                    <div class="errors-distribution">
+                        <h3 class="subsection-title">Distribución de Errores</h3>
+                        <p class="subsection-subtitle">Especifica el tipo de cada error</p>
+
+                        <div class="error-types-grid">
+                            <div class="error-type-item">
+                                <label for="errorBanda">Por Banda</label>
+                                <input type="number" id="errorBanda" min="0" value="0">
+                            </div>
+
+                            <div class="error-type-item">
+                                <label for="errorCombinacion">Combinación</label>
+                                <input type="number" id="errorCombinacion" min="0" value="0">
+                            </div>
+
+                            <div class="error-type-item">
+                                <label for="errorPosicionBlanca">Posición Blanca</label>
+                                <input type="number" id="errorPosicionBlanca" min="0" value="0">
+                            </div>
+
+                            <div class="error-type-item">
+                                <label for="errorNoForzado">No Forzados</label>
+                                <input type="number" id="errorNoForzado" min="0" value="0">
+                            </div>
+                        </div>
+
+                        <div class="error-counter">
+                            <span>Errores especificados:</span>
+                            <span id="errorCount">0</span>
+                            <span>/</span>
+                            <span id="errorTotal">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Notas -->
+                    <div class="form-group">
+                        <label for="trainingNotes">Notas (opcional)</label>
+                        <textarea id="trainingNotes" rows="3" placeholder="Ej: Buen día, me sentí concentrado..."></textarea>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="resetTrainingForm()">
+                            Limpiar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <span class="btn-icon">💾</span>
+                            Guardar Entrenamiento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECCIÓN: ESTADÍSTICAS GENERALES -->
+        <!-- ============================================ -->
+        
+        <section class="stats-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 Estadísticas Generales</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalTrainings">0</div>
+                        <div class="stat-label">Entrenamientos</div>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-success">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalHours">0h</div>
+                        <div class="stat-label">Horas Totales</div>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-info">
+                    <div class="stat-icon">🎱</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalShots">0</div>
+                        <div class="stat-label">Tiros Totales</div>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="accuracyRate">0%</div>
+                        <div class="stat-label">Precisión</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECCIÓN: ANÁLISIS DE ERRORES -->
+        <!-- ============================================ -->
+        
+        <section class="analysis-section">
+            <div class="section-header">
+                <h2 class="section-title">🔍 Análisis de Errores</h2>
+            </div>
+
+            <div class="charts-grid">
+                <!-- Gráfico: Distribución de Errores -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Tipos de Errores</h3>
+                        <p class="chart-subtitle">Distribución por categoría</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="errorsDistributionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Gráfico: Evolución de Precisión -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Evolución de Precisión</h3>
+                        <p class="chart-subtitle">Últimos 10 entrenamientos</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="accuracyEvolutionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico: Errores por Modalidad -->
+            <div class="chart-card chart-full">
+                <div class="chart-header">
+                    <h3 class="chart-title">Precisión por Modalidad</h3>
+                    <p class="chart-subtitle">Comparativa entre diferentes tipos de entrenamiento</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="modalityComparisonChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECCIÓN: HISTORIAL -->
+        <!-- ============================================ -->
+        
+        <section class="history-section">
+            <div class="section-header">
+                <h2 class="section-title">📅 Historial de Entrenamientos</h2>
+                <div class="section-actions">
+                    <select id="filterModality" class="filter-select" onchange="filterTrainings()">
+                        <option value="">Todas las modalidades</option>
+                        <option value="Bola 8">Bola 8</option>
+                        <option value="Bola 9">Bola 9</option>
+                        <option value="Bola 10">Bola 10</option>
+                        <option value="Drills">Drills</option>
+                        <option value="Técnica">Técnica</option>
+                        <option value="Posición">Posición</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="history-table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Modalidad</th>
+                            <th>Duración</th>
+                            <th>Tiros</th>
+                            <th>Errores</th>
+                            <th>Precisión</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="7" class="no-data">
+                                No hay entrenamientos registrados
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================ -->
+    <!-- BOTTOM NAVIGATION -->
+    <!-- ============================================ -->
+    
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            </svg>
+            <span>Inicio</span>
+        </a>
+        
+        <a href="historial.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                <path d="M6 9a6 6 0 0 0 12 0"></path>
+                <line x1="12" y1="15" x2="12" y2="17"></line>
+                <line x1="8" y1="17" x2="16" y2="17"></line>
+                <circle cx="18" cy="19" r="3"></circle>
+                <path d="M18 18v1.5l1 .5"></path>
+            </svg>
+            <span>Torneos</span>
+        </a>
+        
+        <a href="entrenamientos.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+            </svg>
+            <span>Entrenos</span>
+        </a>
+        
+        <a href="analisis.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+            </svg>
+            <span>Análisis</span>
+        </a>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================ -->
+    
+    <script src="js/cloud-sync-trainings.js"></script>
+    <script src="js/entrenamientos.js"></script>
+</body>
+</html>
