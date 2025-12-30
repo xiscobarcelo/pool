@@ -99,7 +99,6 @@ function handleFormSubmit(e) {
     // Recoger datos del formulario
     const trainingData = {
         date: document.getElementById('trainingDate').value,
-        duration: document.getElementById('trainingDuration').value,
         modality: document.getElementById('trainingModality').value,
         totalShots: document.getElementById('totalShots').value,
         totalErrors: totalErrors,
@@ -112,23 +111,37 @@ function handleFormSubmit(e) {
         notes: document.getElementById('trainingNotes').value
     };
     
-    // Guardar entrenamiento
-    const training = addTraining(trainingData);
+    // Verificar si estamos editando
+    const editingId = document.getElementById('editingTrainingId').value;
     
-    if (training) {
-        // Mostrar notificación de éxito
-        showNotification('✅ Entrenamiento guardado correctamente', 'success');
-        
-        // Resetear formulario
-        resetTrainingForm();
-        
-        // Actualizar vistas
-        loadTrainings();
-        updateStats();
-        renderCharts();
+    let training;
+    if (editingId) {
+        // Actualizar entrenamiento existente
+        training = updateTraining(editingId, trainingData);
+        if (training) {
+            showNotification('✅ Entrenamiento actualizado correctamente', 'success');
+        } else {
+            showNotification('❌ Error al actualizar el entrenamiento', 'error');
+            return;
+        }
     } else {
-        showNotification('❌ Error al guardar el entrenamiento', 'error');
+        // Crear nuevo entrenamiento
+        training = addTraining(trainingData);
+        if (training) {
+            showNotification('✅ Entrenamiento guardado correctamente', 'success');
+        } else {
+            showNotification('❌ Error al guardar el entrenamiento', 'error');
+            return;
+        }
     }
+    
+    // Resetear formulario
+    resetTrainingForm();
+    
+    // Actualizar vistas
+    loadTrainings();
+    updateStats();
+    renderCharts();
 }
 
 // ========================================
@@ -138,11 +151,65 @@ function handleFormSubmit(e) {
 function resetTrainingForm() {
     document.getElementById('trainingForm').reset();
     document.getElementById('trainingDate').valueAsDate = new Date();
+    document.getElementById('editingTrainingId').value = '';
     
     // Reset error counters
     document.getElementById('errorCount').textContent = '0';
     document.getElementById('errorTotal').textContent = '0';
     document.querySelector('.error-counter').classList.remove('error');
+    
+    // Reset button texts
+    document.getElementById('saveBtnText').textContent = 'Guardar Entrenamiento';
+    document.getElementById('cancelBtnText').textContent = 'Limpiar';
+}
+
+// ========================================
+// CANCEL EDIT
+// ========================================
+
+function cancelEdit() {
+    resetTrainingForm();
+}
+
+// ========================================
+// EDIT TRAINING
+// ========================================
+
+function editTraining(trainingId) {
+    const data = TrainingCloudSync.getData();
+    const training = data.trainings.find(t => t.id === trainingId);
+    
+    if (!training) {
+        showNotification('❌ Entrenamiento no encontrado', 'error');
+        return;
+    }
+    
+    // Llenar formulario
+    document.getElementById('trainingDate').value = training.date;
+    document.getElementById('trainingModality').value = training.modality;
+    document.getElementById('totalShots').value = training.totalShots;
+    document.getElementById('totalErrors').value = training.totalErrors;
+    document.getElementById('errorBanda').value = training.errors.banda;
+    document.getElementById('errorCombinacion').value = training.errors.combinacion;
+    document.getElementById('errorPosicionBlanca').value = training.errors.posicionBlanca;
+    document.getElementById('errorNoForzado').value = training.errors.noForzado;
+    document.getElementById('trainingNotes').value = training.notes || '';
+    
+    // Establecer modo edición
+    document.getElementById('editingTrainingId').value = trainingId;
+    
+    // Actualizar contadores
+    updateErrorTotal();
+    updateErrorCount();
+    
+    // Cambiar textos de botones
+    document.getElementById('saveBtnText').textContent = 'Actualizar Entrenamiento';
+    document.getElementById('cancelBtnText').textContent = 'Cancelar';
+    
+    // Scroll al formulario
+    document.querySelector('.training-section').scrollIntoView({ behavior: 'smooth' });
+    
+    showNotification('✏️ Modo edición activado', 'info');
 }
 
 // ========================================
@@ -158,7 +225,7 @@ function loadTrainings() {
     if (trainings.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="no-data">
+                <td colspan="6" class="no-data">
                     No hay entrenamientos registrados
                 </td>
             </tr>
@@ -177,7 +244,6 @@ function loadTrainings() {
             <tr>
                 <td>${formatDate(t.date)}</td>
                 <td><strong>${t.modality}</strong></td>
-                <td>${t.duration} min</td>
                 <td>${t.totalShots}</td>
                 <td>${t.totalErrors}</td>
                 <td>
@@ -187,6 +253,9 @@ function loadTrainings() {
                 </td>
                 <td>
                     <div class="action-buttons">
+                        <button class="action-btn edit" onclick="editTraining('${t.id}')">
+                            ✏️ Editar
+                        </button>
                         <button class="action-btn delete" onclick="confirmDeleteTraining('${t.id}')">
                             🗑️ Eliminar
                         </button>
@@ -204,10 +273,10 @@ function loadTrainings() {
 function updateStats() {
     const stats = getTrainingStats();
     
-    document.getElementById('totalTrainings').textContent = stats.totalTrainings;
-    document.getElementById('totalHours').textContent = stats.totalHoursFormatted;
-    document.getElementById('totalShots').textContent = stats.totalShots.toLocaleString();
-    document.getElementById('accuracyRate').textContent = stats.accuracyRate + '%';
+    document.getElementById('statTotalTrainings').textContent = stats.totalTrainings;
+    document.getElementById('statTotalShots').textContent = stats.totalShots.toLocaleString();
+    document.getElementById('statTotalErrors').textContent = stats.totalErrors.toLocaleString();
+    document.getElementById('statAccuracyRate').textContent = stats.accuracyRate + '%';
 }
 
 // ========================================
@@ -502,7 +571,7 @@ function filterTrainings() {
     if (trainings.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="no-data">
+                <td colspan="6" class="no-data">
                     No hay entrenamientos con ese filtro
                 </td>
             </tr>
@@ -521,7 +590,6 @@ function filterTrainings() {
             <tr>
                 <td>${formatDate(t.date)}</td>
                 <td><strong>${t.modality}</strong></td>
-                <td>${t.duration} min</td>
                 <td>${t.totalShots}</td>
                 <td>${t.totalErrors}</td>
                 <td>
@@ -531,6 +599,9 @@ function filterTrainings() {
                 </td>
                 <td>
                     <div class="action-buttons">
+                        <button class="action-btn edit" onclick="editTraining('${t.id}')">
+                            ✏️ Editar
+                        </button>
                         <button class="action-btn delete" onclick="confirmDeleteTraining('${t.id}')">
                             🗑️ Eliminar
                         </button>
