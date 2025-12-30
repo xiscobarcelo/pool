@@ -48,9 +48,9 @@ const TrainingCloudSync = {
         
         // 2. Si hay config, sincronizar en background
         if (this.config && this.config.token) {
-            setTimeout(() => {
-                this.pushToGitHub(data);
-            }, 100);
+            // NO hacer push automático para evitar conflictos
+            // El usuario debe usar el botón de sincronización manualmente
+            console.log('💡 Usa el botón ☁️ para sincronizar con GitHub');
         }
         
         return data;
@@ -70,14 +70,16 @@ const TrainingCloudSync = {
         this.updateSyncUI(true);
         
         try {
-            console.log('☁️ Subiendo entrenamientos a GitHub...');
+            console.log('☁️ Sincronizando entrenamientos con GitHub...');
             
             const { username, repo, token } = this.config;
             const branch = 'main';
             const path = 'trainings.json';
             
-            // 1. Obtener SHA del archivo actual (si existe)
+            // 1. PRIMERO: Obtener versión más reciente desde GitHub
             let sha = null;
+            let remoteData = null;
+            
             try {
                 const getResponse = await fetch(
                     `https://api.github.com/repos/${username}/${repo}/contents/${path}?ref=${branch}`,
@@ -92,14 +94,47 @@ const TrainingCloudSync = {
                 if (getResponse.ok) {
                     const fileData = await getResponse.json();
                     sha = fileData.sha;
-                    console.log('📄 Archivo existente encontrado, SHA:', sha);
+                    
+                    // Decodificar contenido remoto
+                    const remoteContent = decodeURIComponent(escape(atob(fileData.content)));
+                    remoteData = JSON.parse(remoteContent);
+                    
+                    console.log('📄 Versión remota encontrada, SHA:', sha);
+                    console.log('📦 Entrenamientos remotos:', remoteData.trainings?.length || 0);
                 }
             } catch (e) {
                 console.log('📄 Archivo nuevo, no existe SHA previo');
             }
             
-            // 2. Subir archivo
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            // 2. Si hay datos remotos, mergear con locales
+            let finalData = data;
+            
+            if (remoteData && remoteData.trainings) {
+                console.log('🔄 Mergeando datos locales con remotos...');
+                
+                // Crear mapa de IDs locales
+                const localMap = new Map();
+                data.trainings.forEach(t => localMap.set(t.id, t));
+                
+                // Añadir entrenamientos remotos que no están en local
+                remoteData.trainings.forEach(remoteTraining => {
+                    if (!localMap.has(remoteTraining.id)) {
+                        data.trainings.push(remoteTraining);
+                        console.log('➕ Añadido entrenamiento remoto:', remoteTraining.id);
+                    }
+                });
+                
+                // Ordenar por fecha
+                data.trainings.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Actualizar localStorage con datos mergeados
+                localStorage.setItem('xisco_trainings_data', JSON.stringify(data));
+                
+                finalData = data;
+            }
+            
+            // 3. Subir datos mergeados a GitHub
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(finalData, null, 2))));
             
             const payload = {
                 message: `Update trainings - ${new Date().toISOString()}`,
@@ -127,6 +162,11 @@ const TrainingCloudSync = {
             if (putResponse.ok) {
                 console.log('✅ Entrenamientos sincronizados con GitHub');
                 this.showSyncNotification('Sincronizado con la nube ☁️', 'success');
+                
+                // Recargar UI si hubo merge
+                if (remoteData && remoteData.trainings) {
+                    window.location.reload();
+                }
             } else {
                 const error = await putResponse.json();
                 console.error('❌ Error al sincronizar:', error);
