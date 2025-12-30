@@ -33,6 +33,22 @@
       "notes": "",
       "timestamp": "2025-12-30T09:43:05.141Z",
       "accuracy": "77.7"
+    },
+    {
+      "id": "training_1767088843294",
+      "date": "2025-12-30",
+      "modality": "Bola 9",
+      "totalShots": 100,
+      "totalErrors": 11,
+      "errors": {
+        "banda": 11,
+        "combinacion": 0,
+        "posicionBlanca": 0,
+        "noForzado": 0
+      },
+      "notes": "",
+      "timestamp": "2025-12-30T10:00:43.294Z",
+      "accuracy": "89.0"
     }
   ],
   "version": "1.0"
