@@ -16,6 +16,23 @@
       "notes": "",
       "timestamp": "2025-12-30T09:37:23.305Z",
       "accuracy": "90.5"
+    },
+    {
+      "id": "training_1767087785141",
+      "date": "2025-12-30",
+      "duration": 0,
+      "modality": "Bola 8",
+      "totalShots": 103,
+      "totalErrors": 23,
+      "errors": {
+        "banda": 11,
+        "combinacion": 6,
+        "posicionBlanca": 0,
+        "noForzado": 6
+      },
+      "notes": "",
+      "timestamp": "2025-12-30T09:43:05.141Z",
+      "accuracy": "77.7"
     }
   ],
   "version": "1.0"
