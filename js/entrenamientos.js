@@ -254,10 +254,10 @@ function loadTrainings() {
                 <td>
                     <div class="action-buttons">
                         <button class="action-btn edit" onclick="editTraining('${t.id}')">
-                            ✏️ Editar
+                            Editar
                         </button>
                         <button class="action-btn delete" onclick="confirmDeleteTraining('${t.id}')">
-                            🗑️ Eliminar
+                            Eliminar
                         </button>
                     </div>
                 </td>
