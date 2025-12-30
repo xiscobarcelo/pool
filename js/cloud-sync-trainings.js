@@ -265,7 +265,6 @@ function addTraining(trainingData) {
     const training = {
         id: id,
         date: trainingData.date,
-        duration: parseInt(trainingData.duration) || 0,
         modality: trainingData.modality,
         totalShots: parseInt(trainingData.totalShots),
         totalErrors: parseInt(trainingData.totalErrors),
@@ -292,6 +291,53 @@ function addTraining(trainingData) {
     TrainingCloudSync.saveData(data);
     
     console.log('✅ Entrenamiento añadido:', training);
+    
+    return training;
+}
+
+// ========================================
+// ACTUALIZAR ENTRENAMIENTO
+// ========================================
+
+function updateTraining(trainingId, trainingData) {
+    const data = TrainingCloudSync.getData();
+    
+    const index = data.trainings.findIndex(t => t.id === trainingId);
+    
+    if (index === -1) {
+        console.error('❌ Entrenamiento no encontrado:', trainingId);
+        return null;
+    }
+    
+    const training = {
+        id: trainingId,
+        date: trainingData.date,
+        modality: trainingData.modality,
+        totalShots: parseInt(trainingData.totalShots),
+        totalErrors: parseInt(trainingData.totalErrors),
+        errors: {
+            banda: parseInt(trainingData.errors.banda) || 0,
+            combinacion: parseInt(trainingData.errors.combinacion) || 0,
+            posicionBlanca: parseInt(trainingData.errors.posicionBlanca) || 0,
+            noForzado: parseInt(trainingData.errors.noForzado) || 0
+        },
+        notes: trainingData.notes || '',
+        timestamp: data.trainings[index].timestamp // Mantener timestamp original
+    };
+    
+    // Calcular precisión
+    training.accuracy = training.totalShots > 0 
+        ? ((training.totalShots - training.totalErrors) / training.totalShots * 100).toFixed(1)
+        : 0;
+    
+    data.trainings[index] = training;
+    
+    // Ordenar por fecha (más reciente primero)
+    data.trainings.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    TrainingCloudSync.saveData(data);
+    
+    console.log('✅ Entrenamiento actualizado:', training);
     
     return training;
 }
@@ -327,7 +373,6 @@ function getTrainingStats() {
     if (trainings.length === 0) {
         return {
             totalTrainings: 0,
-            totalHours: 0,
             totalShots: 0,
             totalErrors: 0,
             accuracyRate: 0,
@@ -343,7 +388,6 @@ function getTrainingStats() {
     
     const stats = {
         totalTrainings: trainings.length,
-        totalHours: 0,
         totalShots: 0,
         totalErrors: 0,
         errorsByType: {
@@ -356,7 +400,6 @@ function getTrainingStats() {
     };
     
     trainings.forEach(t => {
-        stats.totalHours += t.duration || 0;
         stats.totalShots += t.totalShots;
         stats.totalErrors += t.totalErrors;
         
@@ -392,9 +435,6 @@ function getTrainingStats() {
             ? ((mod.shots - mod.errors) / mod.shots * 100).toFixed(1)
             : 0;
     });
-    
-    // Convertir minutos a horas
-    stats.totalHoursFormatted = (stats.totalHours / 60).toFixed(1) + 'h';
     
     return stats;
 }
