@@ -520,6 +520,18 @@ body {
     cursor: pointer;
     font-size: 0.85rem;
     transition: all 0.3s ease;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+}
+
+.action-btn.edit {
+    background: rgba(0, 217, 255, 0.1);
+    color: var(--primary-blue);
+}
+
+.action-btn.edit:hover {
+    background: var(--primary-blue);
+    color: white;
 }
 
 .action-btn.delete {
