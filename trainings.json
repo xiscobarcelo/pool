@@ -16,6 +16,38 @@
       "notes": "",
       "timestamp": "2025-12-30T09:37:23.305Z",
       "accuracy": "90.5"
+    },
+    {
+      "id": "training_1767088843294",
+      "date": "2025-12-30",
+      "modality": "Bola 9",
+      "totalShots": 100,
+      "totalErrors": 11,
+      "errors": {
+        "banda": 11,
+        "combinacion": 0,
+        "posicionBlanca": 0,
+        "noForzado": 0
+      },
+      "notes": "",
+      "timestamp": "2025-12-30T10:00:43.294Z",
+      "accuracy": "89.0"
+    },
+    {
+      "id": "training_1767093663211",
+      "date": "2025-12-30",
+      "modality": "Bola 10",
+      "totalShots": 200,
+      "totalErrors": 1,
+      "errors": {
+        "banda": 1,
+        "combinacion": 0,
+        "posicionBlanca": 0,
+        "noForzado": 0
+      },
+      "notes": "",
+      "timestamp": "2025-12-30T11:21:03.211Z",
+      "accuracy": "99.5"
     }
   ],
   "version": "1.0"
