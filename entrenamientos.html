@@ -50,42 +50,39 @@
 
             <div class="training-form-card">
                 <form id="trainingForm">
-                    <!-- Fecha y Duración -->
+                    <!-- Campo oculto para edición -->
+                    <input type="hidden" id="editingTrainingId" value="">
+                    
+                    <!-- Fecha / Modalidad -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="trainingDate">Fecha</label>
                             <input type="date" id="trainingDate" required>
                         </div>
                         <div class="form-group">
-                            <label for="trainingDuration">Duración (min)</label>
-                            <input type="number" id="trainingDuration" min="1" placeholder="60">
+                            <label for="trainingModality">Modalidad</label>
+                            <select id="trainingModality" required>
+                                <option value="">-- Selecciona --</option>
+                                <option value="Bola 8">Bola 8</option>
+                                <option value="Bola 9">Bola 9</option>
+                                <option value="Bola 10">Bola 10</option>
+                                <option value="Drills">Drills</option>
+                                <option value="Técnica">Técnica</option>
+                                <option value="Posición">Posición</option>
+                            </select>
                         </div>
                     </div>
 
-                    <!-- Modalidad -->
-                    <div class="form-group">
-                        <label for="trainingModality">Modalidad</label>
-                        <select id="trainingModality" required>
-                            <option value="">-- Selecciona --</option>
-                            <option value="Bola 8">Bola 8</option>
-                            <option value="Bola 9">Bola 9</option>
-                            <option value="Bola 10">Bola 10</option>
-                            <option value="Drills">Drills</option>
-                            <option value="Técnica">Técnica</option>
-                            <option value="Posición">Posición</option>
-                        </select>
-                    </div>
-
-                    <!-- Total Tiros -->
-                    <div class="form-group">
-                        <label for="totalShots">Total de Tiros/Bolas</label>
-                        <input type="number" id="totalShots" min="1" required placeholder="50">
-                    </div>
-
-                    <!-- Total Errores -->
-                    <div class="form-group">
-                        <label for="totalErrors">Total de Errores</label>
-                        <input type="number" id="totalErrors" min="0" required placeholder="10">
+                    <!-- Total Tiros / Total Errores -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="totalShots">Total de Tiros/Bolas</label>
+                            <input type="number" id="totalShots" min="1" required placeholder="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="totalErrors">Total de Errores</label>
+                            <input type="number" id="totalErrors" min="0" required placeholder="10">
+                        </div>
                     </div>
 
                     <!-- Distribución de Errores -->
@@ -131,12 +128,12 @@
 
                     <!-- Botones -->
                     <div class="form-actions">
-                        <button type="button" class="btn-secondary" onclick="resetTrainingForm()">
-                            Limpiar
+                        <button type="button" class="btn-secondary" onclick="cancelEdit()">
+                            <span id="cancelBtnText">Limpiar</span>
                         </button>
                         <button type="submit" class="btn-primary">
                             <span class="btn-icon">💾</span>
-                            Guardar Entrenamiento
+                            <span id="saveBtnText">Guardar Entrenamiento</span>
                         </button>
                     </div>
                 </form>
@@ -156,31 +153,31 @@
                 <div class="stat-card stat-primary">
                     <div class="stat-icon">🎯</div>
                     <div class="stat-content">
-                        <div class="stat-value" id="totalTrainings">0</div>
+                        <div class="stat-value" id="statTotalTrainings">0</div>
                         <div class="stat-label">Entrenamientos</div>
                     </div>
                 </div>
 
                 <div class="stat-card stat-success">
-                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-icon">🎱</div>
                     <div class="stat-content">
-                        <div class="stat-value" id="totalHours">0h</div>
-                        <div class="stat-label">Horas Totales</div>
+                        <div class="stat-value" id="statTotalShots">0</div>
+                        <div class="stat-label">Tiros Totales</div>
                     </div>
                 </div>
 
                 <div class="stat-card stat-info">
-                    <div class="stat-icon">🎱</div>
+                    <div class="stat-icon">❌</div>
                     <div class="stat-content">
-                        <div class="stat-value" id="totalShots">0</div>
-                        <div class="stat-label">Tiros Totales</div>
+                        <div class="stat-value" id="statTotalErrors">0</div>
+                        <div class="stat-label">Errores Totales</div>
                     </div>
                 </div>
 
                 <div class="stat-card stat-warning">
                     <div class="stat-icon">✅</div>
                     <div class="stat-content">
-                        <div class="stat-value" id="accuracyRate">0%</div>
+                        <div class="stat-value" id="statAccuracyRate">0%</div>
                         <div class="stat-label">Precisión</div>
                     </div>
                 </div>
@@ -258,7 +255,6 @@
                         <tr>
                             <th>Fecha</th>
                             <th>Modalidad</th>
-                            <th>Duración</th>
                             <th>Tiros</th>
                             <th>Errores</th>
                             <th>Precisión</th>
@@ -267,7 +263,7 @@
                     </thead>
                     <tbody id="historyTableBody">
                         <tr>
-                            <td colspan="7" class="no-data">
+                            <td colspan="6" class="no-data">
                                 No hay entrenamientos registrados
                             </td>
                         </tr>
