@@ -1,23 +1,6 @@
 {
   "trainings": [
     {
-      "id": "training_1767087443305",
-      "date": "2025-12-30",
-      "duration": 0,
-      "modality": "Bola 8",
-      "totalShots": 201,
-      "totalErrors": 19,
-      "errors": {
-        "banda": 10,
-        "combinacion": 7,
-        "posicionBlanca": 1,
-        "noForzado": 1
-      },
-      "notes": "",
-      "timestamp": "2025-12-30T09:37:23.305Z",
-      "accuracy": "90.5"
-    },
-    {
       "id": "training_1767088843294",
       "date": "2025-12-30",
       "modality": "Bola 9",
