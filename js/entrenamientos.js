@@ -23,11 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTrainings();
     updateStats();
     renderCharts();
-    
-    // Sincronización automática al cargar
-    setTimeout(() => {
-        syncTrainingData();
-    }, 1000);
 });
 
 // ========================================
@@ -254,10 +249,10 @@ function loadTrainings() {
                 <td>
                     <div class="action-buttons">
                         <button class="action-btn edit" onclick="editTraining('${t.id}')">
-                            Editar
+                            ✏️ Editar
                         </button>
                         <button class="action-btn delete" onclick="confirmDeleteTraining('${t.id}')">
-                            Eliminar
+                            🗑️ Eliminar
                         </button>
                     </div>
                 </td>
@@ -636,13 +631,8 @@ function confirmDeleteTraining(trainingId) {
 // ========================================
 
 async function syncTrainingData() {
-    const newData = await TrainingCloudSync.pullFromGitHub();
-    
-    if (newData) {
-        loadTrainings();
-        updateStats();
-        renderCharts();
-    }
+    const currentData = TrainingCloudSync.getData();
+    await TrainingCloudSync.pushToGitHub(currentData);
 }
 
 // ========================================
