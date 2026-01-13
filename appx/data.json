@@ -1627,13 +1627,25 @@
       "modality": "Bola 10",
       "date": "2025-12-04",
       "id": 1766662726079
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Guillermo",
+      "score1": "6",
+      "score2": "8",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2026-01-13",
+      "id": 1768328627744
     }
   ],
   "players": [
     "Xisco",
     "PEPE",
     "Jepy",
-    "Test"
+    "Test",
+    "Guillermo"
   ],
   "materials": [
     "Velasco+Revo12.9",
@@ -1804,13 +1816,13 @@
       "updatedAt": "2025-12-27T15:04:02.831Z"
     },
     {
-      "name": "Cto España Sénior B8",
+      "name": "Cto España B8",
       "date": "2025-06-27",
       "modality": "Bola 8",
       "totalPlayers": 19,
       "result": "Subcampeón",
       "circuit": "circuit_1766139174903",
-      "cue": "Velasco+Revo12.9",
+      "cue": "",
       "finalRival": "Sergio Lagunas",
       "notes": "Club Sierra Billiard's Valencia Pool",
       "stats": {
@@ -1824,7 +1836,7 @@
       },
       "id": "tournament_1766152424030",
       "createdAt": "2025-12-19T13:53:44.030Z",
-      "updatedAt": "2025-12-29T13:19:30.146Z"
+      "updatedAt": "2025-12-27T15:03:18.684Z"
     },
     {
       "name": "Copa Sénior IV",
@@ -2898,7 +2910,7 @@
       "updatedAt": "2025-12-27T21:11:17.924Z"
     },
     {
-      "name": "Cto España Sénior B9",
+      "name": "Cto España Sénior",
       "date": "2023-05-01",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -2917,8 +2929,7 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766623242424",
-      "createdAt": "2025-12-25T00:40:42.424Z",
-      "updatedAt": "2025-12-29T13:20:10.743Z"
+      "createdAt": "2025-12-25T00:40:42.424Z"
     },
     {
       "name": "Cto España Sénior B8",
