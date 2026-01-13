@@ -1671,6 +1671,17 @@
       "modality": "Bola 9",
       "date": "2025-12-13",
       "id": 1768328787112
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Tolo",
+      "score1": "6",
+      "score2": "2",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2025-12-20",
+      "id": 1768328848905
     }
   ],
   "players": [
@@ -1679,7 +1690,8 @@
     "Jepy",
     "Test",
     "Guillermo",
-    "Jesus Muñoz"
+    "Jesus Muñoz",
+    "Tolo"
   ],
   "materials": [
     "Velasco+Revo12.9",
