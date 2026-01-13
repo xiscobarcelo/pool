@@ -1737,6 +1737,17 @@
       "modality": "Bola 9",
       "date": "2024-07-19",
       "id": 1768328987933
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Borja",
+      "score1": "7",
+      "score2": "5",
+      "material1": "Lucasi+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2025-12-20",
+      "id": 1768329015696
     }
   ],
   "players": [
@@ -1748,7 +1759,8 @@
     "Jesus Muñoz",
     "Tolo",
     "Xisco Mendez",
-    "Adrian Wood"
+    "Adrian Wood",
+    "Borja"
   ],
   "materials": [
     "Velasco+Revo12.9",
