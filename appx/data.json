@@ -1660,6 +1660,17 @@
       "modality": "Bola 9",
       "date": "2026-01-13",
       "id": 1768328675302
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jesus Muñoz",
+      "score1": "4",
+      "score2": "6",
+      "material1": "Bear+Centro",
+      "material2": "rival",
+      "modality": "Bola 9",
+      "date": "2025-12-13",
+      "id": 1768328787112
     }
   ],
   "players": [
@@ -1667,7 +1678,8 @@
     "PEPE",
     "Jepy",
     "Test",
-    "Guillermo"
+    "Guillermo",
+    "Jesus Muñoz"
   ],
   "materials": [
     "Velasco+Revo12.9",
