@@ -1,6 +1,54 @@
 {
   "trainings": [
     {
+      "id": "training_1767181343295",
+      "date": "2025-12-31",
+      "modality": "Bola 10",
+      "totalShots": 90,
+      "totalErrors": 13,
+      "errors": {
+        "banda": 5,
+        "combinacion": 0,
+        "posicionBlanca": 1,
+        "noForzado": 7
+      },
+      "notes": "",
+      "timestamp": "2025-12-31T11:42:23.295Z",
+      "accuracy": "85.6"
+    },
+    {
+      "id": "training_1767184486997",
+      "date": "2025-12-31",
+      "modality": "Posición",
+      "totalShots": 90,
+      "totalErrors": 13,
+      "errors": {
+        "banda": 4,
+        "combinacion": 2,
+        "posicionBlanca": 5,
+        "noForzado": 2
+      },
+      "notes": "",
+      "timestamp": "2025-12-31T12:34:46.997Z",
+      "accuracy": "85.6"
+    },
+    {
+      "id": "training_1767119467560",
+      "date": "2025-12-30",
+      "modality": "Técnica",
+      "totalShots": 125,
+      "totalErrors": 38,
+      "errors": {
+        "banda": 7,
+        "combinacion": 4,
+        "posicionBlanca": 20,
+        "noForzado": 7
+      },
+      "notes": "",
+      "timestamp": "2025-12-30T18:31:07.560Z",
+      "accuracy": "69.6"
+    },
+    {
       "id": "training_1767093663211",
       "date": "2025-12-30",
       "modality": "Bola 10",
