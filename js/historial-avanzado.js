@@ -13,16 +13,47 @@ let winsChart = null;
 // INICIALIZACIÓN
 // ============================================================
 
+
+function sortMatchesByDateDesc(matches) {
+    return matches.sort((a, b) => {
+        const dateA = new Date(a.date).getTime() || 0;
+        const dateB = new Date(b.date).getTime() || 0;
+        return dateB - dateA;
+    });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🎯 Iniciando historial...');
     
     const data = CloudSync.getData();
     allMatches = data.matches || [];
-    allMatches.sort((a, b) => new Date(b.date) - new Date(a.date));
+sortMatchesByDateDesc(allMatches);
+
+
 
     console.log('📦 Partidos cargados:', allMatches.length);
     
     // Cargar datos y mostrar
+
+    if (githubData && githubData.matches) {
+    console.log('🔄 Sincronizando desde GitHub...');
+    
+    allMatches = githubData.matches;
+    sortMatchesByDateDesc(allMatches);
+
+    document.getElementById('filterYear').innerHTML = '<option value="">Todos</option>';
+    document.getElementById('filterModality').innerHTML = '<option value="">Todas</option>';
+    document.getElementById('filterMaterial').innerHTML = '<option value="">Todos</option>';
+
+    initializeFilters();
+    applyFilters();
+
+    console.log('✅ Sincronización completada:', allMatches.length, 'partidos');
+}
+
+
+
+    
     initializeFilters();
     applyFilters();
     
@@ -37,6 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (githubData && githubData.matches) {
                 console.log('🔄 Sincronizando desde GitHub...');
                 allMatches = githubData.matches;
+                sortMatchesByDateDesc(allMatches);
                 
                 // Reinicializar filtros con los nuevos datos
                 document.getElementById('filterYear').innerHTML = '<option value="">Todos</option>';
@@ -221,7 +253,8 @@ function applyFilters() {
         
         return yearMatch && modalityMatch && materialMatch && playerMatch;
     });
-    
+    sortMatchesByDateDesc(filteredMatches);
+
     currentPage = 1;
     
     // Calcular victorias y derrotas SOLO de los partidos filtrados
