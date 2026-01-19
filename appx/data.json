@@ -2421,7 +2421,7 @@
       "createdAt": "2025-12-19T14:59:09.892Z"
     },
     {
-      "name": "Cro Europa Sénior B8",
+      "name": "Cto Europa Sénior B8",
       "date": "2025-10-17",
       "modality": "Bola 8",
       "totalPlayers": 94,
@@ -2441,7 +2441,7 @@
       },
       "id": "tournament_1766594136886",
       "createdAt": "2025-12-24T16:35:36.886Z",
-      "updatedAt": "2025-12-27T15:05:00.613Z"
+      "updatedAt": "2026-01-19T09:18:44.027Z"
     },
     {
       "name": "Cto Europa Sénior B9",
@@ -4067,23 +4067,22 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 29,
-      "matchesWon": 22,
-      "gamesPlayed": 280,
-      "gamesWon": 172
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
     },
     "bola9": {
-      "matchesPlayed": 95,
-      "matchesWon": 68,
-      "gamesPlayed": 1013,
-      "gamesWon": 588
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
     },
     "bola10": {
-      "matchesPlayed": 54,
-      "matchesWon": 41,
-      "gamesPlayed": 514,
-      "gamesWon": 331
-    },
-    "lastUpdated": "2025-12-25T11:59:35.631Z"
+      "matchesPlayed": 0,
+      "matchesWon": 0,
+      "gamesPlayed": 0,
+      "gamesWon": 0
+    }
   }
 }
