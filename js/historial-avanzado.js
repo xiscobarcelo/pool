@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const data = CloudSync.getData();
     allMatches = data.matches || [];
-    
+    allMatches.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     console.log('📦 Partidos cargados:', allMatches.length);
     
     // Cargar datos y mostrar
