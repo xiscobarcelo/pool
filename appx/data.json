@@ -2581,7 +2581,7 @@
       "updatedAt": "2025-12-27T15:01:54.566Z"
     },
     {
-      "name": "Cto Europa Sénior 24 Selección",
+      "name": "Cto Europa Sénior Selección",
       "date": "2024-12-24",
       "modality": "Bola 10",
       "totalPlayers": 32,
@@ -2600,7 +2600,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594562498",
-      "createdAt": "2025-12-24T16:42:42.498Z"
+      "createdAt": "2025-12-24T16:42:42.498Z",
+      "updatedAt": "2026-01-22T11:55:53.422Z"
     },
     {
       "name": "Cto Mallorca B8",
