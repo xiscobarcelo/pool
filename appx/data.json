@@ -1781,6 +1781,17 @@
       "modality": "Bola 10",
       "date": "2026-01-15",
       "id": 1768505013052
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jepy",
+      "score1": "8",
+      "score2": "6",
+      "material1": "Peri+Revo12.9",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2026-01-22",
+      "id": 1769107091107
     }
   ],
   "players": [
@@ -2421,7 +2432,7 @@
       "createdAt": "2025-12-19T14:59:09.892Z"
     },
     {
-      "name": "Cto Europa Sénior B8",
+      "name": "Cro Europa Sénior B8",
       "date": "2025-10-17",
       "modality": "Bola 8",
       "totalPlayers": 94,
@@ -2441,7 +2452,7 @@
       },
       "id": "tournament_1766594136886",
       "createdAt": "2025-12-24T16:35:36.886Z",
-      "updatedAt": "2026-01-19T09:18:44.027Z"
+      "updatedAt": "2025-12-27T15:05:00.613Z"
     },
     {
       "name": "Cto Europa Sénior B9",
@@ -2581,7 +2592,7 @@
       "updatedAt": "2025-12-27T15:01:54.566Z"
     },
     {
-      "name": "Cto Europa Sénior Selección",
+      "name": "Cto Europa Sénior 24 Selección",
       "date": "2024-12-24",
       "modality": "Bola 10",
       "totalPlayers": 32,
@@ -2600,8 +2611,7 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594562498",
-      "createdAt": "2025-12-24T16:42:42.498Z",
-      "updatedAt": "2026-01-22T11:55:53.422Z"
+      "createdAt": "2025-12-24T16:42:42.498Z"
     },
     {
       "name": "Cto Mallorca B8",
@@ -4068,22 +4078,23 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
+      "matchesPlayed": 29,
+      "matchesWon": 22,
+      "gamesPlayed": 280,
+      "gamesWon": 172
     },
     "bola9": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
+      "matchesPlayed": 95,
+      "matchesWon": 68,
+      "gamesPlayed": 1013,
+      "gamesWon": 588
     },
     "bola10": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
-    }
+      "matchesPlayed": 54,
+      "matchesWon": 41,
+      "gamesPlayed": 514,
+      "gamesWon": 331
+    },
+    "lastUpdated": "2025-12-25T11:59:35.631Z"
   }
 }
