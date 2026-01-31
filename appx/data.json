@@ -1836,6 +1836,17 @@
       "modality": "Bola 10",
       "date": "2026-01-31",
       "id": 1769885941909
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Hector Oviedo",
+      "score1": "6",
+      "score2": "0",
+      "material1": "Lucaso+Centro+Ext4",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2026-01-31",
+      "id": 1769886002880
     }
   ],
   "players": [
@@ -1848,7 +1859,8 @@
     "Tolo",
     "Xisco Mendez",
     "Adrian Wood",
-    "Borja"
+    "Borja",
+    "Hector Oviedo"
   ],
   "materials": [
     "Velasco+Revo12.9",
