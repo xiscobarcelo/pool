@@ -1891,6 +1891,17 @@
       "modality": "Bola 10",
       "date": "2026-02-01",
       "id": 1769959303999
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Felipe González",
+      "score1": "7",
+      "score2": "4",
+      "material1": "Lucaso+Centro+Ext4",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2026-02-01",
+      "id": 1769959342710
     }
   ],
   "players": [
@@ -1907,7 +1918,8 @@
     "Hector Oviedo",
     "Jose Manuel Santiago",
     "Javier Sala",
-    "Juanjo Cardona"
+    "Juanjo Cardona",
+    "Felipe González"
   ],
   "materials": [
     "Velasco+Revo12.9",
