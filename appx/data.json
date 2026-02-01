@@ -3849,6 +3849,28 @@
       },
       "id": "tournament_1766873518382",
       "createdAt": "2025-12-27T22:11:58.382Z"
+    },
+    {
+      "name": "Cto Baleares B10",
+      "date": "2026-02-01",
+      "modality": "Bola 10",
+      "totalPlayers": 30,
+      "result": "Campeón",
+      "circuit": "circuit_1766137838490",
+      "cue": "Lucaso+Centro+Ext4",
+      "finalRival": "Felipe González ",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 7,
+        "matchesWon": 6,
+        "matchesLost": 1,
+        "gamesWon": 43,
+        "gamesLost": 24,
+        "winRate": "85.7",
+        "averageGamesPerMatch": "9.6"
+      },
+      "id": "tournament_1769986314548",
+      "createdAt": "2026-02-01T22:51:54.548Z"
     }
   ],
   "circuits": [
