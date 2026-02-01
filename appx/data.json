@@ -1869,6 +1869,17 @@
       "modality": "Bola 10",
       "date": "2026-02-01",
       "id": 1769959253100
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Javier Sala",
+      "score1": "7",
+      "score2": "6",
+      "material1": "Lucaso+Centro+Ext4",
+      "material2": "rival",
+      "modality": "Bola 10",
+      "date": "2026-02-01",
+      "id": 1769959275406
     }
   ],
   "players": [
@@ -1883,7 +1894,8 @@
     "Adrian Wood",
     "Borja",
     "Hector Oviedo",
-    "Jose Manuel Santiago"
+    "Jose Manuel Santiago",
+    "Javier Sala"
   ],
   "materials": [
     "Velasco+Revo12.9",
