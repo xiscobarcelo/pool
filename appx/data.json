@@ -2001,6 +2001,17 @@
       "modality": "Bola 8",
       "date": "2026-02-21",
       "id": 1771700876901
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Jaime Hernández",
+      "score1": "6",
+      "score2": "1",
+      "material1": "Lucasi+SMO",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2026-02-21",
+      "id": 1771700905633
     }
   ],
   "players": [
@@ -2020,7 +2031,8 @@
     "Juanjo Cardona",
     "Felipe González",
     "Carlos Peñas",
-    "Pawel"
+    "Pawel",
+    "Jaime Hernández"
   ],
   "materials": [
     "Velasco+Revo12.9",
