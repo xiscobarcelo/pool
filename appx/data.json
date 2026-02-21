@@ -1990,6 +1990,17 @@
       "modality": "Bola 9",
       "date": "2026-02-19",
       "id": 1771530385791
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Pawel",
+      "score1": "6",
+      "score2": "1",
+      "material1": "Lucasi+SMO",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2026-02-21",
+      "id": 1771700876901
     }
   ],
   "players": [
@@ -2008,7 +2019,8 @@
     "Javier Sala",
     "Juanjo Cardona",
     "Felipe González",
-    "Carlos Peñas"
+    "Carlos Peñas",
+    "Pawel"
   ],
   "materials": [
     "Velasco+Revo12.9",
