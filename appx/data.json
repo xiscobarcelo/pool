@@ -3870,7 +3870,7 @@
       "createdAt": "2025-12-27T22:05:31.273Z"
     },
     {
-      "name": "Cto de Baleares B9",
+      "name": "Cto Baleares B9",
       "date": "2019-05-27",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -3889,7 +3889,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766873243871",
-      "createdAt": "2025-12-27T22:07:23.871Z"
+      "createdAt": "2025-12-27T22:07:23.871Z",
+      "updatedAt": "2026-02-22T16:38:00.607Z"
     },
     {
       "name": "Cto de Baleares B8",
