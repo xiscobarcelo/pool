@@ -2023,6 +2023,28 @@
       "modality": "Bola 8",
       "date": "2026-02-22",
       "id": 1771764850938
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Óscar Olivas",
+      "score1": "6",
+      "score2": "0",
+      "material1": "Lucasi+SMO",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2026-02-22",
+      "id": 1771764883159
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Manuel Montejo",
+      "score1": "1",
+      "score2": "6",
+      "material1": "Lucasi+SMO",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2026-02-22",
+      "id": 1771777489214
     }
   ],
   "players": [
@@ -2044,7 +2066,9 @@
     "Carlos Peñas",
     "Pawel",
     "Jaime Hernández",
-    "Héctor Oviedo"
+    "Héctor Oviedo",
+    "Óscar Olivas",
+    "Manuel Montejo"
   ],
   "materials": [
     "Velasco+Revo12.9",
