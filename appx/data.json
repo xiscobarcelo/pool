@@ -2012,6 +2012,17 @@
       "modality": "Bola 8",
       "date": "2026-02-21",
       "id": 1771700905633
+    },
+    {
+      "player1": "Xisco",
+      "player2": "Héctor Oviedo",
+      "score1": "6",
+      "score2": "3",
+      "material1": "Lucasi+SMO",
+      "material2": "rival",
+      "modality": "Bola 8",
+      "date": "2026-02-22",
+      "id": 1771764850938
     }
   ],
   "players": [
@@ -2032,7 +2043,8 @@
     "Felipe González",
     "Carlos Peñas",
     "Pawel",
-    "Jaime Hernández"
+    "Jaime Hernández",
+    "Héctor Oviedo"
   ],
   "materials": [
     "Velasco+Revo12.9",
