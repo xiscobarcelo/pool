@@ -2541,7 +2541,7 @@
       "createdAt": "2025-12-19T14:37:55.308Z"
     },
     {
-      "name": "Cto de Baleares B10",
+      "name": "Cto Baleares B10",
       "date": "2024-03-24",
       "modality": "Bola 10",
       "totalPlayers": 32,
@@ -2561,7 +2561,7 @@
       },
       "id": "tournament_1766155166890",
       "createdAt": "2025-12-19T14:39:26.890Z",
-      "updatedAt": "2025-12-27T22:16:44.606Z"
+      "updatedAt": "2026-02-22T16:42:29.782Z"
     },
     {
       "name": "Copa Sénior III",
@@ -3203,7 +3203,7 @@
       "updatedAt": "2025-12-25T23:44:43.887Z"
     },
     {
-      "name": "Cto de Baleares B8",
+      "name": "Cto Baleares B8",
       "date": "2023-04-25",
       "modality": "Bola 8",
       "totalPlayers": 32,
@@ -3223,7 +3223,7 @@
       },
       "id": "tournament_1766622711433",
       "createdAt": "2025-12-25T00:31:51.433Z",
-      "updatedAt": "2025-12-27T15:07:49.999Z"
+      "updatedAt": "2026-02-22T16:41:29.885Z"
     },
     {
       "name": "Máster",
@@ -3517,7 +3517,7 @@
       "updatedAt": "2025-12-27T21:49:24.836Z"
     },
     {
-      "name": "Cto de Baleares B8",
+      "name": "Cto Baleares B8",
       "date": "2021-05-27",
       "modality": "Bola 8",
       "totalPlayers": 32,
@@ -3537,7 +3537,7 @@
       },
       "id": "tournament_1766872033977",
       "createdAt": "2025-12-27T21:47:13.977Z",
-      "updatedAt": "2025-12-27T21:50:31.669Z"
+      "updatedAt": "2026-02-22T16:41:52.886Z"
     },
     {
       "name": "Cto Baleares B9",
