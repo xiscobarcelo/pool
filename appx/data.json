@@ -4023,6 +4023,28 @@
       "id": "tournament_1769986314548",
       "createdAt": "2026-02-01T22:51:54.548Z",
       "updatedAt": "2026-02-03T14:25:48.055Z"
+    },
+    {
+      "name": "Cto Mallorca Bola 8",
+      "date": "2026-02-22",
+      "modality": "Bola 8",
+      "totalPlayers": 18,
+      "result": "Subcampeón",
+      "circuit": "circuit_1766138144155",
+      "cue": "Lucasi+SMO",
+      "finalRival": "Manuel Montejo",
+      "notes": "",
+      "stats": {
+        "matchesPlayed": 5,
+        "matchesWon": 4,
+        "matchesLost": 1,
+        "gamesWon": 25,
+        "gamesLost": 11,
+        "winRate": "80.0",
+        "averageGamesPerMatch": "7.2"
+      },
+      "id": "tournament_1771778034380",
+      "createdAt": "2026-02-22T16:33:54.380Z"
     }
   ],
   "circuits": [
