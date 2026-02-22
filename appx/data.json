@@ -3739,7 +3739,7 @@
       "updatedAt": "2026-02-22T16:39:06.288Z"
     },
     {
-      "name": "Cto de Baleares B9",
+      "name": "Cto Baleares B9",
       "date": "2020-04-27",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -3758,7 +3758,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766872809196",
-      "createdAt": "2025-12-27T22:00:09.196Z"
+      "createdAt": "2025-12-27T22:00:09.196Z",
+      "updatedAt": "2026-02-22T16:39:35.827Z"
     },
     {
       "name": "Copa Baleares I",
