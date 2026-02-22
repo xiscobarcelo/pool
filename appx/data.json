@@ -3540,7 +3540,7 @@
       "updatedAt": "2025-12-27T21:50:31.669Z"
     },
     {
-      "name": "Cto de Baleares B9",
+      "name": "Cto Baleares B9",
       "date": "2022-04-27",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -3559,7 +3559,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766872292267",
-      "createdAt": "2025-12-27T21:51:32.267Z"
+      "createdAt": "2025-12-27T21:51:32.267Z",
+      "updatedAt": "2026-02-22T16:41:09.936Z"
     },
     {
       "name": "Máster",
@@ -3606,7 +3607,7 @@
       "createdAt": "2025-12-27T21:53:45.119Z"
     },
     {
-      "name": "Cto de Baleares B9",
+      "name": "Cto Baleares B9",
       "date": "2021-04-27",
       "modality": "Bola 9",
       "totalPlayers": 32,
@@ -3625,10 +3626,11 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766872482547",
-      "createdAt": "2025-12-27T21:54:42.547Z"
+      "createdAt": "2025-12-27T21:54:42.547Z",
+      "updatedAt": "2026-02-22T16:40:10.118Z"
     },
     {
-      "name": "Cto de Baleares B8",
+      "name": "Cto Baleares B8",
       "date": "2021-03-27",
       "modality": "Bola 8",
       "totalPlayers": 32,
@@ -3647,7 +3649,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766872529850",
-      "createdAt": "2025-12-27T21:55:29.850Z"
+      "createdAt": "2025-12-27T21:55:29.850Z",
+      "updatedAt": "2026-02-22T16:40:47.170Z"
     },
     {
       "name": "Copa Baleares I",
