@@ -2586,7 +2586,7 @@
       "createdAt": "2025-12-19T14:43:34.080Z"
     },
     {
-      "name": "Cto de Baleares B8",
+      "name": "Cto Baleares B8",
       "date": "2024-02-18",
       "modality": "Bola 8",
       "totalPlayers": 32,
@@ -2606,7 +2606,7 @@
       },
       "id": "tournament_1766155556890",
       "createdAt": "2025-12-19T14:45:56.890Z",
-      "updatedAt": "2025-12-27T22:17:56.605Z"
+      "updatedAt": "2026-02-22T16:43:04.410Z"
     },
     {
       "name": "Copa Baleares",
@@ -2775,7 +2775,7 @@
       "totalPlayers": 32,
       "result": "Semifinales",
       "circuit": "circuit_1766307061120",
-      "cue": "",
+      "cue": "Lucaso+Centro+Ext4",
       "finalRival": "Alemania ",
       "notes": "",
       "stats": {
@@ -2788,7 +2788,8 @@
         "averageGamesPerMatch": 0
       },
       "id": "tournament_1766594328412",
-      "createdAt": "2025-12-24T16:38:48.412Z"
+      "createdAt": "2025-12-24T16:38:48.412Z",
+      "updatedAt": "2026-02-24T22:47:43.711Z"
     },
     {
       "name": "Cto Europa Sénior B8",
