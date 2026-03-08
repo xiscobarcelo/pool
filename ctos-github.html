@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#f5f5f7">
+<title>Campeonatos · Pool</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f5f5f7;
+    --bg2:       #e8e8ed;
+    --surface:   #ffffff;
+    --border:    rgba(0,0,0,0.07);
+    --accent:    #007aff;
+    --accent-bg: rgba(0,122,255,0.08);
+    --green:     #34c759;
+    --green-bg:  rgba(52,199,89,0.10);
+    --red:       #ff3b30;
+    --red-bg:    rgba(255,59,48,0.08);
+    --gray:      #8e8e93;
+    --gray-bg:   rgba(142,142,147,0.10);
+    --text:      #1c1c1e;
+    --text2:     #3a3a3c;
+    --text3:     #6c6c70;
+    --sh-sm: 0 1px 4px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    --sh-md: 0 4px 18px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --sh-lg: 0 12px 40px rgba(0,0,0,0.13), 0 4px 12px rgba(0,0,0,0.06);
+    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:100;background:rgba(245,245,247,.9);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--border);padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;}
+  .h-left{display:flex;flex-direction:column;}
+  .h-eye{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:1px;}
+  .h-title{font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--text);}
+  .h-btn{width:34px;height:34px;background:var(--surface);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:var(--sh-sm);cursor:pointer;transition:transform .15s;}
+  .h-btn:active{transform:scale(.9);}
+
+  /* SYNC BAR */
+  .sync-bar{padding:10px 20px;display:flex;gap:8px;background:var(--surface);border-bottom:1px solid var(--border);}
+  .sync-btn{flex:1;padding:8px 12px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:var(--font);transition:opacity .15s,transform .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .sync-btn:active{opacity:.7;transform:scale(.97);}
+  .sync-up{background:var(--accent-bg);color:var(--accent);}
+  .sync-down{background:var(--green-bg);color:var(--green);}
+  .sync-config{background:var(--gray-bg);color:var(--gray);flex:0.5;}
+
+  /* MONTH */
+  .month-row{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 12px;}
+  .month-lbl{font-size:17px;font-weight:600;letter-spacing:-.2px;}
+  .arrows{display:flex;gap:6px;}
+  .arr{width:30px;height:30px;background:var(--surface);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--accent);box-shadow:var(--sh-sm);cursor:pointer;transition:transform .15s;}
+  .arr:active{transform:scale(.88);}
+
+  /* STRIP */
+  .strip-wrap{padding:0 20px 16px;overflow-x:auto;scrollbar-width:none;}
+  .strip-wrap::-webkit-scrollbar{display:none;}
+  .strip{display:flex;gap:7px;}
+  .dp{flex-shrink:0;width:44px;height:64px;background:var(--surface);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;position:relative;box-shadow:var(--sh-sm);transition:transform .15s;}
+  .dp:active{transform:scale(.93);}
+  .dp.today{box-shadow:0 0 0 2px var(--accent),var(--sh-sm);}
+  .dp.sel{background:var(--accent);box-shadow:0 4px 16px rgba(0,122,255,.35);}
+  .dp.sel .dp-n,.dp.sel .dp-d{color:#fff;}
+  .dp-dot{position:absolute;bottom:7px;width:4px;height:4px;border-radius:50%;background:var(--accent);}
+  .dp.sel .dp-dot{background:rgba(255,255,255,.65);}
+  .dp-n{font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);}
+  .dp-d{font-size:19px;font-weight:700;letter-spacing:-.5px;color:var(--text);line-height:1;}
+
+  /* FILTERS */
+  .filters{display:flex;gap:8px;padding:0 20px 18px;overflow-x:auto;scrollbar-width:none;}
+  .filters::-webkit-scrollbar{display:none;}
+  .chip{flex-shrink:0;padding:7px 14px;border-radius:20px;background:var(--surface);font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;box-shadow:var(--sh-sm);transition:all .15s;}
+  .chip.on{background:var(--accent);color:#fff;box-shadow:0 3px 12px rgba(0,122,255,.28);}
+  .chip:active{transform:scale(.94);}
+
+  /* SECTION */
+  .sec-lbl{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);padding:0 20px 10px;}
+
+  /* CARDS */
+  .cards-wrap{display:flex;flex-direction:column;gap:10px;padding:0 20px;}
+  .card{background:var(--surface);border-radius:20px;box-shadow:var(--sh-md);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+  .card:active{transform:scale(.985);box-shadow:var(--sh-sm);}
+  .c-stripe{height:3px;}
+  .proxima .c-stripe{background:var(--accent);}
+  .en-curso .c-stripe{background:var(--green);}
+  .finalizado .c-stripe{background:var(--bg2);}
+  .c-body{padding:14px 16px 16px;}
+  .c-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+  .c-name{font-size:16px;font-weight:700;letter-spacing:-.3px;color:var(--text);line-height:1.2;flex:1;padding-right:8px;}
+  .badge{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+  .b-dot{width:6px;height:6px;border-radius:50%;}
+  .proxima .badge{background:var(--accent-bg);color:var(--accent);}
+  .proxima .b-dot{background:var(--accent);}
+  .en-curso .badge{background:var(--green-bg);color:var(--green);}
+  .en-curso .b-dot{background:var(--green);animation:blink 1.5s infinite;}
+  .finalizado .badge{background:var(--gray-bg);color:var(--gray);}
+  .finalizado .b-dot{background:var(--gray);}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  .c-metas{display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);padding-top:10px;}
+  .meta{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text3);}
+  .m-ico{width:22px;height:22px;border-radius:7px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+  .m-txt{font-weight:500;color:var(--text2);}
+  .c-acts{display:flex;gap:8px;margin-top:12px;}
+  .act{flex:1;padding:9px 0;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:var(--font);transition:opacity .15s,transform .15s;}
+  .act:active{opacity:.7;transform:scale(.97);}
+  .a-edit{background:var(--accent-bg);color:var(--accent);}
+  .a-del{background:var(--red-bg);color:var(--red);}
+
+  /* EMPTY */
+  .empty{text-align:center;padding:52px 20px;color:var(--text3);}
+  .e-ico{font-size:44px;margin-bottom:12px;}
+  .e-txt{font-size:14px;line-height:1.6;}
+
+  /* FAB */
+  .fab{position:fixed;bottom:30px;right:20px;width:54px;height:54px;border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:26px;font-weight:300;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 24px rgba(0,122,255,.38),0 2px 8px rgba(0,122,255,.2);transition:transform .15s,box-shadow .15s;z-index:200;line-height:1;}
+  .fab:active{transform:scale(.9);box-shadow:0 3px 12px rgba(0,122,255,.3);}
+
+  /* OVERLAY / SHEET */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:300;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:flex-end;}
+  .overlay.open{opacity:1;pointer-events:all;}
+  .sheet{background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-height:93vh;overflow-y:auto;padding-bottom:44px;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,1,.23,1);box-shadow:0 -4px 32px rgba(0,0,0,.1);}
+  .overlay.open .sheet{transform:translateY(0);}
+  .s-handle{width:36px;height:4px;background:var(--bg2);border-radius:2px;margin:12px auto 0;}
+  .s-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 16px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+  .s-title{font-size:18px;font-weight:700;letter-spacing:-.3px;}
+  .s-close{width:30px;height:30px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;}
+
+  /* FORM */
+  .fg{padding:0 20px;margin-bottom:14px;}
+  .fl{font-size:12px;font-weight:600;letter-spacing:.3px;color:var(--text3);margin-bottom:7px;display:block;}
+  .fi,.fs,.fta{width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:13px;padding:13px 14px;color:var(--text);font-family:var(--font);font-size:15px;outline:none;transition:border-color .18s,background .18s;-webkit-appearance:none;}
+  .fi:focus,.fs:focus,.fta:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px var(--accent-bg);}
+  .fs option{background:#fff;}
+  .fta{resize:none;height:76px;}
+  .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px;margin-bottom:14px;}
+  .fr>div{display:flex;flex-direction:column;}
+  .sub-btn{margin:8px 20px 0;width:calc(100% - 40px);padding:15px;background:var(--accent);border:none;border-radius:13px;color:#fff;font-family:var(--font);font-size:16px;font-weight:700;letter-spacing:-.2px;cursor:pointer;box-shadow:0 4px 18px rgba(0,122,255,.28);transition:opacity .15s,transform .15s;}
+  .sub-btn:active{opacity:.85;transform:scale(.98);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(10px);background:rgba(28,28,30,.92);color:#fff;border-radius:20px;padding:9px 18px;font-size:13px;font-weight:500;box-shadow:var(--sh-lg);z-index:500;opacity:0;pointer-events:none;transition:all .26s cubic-bezier(.32,1,.23,1);white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .pb{height:88px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-left">
+    <span class="h-eye">🎱 Pool &amp; Billar</span>
+    <span class="h-title">Campeonatos</span>
+  </div>
+  <div class="h-btn">📊</div>
+</header>
+
+<!-- BARRA DE SINCRONIZACIÓN -->
+<div class="sync-bar">
+  <button class="sync-btn sync-up" onclick="syncToGitHub()">↑ Subir</button>
+  <button class="sync-btn sync-down" onclick="loadFromGitHub()">↓ Cargar</button>
+  <button class="sync-btn sync-config" onclick="resetGitHubConfig()">⚙️</button>
+</div>
+
+<div class="month-row">
+  <span class="month-lbl" id="mLbl"></span>
+  <div class="arrows">
+    <div class="arr" id="prev">‹</div>
+    <div class="arr" id="next">›</div>
+  </div>
+</div>
+
+<div class="strip-wrap"><div class="strip" id="strip"></div></div>
+
+<div class="filters">
+  <div class="chip on" data-f="todos">Todos</div>
+  <div class="chip" data-f="proxima">Próximos</div>
+  <div class="chip" data-f="en-curso">En curso</div>
+  <div class="chip" data-f="finalizado">Finalizados</div>
+</div>
+
+<div class="sec-lbl" id="secLbl">Todos los eventos</div>
+<div class="cards-wrap" id="cards"></div>
+<div class="pb"></div>
+<button class="fab" id="fab">+</button>
+
+<div class="overlay" id="ov">
+  <div class="sheet">
+    <div class="s-handle"></div>
+    <div class="s-hdr">
+      <span class="s-title" id="sTitle">Nuevo evento</span>
+      <div class="s-close" id="sClose">✕</div>
+    </div>
+    <div class="fg"><label class="fl">Nombre del campeonato</label><input class="fi" id="fn" type="text" placeholder="Ej. Open Nacional 9-Ball"></div>
+    <div class="fr">
+      <div><label class="fl">Fecha inicio</label><input class="fi" id="fs1" type="date"></div>
+      <div><label class="fl">Fecha fin</label><input class="fi" id="fs2" type="date"></div>
+    </div>
+    <div class="fr">
+      <div><label class="fl">Hora inicio</label><input class="fi" id="ft" type="time"></div>
+      <div><label class="fl">Estado</label>
+        <select class="fs" id="fst">
+          <option value="proxima">Próximo</option>
+          <option value="en-curso">En curso</option>
+          <option value="finalizado">Finalizado</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Sede / Lugar</label><input class="fi" id="fv" type="text" placeholder="Ej. Club Billar Palma"></div>
+    <div class="fg"><label class="fl">Modalidad</label>
+      <select class="fs" id="fm">
+        <option>9-Ball</option><option>8-Ball</option><option>10-Ball</option>
+        <option>Snooker</option><option>Carambola</option><option>Otro</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Notas (opcional)</label><textarea class="fta" id="fno" placeholder="Premios, formato, inscripciones…"></textarea></div>
+    <button class="sub-btn" id="subBtn">Guardar evento</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DAYS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MF=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const MS=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const SL={todos:'Todos los eventos',proxima:'Próximos','en-curso':'En curso',finalizado:'Finalizados'};
+const SB={proxima:'Próximo','en-curso':'En curso',finalizado:'Finalizado'};
+
+const GITHUB_CONFIG_KEY='pool_github_config';
+const STORAGE_KEY='pool_v3';
+
+const now=new Date();
+let vm=new Date(now.getFullYear(),now.getMonth(),1);
+let selDay=null,filter='todos',editId=null;
+let evs=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(evs));}
+function pad(n){return String(n).padStart(2,'0');}
+function fmtD(s){const[,m,d]=s.split('-');return`${parseInt(d)} ${MS[parseInt(m)-1]}`;}
+
+function getGitHubConfig(){const c=localStorage.getItem(GITHUB_CONFIG_KEY);return c?JSON.parse(c):null;}
+function setGitHubConfig(u,r,t){localStorage.setItem(GITHUB_CONFIG_KEY,JSON.stringify({username:u,repo:r,token:t}));}
+
+async function syncToGitHub(){
+  let cfg=getGitHubConfig();
+  if(!cfg){
+    const u=prompt('🔧 Configuración de GitHub\n\n1️⃣ Introduce tu USUARIO de GitHub:');if(!u)return;
+    const r=prompt('2️⃣ Introduce el NOMBRE del repositorio:\n(ejemplo: xisco-stats)');if(!r)return;
+    const t=prompt('3️⃣ Pega tu TOKEN de acceso personal:\n(empieza con ghp_...)');if(!t)return;
+    setGitHubConfig(u,r,t);cfg={username:u,repo:r,token:t};showToast('✅ Config guardada!');
+  }
+  const btn=event.target,ot=btn.innerHTML;btn.innerHTML='⏳ Subiendo...';btn.disabled=true;
+  try{
+    const data=JSON.stringify({events:evs},null,2);
+    const enc=btoa(unescape(encodeURIComponent(data)));
+    const gUrl=`https://api.github.com/repos/${cfg.username}/${cfg.repo}/contents/app/campeonatos.json`;
+    let sha=null;
+    try{const gr=await fetch(gUrl,{headers:{'Authorization':`token ${cfg.token}`,'Accept':'application/vnd.github.v3+json'}});if(gr.ok){const fd=await gr.json();sha=fd.sha;}}catch(e){}
+    const pUrl=gUrl;
+    const res=await fetch(pUrl,{method:'PUT',headers:{'Authorization':`token ${cfg.token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Update campeonatos.json - ${new Date().toLocaleString('es-ES')}`,content:enc,sha:sha,branch:'main'})});
+    if(res.ok){btn.innerHTML='✅ ¡Subido!';showToast('☁️ Datos en GitHub!');setTimeout(()=>{btn.innerHTML=ot;btn.disabled=false;},2000);}
+    else{const err=await res.json();throw new Error(err.message||'Error al subir');}
+  }catch(error){console.error('Error:',error);btn.innerHTML=ot;btn.disabled=false;alert(`❌ Error al subir a GitHub:\n\n${error.message}\n\nVerifica:\n• Token correcto\n• Permisos del token (scope: repo)\n• Nombre de repositorio correcto`);if(confirm('¿Reconfigurar GitHub?'))localStorage.removeItem(GITHUB_CONFIG_KEY);}
+}
+
+async function loadFromGitHub(){
+  const cfg=getGitHubConfig();if(!cfg){showToast('⚠️ Configura GitHub en ⚙️');return;}
+  const btn=event.target,ot=btn.innerHTML;btn.innerHTML='⏳ Descargando...';btn.disabled=true;
+  try{
+    const url=`https://raw.githubusercontent.com/${cfg.username}/${cfg.repo}/main/app/campeonatos.json`;
+    const res=await fetch(url,{cache:'no-cache',headers:{'Accept':'application/json'}});
+    if(res.ok){
+      const data=await res.json();
+      if(!data.events||!Array.isArray(data.events))throw new Error('Datos inválidos');
+      evs=data.events;save();renderAll();
+      btn.innerHTML='✅ ¡Descargado!';showToast(`☁️ ${evs.length} campeonatos`);
+      setTimeout(()=>{btn.innerHTML=ot;btn.disabled=false;},2000);
+    }else throw new Error(`HTTP ${res.status}`);
+  }catch(error){console.error('Error:',error);btn.innerHTML=ot;btn.disabled=false;showToast('⚠️ Error al descargar');}
+}
+
+async function autoSyncFromGitHub(){
+  const cfg=getGitHubConfig();if(!cfg)return;
+  try{
+    const url=`https://raw.githubusercontent.com/${cfg.username}/${cfg.repo}/main/app/campeonatos.json`;
+    const res=await fetch(url,{cache:'no-cache',headers:{'Accept':'application/json'}});
+    if(res.ok){const data=await res.json();if(data.events&&Array.isArray(data.events)){evs=data.events;save();renderAll();console.log(`✅ ${evs.length} campeonatos desde GitHub`);}}
+  }catch(e){}
+}
+
+function resetGitHubConfig(){if(confirm('¿Eliminar configuración de GitHub?')){localStorage.removeItem(GITHUB_CONFIG_KEY);showToast('✅ Config eliminada');}}
+
+if(!evs.length){
+  const y=now.getFullYear(),m=now.getMonth()+1;
+  evs=[
+    {id:uid(),name:'Open Nacional 9-Ball',dateStart:`${y}-${pad(m)}-15`,dateEnd:`${y}-${pad(m)}-17`,time:'10:00',venue:'Club Billar Palma',mode:'9-Ball',status:'proxima',notes:'Inscripción 40 €. Doble eliminación.'},
+    {id:uid(),name:'Liga Local 8-Ball',dateStart:`${y}-${pad(m)}-08`,dateEnd:`${y}-${pad(m)}-08`,time:'17:00',venue:'Bar Salón Centro',mode:'8-Ball',status:'en-curso',notes:''},
+    {id:uid(),name:'Torneo Isla Carambola',dateStart:`${y}-${pad(m)}-02`,dateEnd:`${y}-${pad(m)}-03`,time:'09:00',venue:'Federació Balear',mode:'Carambola',status:'finalizado',notes:'Campeón: Marc T.'},
+  ];
+  save();
+}
+
+function renderAll(){renderMonth();renderStrip();renderCards();}
+function renderMonth(){document.getElementById('mLbl').textContent=MF[vm.getMonth()]+' '+vm.getFullYear();}
+
+function renderStrip(){
+  const s=document.getElementById('strip');s.innerHTML='';
+  const y=vm.getFullYear(),mo=vm.getMonth(),days=new Date(y,mo+1,0).getDate();
+  const edDays=new Set(evs.map(e=>e.dateStart));
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${pad(mo+1)}-${pad(d)}`;
+    const dd=new Date(y,mo,d);
+    const el=document.createElement('div');
+    el.className='dp'+(dd.toDateString()===now.toDateString()?' today':'')+(selDay===ds?' sel':'');
+    el.innerHTML=`<span class="dp-n">${DAYS[dd.getDay()]}</span><span class="dp-d">${d}</span>${edDays.has(ds)?'<span class="dp-dot"></span>':''}`;
+    el.onclick=()=>{selDay=selDay===ds?null:ds;renderStrip();renderCards();};
+    s.appendChild(el);
+    if(dd.toDateString()===now.toDateString()&&mo===now.getMonth())
+      requestAnimationFrame(()=>el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}));
+  }
+}
+
+function renderCards(){
+  const w=document.getElementById('cards');w.innerHTML='';
+  const sl=document.getElementById('secLbl');
+  sl.textContent=selDay?`${parseInt(selDay.split('-')[2])} ${MS[parseInt(selDay.split('-')[1])-1]}`:SL[filter];
+  let list=[...evs];
+  if(filter!=='todos')list=list.filter(e=>e.status===filter);
+  if(selDay)list=list.filter(e=>e.dateStart<=selDay&&e.dateEnd>=selDay);
+  list=list.filter(e=>{const d=new Date(e.dateStart+'T00:00');return d.getFullYear()===vm.getFullYear()&&d.getMonth()===vm.getMonth();});
+  list.sort((a,b)=>a.dateStart.localeCompare(b.dateStart));
+  if(!list.length){w.innerHTML='<div class="empty"><div class="e-ico">🎱</div><div class="e-txt">Sin campeonatos aquí.<br>Pulsa + para añadir uno.</div></div>';return;}
+  list.forEach(ev=>{
+    const e2=ev.dateEnd!==ev.dateStart?' → '+fmtD(ev.dateEnd):'';
+    const c=document.createElement('div');
+    c.className=`card ${ev.status}`;
+    c.innerHTML=`<div class="c-stripe"></div><div class="c-body">
+      <div class="c-top"><div class="c-name">${ev.name}</div><span class="badge"><span class="b-dot"></span>${SB[ev.status]}</span></div>
+      <div class="c-metas">
+        <div class="meta"><div class="m-ico">📅</div><span class="m-txt">${fmtD(ev.dateStart)}${e2} · ${ev.time}h</span></div>
+        <div class="meta"><div class="m-ico">📍</div><span class="m-txt">${ev.venue}</span></div>
+        <div class="meta"><div class="m-ico">🎯</div><span class="m-txt">${ev.mode}</span></div>
+        ${ev.notes?`<div class="meta"><div class="m-ico">📝</div><span class="m-txt">${ev.notes}</span></div>`:''}
+      </div>
+      <div class="c-acts">
+        <button class="act a-edit" data-id="${ev.id}">Editar</button>
+        <button class="act a-del" data-id="${ev.id}">Eliminar</button>
+      </div></div>`;
+    w.appendChild(c);
+  });
+  w.querySelectorAll('.a-edit').forEach(b=>b.onclick=e=>{e.stopPropagation();openEdit(b.dataset.id);});
+  w.querySelectorAll('.a-del').forEach(b=>b.onclick=e=>{e.stopPropagation();delEv(b.dataset.id);});
+}
+
+function openModal(t='Nuevo evento'){document.getElementById('sTitle').textContent=t;document.getElementById('ov').classList.add('open');}
+function closeModal(){document.getElementById('ov').classList.remove('open');editId=null;clearF();}
+function clearF(){['fn','fs1','fs2','ft','fv','fno'].forEach(id=>document.getElementById(id).value='');document.getElementById('fst').value='proxima';document.getElementById('fm').value='9-Ball';}
+function openEdit(id){
+  const ev=evs.find(e=>e.id===id);if(!ev)return;editId=id;
+  document.getElementById('fn').value=ev.name;document.getElementById('fs1').value=ev.dateStart;document.getElementById('fs2').value=ev.dateEnd;document.getElementById('ft').value=ev.time;
+  document.getElementById('fv').value=ev.venue;document.getElementById('fm').value=ev.mode;document.getElementById('fst').value=ev.status;document.getElementById('fno').value=ev.notes;
+  openModal('Editar evento');
+}
+function delEv(id){evs=evs.filter(e=>e.id!==id);save();renderStrip();renderCards();showToast('Evento eliminado');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+document.getElementById('subBtn').onclick=()=>{
+  const name=document.getElementById('fn').value.trim();
+  const ds=document.getElementById('fs1').value;
+  const de=document.getElementById('fs2').value||ds;
+  const ti=document.getElementById('ft').value||'10:00';
+  const ve=document.getElementById('fv').value.trim();
+  const mo=document.getElementById('fm').value;
+  const st=document.getElementById('fst').value;
+  const no=document.getElementById('fno').value.trim();
+  if(!name||!ds||!ve){showToast('Completa nombre, fecha y sede');return;}
+  if(editId){const i=evs.findIndex(e=>e.id===editId);evs[i]={id:editId,name,dateStart:ds,dateEnd:de,time:ti,venue:ve,mode:mo,status:st,notes:no};showToast('Evento actualizado');}
+  else{evs.push({id:uid(),name,dateStart:ds,dateEnd:de,time:ti,venue:ve,mode:mo,status:st,notes:no});showToast('Evento añadido');}
+  save();closeModal();renderStrip();renderCards();
+};
+
+document.getElementById('fab').onclick=()=>openModal();
+document.getElementById('sClose').onclick=closeModal;
+document.getElementById('ov').onclick=e=>{if(e.target===document.getElementById('ov'))closeModal();};
+document.getElementById('prev').onclick=()=>{vm.setMonth(vm.getMonth()-1);selDay=null;renderAll();};
+document.getElementById('next').onclick=()=>{vm.setMonth(vm.getMonth()+1);selDay=null;renderAll();};
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');filter=c.dataset.f;renderCards();});
+
+renderAll();
+setTimeout(()=>autoSyncFromGitHub(),500);
+console.log('✅ Campeonatos con GitHub sync cargado');
+</script>
+</body>
+</html>
