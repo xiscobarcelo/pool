@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0a0f">
+<title>POOLTORCH — Campeonatos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --card: #1a1a24;
+    --border: #2a2a3a;
+    --blue: #1e90ff;
+    --blue-glow: rgba(30,144,255,0.18);
+    --blue-dim: rgba(30,144,255,0.08);
+    --green: #00e676;
+    --yellow: #ffca28;
+    --red: #ff5252;
+    --text: #f0f0f8;
+    --muted: #6b6b88;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .logo-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--blue);
+    text-shadow: 0 0 20px var(--blue-glow);
+  }
+  .logo-sub {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .header-icon {
+    width: 36px; height: 36px;
+    background: var(--blue-dim);
+    border: 1px solid rgba(30,144,255,0.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .header-icon:active { background: var(--blue-glow); }
+
+  /* ── MONTH NAV ── */
+  .month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 10px;
+  }
+  .month-label {
+    font-family: var(--font-display);
+    font-size: 30px;
+    letter-spacing: 1.5px;
+    color: var(--text);
+  }
+  .month-btn {
+    width: 36px; height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted);
+    transition: all .2s;
+    user-select: none;
+  }
+  .month-btn:active { border-color: var(--blue); color: var(--blue); }
+
+  /* ── MINI CALENDAR STRIP ── */
+  .cal-strip {
+    padding: 4px 20px 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    display: flex;
+    gap: 8px;
+  }
+  .cal-strip::-webkit-scrollbar { display: none; }
+  .cal-day {
+    flex-shrink: 0;
+    width: 46px;
+    height: 62px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .cal-day.today {
+    border-color: var(--blue);
+    background: var(--blue-dim);
+  }
+  .cal-day.has-event::after {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+    position: absolute;
+    bottom: 8px;
+  }
+  .cal-day.selected {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .cal-day.selected .day-num,
+  .cal-day.selected .day-name { color: #fff; }
+  .day-name {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .day-num {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  /* ── FILTERS ── */
+  .filters {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: .3px;
+  }
+  .filter-chip.active {
+    background: var(--blue-dim);
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 12px;
+  }
+
+  /* ── EVENT CARD ── */
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 20px;
+  }
+  .event-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform .15s, box-shadow .15s;
+    cursor: pointer;
+    position: relative;
+  }
+  .event-card:active { transform: scale(0.985); }
+  .event-card.proxima { border-left: 3px solid var(--blue); }
+  .event-card.en-curso { border-left: 3px solid var(--green); }
+  .event-card.finalizado { border-left: 3px solid var(--muted); opacity: .7; }
+
+  .card-top {
+    padding: 16px 16px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: var(--blue-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .card-info { flex: 1; min-width: 0; }
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 19px;
+    letter-spacing: .5px;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .proxima .card-status { background: var(--blue-dim); color: var(--blue); }
+  .proxima .status-dot { background: var(--blue); }
+  .en-curso .card-status { background: rgba(0,230,118,.1); color: var(--green); }
+  .en-curso .status-dot { background: var(--green); animation: pulse 1.4s infinite; }
+  .finalizado .card-status { background: rgba(107,107,136,.12); color: var(--muted); }
+  .finalizado .status-dot { background: var(--muted); }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .4; transform: scale(.8); }
+  }
+
+  .card-bottom {
+    padding: 0 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .card-meta-icon { font-size: 14px; }
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .btn-sm {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity .2s;
+    letter-spacing: .3px;
+  }
+  .btn-sm:active { opacity: .75; }
+  .btn-edit { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(30,144,255,.25); }
+  .btn-delete { background: rgba(255,82,82,.08); color: var(--red); border: 1px solid rgba(255,82,82,.2); }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--muted);
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-text { font-size: 14px; line-height: 1.6; }
+
+  /* ── FAB ── */
+  .fab {
+    position: fixed;
+    bottom: 28px;
+    right: 20px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: none;
+    color: #fff;
+    font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(30,144,255,.5);
+    transition: transform .2s, box-shadow .2s;
+    z-index: 200;
+  }
+  .fab:active { transform: scale(0.92); box-shadow: 0 2px 12px rgba(30,144,255,.4); }
+
+  /* ── MODAL OVERLAY ── */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(6px);
+    z-index: 300;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+  }
+  .overlay.open { opacity: 1; pointer-events: all; }
+
+  /* ── BOTTOM SHEET ── */
+  .sheet {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-radius: 24px 24px 0 0;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 0 0 40px;
+    transform: translateY(100%);
+    transition: transform .3s cubic-bezier(.32,1,.23,1);
+  }
+  .overlay.open .sheet { transform: translateY(0); }
+
+  .sheet-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 14px auto 0;
+  }
+  .sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 20px;
+  }
+  .sheet-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+  .sheet-close {
+    width: 32px; height: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  /* ── FORM ── */
+  .form-group {
+    padding: 0 20px;
+    margin-bottom: 16px;
+  }
+  .form-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--blue);
+  }
+  .form-select option { background: var(--card); }
+  .form-textarea { resize: none; height: 80px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 20px;
+    margin-bottom: 16px;
+  }
+  .form-row .form-label { margin-bottom: 8px; display: block; }
+  .form-row > div { display: flex; flex-direction: column; }
+
+  .btn-submit {
+    margin: 8px 20px 0;
+    width: calc(100% - 40px);
+    padding: 15px;
+    background: var(--blue);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(30,144,255,.35);
+    transition: opacity .2s, transform .15s;
+  }
+  .btn-submit:active { opacity: .85; transform: scale(.98); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: 13px;
+    color: var(--text);
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+    z-index: 500;
+    opacity: 0;
+    transition: all .3s;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 4px 20px 20px; }
+
+  .pb-fab { height: 88px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-title">🎱 CAMPEONATOS</span>
+    <span class="logo-sub">Pool & Billar</span>
+  </div>
+  <div class="header-icon" id="statsBtn" title="Ver estadísticas">📊</div>
+</header>
+
+<!-- Month nav -->
+<div class="month-nav">
+  <div class="month-btn" id="prevMonth">‹</div>
+  <div class="month-label" id="monthLabel">MARZO 2026</div>
+  <div class="month-btn" id="nextMonth">›</div>
+</div>
+
+<!-- Day strip -->
+<div class="cal-strip" id="calStrip"></div>
+
+<!-- Filters -->
+<div class="filters">
+  <div class="filter-chip active" data-filter="todos">Todos</div>
+  <div class="filter-chip" data-filter="proxima">Próximos</div>
+  <div class="filter-chip" data-filter="en-curso">En curso</div>
+  <div class="filter-chip" data-filter="finalizado">Finalizados</div>
+</div>
+
+<div class="section-title" id="sectionTitle">TODOS LOS EVENTOS</div>
+
+<!-- Events -->
+<div class="events-list" id="eventsList"></div>
+<div class="pb-fab"></div>
+
+<!-- FAB -->
+<button class="fab" id="fabBtn">+</button>
+
+<!-- Modal overlay -->
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <span class="sheet-title" id="sheetTitle">NUEVO EVENTO</span>
+      <div class="sheet-close" id="closeSheet">✕</div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="form-group">
+      <label class="form-label">Nombre del Campeonato</label>
+      <input class="form-input" id="f-name" type="text" placeholder="Ej. Open Nacional 9-Ball">
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="form-label">Fecha inicio</label>
+        <input class="form-input" id="f-date-start" type="date">
+      </div>
+      <div>
+        <label class="form-label">Fecha fin</label>
+        <input class="form-input" id="f-date-end" type="date">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="form-label">Hora inicio</label>
+        <input class="form-input" id="f-time" type="time">
+      </div>
+      <div>
+        <label class="form-label">Estado</label>
+        <select class="form-select" id="f-status">
+          <option value="proxima">Próximo</option>
+          <option value="en-curso">En curso</option>
+          <option value="finalizado">Finalizado</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Sede / Lugar</label>
+      <input class="form-input" id="f-venue" type="text" placeholder="Ej. Club Billar Palma, Sala 2">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Modalidad</label>
+      <select class="form-select" id="f-mode">
+        <option value="9-Ball">9-Ball</option>
+        <option value="8-Ball">8-Ball</option>
+        <option value="10-Ball">10-Ball</option>
+        <option value="Snooker">Snooker</option>
+        <option value="Carambola">Carambola</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notas (opcional)</label>
+      <textarea class="form-textarea" id="f-notes" placeholder="Premios, formato, inscripciones..."></textarea>
+    </div>
+
+    <button class="btn-submit" id="submitBtn">GUARDAR EVENTO</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+const DAYS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MONTHS_ES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
+
+let currentDate = new Date();
+let viewMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+let selectedDay = null;
+let activeFilter = 'todos';
+let editingId = null;
+
+let events = JSON.parse(localStorage.getItem('pool_events') || '[]');
+
+// Seed data if empty
+if (events.length === 0) {
+  const y = currentDate.getFullYear(), m = currentDate.getMonth()+1;
+  const pad = n => String(n).padStart(2,'0');
+  events = [
+    { id: uid(), name: 'Open Nacional 9-Ball', dateStart: `${y}-${pad(m)}-15`, dateEnd: `${y}-${pad(m)}-17`, time: '10:00', venue: 'Club Billar Palma', mode: '9-Ball', status: 'proxima', notes: 'Inscripción: 40€. Formato doble eliminación.' },
+    { id: uid(), name: 'Liga Local 8-Ball', dateStart: `${y}-${pad(m)}-08`, dateEnd: `${y}-${pad(m)}-08`, time: '17:00', venue: 'Bar Salón Centro', mode: '8-Ball', status: 'en-curso', notes: '' },
+    { id: uid(), name: 'Torneo Isla Carambola', dateStart: `${y}-${pad(m)}-02`, dateEnd: `${y}-${pad(m)}-03`, time: '09:00', venue: 'Federació Balear', mode: 'Carambola', status: 'finalizado', notes: 'Campeón: Marc T.' },
+  ];
+  save();
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+function save() { localStorage.setItem('pool_events', JSON.stringify(events)); }
+
+// ── RENDER MONTH LABEL ──
+function renderMonthLabel() {
+  document.getElementById('monthLabel').textContent =
+    MONTHS_ES[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
+}
+
+// ── RENDER DAY STRIP ──
+function renderStrip() {
+  const strip = document.getElementById('calStrip');
+  strip.innerHTML = '';
+  const year = viewMonth.getFullYear(), month = viewMonth.getMonth();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const today = new Date();
+
+  // Days with events
+  const eventDays = new Set(events.map(e => e.dateStart));
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayDate = new Date(year, month, d);
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    if (dayDate.toDateString() === today.toDateString()) el.classList.add('today');
+    if (eventDays.has(dateStr)) el.classList.add('has-event');
+    if (selectedDay === dateStr) el.classList.add('selected');
+    el.innerHTML = `<span class="day-name">${DAYS_ES[dayDate.getDay()]}</span><span class="day-num">${d}</span>`;
+    el.addEventListener('click', () => {
+      selectedDay = selectedDay === dateStr ? null : dateStr;
+      renderStrip();
+      renderEvents();
+    });
+    strip.appendChild(el);
+    // Scroll today into view on first render
+    if (dayDate.toDateString() === today.toDateString() && month === new Date().getMonth()) {
+      requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }));
+    }
+  }
+}
+
+// ── RENDER EVENTS ──
+function renderEvents() {
+  const list = document.getElementById('eventsList');
+  const title = document.getElementById('sectionTitle');
+  list.innerHTML = '';
+
+  let filtered = [...events];
+  if (activeFilter !== 'todos') filtered = filtered.filter(e => e.status === activeFilter);
+  if (selectedDay) filtered = filtered.filter(e => e.dateStart <= selectedDay && e.dateEnd >= selectedDay);
+
+  // Filter by current view month
+  filtered = filtered.filter(e => {
+    const d = new Date(e.dateStart + 'T00:00:00');
+    return d.getFullYear() === viewMonth.getFullYear() && d.getMonth() === viewMonth.getMonth();
+  });
+
+  // Sort by date
+  filtered.sort((a,b) => a.dateStart.localeCompare(b.dateStart));
+
+  const statusLabel = { 'todos':'TODOS LOS EVENTOS','proxima':'PRÓXIMOS','en-curso':'EN CURSO','finalizado':'FINALIZADOS' };
+  title.textContent = selectedDay ? `DÍA ${parseInt(selectedDay.split('-')[2])} — ${statusLabel[activeFilter]||''}` : statusLabel[activeFilter];
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎱</div><div class="empty-text">Sin campeonatos en este período.<br>Pulsa + para añadir uno.</div></div>`;
+    return;
+  }
+
+  const STATUS_ICONS = { proxima:'🔵', 'en-curso':'🟢', finalizado:'⚪' };
+  const STATUS_LABELS = { proxima:'Próximo', 'en-curso':'En curso', finalizado:'Finalizado' };
+
+  filtered.forEach(ev => {
+    const startDate = formatDate(ev.dateStart);
+    const endDate = ev.dateEnd !== ev.dateStart ? ' → ' + formatDate(ev.dateEnd) : '';
+    const card = document.createElement('div');
+    card.className = `event-card ${ev.status}`;
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-icon">🎱</div>
+        <div class="card-info">
+          <div class="card-name">${ev.name}</div>
+          <span class="card-status"><span class="status-dot"></span>${STATUS_LABELS[ev.status]}</span>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-meta"><span class="card-meta-icon">📅</span>${startDate}${endDate} · ${ev.time}h</div>
+        <div class="card-meta"><span class="card-meta-icon">📍</span>${ev.venue}</div>
+        <div class="card-meta"><span class="card-meta-icon">🎯</span>${ev.mode}</div>
+        ${ev.notes ? `<div class="card-meta"><span class="card-meta-icon">📝</span>${ev.notes}</div>` : ''}
+        <div class="card-actions">
+          <button class="btn-sm btn-edit" data-id="${ev.id}">✏️ Editar</button>
+          <button class="btn-sm btn-delete" data-id="${ev.id}">🗑 Borrar</button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); openEdit(btn.dataset.id); }));
+  list.querySelectorAll('.btn-delete').forEach(btn => btn.addEventListener('click', e => { e.stopPropagation(); deleteEvent(btn.dataset.id); }));
+}
+
+function formatDate(str) {
+  const [y,m,d] = str.split('-');
+  return `${parseInt(d)} ${MONTHS_ES[parseInt(m)-1].slice(0,3)}`;
+}
+
+// ── MODAL ──
+function openModal(title='NUEVO EVENTO') {
+  document.getElementById('sheetTitle').textContent = title;
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  editingId = null;
+  clearForm();
+}
+function clearForm() {
+  ['f-name','f-date-start','f-date-end','f-time','f-venue','f-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-status').value = 'proxima';
+  document.getElementById('f-mode').value = '9-Ball';
+}
+function openEdit(id) {
+  const ev = events.find(e => e.id === id);
+  if (!ev) return;
+  editingId = id;
+  document.getElementById('f-name').value = ev.name;
+  document.getElementById('f-date-start').value = ev.dateStart;
+  document.getElementById('f-date-end').value = ev.dateEnd;
+  document.getElementById('f-time').value = ev.time;
+  document.getElementById('f-venue').value = ev.venue;
+  document.getElementById('f-mode').value = ev.mode;
+  document.getElementById('f-status').value = ev.status;
+  document.getElementById('f-notes').value = ev.notes;
+  openModal('EDITAR EVENTO');
+}
+function deleteEvent(id) {
+  events = events.filter(e => e.id !== id);
+  save();
+  renderStrip();
+  renderEvents();
+  showToast('🗑 Evento eliminado');
+}
+
+// ── SUBMIT ──
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const name = document.getElementById('f-name').value.trim();
+  const dateStart = document.getElementById('f-date-start').value;
+  const dateEnd = document.getElementById('f-date-end').value || dateStart;
+  const time = document.getElementById('f-time').value || '10:00';
+  const venue = document.getElementById('f-venue').value.trim();
+  const mode = document.getElementById('f-mode').value;
+  const status = document.getElementById('f-status').value;
+  const notes = document.getElementById('f-notes').value.trim();
+
+  if (!name || !dateStart || !venue) { showToast('⚠️ Completa nombre, fecha y sede'); return; }
+
+  if (editingId) {
+    const idx = events.findIndex(e => e.id === editingId);
+    events[idx] = { id: editingId, name, dateStart, dateEnd, time, venue, mode, status, notes };
+    showToast('✅ Evento actualizado');
+  } else {
+    events.push({ id: uid(), name, dateStart, dateEnd, time, venue, mode, status, notes });
+    showToast('✅ Evento añadido');
+  }
+  save();
+  closeModal();
+  renderStrip();
+  renderEvents();
+});
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── EVENTS ──
+document.getElementById('fabBtn').addEventListener('click', () => openModal('NUEVO EVENTO'));
+document.getElementById('closeSheet').addEventListener('click', closeModal);
+document.getElementById('overlay').addEventListener('click', e => { if (e.target === document.getElementById('overlay')) closeModal(); });
+
+document.getElementById('prevMonth').addEventListener('click', () => {
+  viewMonth.setMonth(viewMonth.getMonth() - 1);
+  selectedDay = null;
+  renderMonthLabel(); renderStrip(); renderEvents();
+});
+document.getElementById('nextMonth').addEventListener('click', () => {
+  viewMonth.setMonth(viewMonth.getMonth() + 1);
+  selectedDay = null;
+  renderMonthLabel(); renderStrip(); renderEvents();
+});
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = chip.dataset.filter;
+    renderEvents();
+  });
+});
+
+// ── INIT ──
+renderMonthLabel();
+renderStrip();
+renderEvents();
+</script>
+</body>
+</html>
