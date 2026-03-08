@@ -20,7 +20,8 @@ function loadTopNavigation() {
                 <a href="historial.html" class="nav-link" data-page="historial">Historial</a>	
                 <a href="torneos.html" class="nav-link" data-page="torneos">Torneos</a>
                 <a href="analisis.html" class="nav-link" data-page="analisis">Análisis</a>
-                                <a href="entrenamientos.html" class="nav-link" data-page="analisis">Entrenamientos</a>
+                <a href="ctos-github.html" class="nav-link" data-page="calendario">Calendario</a>
+                <a href="entrenamientos.html" class="nav-link" data-page="entrenos">Entrenos</a>
 
                 <a href="config-github.html" class="nav-link" data-page="config-github">Sync</a>
                 <a href="#" class="nav-link danger" onclick="resetAllDataDashboard(); return false;">Reset</a>
@@ -46,7 +47,9 @@ function loadTopNavigation() {
             <a href="historial.html" class="nav-link" data-page="historial">Historial</a>
             <a href="torneos.html" class="nav-link" data-page="torneos">Torneos</a>
             <a href="analisis.html" class="nav-link" data-page="analisis">Análisis</a>
-                                <a href="entrenamientos.html" class="nav-link" data-page="analisis">Entrenamientos</a>
+              <a href="ctos-github.html" class="nav-link" data-page="calendario">Calendario</a>
+             <a href="entrenamientos.html" class="nav-link" data-page="entrenos">Entrenos</a>
+                
             <a href="config-github.html" class="nav-link" data-page="config-github">Sync</a>
             <a href="#" class="nav-link danger" onclick="resetAllDataDashboard(); return false;">Reset</a>
             <a href="#" class="nav-link" onclick="logoutDashboard(); return false;">Cerrar Sesión</a>
