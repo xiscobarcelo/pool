@@ -33,22 +33,6 @@
       "accuracy": "85.6"
     },
     {
-      "id": "training_1767119467560",
-      "date": "2025-12-30",
-      "modality": "Técnica",
-      "totalShots": 125,
-      "totalErrors": 38,
-      "errors": {
-        "banda": 7,
-        "combinacion": 4,
-        "posicionBlanca": 20,
-        "noForzado": 7
-      },
-      "notes": "",
-      "timestamp": "2025-12-30T18:31:07.560Z",
-      "accuracy": "69.6"
-    },
-    {
       "id": "training_1767093663211",
       "date": "2025-12-30",
       "modality": "Bola 10",
@@ -63,6 +47,22 @@
       "notes": "",
       "timestamp": "2025-12-30T11:21:03.211Z",
       "accuracy": "99.5"
+    },
+    {
+      "id": "training_1767119467560",
+      "date": "2025-12-30",
+      "modality": "Técnica",
+      "totalShots": 125,
+      "totalErrors": 38,
+      "errors": {
+        "banda": 7,
+        "combinacion": 4,
+        "posicionBlanca": 20,
+        "noForzado": 7
+      },
+      "notes": "",
+      "timestamp": "2025-12-30T18:31:07.560Z",
+      "accuracy": "69.6"
     }
   ],
   "version": "1.0"
