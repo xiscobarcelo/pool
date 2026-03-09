@@ -2082,23 +2082,15 @@
   ],
   "players": [
     "Xisco",
-    "Jepy",
-    "Tolo",
-    "Borja",
-    "Xisco M",
     "PEPE",
-    "Willy",
-    "Hfyfhd",
-    "Adrian",
-    "Hyhtjyytytyyyuu",
-    "Teiieie",
-    "Test1",
-    "test4",
+    "Jepy",
     "Test",
     "Guillermo",
     "Jesus Muñoz",
+    "Tolo",
     "Xisco Mendez",
     "Adrian Wood",
+    "Borja",
     "Hector Oviedo",
     "Jose Manuel Santiago",
     "Javier Sala",
@@ -4095,7 +4087,7 @@
       },
       "id": "tournament_1771778034380",
       "createdAt": "2026-02-22T16:33:54.380Z",
-      "updatedAt": "2026-03-09T21:57:06.736Z"
+      "updatedAt": "2026-03-09T22:00:07.256Z"
     }
   ],
   "circuits": [
@@ -4442,22 +4434,23 @@
   ],
   "modalityStats": {
     "bola8": {
-      "matchesPlayed": 0,
-      "matchesWon": 0,
-      "gamesPlayed": 0,
-      "gamesWon": 0
+      "matchesPlayed": 29,
+      "matchesWon": 22,
+      "gamesPlayed": 280,
+      "gamesWon": 172
     },
     "bola9": {
-      "matchesPlayed": 31,
-      "matchesWon": 22,
-      "gamesPlayed": 394,
-      "gamesWon": 216
+      "matchesPlayed": 95,
+      "matchesWon": 68,
+      "gamesPlayed": 1013,
+      "gamesWon": 588
     },
     "bola10": {
-      "matchesPlayed": 123,
-      "matchesWon": 78,
-      "gamesPlayed": 1536,
-      "gamesWon": 843
-    }
+      "matchesPlayed": 54,
+      "matchesWon": 41,
+      "gamesPlayed": 514,
+      "gamesWon": 331
+    },
+    "lastUpdated": "2025-12-25T11:59:35.631Z"
   }
 }
