@@ -4213,7 +4213,7 @@
       "updatedAt": "2026-03-09T22:00:07.256Z"
     },
     {
-      "name": "Cto Baleares b8",
+      "name": "Cto Baleares B8",
       "date": "2026-03-29",
       "modality": "Bola 8",
       "totalPlayers": 17,
@@ -4232,7 +4232,8 @@
         "averageGamesPerMatch": "8.2"
       },
       "id": "tournament_1774825174904",
-      "createdAt": "2026-03-29T22:59:34.904Z"
+      "createdAt": "2026-03-29T22:59:34.904Z",
+      "updatedAt": "2026-03-29T23:01:55.374Z"
     }
   ],
   "circuits": [
