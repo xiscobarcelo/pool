@@ -235,7 +235,7 @@
         </div>
         <div>
           <label for="path">Ruta del JSON</label>
-          <input id="path" value="eventos.json" placeholder="eventos.json" />
+          <input id="path" value="app/campeonatos.json" placeholder="campeonatos.json" />
         </div>
 
         <div class="full">
@@ -299,10 +299,9 @@
   </div>
 
   <script>
-    const CONFIG_KEY = "github_events_config_v3";
-    const LOCAL_EVENTS_KEY = "github_events_local_v3";
+    const CONFIG_KEY = "github_events_config_v4";
+    const LOCAL_EVENTS_KEY = "github_events_local_v4";
 
-    // Puedes fijar estos valores para no tener que escribirlos nunca más
     const DEFAULT_CONFIG = {
       owner: "xiscobarcelo",
       repo: "pool",
@@ -338,7 +337,7 @@
         owner: $("owner").value.trim(),
         repo: $("repo").value.trim(),
         branch: $("branch").value.trim() || "main",
-        path: $("path").value.trim() || "eventos.json",
+        path: $("path").value.trim() || "campeonatos.json",
         token: $("token").value.trim()
       };
       localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
@@ -426,28 +425,12 @@
         list.appendChild(item);
       }
 
-list.querySelectorAll("button[data-id]").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const id = btn.getAttribute("data-id");
-
-    const ok = confirm("¿Eliminar este evento también de GitHub?");
-    if (!ok) return;
-
-    try {
-      events = events.filter(e => e.id !== id);
-      saveLocalEvents();
-      renderEvents();
-      setStatus("eventStatus", "Eliminando evento...");
-
-      await saveToGitHub();
-
-      setStatus("eventStatus", "Evento eliminado localmente y en GitHub.", "ok");
-    } catch (e) {
-      console.error(e);
-      setStatus("eventStatus", "Error al eliminar en GitHub: " + e.message, "err");
-    }
-  });
-});
+      list.querySelectorAll("button[data-id]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const id = btn.getAttribute("data-id");
+          await deleteEvent(id);
+        });
+      });
     }
 
     function getConfig() {
@@ -455,7 +438,7 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
         owner: $("owner").value.trim(),
         repo: $("repo").value.trim(),
         branch: $("branch").value.trim() || "main",
-        path: $("path").value.trim() || "eventos.json",
+        path: $("path").value.trim() || "campeonatos.json",
         token: $("token").value.trim()
       };
     }
@@ -477,6 +460,10 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
 
     function fromBase64Unicode(str) {
       return decodeURIComponent(escape(atob(str)));
+    }
+
+    function dedupeEvents(arr) {
+      return Array.from(new Map(arr.map(ev => [ev.id, ev])).values());
     }
 
     async function ghFetch(url, options = {}) {
@@ -550,10 +537,6 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
       return data.events;
     }
 
-    function dedupeEvents(arr) {
-      return Array.from(new Map(arr.map(ev => [ev.id, ev])).values());
-    }
-
     async function loadFromGitHub() {
       try {
         setStatus("configStatus", "Cargando eventos desde GitHub...");
@@ -589,20 +572,14 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
 
         setStatus("eventStatus", "Guardando en GitHub...");
 
-        let remoteEvents = [];
         let sha = null;
-
         const remote = await getFileMeta();
 
         if (remote) {
-          const decoded = fromBase64Unicode(remote.content.replace(/\n/g, ""));
-          const data = JSON.parse(decoded);
-          remoteEvents = normalizeRemoteData(data);
           sha = remote.sha || null;
         }
 
-        const merged = dedupeEvents([...remoteEvents, ...events]);
-        events = merged;
+        events = dedupeEvents(events);
         saveLocalEvents();
         renderEvents();
 
@@ -634,6 +611,26 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
       } catch (e) {
         console.error(e);
         setStatus("eventStatus", e.message, "err");
+      }
+    }
+
+    async function deleteEvent(id) {
+      const ok = confirm("¿Eliminar este evento también de GitHub?");
+      if (!ok) return;
+
+      try {
+        events = events.filter(e => e.id !== id);
+        saveLocalEvents();
+        renderEvents();
+
+        setStatus("eventStatus", "Eliminando evento...");
+
+        await saveToGitHub();
+
+        setStatus("eventStatus", "Evento eliminado localmente y en GitHub.", "ok");
+      } catch (e) {
+        console.error(e);
+        setStatus("eventStatus", "Error al eliminar: " + e.message, "err");
       }
     }
 
@@ -688,7 +685,6 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
     });
     $("clearLocalBtn").addEventListener("click", clearLocal);
 
-    // Guardado automático de configuración
     ["owner","repo","branch","path","token"].forEach(id => {
       $(id).addEventListener("input", saveConfigLocal);
     });
@@ -697,10 +693,8 @@ list.querySelectorAll("button[data-id]").forEach(btn => {
     loadLocalEvents();
     renderEvents();
 
-    // Carga automática al abrir
     window.addEventListener("load", async () => {
       const cfg = getConfig();
-
       if (!cfg.owner || !cfg.repo || !cfg.token) return;
 
       try {
