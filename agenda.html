@@ -150,7 +150,7 @@
         </div>
         <div>
           <label for="path">Ruta del archivo JSON</label>
-          <input id="path" placeholder="data/eventos.json" value="data/eventos.json">
+          <input id="path" placeholder="app/eventos.json" value="app/eventos.json">
         </div>
         <div class="full">
           <label for="token">Token de GitHub</label>
@@ -222,7 +222,7 @@
         owner: $("owner").value.trim(),
         repo: $("repo").value.trim(),
         branch: $("branch").value.trim() || "main",
-        path: $("path").value.trim() || "data/eventos.json",
+        path: $("path").value.trim() || "app/eventos.json",
         token: $("token").value.trim()
       };
       localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
@@ -237,7 +237,7 @@
         $("owner").value = cfg.owner || "";
         $("repo").value = cfg.repo || "";
         $("branch").value = cfg.branch || "main";
-        $("path").value = cfg.path || "data/eventos.json";
+        $("path").value = cfg.path || "app/eventos.json";
         $("token").value = cfg.token || "";
       } catch (e) {
         console.error("Config corrupta:", e);
@@ -311,7 +311,7 @@
         owner: $("owner").value.trim(),
         repo: $("repo").value.trim(),
         branch: $("branch").value.trim() || "main",
-        path: $("path").value.trim() || "data/eventos.json",
+        path: $("path").value.trim() || "app/eventos.json",
         token: $("token").value.trim()
       };
     }
