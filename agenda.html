@@ -426,15 +426,28 @@
         list.appendChild(item);
       }
 
-      list.querySelectorAll("button[data-id]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const id = btn.getAttribute("data-id");
-          events = events.filter(e => e.id !== id);
-          saveLocalEvents();
-          renderEvents();
-          setStatus("eventStatus", "Evento eliminado de la lista local.", "ok");
-        });
-      });
+list.querySelectorAll("button[data-id]").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const id = btn.getAttribute("data-id");
+
+    const ok = confirm("¿Eliminar este evento también de GitHub?");
+    if (!ok) return;
+
+    try {
+      events = events.filter(e => e.id !== id);
+      saveLocalEvents();
+      renderEvents();
+      setStatus("eventStatus", "Eliminando evento...");
+
+      await saveToGitHub();
+
+      setStatus("eventStatus", "Evento eliminado localmente y en GitHub.", "ok");
+    } catch (e) {
+      console.error(e);
+      setStatus("eventStatus", "Error al eliminar en GitHub: " + e.message, "err");
+    }
+  });
+});
     }
 
     function getConfig() {
