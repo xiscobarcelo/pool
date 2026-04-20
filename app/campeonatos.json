@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T13:08:59.198Z",
+  "updatedAt": "2026-04-20T13:10:06.578Z",
   "events": [
     {
       "id": "e48fc9bf-9760-45c0-8e06-e28fb0026b8c",
@@ -21,13 +21,6 @@
       "title": "Cto España Senior",
       "date": "2026-06-24",
       "location": "Oviedo",
-      "notes": ""
-    },
-    {
-      "id": "bab1b98e-5e38-4e1f-8192-220b94d1774f",
-      "title": "Cto Basquet",
-      "date": "2026-05-02",
-      "location": "ibiza",
       "notes": ""
     }
   ]
