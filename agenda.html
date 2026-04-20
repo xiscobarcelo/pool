@@ -127,6 +127,34 @@
   </style>
 </head>
 <body>
+  <button onclick="testRepo()">Probar repo</button>
+
+<script>
+async function testRepo() {
+  const owner = document.getElementById('owner').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const token = document.getElementById('token').value.trim();
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+      headers: {
+        "Accept": "application/vnd.github+json",
+        "Authorization": `Bearer ${token}`,
+        "X-GitHub-Api-Version": "2022-11-28"
+      }
+    });
+
+    const text = await res.text();
+    console.log("STATUS:", res.status);
+    console.log("BODY:", text);
+
+    alert(`Status: ${res.status}\nMira la consola para más detalle.`);
+  } catch (e) {
+    console.error(e);
+    alert("Error de red: " + e.message);
+  }
+}
+</script>
   <div class="wrap">
     <div class="card">
       <h1>Eventos con guardado en GitHub</h1>
