@@ -334,9 +334,7 @@ function resetGitHubConfig(){if(confirm('¿Eliminar configuración de GitHub?'))
 if(!evs.length){
   const y=now.getFullYear(),m=now.getMonth()+1;
   evs=[
-    {id:uid(),name:'Open Nacional 9-Ball',dateStart:`${y}-${pad(m)}-15`,dateEnd:`${y}-${pad(m)}-17`,time:'10:00',venue:'Club Billar Palma',mode:'9-Ball',status:'proxima',notes:'Inscripción 40 €. Doble eliminación.'},
-    {id:uid(),name:'Liga Local 8-Ball',dateStart:`${y}-${pad(m)}-08`,dateEnd:`${y}-${pad(m)}-08`,time:'17:00',venue:'Bar Salón Centro',mode:'8-Ball',status:'en-curso',notes:''},
-    {id:uid(),name:'Torneo Isla Carambola',dateStart:`${y}-${pad(m)}-02`,dateEnd:`${y}-${pad(m)}-03`,time:'09:00',venue:'Federació Balear',mode:'Carambola',status:'finalizado',notes:'Campeón: Marc T.'},
+ 
   ];
   save();
 }
