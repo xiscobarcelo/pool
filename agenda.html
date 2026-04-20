@@ -216,13 +216,13 @@
     <div class="card">
       <h1>Eventos con guardado en GitHub</h1>
       <div class="sub">
-        Configura tu repositorio y usa esta página para añadir eventos, cargarlos desde GitHub y volver a guardarlos.
+        Los datos de GitHub quedan guardados en este navegador. Solo tendrás que introducir el token una vez.
       </div>
 
       <div class="grid">
         <div>
           <label for="owner">Usuario u organización</label>
-          <input id="owner" placeholder="ej. xiscobarcelo" />
+          <input id="owner" placeholder="ej. tu_usuario" />
         </div>
         <div>
           <label for="repo">Repositorio</label>
@@ -242,13 +242,12 @@
           <label for="token">Token de GitHub</label>
           <input id="token" type="password" placeholder="ghp_..." />
           <div class="small">
-            Se guarda localmente en tu navegador. No lo uses así en una web pública.
+            Se guarda localmente en tu navegador. No uses esta solución así en una web pública.
           </div>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn-secondary" id="saveConfigBtn">Guardar configuración</button>
         <button class="btn-secondary" id="testRepoBtn">Probar conexión</button>
         <button class="btn-secondary" id="loadBtn">Cargar desde GitHub</button>
       </div>
@@ -300,8 +299,16 @@
   </div>
 
   <script>
-    const CONFIG_KEY = "github_events_config_v2";
-    const LOCAL_EVENTS_KEY = "github_events_local_v2";
+    const CONFIG_KEY = "github_events_config_v3";
+    const LOCAL_EVENTS_KEY = "github_events_local_v3";
+
+    // Puedes fijar estos valores para no tener que escribirlos nunca más
+    const DEFAULT_CONFIG = {
+      owner: "xiscobarcelo",
+      repo: "pool",
+      branch: "main",
+      path: "app/campeonatos.json"
+    };
 
     let events = [];
 
@@ -327,25 +334,37 @@
     }
 
     function saveConfigLocal() {
-      const config = getConfig();
+      const config = {
+        owner: $("owner").value.trim(),
+        repo: $("repo").value.trim(),
+        branch: $("branch").value.trim() || "main",
+        path: $("path").value.trim() || "eventos.json",
+        token: $("token").value.trim()
+      };
       localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-      setStatus("configStatus", "Configuración guardada en este navegador.", "ok");
     }
 
     function loadConfigLocal() {
       const raw = localStorage.getItem(CONFIG_KEY);
-      if (!raw) return;
 
-      try {
-        const cfg = JSON.parse(raw);
-        $("owner").value = cfg.owner || "";
-        $("repo").value = cfg.repo || "";
-        $("branch").value = cfg.branch || "main";
-        $("path").value = cfg.path || "eventos.json";
-        $("token").value = cfg.token || "";
-      } catch (e) {
-        console.error("Error leyendo configuración local:", e);
+      if (raw) {
+        try {
+          const cfg = JSON.parse(raw);
+          $("owner").value = cfg.owner || DEFAULT_CONFIG.owner;
+          $("repo").value = cfg.repo || DEFAULT_CONFIG.repo;
+          $("branch").value = cfg.branch || DEFAULT_CONFIG.branch;
+          $("path").value = cfg.path || DEFAULT_CONFIG.path;
+          $("token").value = cfg.token || "";
+          return;
+        } catch (e) {
+          console.error("Error leyendo configuración local:", e);
+        }
       }
+
+      $("owner").value = DEFAULT_CONFIG.owner;
+      $("repo").value = DEFAULT_CONFIG.repo;
+      $("branch").value = DEFAULT_CONFIG.branch;
+      $("path").value = DEFAULT_CONFIG.path;
     }
 
     function saveLocalEvents() {
@@ -490,11 +509,7 @@
         const url = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}`;
         const data = await ghFetch(url, { method: "GET" });
 
-        setStatus(
-          "configStatus",
-          `Conexión correcta. Repo encontrado: ${data.full_name}`,
-          "ok"
-        );
+        setStatus("configStatus", `Conexión correcta. Repo encontrado: ${data.full_name}`, "ok");
       } catch (e) {
         console.error(e);
         setStatus("configStatus", e.message, "err");
@@ -590,9 +605,7 @@
           branch: cfg.branch
         };
 
-        if (sha) {
-          body.sha = sha;
-        }
+        if (sha) body.sha = sha;
 
         const url = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${cfg.path}`;
 
@@ -653,7 +666,6 @@
       setStatus("eventStatus", "Lista local vaciada.", "ok");
     }
 
-    $("saveConfigBtn").addEventListener("click", saveConfigLocal);
     $("testRepoBtn").addEventListener("click", testRepo);
     $("loadBtn").addEventListener("click", loadFromGitHub);
     $("addEventBtn").addEventListener("click", addEvent);
@@ -663,12 +675,19 @@
     });
     $("clearLocalBtn").addEventListener("click", clearLocal);
 
+    // Guardado automático de configuración
+    ["owner","repo","branch","path","token"].forEach(id => {
+      $(id).addEventListener("input", saveConfigLocal);
+    });
+
     loadConfigLocal();
     loadLocalEvents();
     renderEvents();
 
+    // Carga automática al abrir
     window.addEventListener("load", async () => {
       const cfg = getConfig();
+
       if (!cfg.owner || !cfg.repo || !cfg.token) return;
 
       try {
