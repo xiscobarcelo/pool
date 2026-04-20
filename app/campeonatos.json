@@ -1,26 +1,5 @@
 {
-  "events": [
-    {
-      "id": "mmib03xrridl63046x",
-      "name": "Cto Baleares B8",
-      "dateStart": "2026-03-28",
-      "dateEnd": "2026-03-29",
-      "time": "09:07",
-      "venue": "Ilusions",
-      "mode": "8-Ball",
-      "status": "proxima",
-      "notes": ""
-    },
-    {
-      "id": "mmjlnncs6tww82lzx8t",
-      "name": "IV Copa Senior",
-      "dateStart": "2026-04-25",
-      "dateEnd": "2026-04-26",
-      "time": "10:00",
-      "venue": "Rias Baixas",
-      "mode": "10-Ball",
-      "status": "proxima",
-      "notes": ""
-    }
-  ]
+  "version": 1,
+  "updatedAt": "2026-04-20T11:38:09.241Z",
+  "events": []
 }
