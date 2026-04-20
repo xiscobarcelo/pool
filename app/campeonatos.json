@@ -1,12 +1,19 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T12:45:31.657Z",
+  "updatedAt": "2026-04-20T12:45:35.354Z",
   "events": [
     {
       "id": "e48fc9bf-9760-45c0-8e06-e28fb0026b8c",
       "title": "4ª Copa de España Sénior",
       "date": "2026-04-25",
       "location": "Rias Baixas",
+      "notes": ""
+    },
+    {
+      "id": "76968923-77cf-4bbf-ab4d-f809488cda9c",
+      "title": "Cto Selecciones",
+      "date": "2026-06-08",
+      "location": "Sevilla",
       "notes": ""
     }
   ]
