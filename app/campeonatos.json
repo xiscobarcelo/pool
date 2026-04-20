@@ -1,5 +1,13 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T11:57:05.599Z",
-  "events": []
+  "updatedAt": "2026-04-20T11:57:12.902Z",
+  "events": [
+    {
+      "id": "e48fc9bf-9760-45c0-8e06-e28fb0026b8c",
+      "title": "4ª Copa de España Sénior",
+      "date": "2026-04-25",
+      "location": "Rias Baixas",
+      "notes": ""
+    }
+  ]
 }
