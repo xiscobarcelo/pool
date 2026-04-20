@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T13:37:34.104Z",
+  "updatedAt": "2026-04-20T13:39:19.659Z",
   "events": [
     {
       "id": "e48fc9bf-9760-45c0-8e06-e28fb0026b8c",
@@ -21,13 +21,6 @@
       "title": "Cto España Senior",
       "date": "2026-06-24",
       "location": "Oviedo",
-      "notes": ""
-    },
-    {
-      "id": "c7e81dd9-d706-41f3-8681-89697c82e6a2",
-      "title": "Cto somnis",
-      "date": "2026-04-30",
-      "location": "somnis",
       "notes": ""
     }
   ]
