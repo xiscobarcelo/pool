@@ -236,48 +236,7 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="card">
-      <h1>Eventos con guardado en GitHub</h1>
-      <div class="sub">
-        Los datos de GitHub quedan guardados en este navegador. Solo tendrás que introducir el token una vez.
-      </div>
-
-      <div class="grid">
-        <div>
-          <label for="owner">Usuario u organización</label>
-          <input id="owner" placeholder="ej. tu_usuario" />
-        </div>
-        <div>
-          <label for="repo">Repositorio</label>
-          <input id="repo" placeholder="ej. mi-repo" />
-        </div>
-
-        <div>
-          <label for="branch">Rama</label>
-          <input id="branch" value="main" placeholder="main" />
-        </div>
-        <div>
-          <label for="path">Ruta del JSON</label>
-          <input id="path" value="app/campeonatos.json" placeholder="campeonatos.json" />
-        </div>
-
-        <div class="full">
-          <label for="token">Token de GitHub</label>
-          <input id="token" type="password" placeholder="ghp_..." />
-          <div class="small">
-            Se guarda localmente en tu navegador. No uses esta solución así en una web pública.
-          </div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn-secondary" id="testRepoBtn">Probar conexión</button>
-        <button class="btn-secondary" id="loadBtn">Cargar desde GitHub</button>
-      </div>
-
-      <div class="status" id="configStatus"></div>
-    </div>
-
+   
     <div class="card">
       <h2>Nuevo evento</h2>
 
@@ -319,6 +278,48 @@
       </div>
       <div id="eventsList"></div>
     </div>
+	   <div class="card">
+      <h1>Eventos con guardado en GitHub</h1>
+      <div class="sub">
+        Los datos de GitHub quedan guardados en este navegador. Solo tendrás que introducir el token una vez.
+      </div>
+
+      <div class="grid">
+        <div>
+          <label for="owner">Usuario u organización</label>
+          <input id="owner" placeholder="ej. tu_usuario" />
+        </div>
+        <div>
+          <label for="repo">Repositorio</label>
+          <input id="repo" placeholder="ej. mi-repo" />
+        </div>
+
+        <div>
+          <label for="branch">Rama</label>
+          <input id="branch" value="main" placeholder="main" />
+        </div>
+        <div>
+          <label for="path">Ruta del JSON</label>
+          <input id="path" value="app/campeonatos.json" placeholder="campeonatos.json" />
+        </div>
+
+        <div class="full">
+          <label for="token">Token de GitHub</label>
+          <input id="token" type="password" placeholder="ghp_..." />
+          <div class="small">
+            Se guarda localmente en tu navegador. No uses esta solución así en una web pública.
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-secondary" id="testRepoBtn">Probar conexión</button>
+        <button class="btn-secondary" id="loadBtn">Cargar desde GitHub</button>
+      </div>
+
+      <div class="status" id="configStatus"></div>
+    </div>
+
   </div>
 
   <script>
