@@ -127,6 +127,176 @@
   </style>
 </head>
 <body>
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test GitHub Eventos</title>
+</head>
+<body>
+  <h1>Eventos GitHub</h1>
+
+  <input id="owner" placeholder="owner"><br><br>
+  <input id="repo" placeholder="repo"><br><br>
+  <input id="branch" value="main" placeholder="branch"><br><br>
+  <input id="path" value="eventos.json" placeholder="path"><br><br>
+  <input id="token" type="password" placeholder="token"><br><br>
+
+  <input id="title" placeholder="Título evento"><br><br>
+  <input id="date" type="date"><br><br>
+  <input id="location" placeholder="Lugar"><br><br>
+
+  <button onclick="addEvent()">Añadir local</button>
+  <button onclick="saveToGitHub()">Guardar en GitHub</button>
+  <button onclick="loadFromGitHub()">Cargar desde GitHub</button>
+
+  <pre id="out"></pre>
+
+<script>
+let events = [];
+
+function log(msg, data) {
+  const out = document.getElementById('out');
+  out.textContent = msg + (data ? '\n' + JSON.stringify(data, null, 2) : '');
+  console.log(msg, data || '');
+}
+
+function cfg() {
+  return {
+    owner: document.getElementById('owner').value.trim(),
+    repo: document.getElementById('repo').value.trim(),
+    branch: document.getElementById('branch').value.trim() || 'main',
+    path: document.getElementById('path').value.trim() || 'eventos.json',
+    token: document.getElementById('token').value.trim()
+  };
+}
+
+function toBase64Unicode(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function fromBase64Unicode(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
+
+async function ghFetch(url, options = {}) {
+  const c = cfg();
+
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      "Accept": "application/vnd.github+json",
+      "Authorization": `Bearer ${c.token}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(options.headers || {})
+    }
+  });
+
+  const text = await res.text();
+  let data = null;
+  try { data = text ? JSON.parse(text) : null; } catch(e) {}
+
+  console.log("URL:", url);
+  console.log("STATUS:", res.status);
+  console.log("BODY:", data || text);
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} - ${data?.message || text}`);
+  }
+
+  return data;
+}
+
+function addEvent() {
+  const title = document.getElementById('title').value.trim();
+  const date = document.getElementById('date').value;
+  const location = document.getElementById('location').value.trim();
+
+  if (!title || !date || !location) {
+    log("Faltan datos");
+    return;
+  }
+
+  events.push({
+    id: Date.now().toString(),
+    title,
+    date,
+    location
+  });
+
+  log("Evento añadido localmente", events);
+}
+
+async function getFileMeta() {
+  const c = cfg();
+  const url = `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path}?ref=${encodeURIComponent(c.branch)}`;
+
+  try {
+    return await ghFetch(url, { method: "GET" });
+  } catch (e) {
+    if (String(e.message).includes("HTTP 404")) {
+      return null;
+    }
+    throw e;
+  }
+}
+
+async function saveToGitHub() {
+  try {
+    const c = cfg();
+    const existing = await getFileMeta();
+
+    const payload = {
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      events
+    };
+
+    const body = {
+      message: `Actualizar eventos ${new Date().toISOString()}`,
+      content: toBase64Unicode(JSON.stringify(payload, null, 2)),
+      branch: c.branch
+    };
+
+    if (existing && existing.sha) {
+      body.sha = existing.sha;
+    }
+
+    const url = `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path}`;
+
+    const result = await ghFetch(url, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+
+    log("Guardado correcto en GitHub", result);
+  } catch (e) {
+    log("Error al guardar: " + e.message);
+  }
+}
+
+async function loadFromGitHub() {
+  try {
+    const meta = await getFileMeta();
+    if (!meta) {
+      log("El archivo no existe aún en GitHub");
+      return;
+    }
+
+    const decoded = fromBase64Unicode(meta.content.replace(/\n/g, ""));
+    const data = JSON.parse(decoded);
+    events = Array.isArray(data.events) ? data.events : [];
+
+    log("Eventos cargados desde GitHub", events);
+  } catch (e) {
+    log("Error al cargar: " + e.message);
+  }
+}
+</script>
+</body>
+</html>
   <button onclick="testRepo()">Probar repo</button>
 
 <script>
