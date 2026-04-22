@@ -15,7 +15,7 @@ function initBottomNav() {
             </a>
             
              <a href="ctos-github.html" class="nav-item" data-page="calendario">
-                            <img src="images/stats.svg" width="24">
+                            <img src="images/agenda.svg" width="24">
 
                 <span class="nav-label">Agenda</span>
             </a>
