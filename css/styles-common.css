@@ -16,6 +16,9 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.ocultar{
+	display:none;
+}
 /* Header con imagen */
 .page-header {
     background: #0a0a2e;
