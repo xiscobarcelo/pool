@@ -17,7 +17,7 @@ function initBottomNav() {
              <a href="ctos-github.html" class="nav-item" data-page="calendario">
                             <img src="images/stats.svg" width="24">
 
-                <span class="nav-label">Estadísticas</span>
+                <span class="nav-label">Agenda</span>
             </a>
             
             <a href="torneos.html" class="nav-item" data-page="torneos">
