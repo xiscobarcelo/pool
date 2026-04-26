@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T13:39:19.659Z",
+  "updatedAt": "2026-04-26T08:21:00.164Z",
   "events": [
     {
       "id": "e48fc9bf-9760-45c0-8e06-e28fb0026b8c",
@@ -14,13 +14,6 @@
       "title": "Cto Selecciones",
       "date": "2026-06-08",
       "location": "Sevilla",
-      "notes": ""
-    },
-    {
-      "id": "309611af-6c07-4c73-9847-a44e59a80d80",
-      "title": "Cto España Senior",
-      "date": "2026-06-24",
-      "location": "Oviedo",
       "notes": ""
     }
   ]
